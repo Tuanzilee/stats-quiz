@@ -1253,7 +1253,6 @@ function showQuestion() {
   document.getElementById('quiz-body').innerHTML = `
     <div class="q-meta">
       <span class="q-badge school">${currentQ.source}</span>
-      <span class="q-badge">${currentQ.year}年</span>
       <span class="q-badge" style="font-family:'Space Mono',monospace;font-size:11px;color:var(--muted)">${currentQ.id}</span>
       <span class="q-badge">${currentQ.type}</span>
       ${currentQ.difficulty ? `<span class="q-badge" style="color:${currentQ.difficulty==='hard'?'var(--red)':currentQ.difficulty==='easy'?'var(--green)':'var(--yellow)'}">${{easy:'簡單',medium:'中等',hard:'困難'}[currentQ.difficulty]}</span>` : ''}
