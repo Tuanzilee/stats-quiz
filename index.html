@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="心統刷題">
+<meta name="theme-color" content="#0a0a0f">
+<title>心統刷題</title>
+<link rel="manifest" href="manifest.json">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap');
+
+:root {
+  --bg: #0a0a0f;
+  --bg2: #111118;
+  --surface: #16161f;
+  --surface2: #1e1e2a;
+  --border: #252535;
+  --border2: #32324a;
+  --text: #e8e8f0;
+  --muted: #6b6b8a;
+  --dim: #3a3a55;
+
+  --blue: #4f6ef7;
+  --blue-light: #6b85ff;
+  --blue-glow: rgba(79,110,247,0.12);
+
+  --green: #3dd68c;
+  --green-bg: rgba(61,214,140,0.08);
+  --yellow: #f5c842;
+  --yellow-bg: rgba(245,200,66,0.08);
+  --red: #f75f5f;
+  --red-bg: rgba(247,95,95,0.08);
+  --purple: #a78bfa;
+  --purple-bg: rgba(167,139,250,0.08);
+
+  --radius: 10px;
+  --safe-top: env(safe-area-inset-top);
+  --safe-bottom: env(safe-area-inset-bottom);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  overflow: hidden;
+}
+
+/* ── APP SHELL ── */
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  height: 100dvh;
+  max-width: 680px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* ── HEADER ── */
+.header {
+  padding: 12px 16px 10px;
+  padding-top: calc(12px + var(--safe-top));
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg);
+  position: relative;
+  z-index: 10;
+  flex-shrink: 0;
+}
+.header-title {
+  font-family: 'Space Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--blue-light);
+  letter-spacing: 0.04em;
+}
+.header-sub {
+  font-size: 11px;
+  color: var(--muted);
+  margin-left: auto;
+}
+.header-btn {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--border2);
+  background: var(--surface);
+  color: var(--muted);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+.header-btn:active { opacity: 0.7; }
+
+/* ── BOTTOM NAV ── */
+.bottom-nav {
+  display: flex;
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+  padding-bottom: var(--safe-bottom);
+  flex-shrink: 0;
+}
+.nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 10px 0 8px;
+  cursor: pointer;
+  color: var(--dim);
+  transition: color 0.15s;
+  font-size: 10px;
+  font-weight: 500;
+}
+.nav-item.active { color: var(--blue-light); }
+.nav-item svg { width: 20px; height: 20px; }
+
+/* ── PAGES ── */
+.page {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  display: none;
+}
+.page.active { display: block; }
+.page::-webkit-scrollbar { display: none; }
+
+/* ── LOADING ── */
+#loading {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  z-index: 999;
+}
+.loading-logo {
+  font-family: 'Space Mono', monospace;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--blue-light);
+}
+.loading-bar {
+  width: 120px;
+  height: 2px;
+  background: var(--border);
+  border-radius: 1px;
+  overflow: hidden;
+}
+.loading-fill {
+  height: 100%;
+  background: var(--blue);
+  border-radius: 1px;
+  animation: loadbar 1.2s ease-in-out infinite;
+}
+@keyframes loadbar {
+  0% { width: 0; }
+  50% { width: 80%; }
+  100% { width: 100%; }
+}
+
+/* ── HOME PAGE ── */
+.home-section { padding: 16px; }
+.section-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+/* Stats row */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 10px;
+  text-align: center;
+}
+.stat-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1;
+  margin-bottom: 3px;
+}
+.stat-num.green { color: var(--green); }
+.stat-num.yellow { color: var(--yellow); }
+.stat-num.red { color: var(--red); }
+.stat-label { font-size: 10px; color: var(--muted); }
+
+/* Quick start buttons */
+.quick-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.quick-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.quick-card:active { background: var(--surface2); transform: scale(0.98); }
+.quick-card .icon { font-size: 20px; }
+.quick-card .label { font-size: 13px; font-weight: 500; }
+.quick-card .sub { font-size: 11px; color: var(--muted); }
+.quick-card.highlight {
+  border-color: var(--blue);
+  background: var(--blue-glow);
+}
+.quick-card.highlight .label { color: var(--blue-light); }
+
+/* Concept chips */
+.concept-scroll {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  margin-bottom: 20px;
+}
+.concept-scroll::-webkit-scrollbar { display: none; }
+.concept-chip {
+  flex-shrink: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  padding: 5px 12px;
+  font-size: 12px;
+  color: var(--muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+.concept-chip:active { color: var(--blue-light); border-color: var(--blue); background: var(--blue-glow); }
+
+/* Weak topics */
+.weak-list { display: flex; flex-direction: column; gap: 6px; }
+.weak-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+.weak-bar-wrap { flex: 1; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+.weak-bar { height: 100%; border-radius: 2px; }
+.weak-name { font-size: 12px; color: var(--muted); min-width: 80px; }
+.weak-pct { font-size: 11px; font-family: 'Space Mono', monospace; color: var(--red); min-width: 30px; text-align: right; }
+
+/* ── BROWSE PAGE ── */
+.filter-bar {
+  padding: 12px 16px;
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.filter-bar::-webkit-scrollbar { display: none; }
+.filter-pill {
+  flex-shrink: 0;
+  padding: 5px 12px;
+  border-radius: 99px;
+  font-size: 12px;
+  border: 1px solid var(--border2);
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+.filter-pill.active {
+  background: var(--blue-glow);
+  border-color: var(--blue);
+  color: var(--blue-light);
+}
+
+.search-wrap { padding: 10px 16px; border-bottom: 1px solid var(--border); }
+.search-input {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 13px;
+  font-family: inherit;
+  outline: none;
+}
+.search-input::placeholder { color: var(--dim); }
+.search-input:focus { border-color: var(--blue); }
+
+.q-list { padding: 8px 0; }
+.q-row {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  transition: background 0.1s;
+}
+.q-row:active { background: var(--surface); }
+.q-row-status {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+.q-row-status.correct { background: var(--green); }
+.q-row-status.wrong { background: var(--red); }
+.q-row-status.unsure { background: var(--yellow); }
+.q-row-status.unmarked { background: var(--dim); }
+.q-row-body { flex: 1; min-width: 0; }
+.q-row-id {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--blue);
+  margin-bottom: 2px;
+}
+.q-row-text {
+  font-size: 13px;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.4;
+}
+.q-row-tags { display: flex; gap: 4px; margin-top: 5px; flex-wrap: wrap; }
+.q-row-tag {
+  font-size: 10px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  background: var(--surface2);
+  color: var(--dim);
+}
+.q-row-diff {
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  font-weight: 500;
+}
+.q-row-diff.easy { background: var(--green-bg); color: var(--green); }
+.q-row-diff.medium { background: var(--yellow-bg); color: var(--yellow); }
+.q-row-diff.hard { background: var(--red-bg); color: var(--red); }
+
+/* ── QUIZ PAGE (QUESTION VIEW) ── */
+.quiz-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.quiz-back {
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 18px;
+}
+.quiz-progress {
+  flex: 1;
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.quiz-progress-fill {
+  height: 100%;
+  background: var(--blue);
+  border-radius: 2px;
+  transition: width 0.3s;
+}
+.quiz-counter {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.quiz-body { padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+
+.q-meta { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.q-badge {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--border2);
+  color: var(--muted);
+  background: var(--surface);
+}
+.q-badge.school { color: var(--blue-light); border-color: rgba(79,110,247,0.3); background: var(--blue-glow); }
+
+.q-text {
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 14px;
+}
+
+/* Options */
+.options { display: flex; flex-direction: column; gap: 8px; }
+.option {
+  padding: 11px 14px;
+  border-radius: 8px;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1.5;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  transition: all 0.15s;
+  color: var(--text);
+}
+.option:active { transform: scale(0.99); }
+.option.selected { border-color: var(--blue); background: var(--blue-glow); }
+.option.correct { border-color: var(--green); background: var(--green-bg); }
+.option.wrong { border-color: var(--red); background: var(--red-bg); }
+.option.reveal-correct { border-color: var(--green); background: var(--green-bg); }
+.option-key {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.option.correct .option-key { color: var(--green); }
+.option.wrong .option-key { color: var(--red); }
+.option.reveal-correct .option-key { color: var(--green); }
+
+/* Answer input (non-MC) */
+.answer-input-wrap { display: flex; flex-direction: column; gap: 8px; }
+.answer-input {
+  width: 100%;
+  background: var(--surface);
+  border: 1.5px solid var(--border2);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--text);
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  resize: none;
+  min-height: 80px;
+  line-height: 1.5;
+}
+.answer-input:focus { border-color: var(--blue); }
+
+/* Action buttons */
+.action-row { display: flex; gap: 8px; }
+.btn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1.5px solid;
+  font-family: inherit;
+  transition: all 0.15s;
+  text-align: center;
+}
+.btn:active { transform: scale(0.98); opacity: 0.85; }
+.btn-primary { background: var(--blue); border-color: var(--blue); color: #fff; }
+.btn-outline { background: transparent; border-color: var(--border2); color: var(--muted); }
+.btn-ghost { background: var(--surface); border-color: var(--border); color: var(--muted); }
+
+/* Mark buttons */
+.mark-row {
+  display: flex;
+  gap: 6px;
+}
+.mark-btn {
+  flex: 1;
+  padding: 8px 6px;
+  border-radius: 7px;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid;
+  font-family: inherit;
+  text-align: center;
+  transition: all 0.15s;
+}
+.mark-btn:active { transform: scale(0.97); }
+.mark-btn.correct-btn { border-color: rgba(61,214,140,0.4); color: var(--green); background: var(--green-bg); }
+.mark-btn.correct-btn.active { background: var(--green); color: #000; border-color: var(--green); }
+.mark-btn.unsure-btn { border-color: rgba(245,200,66,0.4); color: var(--yellow); background: var(--yellow-bg); }
+.mark-btn.unsure-btn.active { background: var(--yellow); color: #000; border-color: var(--yellow); }
+.mark-btn.wrong-btn { border-color: rgba(247,95,95,0.4); color: var(--red); background: var(--red-bg); }
+.mark-btn.wrong-btn.active { background: var(--red); color: #fff; border-color: var(--red); }
+
+/* ── SOLUTION PANEL ── */
+.solution-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: none;
+}
+.solution-panel.show { display: block; }
+.solution-tab-row {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+}
+.solution-tab {
+  flex: 1;
+  padding: 10px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+}
+.solution-tab.active { color: var(--blue-light); border-bottom-color: var(--blue); }
+
+.solution-content { padding: 14px; display: none; }
+.solution-content.active { display: block; }
+
+.slabel {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--dim);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.steps { display: flex; flex-direction: column; gap: 6px; }
+.step {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  padding: 8px 10px;
+  background: var(--bg2);
+  border-radius: 6px;
+  border-left: 2px solid var(--blue);
+  font-size: 13px;
+  line-height: 1.55;
+}
+.step-n {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--blue);
+  flex-shrink: 0;
+  min-width: 18px;
+  margin-top: 2px;
+}
+
+.key-box {
+  padding: 10px 12px;
+  background: var(--blue-glow);
+  border: 1px solid rgba(79,110,247,0.2);
+  border-radius: 7px;
+  font-size: 13px;
+  color: #8fa4ff;
+  line-height: 1.55;
+  margin-bottom: 10px;
+}
+.hint-box {
+  padding: 10px 12px;
+  background: var(--yellow-bg);
+  border: 1px solid rgba(245,200,66,0.2);
+  border-radius: 7px;
+  font-size: 13px;
+  color: #d4aa30;
+  line-height: 1.55;
+}
+.hint-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--yellow);
+  letter-spacing: 0.08em;
+  margin-bottom: 5px;
+}
+.formula-item {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  padding: 6px 10px;
+  background: var(--bg2);
+  border-radius: 5px;
+  color: var(--purple);
+  margin-bottom: 4px;
+  line-height: 1.5;
+}
+.concept-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+.concept-tag {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 99px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+
+/* ── CONCEPTS PAGE ── */
+.concept-grid {
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.concept-row {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 11px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.concept-row:active { background: var(--surface2); }
+.concept-name { flex: 1; font-size: 13px; }
+.concept-count {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+}
+.concept-acc {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: 'Space Mono', monospace;
+  flex-shrink: 0;
+}
+.concept-acc.good { background: var(--green-bg); color: var(--green); border: 1px solid rgba(61,214,140,0.3); }
+.concept-acc.mid { background: var(--yellow-bg); color: var(--yellow); border: 1px solid rgba(245,200,66,0.3); }
+.concept-acc.bad { background: var(--red-bg); color: var(--red); border: 1px solid rgba(247,95,95,0.3); }
+.concept-acc.none { background: var(--surface2); color: var(--dim); border: 1px solid var(--border); }
+
+/* ── MODALS ── */
+.modal-bg {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 100;
+  display: none;
+  align-items: flex-end;
+}
+.modal-bg.show { display: flex; }
+.modal {
+  background: var(--bg2);
+  border-top: 1px solid var(--border2);
+  border-radius: 18px 18px 0 0;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 20px 16px;
+  padding-bottom: calc(20px + var(--safe-bottom));
+}
+.modal-handle {
+  width: 36px; height: 4px;
+  background: var(--border2);
+  border-radius: 2px;
+  margin: 0 auto 16px;
+}
+.modal-title { font-size: 15px; font-weight: 700; margin-bottom: 14px; }
+
+.filter-section { margin-bottom: 16px; }
+.filter-section-label { font-size: 11px; color: var(--muted); margin-bottom: 8px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; }
+.filter-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.filter-chip {
+  padding: 6px 12px;
+  border-radius: 99px;
+  font-size: 12px;
+  border: 1px solid var(--border2);
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.filter-chip.active {
+  background: var(--blue-glow);
+  border-color: var(--blue);
+  color: var(--blue-light);
+}
+
+/* ── MISC ── */
+.divider { height: 1px; background: var(--border); margin: 12px 0; }
+.empty {
+  padding: 48px 24px;
+  text-align: center;
+  color: var(--dim);
+  font-size: 13px;
+  line-height: 1.7;
+}
+.empty-icon { font-size: 32px; margin-bottom: 10px; }
+
+.correct-answer-reveal {
+  padding: 10px 12px;
+  background: var(--green-bg);
+  border: 1px solid rgba(61,214,140,0.25);
+  border-radius: 7px;
+  font-size: 13px;
+  color: var(--green);
+  line-height: 1.5;
+}
+
+/* Scroll indicator */
+.scroll-hint {
+  text-align: center;
+  font-size: 11px;
+  color: var(--dim);
+  padding: 6px;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
+
+/* Answer reveal section */
+.reveal-section {
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin-top: 4px;
+  display: none;
+}
+.reveal-section.correct-reveal {
+  background: var(--green-bg);
+  border: 1px solid rgba(61,214,140,0.25);
+  display: block;
+}
+.reveal-section.wrong-reveal {
+  background: var(--red-bg);
+  border: 1px solid rgba(247,95,95,0.25);
+  display: block;
+}
+.reveal-result {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 3px;
+}
+.reveal-result.correct { color: var(--green); }
+.reveal-result.wrong { color: var(--red); }
+.reveal-ans { font-size: 12px; color: var(--muted); }
+
+/* Skeleton */
+.skeleton {
+  background: linear-gradient(90deg, var(--surface) 25%, var(--surface2) 50%, var(--surface) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: 6px;
+}
+@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+</style>
+</head>
+<body>
+
+<div id="loading">
+  <div class="loading-logo">心統刷題</div>
+  <div class="loading-bar"><div class="loading-fill"></div></div>
+</div>
+
+<div id="app" style="display:none">
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-title">心統刷題</div>
+    <div class="header-sub" id="header-sub">載入中…</div>
+    <div class="header-btn" id="filter-btn" onclick="openFilter()" title="篩選">⚙</div>
+  </div>
+
+  <!-- PAGES -->
+  <!-- HOME -->
+  <div class="page active" id="page-home">
+    <div class="home-section">
+      <div class="section-label">學習進度</div>
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-num" id="stat-total">0</div>
+          <div class="stat-label">題目總數</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num green" id="stat-correct">0</div>
+          <div class="stat-label">答對</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num red" id="stat-wrong">0</div>
+          <div class="stat-label">答錯</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="home-section" style="padding-top:0">
+      <div class="section-label">快速開始</div>
+      <div class="quick-grid">
+        <div class="quick-card highlight" onclick="startQuiz('all')">
+          <div class="icon">🎯</div>
+          <div class="label">隨機刷題</div>
+          <div class="sub">全部題目</div>
+        </div>
+        <div class="quick-card" onclick="startQuiz('wrong')">
+          <div class="icon">🔁</div>
+          <div class="label">錯題複習</div>
+          <div class="sub" id="wrong-count">0 題待複習</div>
+        </div>
+        <div class="quick-card" onclick="startQuiz('unsure')">
+          <div class="icon">⚡</div>
+          <div class="label">不確定題</div>
+          <div class="sub" id="unsure-count">0 題</div>
+        </div>
+        <div class="quick-card" onclick="goPage('page-concepts')">
+          <div class="icon">📚</div>
+          <div class="label">考點學習</div>
+          <div class="sub">按主題刷</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="home-section" style="padding-top:0">
+      <div class="section-label">高頻考點</div>
+      <div class="concept-scroll" id="home-concepts"></div>
+    </div>
+
+    <div class="home-section" style="padding-top:0">
+      <div class="section-label">弱點考點</div>
+      <div class="weak-list" id="weak-list">
+        <div class="empty" style="padding:16px 0">
+          <div style="font-size:11px;color:var(--dim)">刷完幾題後這裡會顯示你的弱點</div>
+        </div>
+      </div>
+    </div>
+    <div style="height:20px"></div>
+  </div>
+
+  <!-- BROWSE -->
+  <div class="page" id="page-browse">
+    <div class="filter-bar" id="browse-filters">
+      <div class="filter-pill active" onclick="browseFilter('all',this)">全部</div>
+      <div class="filter-pill" onclick="browseFilter('NTU',this)">台大</div>
+      <div class="filter-pill" onclick="browseFilter('SCU',this)">東吳</div>
+      <div class="filter-pill" onclick="browseFilter('NCKU',this)">台綜</div>
+      <div class="filter-pill" onclick="browseFilter('NCCU',this)">政大</div>
+      <div class="filter-pill" onclick="browseFilter('correct',this)">✓ 答對</div>
+      <div class="filter-pill" onclick="browseFilter('wrong',this)">✗ 答錯</div>
+      <div class="filter-pill" onclick="browseFilter('unsure',this)">⚡ 不確定</div>
+      <div class="filter-pill" onclick="browseFilter('unmarked',this)">○ 未作答</div>
+    </div>
+    <div class="search-wrap">
+      <input class="search-input" type="text" id="browse-search" placeholder="搜尋題目、考點…" oninput="browseSearch()" autocomplete="off" autocorrect="off" spellcheck="false">
+    </div>
+    <div class="q-list" id="browse-list"></div>
+  </div>
+
+  <!-- CONCEPTS -->
+  <div class="page" id="page-concepts">
+    <div class="search-wrap">
+      <input class="search-input" type="text" id="concept-search" placeholder="搜尋考點…" oninput="conceptSearch()" autocomplete="off">
+    </div>
+    <div class="concept-grid" id="concept-grid"></div>
+  </div>
+
+  <!-- QUIZ (hidden by default, shown when quiz starts) -->
+  <div class="page" id="page-quiz">
+    <div class="quiz-header">
+      <div class="quiz-back" onclick="exitQuiz()">←</div>
+      <div class="quiz-progress"><div class="quiz-progress-fill" id="quiz-progress-fill"></div></div>
+      <div class="quiz-counter" id="quiz-counter">0/0</div>
+    </div>
+    <div style="overflow-y:auto;flex:1;-webkit-overflow-scrolling:touch">
+      <div class="quiz-body" id="quiz-body"></div>
+    </div>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <div class="bottom-nav">
+    <div class="nav-item active" id="nav-home" onclick="goPage('page-home')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+      主頁
+    </div>
+    <div class="nav-item" id="nav-browse" onclick="goPage('page-browse')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      瀏覽
+    </div>
+    <div class="nav-item" id="nav-concepts" onclick="goPage('page-concepts')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+      考點
+    </div>
+  </div>
+</div>
+
+<!-- FILTER MODAL -->
+<div class="modal-bg" id="filter-modal" onclick="closeFilter()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <div class="modal-title">篩選題目</div>
+    <div class="filter-section">
+      <div class="filter-section-label">學校</div>
+      <div class="filter-chips" id="fc-school">
+        <div class="filter-chip active" data-key="school" data-val="all" onclick="toggleFilter(this)">全部</div>
+        <div class="filter-chip" data-key="school" data-val="台大" onclick="toggleFilter(this)">台大</div>
+        <div class="filter-chip" data-key="school" data-val="東吳" onclick="toggleFilter(this)">東吳</div>
+        <div class="filter-chip" data-key="school" data-val="台綜（成大）" onclick="toggleFilter(this)">台綜</div>
+        <div class="filter-chip" data-key="school" data-val="政大" onclick="toggleFilter(this)">政大</div>
+      </div>
+    </div>
+    <div class="filter-section">
+      <div class="filter-section-label">難度</div>
+      <div class="filter-chips">
+        <div class="filter-chip active" data-key="diff" data-val="all" onclick="toggleFilter(this)">全部</div>
+        <div class="filter-chip" data-key="diff" data-val="easy" onclick="toggleFilter(this)">簡單</div>
+        <div class="filter-chip" data-key="diff" data-val="medium" onclick="toggleFilter(this)">中等</div>
+        <div class="filter-chip" data-key="diff" data-val="hard" onclick="toggleFilter(this)">困難</div>
+      </div>
+    </div>
+    <div class="filter-section">
+      <div class="filter-section-label">題型</div>
+      <div class="filter-chips">
+        <div class="filter-chip active" data-key="type" data-val="all" onclick="toggleFilter(this)">全部</div>
+        <div class="filter-chip" data-key="type" data-val="單選題" onclick="toggleFilter(this)">單選題</div>
+        <div class="filter-chip" data-key="type" data-val="計算題" onclick="toggleFilter(this)">計算題</div>
+        <div class="filter-chip" data-key="type" data-val="申論題" onclick="toggleFilter(this)">申論題</div>
+        <div class="filter-chip" data-key="type" data-val="填充題" onclick="toggleFilter(this)">填充題</div>
+      </div>
+    </div>
+    <div style="height:8px"></div>
+    <div class="action-row">
+      <button class="btn btn-outline" onclick="resetFilters()">重置</button>
+      <button class="btn btn-primary" onclick="applyFilters()">套用篩選</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── STATE ───────────────────────────────────────────────────────────────────
+let questions = [];
+let records = {};      // { id: { status: 'correct'|'wrong'|'unsure', ts } }
+let quizQueue = [];
+let quizIdx = 0;
+let currentQ = null;
+let answered = false;
+let currentTab = 'steps';
+let browseFilter_ = 'all';
+let activeFilters = { school: 'all', diff: 'all', type: 'all' };
+let conceptFilter = '';
+let browseSearchQ = '';
+
+const RECORDS_KEY = 'quiz_records_v1';
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+async function init() {
+  loadRecords();
+  try {
+    const res = await fetch('./題庫.json');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    questions = await res.json();
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('app').style.display = 'flex';
+    renderHome();
+    renderBrowse();
+    renderConcepts();
+    updateHeaderSub();
+  } catch(e) {
+    document.querySelector('.loading-logo').textContent = '載入失敗';
+    document.querySelector('.loading-fill').style.background = '#f75f5f';
+    document.querySelector('.loading-fill').style.animation = 'none';
+    document.querySelector('.loading-fill').style.width = '100%';
+    console.error('題庫載入失敗:', e);
+    // Show error hint
+    const hint = document.createElement('div');
+    hint.style.cssText = 'color:#6b6b8a;font-size:12px;text-align:center;padding:0 24px;line-height:1.6';
+    hint.textContent = '請確認 題庫.json 與 index.html 在同一資料夾，並使用 python3 -m http.server 8080 啟動';
+    document.getElementById('loading').appendChild(hint);
+  }
+}
+
+function loadRecords() {
+  try { records = JSON.parse(localStorage.getItem(RECORDS_KEY) || '{}'); } catch(e) { records = {}; }
+}
+function saveRecords() {
+  localStorage.setItem(RECORDS_KEY, JSON.stringify(records));
+}
+function getStatus(id) { return records[id]?.status || 'unmarked'; }
+
+function updateHeaderSub() {
+  const done = Object.keys(records).length;
+  const total = questions.length;
+  document.getElementById('header-sub').textContent = `${done}/${total} 題`;
+}
+
+// ─── NAVIGATION ──────────────────────────────────────────────────────────────
+const pages = ['page-home','page-browse','page-concepts','page-quiz'];
+const navIds = ['nav-home','nav-browse','nav-concepts',null];
+
+function goPage(pageId) {
+  pages.forEach((p,i) => {
+    document.getElementById(p).classList.toggle('active', p === pageId);
+    if (navIds[i]) document.getElementById(navIds[i]).classList.toggle('active', p === pageId);
+  });
+  // Hide bottom nav during quiz
+  document.querySelector('.bottom-nav').style.display = pageId === 'page-quiz' ? 'none' : 'flex';
+  document.querySelector('.header').style.display = pageId === 'page-quiz' ? 'none' : 'flex';
+  if (pageId === 'page-browse') renderBrowse();
+  if (pageId === 'page-concepts') renderConcepts();
+  if (pageId === 'page-home') renderHome();
+}
+
+// ─── HOME ────────────────────────────────────────────────────────────────────
+function renderHome() {
+  const correct = Object.values(records).filter(r=>r.status==='correct').length;
+  const wrong = Object.values(records).filter(r=>r.status==='wrong').length;
+  const unsure = Object.values(records).filter(r=>r.status==='unsure').length;
+
+  document.getElementById('stat-total').textContent = questions.length;
+  document.getElementById('stat-correct').textContent = correct;
+  document.getElementById('stat-wrong').textContent = wrong;
+  document.getElementById('wrong-count').textContent = wrong + ' 題待複習';
+  document.getElementById('unsure-count').textContent = unsure + ' 題';
+
+  // Top concepts
+  const conceptCounts = {};
+  questions.forEach(q => (q.concepts||[]).forEach(c => conceptCounts[c] = (conceptCounts[c]||0)+1));
+  const top = Object.entries(conceptCounts).sort((a,b)=>b[1]-a[1]).slice(0,12);
+  document.getElementById('home-concepts').innerHTML = top.map(([c]) =>
+    `<div class="concept-chip" onclick="startConceptQuiz('${esc(c)}')">${c}</div>`
+  ).join('');
+
+  // Weak concepts
+  const conceptStats = {};
+  questions.forEach(q => {
+    const st = getStatus(q.id);
+    (q.concepts||[]).forEach(c => {
+      if (!conceptStats[c]) conceptStats[c] = {total:0, wrong:0};
+      conceptStats[c].total++;
+      if (st==='wrong') conceptStats[c].wrong++;
+    });
+  });
+  const weak = Object.entries(conceptStats)
+    .filter(([,s]) => s.total >= 2 && s.wrong > 0)
+    .map(([c,s]) => [c, s.wrong/s.total, s.wrong])
+    .sort((a,b) => b[1]-a[1]).slice(0,5);
+
+  if (weak.length === 0) {
+    document.getElementById('weak-list').innerHTML = `<div style="font-size:11px;color:var(--dim);padding:8px 0;text-align:center">刷完幾題後這裡會顯示你的弱點</div>`;
+  } else {
+    document.getElementById('weak-list').innerHTML = weak.map(([c,pct,n]) => `
+      <div class="weak-item" onclick="startConceptQuiz('${esc(c)}')">
+        <div class="weak-name">${c}</div>
+        <div class="weak-bar-wrap"><div class="weak-bar" style="width:${pct*100}%;background:${pct>0.6?'var(--red)':pct>0.3?'var(--yellow)':'var(--green)'}"></div></div>
+        <div class="weak-pct">${Math.round(pct*100)}%錯</div>
+      </div>`).join('');
+  }
+}
+
+// ─── BROWSE ──────────────────────────────────────────────────────────────────
+function browseFilter(key, el) {
+  browseFilter_ = key;
+  document.querySelectorAll('#browse-filters .filter-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  renderBrowse();
+}
+function browseSearch() {
+  browseSearchQ = document.getElementById('browse-search').value.toLowerCase();
+  renderBrowse();
+}
+function renderBrowse() {
+  const sourceMap = { NTU:'台大', SCU:'東吳', NCKU:'台綜（成大）', NCCU:'政大' };
+  let filtered = questions.filter(q => {
+    const st = getStatus(q.id);
+    if (browseFilter_ === 'correct' && st !== 'correct') return false;
+    if (browseFilter_ === 'wrong' && st !== 'wrong') return false;
+    if (browseFilter_ === 'unsure' && st !== 'unsure') return false;
+    if (browseFilter_ === 'unmarked' && st !== 'unmarked') return false;
+    if (sourceMap[browseFilter_] && q.source !== sourceMap[browseFilter_]) return false;
+    if (browseSearchQ) {
+      const hay = (q.question + q.id + (q.concepts||[]).join(' ')).toLowerCase();
+      if (!hay.includes(browseSearchQ)) return false;
+    }
+    // Active filters
+    if (activeFilters.school !== 'all' && q.source !== activeFilters.school) return false;
+    if (activeFilters.diff !== 'all' && q.difficulty !== activeFilters.diff) return false;
+    if (activeFilters.type !== 'all' && q.type !== activeFilters.type) return false;
+    return true;
+  });
+
+  const diffMap = {easy:'簡',medium:'中',hard:'難'};
+  const list = document.getElementById('browse-list');
+  if (filtered.length === 0) {
+    list.innerHTML = `<div class="empty"><div class="empty-icon">🔍</div>找不到符合條件的題目</div>`;
+    return;
+  }
+  list.innerHTML = filtered.slice(0, 100).map(q => {
+    const st = getStatus(q.id);
+    return `<div class="q-row" onclick="openQuestion('${q.id}')">
+      <div class="q-row-status ${st}"></div>
+      <div class="q-row-body">
+        <div class="q-row-id">${q.id}</div>
+        <div class="q-row-text">${q.question.slice(0,55)}${q.question.length>55?'…':''}</div>
+        <div class="q-row-tags">${(q.concepts||[]).slice(0,3).map(c=>`<span class="q-row-tag">${c}</span>`).join('')}</div>
+      </div>
+      <div class="q-row-diff ${q.difficulty}">${diffMap[q.difficulty]||'?'}</div>
+    </div>`;
+  }).join('');
+  if (filtered.length > 100) {
+    list.innerHTML += `<div style="text-align:center;padding:12px;font-size:12px;color:var(--dim)">僅顯示前100題，請用搜尋縮小範圍</div>`;
+  }
+}
+
+// ─── CONCEPTS ────────────────────────────────────────────────────────────────
+function conceptSearch() {
+  conceptFilter = document.getElementById('concept-search').value.toLowerCase();
+  renderConcepts();
+}
+function renderConcepts() {
+  const conceptStats = {};
+  questions.forEach(q => {
+    const st = getStatus(q.id);
+    (q.concepts||[]).forEach(c => {
+      if (!conceptStats[c]) conceptStats[c] = {total:0, correct:0, wrong:0};
+      conceptStats[c].total++;
+      if (st==='correct') conceptStats[c].correct++;
+      if (st==='wrong') conceptStats[c].wrong++;
+    });
+  });
+
+  let entries = Object.entries(conceptStats)
+    .filter(([c]) => !conceptFilter || c.toLowerCase().includes(conceptFilter))
+    .sort((a,b) => b[1].total - a[1].total);
+
+  const grid = document.getElementById('concept-grid');
+  if (entries.length === 0) {
+    grid.innerHTML = `<div class="empty"><div class="empty-icon">📚</div>找不到相符的考點</div>`;
+    return;
+  }
+  grid.innerHTML = entries.map(([c, s]) => {
+    const attempted = s.correct + s.wrong;
+    let accClass = 'none', accText = '—';
+    if (attempted > 0) {
+      const acc = s.correct / attempted;
+      accClass = acc >= 0.7 ? 'good' : acc >= 0.4 ? 'mid' : 'bad';
+      accText = Math.round(acc*100) + '%';
+    }
+    return `<div class="concept-row" onclick="startConceptQuiz('${esc(c)}')">
+      <div class="concept-acc ${accClass}">${accText}</div>
+      <div class="concept-name">${c}</div>
+      <div class="concept-count">${s.total}題</div>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--dim)" stroke-width="2"><polyline points="9,18 15,12 9,6"/></svg>
+    </div>`;
+  }).join('');
+}
+
+// ─── QUIZ ENGINE ─────────────────────────────────────────────────────────────
+function startQuiz(mode) {
+  let pool;
+  if (mode === 'all') {
+    pool = getFilteredPool();
+  } else if (mode === 'wrong') {
+    pool = questions.filter(q => getStatus(q.id) === 'wrong');
+  } else if (mode === 'unsure') {
+    pool = questions.filter(q => getStatus(q.id) === 'unsure');
+  }
+  if (!pool || pool.length === 0) {
+    alert(mode === 'wrong' ? '目前沒有答錯的題目！' : mode === 'unsure' ? '目前沒有標記不確定的題目！' : '沒有符合條件的題目');
+    return;
+  }
+  // Shuffle
+  quizQueue = [...pool].sort(() => Math.random() - 0.5);
+  quizIdx = 0;
+  goPage('page-quiz');
+  showQuestion();
+}
+
+function startConceptQuiz(concept) {
+  const pool = questions.filter(q => (q.concepts||[]).includes(concept));
+  if (pool.length === 0) return;
+  quizQueue = [...pool].sort(() => Math.random() - 0.5);
+  quizIdx = 0;
+  goPage('page-quiz');
+  showQuestion();
+}
+
+function openQuestion(id) {
+  const idx = questions.findIndex(q => q.id === id);
+  if (idx < 0) return;
+  quizQueue = [questions[idx]];
+  quizIdx = 0;
+  goPage('page-quiz');
+  showQuestion();
+}
+
+function getFilteredPool() {
+  return questions.filter(q => {
+    if (activeFilters.school !== 'all' && q.source !== activeFilters.school) return false;
+    if (activeFilters.diff !== 'all' && q.difficulty !== activeFilters.diff) return false;
+    if (activeFilters.type !== 'all' && q.type !== activeFilters.type) return false;
+    return true;
+  });
+}
+
+function showQuestion() {
+  if (quizIdx >= quizQueue.length) {
+    showQuizDone();
+    return;
+  }
+  currentQ = quizQueue[quizIdx];
+  answered = false;
+  currentTab = 'steps';
+
+  const pct = (quizIdx / quizQueue.length * 100) + '%';
+  document.getElementById('quiz-progress-fill').style.width = pct;
+  document.getElementById('quiz-counter').textContent = `${quizIdx+1}/${quizQueue.length}`;
+
+  const isMultiChoice = currentQ.options && currentQ.options.length > 0;
+  const status = getStatus(currentQ.id);
+
+  document.getElementById('quiz-body').innerHTML = `
+    <div class="q-meta">
+      <span class="q-badge school">${currentQ.source}</span>
+      <span class="q-badge">${currentQ.year}年</span>
+      <span class="q-badge">${currentQ.type}</span>
+      ${currentQ.difficulty ? `<span class="q-badge" style="color:${currentQ.difficulty==='hard'?'var(--red)':currentQ.difficulty==='easy'?'var(--green)':'var(--yellow)'}">${{easy:'簡單',medium:'中等',hard:'困難'}[currentQ.difficulty]}</span>` : ''}
+    </div>
+
+    <div class="q-text">${currentQ.question}</div>
+
+    ${isMultiChoice ? renderOptions() : renderFreeAnswer()}
+
+    <div id="reveal-section" class="reveal-section"></div>
+
+    <div class="action-row" id="action-row">
+      ${isMultiChoice
+        ? `<button class="btn btn-primary" id="submit-btn" onclick="submitAnswer()" disabled style="opacity:0.5">確認答案</button>`
+        : `<div style="display:flex;flex-direction:column;gap:6px;width:100%">
+             <button class="btn btn-primary" onclick="revealAnswer()">查看答案</button>
+             <button class="btn btn-ghost" onclick="nextQuestion()" style="font-size:12px">跳過</button>
+           </div>`
+      }
+    </div>
+
+    <div class="solution-panel" id="solution-panel">
+      <div class="solution-tab-row">
+        <div class="solution-tab active" onclick="switchTab('steps',this)">解題步驟</div>
+        <div class="solution-tab" onclick="switchTab('concept',this)">考點</div>
+        <div class="solution-tab" onclick="switchTab('hint',this)">提示</div>
+      </div>
+      <div class="solution-content active" id="tab-steps">
+        ${renderSteps()}
+      </div>
+      <div class="solution-content" id="tab-concept">
+        ${renderConceptTab()}
+      </div>
+      <div class="solution-content" id="tab-hint">
+        ${renderHintTab()}
+      </div>
+    </div>
+
+    <div>
+      <div class="slabel" style="margin-bottom:8px">這題你：</div>
+      <div class="mark-row">
+        <div class="mark-btn correct-btn ${status==='correct'?'active':''}" onclick="markQ('correct',this)">✓ 懂了</div>
+        <div class="mark-btn unsure-btn ${status==='unsure'?'active':''}" onclick="markQ('unsure',this)">⚡ 不確定</div>
+        <div class="mark-btn wrong-btn ${status==='wrong'?'active':''}" onclick="markQ('wrong',this)">✗ 不懂</div>
+      </div>
+    </div>
+
+    <div class="action-row" style="margin-top:4px">
+      <button class="btn btn-ghost" onclick="prevQuestion()" ${quizIdx===0?'disabled style="opacity:0.4"':''}>← 上一題</button>
+      <button class="btn btn-outline" onclick="nextQuestion()">${quizIdx===quizQueue.length-1?'完成':'下一題 →'}</button>
+    </div>
+    <div style="height:20px"></div>
+  `;
+}
+
+function renderOptions() {
+  const keys = ['A','B','C','D','E','F'];
+  return `<div class="options" id="options-wrap">
+    ${(currentQ.options||[]).map((opt, i) => `
+      <div class="option" id="opt-${i}" onclick="selectOption(${i})">
+        <span class="option-key">${keys[i]}</span>
+        <span>${opt.replace(/^\([A-Z]\)\s?|^[A-Z]\.\s?/,'')}</span>
+      </div>`).join('')}
+  </div>`;
+}
+
+function renderFreeAnswer() {
+  return `<div class="answer-input-wrap">
+    <textarea class="answer-input" id="free-answer" placeholder="寫下你的思路或答案（選填）" rows="3"></textarea>
+  </div>`;
+}
+
+let selectedOpt = null;
+function selectOption(i) {
+  if (answered) return;
+  selectedOpt = i;
+  document.querySelectorAll('.option').forEach((el,j) => {
+    el.classList.toggle('selected', j === i);
+  });
+  const btn = document.getElementById('submit-btn');
+  if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
+}
+
+function submitAnswer() {
+  if (selectedOpt === null || answered) return;
+  answered = true;
+  const keys = ['A','B','C','D','E','F'];
+  const correctAns = (currentQ.answer || '').toUpperCase().trim();
+  const chosenKey = keys[selectedOpt];
+  const isCorrect = correctAns && chosenKey === correctAns;
+
+  // Color options
+  document.querySelectorAll('.option').forEach((el, i) => {
+    const key = keys[i];
+    if (key === correctAns) el.classList.add('reveal-correct');
+    else if (i === selectedOpt && !isCorrect) el.classList.add('wrong');
+    el.classList.remove('selected');
+  });
+
+  // Reveal section
+  const rev = document.getElementById('reveal-section');
+  if (isCorrect) {
+    rev.className = 'reveal-section correct-reveal';
+    rev.innerHTML = `<div class="reveal-result correct">✓ 答對了！</div>`;
+  } else {
+    rev.className = 'reveal-section wrong-reveal';
+    rev.innerHTML = `<div class="reveal-result wrong">✗ 答錯了</div><div class="reveal-ans">正確答案：${correctAns}</div>`;
+  }
+
+  // Show solution
+  document.getElementById('solution-panel').classList.add('show');
+  document.getElementById('action-row').innerHTML = `
+    <button class="btn btn-outline" onclick="prevQuestion()" ${quizIdx===0?'disabled style="opacity:0.4"':''}>← 上一題</button>
+    <button class="btn btn-primary" onclick="nextQuestion()">${quizIdx===quizQueue.length-1?'完成':'下一題 →'}</button>
+  `;
+
+  // Auto-mark
+  if (!records[currentQ.id]) {
+    markQ(isCorrect ? 'correct' : 'wrong', null, true);
+  }
+}
+
+function revealAnswer() {
+  answered = true;
+  document.getElementById('solution-panel').classList.add('show');
+  const rev = document.getElementById('reveal-section');
+  const ans = currentQ.answer || '（詳見解析）';
+  rev.className = 'reveal-section correct-reveal';
+  rev.innerHTML = `<div class="reveal-ans">✦ 答案：<strong style="color:var(--green)">${ans}</strong></div>`;
+  document.getElementById('action-row').innerHTML = `
+    <div style="display:flex;flex-direction:column;gap:6px;width:100%">
+      <button class="btn btn-primary" onclick="nextQuestion()">${quizIdx===quizQueue.length-1?'完成':'下一題 →'}</button>
+    </div>
+  `;
+}
+
+function renderSteps() {
+  const steps = currentQ.solution_steps || [];
+  if (steps.length === 0) return `<div style="color:var(--dim);font-size:13px">尚無解題步驟</div>`;
+  return `<div class="steps">${steps.map((s,i)=>`
+    <div class="step"><span class="step-n">${String(i+1).padStart(2,'0')}</span><span>${s}</span></div>`).join('')}
+  </div>`;
+}
+
+function renderConceptTab() {
+  const formulas = (currentQ.formula_used || []);
+  const key = currentQ.key_concepts || '';
+  const concepts = currentQ.concepts || [];
+  return `
+    ${key ? `<div class="slabel">核心概念</div><div class="key-box" style="margin-bottom:12px">${key}</div>` : ''}
+    ${formulas.length > 0 ? `<div class="slabel">公式</div>${formulas.map(f=>`<div class="formula-item">${f}</div>`).join('')}<div style="height:8px"></div>` : ''}
+    <div class="slabel">考點標籤</div>
+    <div class="concept-tags">${concepts.map(c=>`<span class="concept-tag" onclick="startConceptQuiz('${esc(c)}')">${c}</span>`).join('')}</div>
+  `;
+}
+
+function renderHintTab() {
+  const hint = currentQ.ai_hint || '';
+  if (!hint) return `<div style="color:var(--dim);font-size:13px">尚無提示</div>`;
+  return `<div class="hint-label">💡 AI 提示</div><div class="hint-box">${hint}</div>`;
+}
+
+function switchTab(tab, el) {
+  currentTab = tab;
+  document.querySelectorAll('.solution-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.solution-content').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-' + tab).classList.add('active');
+}
+
+function markQ(status, el, auto=false) {
+  if (!currentQ) return;
+  records[currentQ.id] = { status, ts: Date.now() };
+  saveRecords();
+  updateHeaderSub();
+  if (!auto) {
+    document.querySelectorAll('.mark-btn').forEach(b => {
+      b.classList.remove('active');
+    });
+    if (el) el.classList.add('active');
+  }
+}
+
+function nextQuestion() {
+  quizIdx++;
+  showQuestion();
+}
+function prevQuestion() {
+  if (quizIdx > 0) { quizIdx--; showQuestion(); }
+}
+function exitQuiz() {
+  goPage('page-home');
+  renderHome();
+}
+
+function showQuizDone() {
+  const correct = quizQueue.filter(q => records[q.id]?.status === 'correct').length;
+  const wrong = quizQueue.filter(q => records[q.id]?.status === 'wrong').length;
+  document.getElementById('quiz-body').innerHTML = `
+    <div style="text-align:center;padding:48px 24px">
+      <div style="font-size:40px;margin-bottom:16px">🎉</div>
+      <div style="font-size:18px;font-weight:700;margin-bottom:8px">完成！</div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:24px">${quizQueue.length} 題刷完了</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px">
+        <div class="stat-card"><div class="stat-num green">${correct}</div><div class="stat-label">答對</div></div>
+        <div class="stat-card"><div class="stat-num red">${wrong}</div><div class="stat-label">答錯</div></div>
+      </div>
+      <button class="btn btn-primary" onclick="exitQuiz()" style="width:100%;margin-bottom:8px">回到主頁</button>
+      <button class="btn btn-outline" onclick="startQuiz('wrong')" style="width:100%">複習錯題</button>
+    </div>
+  `;
+}
+
+// ─── FILTERS ─────────────────────────────────────────────────────────────────
+function openFilter() { document.getElementById('filter-modal').classList.add('show'); }
+function closeFilter() { document.getElementById('filter-modal').classList.remove('show'); }
+function toggleFilter(el) {
+  const key = el.dataset.key;
+  const val = el.dataset.val;
+  document.querySelectorAll(`[data-key="${key}"]`).forEach(e => e.classList.remove('active'));
+  el.classList.add('active');
+  activeFilters[key] = val;
+}
+function resetFilters() {
+  activeFilters = { school: 'all', diff: 'all', type: 'all' };
+  document.querySelectorAll('.filter-chip').forEach(el => {
+    el.classList.toggle('active', el.dataset.val === 'all');
+  });
+}
+function applyFilters() {
+  closeFilter();
+  renderBrowse();
+}
+
+// ─── UTILS ───────────────────────────────────────────────────────────────────
+function esc(str) { return (str||'').replace(/'/g,"\\'").replace(/"/g,'&quot;'); }
+
+// ─── PWA ─────────────────────────────────────────────────────────────────────
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js').catch(() => {});
+}
+
+init();
+</script>
+</body>
+</html>
