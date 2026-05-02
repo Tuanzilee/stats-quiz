@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>心統公式工具書</title>
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --accent:#4f6ef7; --h1-bg:#f0f4ff; --h1-fg:#2d3a8c; --h2-fg:#1e40af;
+  --body:#1a1a2e; --muted:#6b7280; --border:#c7d2fe;
+  --form-bg:#f8faff; --form-fg:#1e3a5f; --row-alt:#f8faff;
+  --note-bg:#fffbeb; --note-bd:#f59e0b; --note-fg:#92400e;
+  --tip-bg:#f0fdf4; --tip-bd:#34d399; --tip-fg:#065f46;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Noto Sans TC',sans-serif;font-size:15px;color:var(--body);background:#fff;line-height:1.6}
+.container{max-width:860px;margin:0 auto;padding:24px 24px 60px}
+.cover{text-align:center;padding:48px 0 32px;border-bottom:2px solid var(--border);margin-bottom:28px}
+.cover-title{font-size:2em;font-weight:700;color:var(--accent);margin-bottom:6px}
+.cover-sub{font-size:1.25em;font-weight:700;color:var(--h1-fg);margin-bottom:14px}
+.cover-hr{width:160px;border:none;border-top:2px solid var(--accent);margin:14px auto}
+.cover-info{color:var(--muted);font-size:.9em;margin:3px 0}
+.toc{background:var(--h1-bg);border-radius:10px;padding:18px 22px;margin-bottom:28px}
+.toc-title{font-size:.82em;font-weight:700;color:var(--h2-fg);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
+.toc ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:3px 16px}
+.toc a{color:var(--h2-fg);text-decoration:none;font-size:.9em}
+.toc a:hover{color:var(--accent)}
+h1{font-size:1.1em;font-weight:700;color:var(--h1-fg);background:var(--h1-bg);padding:9px 13px;margin:26px 0 13px;border-left:4px solid var(--accent);border-radius:0 5px 5px 0}
+h2{font-size:.97em;font-weight:700;color:var(--h2-fg);margin:16px 0 7px;padding-bottom:3px;border-bottom:1px solid var(--border)}
+.fbox{background:var(--form-bg);border:1px solid var(--border);border-radius:7px;padding:12px 15px;margin:7px 0 11px;color:var(--form-fg)}
+.fbox p{margin:6px 0 2px;font-size:.88em;font-weight:700;color:var(--h2-fg)}
+table{width:100%;border-collapse:collapse;margin:7px 0 11px;font-size:.9em}
+th{background:var(--h1-bg);color:var(--h1-fg);font-weight:700;padding:6px 9px;border:1px solid var(--border);text-align:center}
+td{padding:5px 9px;border:1px solid var(--border);vertical-align:top}
+tr:nth-child(even) td{background:var(--row-alt)}
+.tn{font-weight:600;color:var(--h2-fg);width:28%}
+.tc{text-align:center;font-family:'JetBrains Mono',monospace;font-size:.85em}
+.tl{font-weight:500}
+.note{background:var(--note-bg);border-left:3px solid var(--note-bd);border-radius:0 5px 5px 0;padding:7px 11px;margin:7px 0;color:var(--note-fg);font-size:.87em}
+.note::before{content:'⚠ 注意：';font-weight:700}
+.tip{background:var(--tip-bg);border-left:3px solid var(--tip-bd);border-radius:0 5px 5px 0;padding:7px 11px;margin:7px 0;color:var(--tip-fg);font-size:.87em}
+.tip::before{content:'✓ 記憶：';font-weight:700}
+.desc{font-size:.85em;color:var(--muted);margin-bottom:6px}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="cover">
+  <div class="cover-title">心理與教育統計學</div>
+  <div class="cover-sub">公式工具書</div>
+  <hr class="cover-hr">
+  <div class="cover-info">台大　｜　政大　｜　台綜成大　｜　東吳</div>
+  <div class="cover-info">轉學考適用　Openbook 版</div>
+  <div class="cover-info" style="margin-top:10px;font-size:.82em">描述統計・機率分配・假設檢定・相關迴歸・ANOVA（五種設計）・效果量</div>
+</div>
+
+<div class="toc">
+  <div class="toc-title">目錄</div>
+  <ul>
+    <li><a href="#s1">一、描述統計與標準化</a></li>
+    <li><a href="#s2">二、機率分配</a></li>
+    <li><a href="#s3">三、信賴區間與樣本數</a></li>
+    <li><a href="#s4">四、假設檢定</a></li>
+    <li><a href="#s5">五、相關與迴歸</a></li>
+    <li><a href="#s6">六、ANOVA 自由度</a></li>
+    <li><a href="#s7">七、效果量</a></li>
+    <li><a href="#s8">八、快速查閱</a></li>
+  </ul>
+</div>
+
+<!-- ═══ 一、描述統計 ═══ -->
+<h1 id="s1">一、描述統計與標準化</h1>
+
+<h2>1.1 集中趨勢</h2>
+<div class="fbox">
+  <p>算術平均數</p>
+  $$\bar{x} = \frac{\sum_{i=1}^{N} X_i}{N} = \frac{\sum X}{N}$$
+</div>
+<table>
+  <tr><td class="tn">中位數 (Md)</td><td>排序後第 $\frac{N+1}{2}$ 個值；偶數 $N$ 取中間兩值平均</td></tr>
+  <tr><td class="tn">眾數 (Mo)</td><td>出現次數最多的值（可有多個）</td></tr>
+  <tr><td class="tn">偏態與三者</td><td>正偏（右偏）：$\text{Mo} < \text{Md} < \bar{X}$　　負偏（左偏）：$\bar{X} < \text{Md} < \text{Mo}$</td></tr>
+</table>
+
+<h2>1.2 離散趨勢</h2>
+<div class="fbox">
+  <p>母群變異數（定義式）</p>
+  $$\sigma^2 = \frac{\sum(X_i - \mu)^2}{N}$$
+  <p>母群變異數（計算式）</p>
+  $$\sigma^2 = \frac{\sum X_i^2}{N} - \mu^2 = \frac{\displaystyle\sum X^2 - \frac{(\sum X)^2}{N}}{N}$$
+  <p>樣本變異數（不偏，定義式）</p>
+  $$s^2 = \frac{\sum(X_i - \bar{x})^2}{N-1}$$
+  <p>樣本變異數（計算式）— 除 $N-1$</p>
+  $$s^2 = \frac{\displaystyle\sum X^2 - \frac{(\sum X)^2}{N}}{N-1}$$
+  <p>標準差　　　變異係數</p>
+  $$\sigma = \sqrt{\sigma^2},\quad s = \sqrt{s^2} \qquad CV = \frac{SD}{Mean} \times 100\%$$
+</div>
+<table>
+  <tr><td class="tn">全距</td><td>$R = X_{\max} - X_{\min}$</td></tr>
+  <tr><td class="tn">四分位距</td><td>$\text{IQR} = Q_3 - Q_1$</td></tr>
+</table>
+<div class="note">線性轉換：$\text{Var}(a+bX) = b^2\cdot\text{Var}(X)$；$\text{SD}(a+bX) = |b|\cdot\text{SD}(X)$；加常數 $a$ 不影響 SD</div>
+
+<h2>1.3 z 分數（標準化）</h2>
+<div class="fbox">
+  <p>z 分數　　　反推原始分數</p>
+  $$z = \frac{X - \mu}{\sigma} \qquad X = \mu + z\cdot\sigma$$
+  標準化後：$\mu_z = 0$，$\sigma_z = 1$（分配形狀不變！）
+</div>
+<div class="note">z 轉換不改變分配形狀！原始非常態 → 轉換後仍非常態</div>
+
+<h2>1.4 偏態與峰度</h2>
+<div class="fbox">
+  <p>偏態（Skewness）—— 三次方矩</p>
+  $$g_1 = \frac{\dfrac{1}{N}\sum(X_i - \bar{x})^3}{s^3}$$
+  <p>峰度（Kurtosis）—— 四次方矩（尾端厚度）</p>
+  $$g_2 = \frac{\dfrac{1}{N}\sum(X_i - \bar{x})^4}{s^4} - 3 \quad\text{（超額峰度；常態分配 }g_2=0\text{）}$$
+</div>
+
+<!-- ═══ 二、機率分配 ═══ -->
+<h1 id="s2">二、機率分配</h1>
+
+<h2>2.1 常用分配摘要</h2>
+<table>
+  <tr><td class="tn">常態 $N(\mu,\sigma^2)$</td><td>$\mu\pm1\sigma=68.26\%$；$\mu\pm2\sigma=95.44\%$；$\mu\pm3\sigma=99.74\%$</td></tr>
+  <tr><td class="tn">標準常態 $Z$</td><td>$\mu=0$，$\sigma=1$；$z_{0.025}=1.96$，$z_{0.005}=2.576$</td></tr>
+  <tr><td class="tn">$t(df)$</td><td>$df\to\infty$ 趨近 $Z$；$\text{Var}=\dfrac{df}{df-2}>1$，尾端比 $Z$ 厚</td></tr>
+  <tr><td class="tn">$\chi^2(df)$</td><td>$\chi^2=\sum Z_i^2$（$df$ 個獨立 $Z^2$ 之和）；右偏；$df\to\infty$ 趨近常態</td></tr>
+  <tr><td class="tn">$F(df_1,df_2)$</td><td>$F=\dfrac{\chi^2(df_1)/df_1}{\chi^2(df_2)/df_2}$；右偏；$F=t^2$（兩組）</td></tr>
+  <tr><td class="tn">二項 $B(n,p)$</td><td>$E(X)=np$；$\text{Var}=np(1-p)$；$n$ 大時趨近常態</td></tr>
+  <tr><td class="tn">波松 $\text{Pois}(\lambda)$</td><td>$E(X)=\text{Var}(X)=\lambda$；單位時間事件次數</td></tr>
+  <tr><td class="tn">超幾何</td><td>不放回抽樣；有限母群；每次 $p$ 改變</td></tr>
+  <tr><td class="tn">伯努利 $B(p)$</td><td>$n=1$ 的二項；單次試驗（0或1）</td></tr>
+</table>
+<div class="tip">$F=t^2$（兩組）；機率密度（PDF值）可以 $>1$（面積$=1$，高度不限）</div>
+
+<h2>2.2 抽樣分配與標準誤</h2>
+<div class="fbox">
+  <p>標準誤（SE）</p>
+  $$SE_{\bar{x}} = \frac{\sigma}{\sqrt{n}}$$
+  <p>比例的 SE　　　兩比例差的 SE</p>
+  $$SE_{\hat{p}} = \sqrt{\frac{p(1-p)}{n}} \qquad SE_{\hat{p}_1-\hat{p}_2} = \sqrt{\frac{p_1(1-p_1)}{n_1} + \frac{p_2(1-p_2)}{n_2}}$$
+</div>
+
+<!-- ═══ 三、信賴區間 ═══ -->
+<h1 id="s3">三、信賴區間與樣本數估計</h1>
+<div class="fbox">
+  <p>均值 CI（$\sigma$ 已知）　　均值 CI（$\sigma$ 未知）</p>
+  $$\bar{x} \pm z_{\alpha/2}\cdot\frac{\sigma}{\sqrt{n}} \qquad \bar{x} \pm t_{\alpha/2,\,n-1}\cdot\frac{s}{\sqrt{n}}$$
+  <p>比例 CI</p>
+  $$\hat{p} \pm z_{\alpha/2}\cdot\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}$$
+  <p>樣本數估計（一般式）　　樣本數估計（保守，$p=0.5$）</p>
+  $$n \geq \frac{z_{\alpha/2}^2\cdot p(1-p)}{E^2} \qquad n \geq \frac{z_{\alpha/2}^2\cdot 0.25}{E^2} = \left(\frac{z_{\alpha/2}}{2E}\right)^2$$
+  <p>範例：95% 信心（$z=1.96$），誤差半寬 $E=0.02$</p>
+  $$n \geq \left(\frac{1.96}{2\times 0.02}\right)^2 = 49^2 = 2401 \approx 2500$$
+</div>
+<div class="note">$E$ = 誤差「半寬」；若題目說「上下誤差總範圍 $0.04$」則 $E = 0.02$</div>
+
+<!-- ═══ 四、假設檢定 ═══ -->
+<h1 id="s4">四、假設檢定</h1>
+
+<h2>4.1 基本概念</h2>
+<table>
+  <tr><td class="tn">Type I error ($\alpha$)</td><td>H$_0$ 為真卻拒絕 H$_0$（偽陽性）= 顯著水準</td></tr>
+  <tr><td class="tn">Type II error ($\beta$)</td><td>H$_1$ 為真卻保留 H$_0$（偽陰性）</td></tr>
+  <tr><td class="tn">Power（統計力）</td><td>$1-\beta = P(\text{拒絕 H}_0 \mid \text{H}_1\text{ 為真})$；通常要求 $\geq 0.80$</td></tr>
+  <tr><td class="tn">$p$ 值</td><td>H$_0$ 為真時，觀察到此結果或更極端的機率</td></tr>
+  <tr><td class="tn">決策</td><td>$p < \alpha \Rightarrow$ 拒絕 H$_0$；$p \geq \alpha \Rightarrow$ 保留 H$_0$（非接受！）</td></tr>
+</table>
+<div class="note">$\alpha + \beta \neq 1$！　Power $= 1-\beta$（不是 $1-\alpha$）</div>
+<div class="tip">$\alpha\uparrow\Rightarrow$ Power $\uparrow$；$n\uparrow\Rightarrow$ Power $\uparrow$；效果量 $\uparrow\Rightarrow$ Power $\uparrow$</div>
+
+<h2>4.2 各種 $t$ 檢定</h2>
+<div class="fbox">
+  <p>單樣本 $t$</p>
+  $$t = \frac{\bar{x} - \mu_0}{s/\sqrt{n}},\quad df = n-1$$
+  <p>獨立樣本 $t$</p>
+  $$t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{s_p^2\!\left(\frac{1}{n_1}+\frac{1}{n_2}\right)}},\quad df = n_1+n_2-2$$
+  <p>調和變異數（Pooled Variance）</p>
+  $$s_p^2 = \frac{(n_1-1)s_1^2 + (n_2-1)s_2^2}{n_1+n_2-2}$$
+  <p>配對樣本 $t$　（$D_i = X_{1i} - X_{2i}$）</p>
+  $$t = \frac{\bar{D}}{s_D/\sqrt{n}},\quad df = n-1$$
+  <p>$t$ 與 $F$ 的關係</p>
+  $$F(1,\;df) = t^2(df)\quad\text{（兩組時）}$$
+</div>
+
+<h2>4.3 卡方檢定</h2>
+<div class="fbox">
+  <p>卡方統計量　　　期望值（列聯表）</p>
+  $$\chi^2 = \sum\frac{(O-E)^2}{E} \qquad E_{ij} = \frac{\text{列和}_i \times \text{欄和}_j}{N}$$
+  <p>適合度：$df = k-1$（$k$=類別數）　　獨立性：$df = (r-1)(c-1)$</p>
+  <p>單樣本變異數</p>
+  $$\chi^2 = \frac{(n-1)s^2}{\sigma_0^2},\quad df = n-1$$
+</div>
+<div class="note">期望值要求 $E \geq 5$（不是10！）；$E < 5$ 時考慮 Fisher's Exact Test</div>
+
+<!-- ═══ 五、相關與迴歸 ═══ -->
+<h1 id="s5">五、相關與迴歸</h1>
+
+<h2>5.1 Pearson 相關</h2>
+<div class="fbox">
+  <p>定義式</p>
+  $$r = \frac{\text{Cov}(X,Y)}{\sigma_X\cdot\sigma_Y} = \frac{\sum(X_i-\bar{x})(Y_i-\bar{y})}{\sqrt{\sum(X_i-\bar{x})^2\cdot\sum(Y_i-\bar{y})^2}}$$
+  <p>計算式</p>
+  $$r = \frac{\displaystyle\sum X_i Y_i - \frac{(\sum X_i)(\sum Y_i)}{N}}{\sqrt{\left[\displaystyle\sum X_i^2 - \frac{(\sum X_i)^2}{N}\right]\!\left[\displaystyle\sum Y_i^2 - \frac{(\sum Y_i)^2}{N}\right]}}$$
+  <p>共變數　　　$r$ 的 $t$ 檢定</p>
+  $$\text{Cov}(X,Y)=r\cdot\sigma_X\cdot\sigma_Y \qquad t=\frac{r\sqrt{n-2}}{\sqrt{1-r^2}},\quad df=n-2$$
+  <p>決定係數</p>
+  $$R^2 = r^2\quad\text{（$X$ 能解釋 $Y$ 的變異比例）}$$
+</div>
+<div class="note">$r=0$ 只代表無「線性」相關；可能有非線性關係！</div>
+<div class="tip">$R^2$ 對稱：$X$ 預測 $Y$ 和 $Y$ 預測 $X$ 的 $R^2$ 完全相同</div>
+
+<h2>5.2 簡單線性迴歸</h2>
+<div class="fbox">
+  <p>迴歸方程式</p>
+  $$\hat{Y} = b_0 + b_1 X$$
+  <p>斜率（定義式 / 計算式）</p>
+  $$b_1 = \frac{\text{Cov}(X,Y)}{\text{Var}(X)} = r\cdot\frac{s_Y}{s_X} = \frac{\displaystyle\sum X_i Y_i - \frac{(\sum X_i)(\sum Y_i)}{N}}{\displaystyle\sum X_i^2 - \frac{(\sum X_i)^2}{N}}$$
+  <p>截距　　　標準化迴歸係數</p>
+  $$b_0 = \bar{Y} - b_1\bar{X}\quad\text{（迴歸線必過 $(\bar{X},\bar{Y})$）} \qquad \beta = r\quad\text{（截距}=0\text{）}$$
+  <p>估計標準誤（SEE）</p>
+  $$SEE = s_Y\sqrt{1-R^2} = \sqrt{\frac{\sum(Y_i-\hat{Y}_i)^2}{N-2}}$$
+  <p>95% 預測區間　　　整體 $F$ 檢定</p>
+  $$\hat{Y}\pm 1.96\cdot SEE \qquad F=\frac{R^2/p}{(1-R^2)/(N-p-1)},\quad df_1=p,\;df_2=N-p-1$$
+</div>
+<div class="note">$X$ 和 $Y$ 互換後斜率不同（除非 $s_X=s_Y$），但 $R^2$ 相同</div>
+
+<h2>5.3 多元迴歸</h2>
+<div class="fbox">
+  <p>多元迴歸方程式　　　調整後 $R^2$</p>
+  $$\hat{Y} = b_0 + b_1X_1 + \cdots + b_pX_p \qquad R^2_{\text{adj}} = 1-(1-R^2)\frac{N-1}{N-p-1}$$
+  <p>整體 $F$ 檢定</p>
+  $$F(p,\;N-p-1)=\frac{R^2/p}{(1-R^2)/(N-p-1)}$$
+</div>
+
+<h2>5.4 虛擬變項與調節迴歸</h2>
+<div class="fbox">
+  $k$ 類別 $\Rightarrow$ $k-1$ 個虛擬變項（以1組為參照組）<br>
+  截距 $=$ 參照組均值；各組係數 $=$ 該組均值 $-$ 參照組均值<br><br>
+  <p>調節迴歸（含交互作用）</p>
+  $$\hat{Y} = b_0 + b_1X + b_2Z + b_3XZ$$
+  $b_3$ 顯著 $\neq 0$ $\Rightarrow$ $X$ 對 $Y$ 的影響隨 $Z$ 改變（$Z$ 為調節變項）<br><br>
+  <p>平減（Centering）後截距</p>
+  $$X_c = X-\bar{X} \Rightarrow b_0' = \bar{Y}$$
+</div>
+
+<h2>5.5 相關係數的選擇</h2>
+<table>
+  <tr><td class="tn">兩個連續變項</td><td>Pearson $r$</td></tr>
+  <tr><td class="tn">兩個次序變項</td><td>Spearman $\rho$（或 Kendall $\tau$）</td></tr>
+  <tr><td class="tn">一個二元 + 一個連續</td><td>點雙列相關（Point Biserial）</td></tr>
+  <tr><td class="tn">兩個二元變項</td><td>Phi 相關（$\phi$）</td></tr>
+  <tr><td class="tn">兩個名義多類別</td><td>Cramer's $V$</td></tr>
+</table>
+
+<!-- ═══ 六、ANOVA ═══ -->
+<h1 id="s6">六、ANOVA 自由度完整整理</h1>
+
+<h2>6.1 單因子受試者間（One-way Between-subjects）</h2>
+<p class="desc">$J$ 組，每組 $n_j$ 人，總 $N=\sum n_j$</p>
+<table>
+  <tr><th>來源</th><th>$df$</th><th>$MS$</th><th>$F$</th></tr>
+  <tr><td class="tl">組間（Between）</td><td class="tc">$J-1$</td><td class="tc">$\dfrac{SSB}{J-1}$</td><td class="tc">$\dfrac{MSB}{MSW}$</td></tr>
+  <tr><td class="tl">組內（Within）</td><td class="tc">$N-J$</td><td class="tc">$\dfrac{SSW}{N-J}$</td><td class="tc"></td></tr>
+  <tr><td class="tl">總計</td><td class="tc">$N-1$</td><td class="tc"></td><td class="tc"></td></tr>
+</table>
+<div class="fbox">
+  $$SSB=\sum_{j}n_j(\bar{X}_j-\bar{X})^2,\quad SSW=\sum_{j}\sum_{i}(X_{ij}-\bar{X}_j)^2,\quad SST=SSB+SSW$$
+  $$\eta^2=\frac{SSB}{SST}\qquad\omega^2=\frac{SSB-(J-1)\cdot MSW}{SST+MSW}$$
+</div>
+<div class="tip">df 驗算：$(J-1)+(N-J)=N-1$ ✓</div>
+
+<h2>6.2 單因子受試者內（One-way Within-subjects）</h2>
+<p class="desc">$a$ 個水準，$n$ 位受試者，$N=a\times n$</p>
+<table>
+  <tr><th>來源</th><th>$df$</th></tr>
+  <tr><td class="tl">處理（A）</td><td class="tc">$a-1$</td></tr>
+  <tr><td class="tl">受試者（S）</td><td class="tc">$n-1$</td></tr>
+  <tr><td class="tl">誤差（A$\times$S）</td><td class="tc">$(a-1)(n-1)$</td></tr>
+  <tr><td class="tl">總計</td><td class="tc">$an-1$</td></tr>
+</table>
+<div class="note">需球型假設（Sphericity）；違反時用 Greenhouse-Geisser 或 Huynh-Feldt 校正</div>
+
+<h2>6.3 二因子受試者間（Two-way Between-subjects）</h2>
+<p class="desc">A 因子 $a$ 水準，B 因子 $b$ 水準，每格 $n$ 人，$N=abn$</p>
+<table>
+  <tr><th>來源</th><th>$df$</th><th>$F$ 的分母</th></tr>
+  <tr><td class="tl">A 主效果</td><td class="tc">$a-1$</td><td class="tc">$MSE$</td></tr>
+  <tr><td class="tl">B 主效果</td><td class="tc">$b-1$</td><td class="tc">$MSE$</td></tr>
+  <tr><td class="tl">A$\times$B 交互作用</td><td class="tc">$(a-1)(b-1)$</td><td class="tc">$MSE$</td></tr>
+  <tr><td class="tl">誤差（Error）</td><td class="tc">$ab(n-1)$</td><td class="tc">—</td></tr>
+  <tr><td class="tl">總計</td><td class="tc">$abn-1$</td><td class="tc"></td></tr>
+</table>
+<div class="tip">三個 $F$ 的分母都是同一個 $MSE$　　df 驗算：$(a-1)+(b-1)+(a-1)(b-1)+ab(n-1)=abn-1$ ✓</div>
+
+<h2>6.4 二因子受試者內（Two-way Within-subjects）</h2>
+<p class="desc">A 因子 $a$ 水準，B 因子 $b$ 水準，$n$ 位受試者（每人接受所有 $ab$ 種條件）</p>
+<table>
+  <tr><th>來源</th><th>$df$</th><th>誤差項</th></tr>
+  <tr><td class="tl">A</td><td class="tc">$a-1$</td><td class="tc">A$\times$S</td></tr>
+  <tr><td class="tl">B</td><td class="tc">$b-1$</td><td class="tc">B$\times$S</td></tr>
+  <tr><td class="tl">A$\times$B</td><td class="tc">$(a-1)(b-1)$</td><td class="tc">A$\times$B$\times$S</td></tr>
+  <tr><td class="tl">受試者（S）</td><td class="tc">$n-1$</td><td class="tc">—</td></tr>
+  <tr><td class="tl">A$\times$S</td><td class="tc">$(a-1)(n-1)$</td><td class="tc">—</td></tr>
+  <tr><td class="tl">B$\times$S</td><td class="tc">$(b-1)(n-1)$</td><td class="tc">—</td></tr>
+  <tr><td class="tl">A$\times$B$\times$S</td><td class="tc">$(a-1)(b-1)(n-1)$</td><td class="tc">—</td></tr>
+  <tr><td class="tl">總計</td><td class="tc">$abn-1$</td><td class="tc"></td></tr>
+</table>
+<div class="note">三個效果各有自己的誤差項，不共用 $MSE$</div>
+
+<h2>6.5 混合設計（Mixed Design）</h2>
+<p class="desc">A = 受試者間因子（$a$ 水準），B = 受試者內因子（$b$ 水準），每組 $n$ 人</p>
+<table>
+  <tr><th>來源</th><th>$df$</th><th>誤差項</th></tr>
+  <tr><td class="tl">A（受試者間）</td><td class="tc">$a-1$</td><td class="tc">$S/A$</td></tr>
+  <tr><td class="tl">$S/A$（受試者間誤差）</td><td class="tc">$a(n-1)$</td><td class="tc">—</td></tr>
+  <tr><td class="tl">B（受試者內）</td><td class="tc">$b-1$</td><td class="tc">$B\times S/A$</td></tr>
+  <tr><td class="tl">A$\times$B</td><td class="tc">$(a-1)(b-1)$</td><td class="tc">$B\times S/A$</td></tr>
+  <tr><td class="tl">$B\times S/A$（受試者內誤差）</td><td class="tc">$a(b-1)(n-1)$</td><td class="tc">—</td></tr>
+  <tr><td class="tl">總計</td><td class="tc">$abn-1$</td><td class="tc"></td></tr>
+</table>
+<div class="note">混合設計：受試者間（A）和受試者內（B）使用<strong>不同</strong>誤差項！<br>A 的誤差 $= S/A$；B 和 A$\times$B 的誤差 $= B\times S/A$</div>
+
+<!-- ═══ 七、效果量 ═══ -->
+<h1 id="s7">七、效果量（Effect Size）</h1>
+<div class="fbox">
+  <p>Cohen's $d$（$t$ 檢定）</p>
+  $$d = \frac{M_1-M_2}{s_p}\quad\text{小: }0.2\quad\text{中: }0.5\quad\text{大: }0.8$$
+  <p>$\eta^2$（eta squared）</p>
+  $$\eta^2 = \frac{SS_\text{effect}}{SS_\text{total}}\quad\text{小: }0.01\quad\text{中: }0.06\quad\text{大: }0.14$$
+  <p>partial $\eta^2$　　　$\omega^2$（較不偏）</p>
+  $$\text{partial}\;\eta^2 = \frac{SS_\text{effect}}{SS_\text{effect}+SS_\text{error}} \qquad \omega^2 = \frac{SSB-(J-1)\cdot MSW}{SST+MSW}$$
+  <p>從 $F$ 值反推 $\eta^2$　　　Cohen's $f$</p>
+  $$\eta^2 = \frac{F\cdot df_1}{F\cdot df_1+df_2} \qquad f=\sqrt{\frac{\eta^2}{1-\eta^2}}\quad\text{小: }0.10\;\text{中: }0.25\;\text{大: }0.40$$
+</div>
+<div class="note">$F$ 統計量不是效果量（受 $n$ 影響）！$\eta^2$ 和 $\omega^2$ 才是效果量</div>
+
+<!-- ═══ 八、快速查閱 ═══ -->
+<h1 id="s8">八、常用臨界值與快速判斷</h1>
+
+<h2>8.1 常用 $z$ 臨界值</h2>
+<table>
+  <tr><td class="tn">雙尾 $\alpha=.10$</td><td>$z=\pm1.645$</td></tr>
+  <tr><td class="tn">雙尾 $\alpha=.05$</td><td>$z=\pm1.96$</td></tr>
+  <tr><td class="tn">雙尾 $\alpha=.02$</td><td>$z=\pm2.326$</td></tr>
+  <tr><td class="tn">雙尾 $\alpha=.01$</td><td>$z=\pm2.576$</td></tr>
+  <tr><td class="tn">單尾 $\alpha=.05$</td><td>$z=1.645$（右尾）</td></tr>
+</table>
+
+<h2>8.2 統計方法選擇</h2>
+<table>
+  <tr><td class="tn">兩組獨立均值</td><td>獨立樣本 $t$；無母數：Wilcoxon rank-sum</td></tr>
+  <tr><td class="tn">兩組配對均值</td><td>配對樣本 $t$；無母數：Wilcoxon signed-rank</td></tr>
+  <tr><td class="tn">三組以上獨立</td><td>One-way between ANOVA；無母數：Kruskal-Wallis</td></tr>
+  <tr><td class="tn">三組以上重複</td><td>One-way within ANOVA；無母數：Friedman</td></tr>
+  <tr><td class="tn">兩個類別變項</td><td>卡方獨立性；$E<5$ 用 Fisher's Exact Test</td></tr>
+  <tr><td class="tn">一個類別分配</td><td>卡方適合度（$df=k-1$）</td></tr>
+  <tr><td class="tn">一個變異數</td><td>$\chi^2=(n-1)s^2/\sigma_0^2$</td></tr>
+  <tr><td class="tn">兩個變異數</td><td>$F=s_1^2/s_2^2$</td></tr>
+</table>
+
+<h2>8.3 Bonferroni 校正</h2>
+<div class="fbox">
+  $$\alpha_\text{個別}=\frac{\alpha_\text{家族}}{\text{比較次數}} \qquad \binom{k}{2}=\frac{k(k-1)}{2}\text{（$k$ 組兩兩比較次數）}$$
+  範例：5 組兩兩比較 $\Rightarrow$ $\binom{5}{2}=10$ 次；個別 $\alpha=.05/10=.005$
+</div>
+
+<h2>8.4 常考陷阱提醒</h2>
+<table>
+  <tr><td class="tn">Power $=1-\beta$</td><td>不是 $1-\alpha$！</td></tr>
+  <tr><td class="tn">$\alpha+\beta\neq 1$</td><td>兩者不互補</td></tr>
+  <tr><td class="tn">機率密度可以 $>1$</td><td>面積 $=1$，但高度不限</td></tr>
+  <tr><td class="tn">$r=0\neq$ 無任何關係</td><td>只是無線性相關，可能有非線性關係</td></tr>
+  <tr><td class="tn">統計顯著 $\neq$ 實質重要</td><td>需同時看效果量</td></tr>
+  <tr><td class="tn">卡方 $E\geq 5$</td><td>不是 $E\geq 10$！</td></tr>
+  <tr><td class="tn">$z$ 轉換不改變形狀</td><td>原始非常態 $\Rightarrow$ z 轉換後仍非常態</td></tr>
+  <tr><td class="tn">降低 $\alpha$ 不提升 Power</td><td>$\alpha\downarrow\Rightarrow\beta\uparrow\Rightarrow$ Power $\downarrow$</td></tr>
+  <tr><td class="tn">單尾比雙尾更容易顯著</td><td>單尾把 $\alpha$ 全放一側，不嚴格</td></tr>
+</table>
+
+</div>
+</body>
+</html>
