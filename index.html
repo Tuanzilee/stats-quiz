@@ -782,6 +782,94 @@ html, body {
 .reveal-result.wrong { color: var(--red); }
 .reveal-ans { font-size: 12px; color: var(--muted); }
 
+/* ── EDIT PANEL ── */
+.edit-panel {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: none;
+}
+.edit-panel.show { display: block; }
+.edit-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface2);
+}
+.edit-panel-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.edit-close-btn {
+  font-size: 16px;
+  color: var(--dim);
+  cursor: pointer;
+  padding: 2px 6px;
+}
+.edit-body { padding: 14px; display: flex; flex-direction: column; gap: 12px; }
+.edit-field { display: flex; flex-direction: column; gap: 5px; }
+.edit-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--dim);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.edit-input {
+  width: 100%;
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 7px;
+  padding: 8px 10px;
+  color: var(--text);
+  font-size: 13px;
+  font-family: inherit;
+  outline: none;
+  resize: vertical;
+  line-height: 1.5;
+}
+.edit-input:focus { border-color: var(--blue); }
+.edit-actions { display: flex; gap: 8px; padding: 0 14px 14px; }
+
+/* Note box */
+.note-box {
+  padding: 10px 12px;
+  background: var(--purple-bg);
+  border: 1px solid rgba(167,139,250,0.2);
+  border-radius: 7px;
+  font-size: 13px;
+  color: var(--purple);
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+.note-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--purple);
+  letter-spacing: 0.08em;
+  margin-bottom: 5px;
+}
+
+/* Export btn in header */
+.export-btn {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border2);
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+.export-btn:active { background: var(--blue-glow); color: var(--blue-light); border-color: var(--blue); }
+
 /* Skeleton */
 .skeleton {
   background: linear-gradient(90deg, var(--surface) 25%, var(--surface2) 50%, var(--surface) 75%);
@@ -804,6 +892,7 @@ html, body {
   <div class="header">
     <div class="header-title">心統刷題</div>
     <div class="header-sub" id="header-sub">載入中…</div>
+    <button class="export-btn" onclick="exportJSON()" title="匯出題庫">⬇ 匯出</button>
     <div class="header-btn" id="filter-btn" onclick="openFilter()" title="篩選">⚙</div>
   </div>
 
@@ -987,6 +1076,7 @@ const RECORDS_KEY = 'quiz_records_v1';
 // ─── INIT ────────────────────────────────────────────────────────────────────
 async function init() {
   loadRecords();
+  loadNotes();
   try {
     const res = await fetch('./題庫.json');
     if (!res.ok) throw new Error('HTTP ' + res.status);
@@ -1250,6 +1340,9 @@ function showQuestion() {
   const isMultiChoice = currentQ.options && currentQ.options.length > 0;
   const status = getStatus(currentQ.id);
 
+  // 承上題：找同組前面所有題的情境
+  const contextHTML = buildContext(currentQ);
+
   document.getElementById('quiz-body').innerHTML = `
     <div class="q-meta">
       <span class="q-badge school">${currentQ.source}</span>
@@ -1257,6 +1350,8 @@ function showQuestion() {
       <span class="q-badge">${currentQ.type}</span>
       ${currentQ.difficulty ? `<span class="q-badge" style="color:${currentQ.difficulty==='hard'?'var(--red)':currentQ.difficulty==='easy'?'var(--green)':'var(--yellow)'}">${{easy:'簡單',medium:'中等',hard:'困難'}[currentQ.difficulty]}</span>` : ''}
     </div>
+
+    ${contextHTML}
 
     <div class="q-text">${currentQ.question}</div>
 
@@ -1300,8 +1395,48 @@ function showQuestion() {
       </div>
     </div>
 
+    ${renderNoteSection()}
+
+    <div class="edit-panel" id="edit-panel">
+      <div class="edit-panel-header">
+        <div class="edit-panel-title">✏️ 編輯此題</div>
+        <div class="edit-close-btn" onclick="toggleEdit()">✕</div>
+      </div>
+      <div class="edit-body">
+        <div class="edit-field">
+          <div class="edit-label">答案</div>
+          <input class="edit-input" id="edit-answer" value="${esc(currentQ.answer||'')}" placeholder="如 A 或 ABD">
+        </div>
+        <div class="edit-field">
+          <div class="edit-label">題目</div>
+          <textarea class="edit-input" id="edit-question" rows="3">${esc2(currentQ.question||'')}</textarea>
+        </div>
+        <div class="edit-field">
+          <div class="edit-label">解題步驟（每行一步）</div>
+          <textarea class="edit-input" id="edit-steps" rows="5">${(currentQ.solution_steps||[]).join('\n')}</textarea>
+        </div>
+        <div class="edit-field">
+          <div class="edit-label">核心概念</div>
+          <textarea class="edit-input" id="edit-key" rows="2">${esc2(currentQ.key_concepts||'')}</textarea>
+        </div>
+        <div class="edit-field">
+          <div class="edit-label">AI 提示</div>
+          <textarea class="edit-input" id="edit-hint" rows="2">${esc2(currentQ.ai_hint||'')}</textarea>
+        </div>
+        <div class="edit-field">
+          <div class="edit-label">個人備註</div>
+          <textarea class="edit-input" id="edit-note" rows="3" placeholder="寫下自己的思路、記憶口訣…">${esc2(getNoteForQ(currentQ.id))}</textarea>
+        </div>
+      </div>
+      <div class="edit-actions">
+        <button class="btn btn-ghost" onclick="toggleEdit()">取消</button>
+        <button class="btn btn-primary" onclick="saveEdit()">儲存修改</button>
+      </div>
+    </div>
+
     <div class="action-row" style="margin-top:4px">
       <button class="btn btn-ghost" onclick="prevQuestion()" ${quizIdx===0?'disabled style="opacity:0.4"':''}>← 上一題</button>
+      <button class="btn btn-ghost" onclick="toggleEdit()" style="flex:0.6;font-size:12px">✏️ 編輯</button>
       <button class="btn btn-outline" onclick="nextQuestion()">${quizIdx===quizQueue.length-1?'完成':'下一題 →'}</button>
     </div>
     <div style="height:20px"></div>
@@ -1487,8 +1622,139 @@ function applyFilters() {
   renderBrowse();
 }
 
+// ─── CONTEXT (承上題) ────────────────────────────────────────────────────────
+function buildContext(q) {
+  // 判斷是否為承上題
+  const isFollowUp = /^[（(]?(承上題|續上題|接續上題|承第\d+題|接續第\d+題)/.test(q.question);
+  if (!isFollowUp) return '';
+
+  // 解析 id 前綴：NTU-114-02b → 找 NTU-114-02a；NCKU-111-01 → 不適用
+  // 格式：前綴+字母 如 02a, 02b, 01a
+  const idMatch = q.id.match(/^(.+?)([a-z])$/);
+  if (!idMatch) return '';
+
+  const prefix = idMatch[1]; // e.g. "NTU-114-02"
+  const suffix = idMatch[2]; // e.g. "b"
+
+  // 找同前綴、字母比當前小的所有題（即前面的子題）
+  const letters = 'abcdefghijklmnopqrstuvwxyz';
+  const myIdx = letters.indexOf(suffix);
+  if (myIdx <= 0) return '';
+
+  const prevQuestions = [];
+  for (let i = 0; i < myIdx; i++) {
+    const prevId = prefix + letters[i];
+    const prevQ = questions.find(q => q.id === prevId);
+    if (prevQ) prevQuestions.push(prevQ);
+  }
+  if (prevQuestions.length === 0) return '';
+
+  // 只顯示第一題的完整情境（大題背景），其他子題只顯示題號+題目
+  const parts = prevQuestions.map((pq, i) => {
+    if (i === 0) {
+      return `<div style="margin-bottom:${prevQuestions.length>1?'10px':'0'}">
+        <div style="font-size:10px;font-family:'Space Mono',monospace;color:var(--blue);margin-bottom:4px">${pq.id}</div>
+        <div style="font-size:13px;line-height:1.6;color:var(--text)">${pq.question}</div>
+      </div>`;
+    } else {
+      return `<div style="margin-bottom:${i<prevQuestions.length-1?'8px':'0'}">
+        <div style="font-size:10px;font-family:'Space Mono',monospace;color:var(--blue);margin-bottom:3px">${pq.id}</div>
+        <div style="font-size:12px;line-height:1.5;color:var(--muted)">${pq.question.slice(0,80)}${pq.question.length>80?'…':''}</div>
+      </div>`;
+    }
+  });
+
+  return `<div style="
+    background:var(--surface2);
+    border:1px solid var(--border2);
+    border-left:3px solid var(--blue);
+    border-radius:var(--radius);
+    padding:12px 14px;
+  ">
+    <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;color:var(--blue);margin-bottom:8px;text-transform:uppercase">📎 題組情境</div>
+    ${parts.join('')}
+  </div>`;
+}
+
+// ─── NOTES ───────────────────────────────────────────────────────────────────
+const NOTES_KEY = 'quiz_notes_v1';
+let notes = {};
+function loadNotes() {
+  try { notes = JSON.parse(localStorage.getItem(NOTES_KEY) || '{}'); } catch(e) { notes = {}; }
+}
+function saveNotes() {
+  localStorage.setItem(NOTES_KEY, JSON.stringify(notes));
+}
+function getNoteForQ(id) { return notes[id] || ''; }
+function renderNoteSection() {
+  const note = getNoteForQ(currentQ.id);
+  if (!note) return '';
+  return `<div><div class="note-label">📝 我的備註</div><div class="note-box">${esc2(note)}</div></div>`;
+}
+
+// ─── EDIT ────────────────────────────────────────────────────────────────────
+let editOpen = false;
+function toggleEdit() {
+  editOpen = !editOpen;
+  const panel = document.getElementById('edit-panel');
+  if (panel) panel.classList.toggle('show', editOpen);
+}
+
+function saveEdit() {
+  if (!currentQ) return;
+  // 更新題目資料
+  const idx = questions.findIndex(q => q.id === currentQ.id);
+  if (idx < 0) return;
+
+  const answer = document.getElementById('edit-answer').value.trim();
+  const question = document.getElementById('edit-question').value.trim();
+  const stepsRaw = document.getElementById('edit-steps').value;
+  const key = document.getElementById('edit-key').value.trim();
+  const hint = document.getElementById('edit-hint').value.trim();
+  const note = document.getElementById('edit-note').value.trim();
+
+  // 更新 questions 陣列
+  questions[idx].answer = answer;
+  questions[idx].question = question;
+  questions[idx].solution_steps = stepsRaw.split('\n').map(s=>s.trim()).filter(s=>s);
+  questions[idx].key_concepts = key;
+  questions[idx].ai_hint = hint;
+
+  // 更新 quizQueue 中的同一題
+  const qi = quizQueue.findIndex(q => q.id === currentQ.id);
+  if (qi >= 0) quizQueue[qi] = questions[idx];
+  currentQ = questions[idx];
+
+  // 儲存備註到 localStorage
+  if (note) { notes[currentQ.id] = note; } else { delete notes[currentQ.id]; }
+  saveNotes();
+
+  // 重新渲染此題
+  showQuestion();
+
+  // 提示
+  const toast = document.createElement('div');
+  toast.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--green);color:#000;padding:8px 18px;border-radius:20px;font-size:13px;font-weight:600;z-index:999;opacity:1;transition:opacity 0.4s';
+  toast.textContent = '✓ 已儲存';
+  document.body.appendChild(toast);
+  setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 400); }, 1500);
+}
+
+// ─── EXPORT ──────────────────────────────────────────────────────────────────
+function exportJSON() {
+  const json = JSON.stringify(questions, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = '題庫.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 // ─── UTILS ───────────────────────────────────────────────────────────────────
 function esc(str) { return (str||'').replace(/'/g,"\\'").replace(/"/g,'&quot;'); }
+function esc2(str) { return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 // ─── PWA ─────────────────────────────────────────────────────────────────────
 if ('serviceWorker' in navigator) {
