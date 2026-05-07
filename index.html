@@ -1867,11 +1867,8 @@ function openEditPanel() {
     </div>
   `;
   document.body.insertAdjacentHTML('beforeend', html);
-  if (orig.question !== undefined || orig.solution_steps !== undefined ||
-      orig.key_concepts !== undefined || orig.ai_hint !== undefined ||
-      getPersonalNote(currentQ.id)) {
-    document.getElementById('edit-advanced').classList.add('open');
-  }
+  // 預設展開進階編輯
+  document.getElementById('edit-advanced').classList.add('open');
 }
 
 function toggleEditAdvanced() {
