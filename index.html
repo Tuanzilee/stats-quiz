@@ -1463,7 +1463,7 @@ function renderConcepts() {
   });
 
   let entries = Object.entries(conceptStats)
-    .filter(([c]) => !conceptFilter || c.toLowerCase().includes(conceptFilter))
+    .filter(([c, s]) => s.total >= 4 && (!conceptFilter || c.toLowerCase().includes(conceptFilter)))
     .sort((a,b) => b[1].total - a[1].total);
 
   const grid = document.getElementById('concept-grid');
