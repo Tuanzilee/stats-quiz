@@ -2319,6 +2319,46 @@ function esc2(str) { return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;')
 // ─── CONCEPT REVIEW (AI) ─────────────────────────────────────────────────────
 
 const reviewCache = {};
+const API_KEY_STORAGE = 'anthropic_api_key';
+
+function getApiKey() {
+  return localStorage.getItem(API_KEY_STORAGE) || '';
+}
+
+function promptApiKey(onSuccess) {
+  const existing = getApiKey();
+  const html = `
+    <div class="modal-bg show" id="apikey-modal" onclick="event.stopPropagation()">
+      <div class="modal" onclick="event.stopPropagation()">
+        <div class="modal-handle"></div>
+        <div class="modal-title">設定 Anthropic API Key</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.7;margin-bottom:14px">
+          AI 重點複習功能需要 Anthropic API Key。<br>
+          Key 只存在你的裝置（localStorage），不會傳出去。<br>
+          <a href="https://console.anthropic.com/" target="_blank" style="color:var(--blue-light)">→ 前往 console.anthropic.com 取得 Key</a>
+        </div>
+        <input id="apikey-input" class="edit-field" type="password"
+          placeholder="sk-ant-..." value="${existing}"
+          style="width:100%;margin-bottom:14px;font-family:'Space Mono',monospace;font-size:12px">
+        <div class="action-row">
+          <button class="btn btn-outline" onclick="document.getElementById('apikey-modal').remove()">取消</button>
+          <button class="btn btn-primary" onclick="saveApiKey(${onSuccess ? 'savedApiKeyCallback' : 'null'})">儲存</button>
+        </div>
+      </div>
+    </div>`;
+  document.body.insertAdjacentHTML('beforeend', html);
+  setTimeout(() => document.getElementById('apikey-input')?.focus(), 100);
+}
+
+let savedApiKeyCallback = null;
+
+function saveApiKey(cb) {
+  const val = (document.getElementById('apikey-input')?.value || '').trim();
+  if (!val.startsWith('sk-')) { alert('請輸入正確的 API Key（以 sk- 開頭）'); return; }
+  localStorage.setItem(API_KEY_STORAGE, val);
+  document.getElementById('apikey-modal')?.remove();
+  if (cb) cb();
+}
 
 function openConceptReview(concept) {
   const html = `
@@ -2335,6 +2375,7 @@ function openConceptReview(concept) {
           </div>
         </div>
         <div class="action-row" style="margin-top:12px">
+          <button class="btn btn-ghost" onclick="promptApiKey(null)" style="font-size:11px;color:var(--muted)">⚙ 設定 Key</button>
           <button class="btn btn-outline" onclick="closeConceptReview()">關閉</button>
           <button class="btn btn-primary" onclick="startConceptQuiz('${esc(concept)}');closeConceptReview()">開始練習 →</button>
         </div>
@@ -2346,10 +2387,17 @@ function openConceptReview(concept) {
     renderReviewContent(reviewCache[concept]);
     return;
   }
-  generateConceptReview(concept);
+
+  const key = getApiKey();
+  if (!key) {
+    document.getElementById('concept-review-body').innerHTML =
+      `<div style="color:var(--muted);font-size:13px;padding:12px 0">尚未設定 API Key，請點左下角「⚙ 設定 Key」</div>`;
+    return;
+  }
+  generateConceptReview(concept, key);
 }
 
-async function generateConceptReview(concept) {
+async function generateConceptReview(concept, apiKey) {
   try {
     const prompt = `你是心理統計學考前複習老師。請針對「${concept}」這個考點，用最白話的方式幫學生快速複習。
 
@@ -2369,19 +2417,26 @@ async function generateConceptReview(concept) {
 
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
+        model: 'claude-haiku-4-5-20251001',
         max_tokens: 1000,
         messages: [{ role: 'user', content: prompt }]
       })
     });
     const data = await res.json();
+    if (data.error) throw new Error(data.error.message);
     const text = data.content?.[0]?.text || '生成失敗，請稍後再試';
     reviewCache[concept] = text;
     renderReviewContent(text);
   } catch(e) {
-    renderReviewContent('⚠ 無法連線，請確認網路後再試');
+    const body = document.getElementById('concept-review-body');
+    if (body) body.innerHTML = `<div style="color:var(--red);font-size:13px;padding:12px 0">⚠ ${e.message || '無法連線，請確認 API Key 與網路'}</div>`;
   }
 }
 
