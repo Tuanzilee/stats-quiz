@@ -903,6 +903,93 @@ html, body {
   border-radius: 6px;
 }
 @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+/* ── MOCK EXAM ── */
+.mock-setup-page { display:flex; flex-direction:column; gap:0; overflow-y:auto; flex:1; -webkit-overflow-scrolling:touch; padding-bottom:24px; }
+.mock-section { padding:16px 16px 0; }
+.mock-section-label { font-size:11px; font-weight:700; letter-spacing:0.1em; color:var(--muted); text-transform:uppercase; margin-bottom:10px; }
+.mock-option-row { display:flex; flex-wrap:wrap; gap:7px; }
+.mock-pill { padding:7px 14px; border-radius:20px; border:1px solid var(--border2); background:var(--surface); color:var(--muted); font-size:13px; cursor:pointer; transition:all .15s; user-select:none; }
+.mock-pill.active { border-color:var(--purple); background:var(--purple-bg); color:var(--purple); font-weight:600; }
+.mock-start-btn { margin:20px 16px 0; padding:14px; border-radius:var(--radius); background:var(--purple); color:#fff; font-size:15px; font-weight:700; border:none; width:calc(100% - 32px); cursor:pointer; letter-spacing:0.03em; transition:opacity .15s; }
+.mock-start-btn:active { opacity:0.85; }
+
+/* Exam page */
+.exam-topbar { display:flex; align-items:center; gap:10px; padding:10px 14px; padding-top:calc(10px + var(--safe-top)); background:var(--bg); border-bottom:1px solid var(--border); flex-shrink:0; }
+.exam-timer { font-family:'Space Mono',monospace; font-size:15px; font-weight:700; color:var(--green); min-width:52px; transition:color .3s; }
+.exam-timer.warning { color:var(--yellow); }
+.exam-timer.danger  { color:var(--red); animation:pulse-timer .8s infinite; }
+@keyframes pulse-timer { 0%,100%{opacity:1}50%{opacity:.5} }
+.exam-progress-bar { flex:1; height:5px; background:var(--border); border-radius:3px; overflow:hidden; }
+.exam-progress-fill { height:100%; background:var(--purple); border-radius:3px; transition:width .3s; }
+.exam-counter { font-size:12px; color:var(--muted); font-family:'Space Mono',monospace; white-space:nowrap; }
+.exam-submit-btn { padding:6px 12px; border-radius:8px; border:1px solid var(--red); background:transparent; color:var(--red); font-size:12px; font-weight:600; cursor:pointer; white-space:nowrap; }
+.exam-body { overflow-y:auto; flex:1; -webkit-overflow-scrolling:touch; padding:14px 16px; }
+.exam-q-meta { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:10px; }
+.exam-q-text { font-size:15px; line-height:1.7; color:var(--text); margin-bottom:14px; }
+.exam-options { display:flex; flex-direction:column; gap:8px; margin-bottom:16px; }
+.exam-option { display:flex; align-items:flex-start; gap:10px; padding:11px 13px; border-radius:var(--radius); border:1px solid var(--border2); background:var(--surface); cursor:pointer; transition:all .15s; }
+.exam-option:active { transform:scale(0.99); }
+.exam-option.selected { border-color:var(--purple); background:var(--purple-bg); }
+.exam-option.multi-selected { border-color:var(--blue); background:var(--blue-glow); }
+.exam-option-key { font-family:'Space Mono',monospace; font-size:12px; color:var(--muted); flex-shrink:0; margin-top:1px; }
+.exam-option.selected .exam-option-key { color:var(--purple); font-weight:700; }
+.exam-option.multi-selected .exam-option-key { color:var(--blue); font-weight:700; }
+.exam-option-text { font-size:14px; line-height:1.55; }
+.exam-tf-row { display:flex; gap:10px; margin-bottom:16px; }
+.exam-tf-btn { flex:1; padding:13px; border-radius:var(--radius); border:1px solid var(--border2); background:var(--surface); color:var(--muted); font-size:15px; font-weight:700; cursor:pointer; transition:all .15s; text-align:center; }
+.exam-tf-btn.selected { border-color:var(--purple); background:var(--purple-bg); color:var(--purple); }
+.exam-textarea { width:100%; background:var(--surface); border:1px solid var(--border2); border-radius:var(--radius); color:var(--text); font-size:14px; line-height:1.6; padding:11px 13px; resize:vertical; min-height:90px; font-family:'Noto Sans TC',sans-serif; margin-bottom:16px; }
+.exam-textarea:focus { outline:none; border-color:var(--purple); }
+.exam-nav-row { display:flex; gap:8px; margin-top:4px; }
+.exam-nav-btn { flex:1; padding:11px; border-radius:var(--radius); border:1px solid var(--border2); background:var(--surface); color:var(--text); font-size:14px; cursor:pointer; font-weight:500; }
+.exam-nav-btn:disabled { opacity:0.35; cursor:default; }
+.exam-nav-btn.next { background:var(--purple); border-color:var(--purple); color:#fff; }
+.exam-answered-dot { display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--purple); margin-right:5px; vertical-align:middle; }
+.exam-open-note { font-size:12px; color:var(--muted); margin-bottom:10px; font-style:italic; }
+
+/* Review page */
+.review-topbar { display:flex; align-items:center; gap:10px; padding:10px 14px; padding-top:calc(10px + var(--safe-top)); background:var(--bg); border-bottom:1px solid var(--border); flex-shrink:0; }
+.review-title { font-size:14px; font-weight:700; color:var(--text); }
+.review-counter { font-size:12px; color:var(--muted); margin-left:auto; font-family:'Space Mono',monospace; }
+.review-body { overflow-y:auto; flex:1; -webkit-overflow-scrolling:touch; padding:14px 16px; }
+.review-question { font-size:15px; line-height:1.7; color:var(--text); margin-bottom:14px; }
+.review-ans-block { background:var(--surface); border-radius:var(--radius); padding:12px 14px; margin-bottom:10px; }
+.review-ans-label { font-size:10px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-bottom:5px; }
+.review-ans-val { font-size:14px; line-height:1.55; color:var(--text); }
+.review-ans-val.correct-color { color:var(--green); }
+.review-ans-val.wrong-color  { color:var(--red); }
+.review-ans-val.empty-color  { color:var(--dim); font-style:italic; }
+.review-solution { background:var(--surface); border-radius:var(--radius); padding:12px 14px; margin-bottom:12px; }
+.review-self-row { display:flex; gap:8px; margin-bottom:14px; }
+.review-self-btn { flex:1; padding:11px; border-radius:var(--radius); border:1px solid var(--border2); font-size:13px; font-weight:600; cursor:pointer; background:var(--surface); color:var(--muted); transition:all .15s; text-align:center; }
+.review-self-btn.correct-active { border-color:var(--green); background:var(--green-bg); color:var(--green); }
+.review-self-btn.wrong-active   { border-color:var(--red); background:var(--red-bg); color:var(--red); }
+.review-nav-row { display:flex; gap:8px; margin-top:4px; }
+.review-nav-btn { flex:1; padding:11px; border-radius:var(--radius); border:1px solid var(--border2); background:var(--surface); color:var(--text); font-size:14px; cursor:pointer; font-weight:500; }
+.review-nav-btn:disabled { opacity:0.35; cursor:default; }
+.review-nav-btn.next { background:var(--blue); border-color:var(--blue); color:#fff; }
+
+/* Report page */
+.report-page { overflow-y:auto; flex:1; -webkit-overflow-scrolling:touch; padding:16px; }
+.report-hero { text-align:center; padding:24px 0 20px; }
+.report-score { font-size:52px; font-weight:700; color:var(--purple); font-family:'Space Mono',monospace; line-height:1; }
+.report-score-label { font-size:13px; color:var(--muted); margin-top:6px; }
+.report-stats-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-bottom:16px; }
+.report-stat { background:var(--surface); border-radius:var(--radius); padding:12px 8px; text-align:center; }
+.report-stat-num { font-size:22px; font-weight:700; font-family:'Space Mono',monospace; }
+.report-stat-label { font-size:11px; color:var(--muted); margin-top:3px; }
+.report-section-title { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin:16px 0 8px; }
+.report-type-row { background:var(--surface); border-radius:var(--radius); padding:10px 12px; margin-bottom:6px; display:flex; align-items:center; gap:10px; }
+.report-type-name { font-size:13px; color:var(--text); flex:1; }
+.report-type-bar-wrap { width:100px; height:6px; background:var(--border); border-radius:3px; overflow:hidden; }
+.report-type-bar { height:100%; border-radius:3px; transition:width .5s; }
+.report-type-pct { font-size:12px; color:var(--muted); font-family:'Space Mono',monospace; min-width:36px; text-align:right; }
+.wrong-q-item { background:var(--surface); border-radius:var(--radius); padding:11px 13px; margin-bottom:8px; display:flex; align-items:flex-start; gap:10px; }
+.wrong-q-text { font-size:13px; color:var(--text); line-height:1.5; flex:1; }
+.wrong-q-add-btn { padding:5px 10px; border-radius:6px; border:1px solid var(--border2); background:transparent; color:var(--muted); font-size:11px; cursor:pointer; white-space:nowrap; flex-shrink:0; }
+.wrong-q-add-btn.added { border-color:var(--red); color:var(--red); }
+.report-actions { display:flex; flex-direction:column; gap:8px; margin-top:20px; }
 </style>
 </head>
 <body>
@@ -969,6 +1056,15 @@ html, body {
     </div>
 
     <div class="home-section" style="padding-top:0">
+      <div class="section-label">模考練習</div>
+      <div class="quick-card" onclick="openMockSetup()" style="grid-column:span 2;background:linear-gradient(135deg,rgba(167,139,250,0.08),rgba(79,110,247,0.06));border-color:rgba(167,139,250,0.25)">
+        <div class="icon">📝</div>
+        <div class="label" style="color:var(--purple)">模考練習</div>
+        <div class="sub">限時作答，交卷後逐題檢討報告</div>
+      </div>
+    </div>
+
+    <div class="home-section" style="padding-top:0">
       <div class="section-label">勘誤管理</div>
       <div class="quick-card" onclick="openCorrectionsModal()" style="grid-column:span 2">
         <div class="icon">✏</div>
@@ -1030,6 +1126,89 @@ html, body {
     <div style="overflow-y:auto;flex:1;-webkit-overflow-scrolling:touch">
       <div class="quiz-body" id="quiz-body"></div>
     </div>
+  </div>
+
+  <!-- MOCK SETUP -->
+  <div class="page" id="page-mock-setup" style="display:flex;flex-direction:column">
+    <div class="header" style="display:flex">
+      <div class="header-btn" onclick="goPage('page-home')" style="margin-right:8px">←</div>
+      <div class="header-title">模考練習設定</div>
+    </div>
+    <div class="mock-setup-page">
+      <div class="mock-section">
+        <div class="mock-section-label">題目數量</div>
+        <div class="mock-option-row" id="mock-count-row">
+          <div class="mock-pill active" data-val="20" onclick="mockPick('count',this)">20 題</div>
+          <div class="mock-pill" data-val="30" onclick="mockPick('count',this)">30 題</div>
+          <div class="mock-pill" data-val="40" onclick="mockPick('count',this)">40 題</div>
+          <div class="mock-pill" data-val="all" onclick="mockPick('count',this)">全部</div>
+        </div>
+      </div>
+      <div class="mock-section" style="margin-top:18px">
+        <div class="mock-section-label">時間限制</div>
+        <div class="mock-option-row" id="mock-time-row">
+          <div class="mock-pill active" data-val="30" onclick="mockPick('time',this)">30 分鐘</div>
+          <div class="mock-pill" data-val="45" onclick="mockPick('time',this)">45 分鐘</div>
+          <div class="mock-pill" data-val="60" onclick="mockPick('time',this)">60 分鐘</div>
+          <div class="mock-pill" data-val="0" onclick="mockPick('time',this)">無限制</div>
+        </div>
+      </div>
+      <div class="mock-section" style="margin-top:18px">
+        <div class="mock-section-label">來源（學校）</div>
+        <div class="mock-option-row" id="mock-source-row">
+          <div class="mock-pill active" data-val="all" onclick="mockPick('source',this)">全部</div>
+          <div class="mock-pill" data-val="台大" onclick="mockPick('source',this)">台大</div>
+          <div class="mock-pill" data-val="東吳" onclick="mockPick('source',this)">東吳</div>
+          <div class="mock-pill" data-val="台綜（成大）" onclick="mockPick('source',this)">台綜</div>
+          <div class="mock-pill" data-val="政大" onclick="mockPick('source',this)">政大</div>
+        </div>
+      </div>
+      <div class="mock-section" style="margin-top:18px">
+        <div class="mock-section-label">來源（年份）</div>
+        <div class="mock-option-row" id="mock-year-row">
+          <div class="mock-pill active" data-val="all" onclick="mockPick('year',this)">全部</div>
+          <div class="mock-pill" data-val="107" onclick="mockPick('year',this)">107</div>
+          <div class="mock-pill" data-val="108" onclick="mockPick('year',this)">108</div>
+          <div class="mock-pill" data-val="109" onclick="mockPick('year',this)">109</div>
+          <div class="mock-pill" data-val="111" onclick="mockPick('year',this)">111</div>
+          <div class="mock-pill" data-val="112" onclick="mockPick('year',this)">112</div>
+          <div class="mock-pill" data-val="113" onclick="mockPick('year',this)">113</div>
+          <div class="mock-pill" data-val="114" onclick="mockPick('year',this)">114</div>
+        </div>
+      </div>
+      <div class="mock-section" style="margin-top:14px;font-size:12px;color:var(--muted);line-height:1.7">
+        ⚠ 模考期間不顯示答案。複選題可勾選多個選項，申論／計算題可填寫思路，交卷後統一手動自評。
+      </div>
+      <button class="mock-start-btn" onclick="startMockExam()">開始模考 →</button>
+    </div>
+  </div>
+
+  <!-- MOCK EXAM -->
+  <div class="page" id="page-mock-exam" style="display:flex;flex-direction:column">
+    <div class="exam-topbar">
+      <div class="exam-timer" id="exam-timer">--:--</div>
+      <div class="exam-progress-bar"><div class="exam-progress-fill" id="exam-progress-fill" style="width:0%"></div></div>
+      <div class="exam-counter" id="exam-counter">0/0</div>
+      <button class="exam-submit-btn" onclick="confirmSubmitExam()">交卷</button>
+    </div>
+    <div class="exam-body" id="exam-body"></div>
+  </div>
+
+  <!-- MOCK REVIEW -->
+  <div class="page" id="page-mock-review" style="display:flex;flex-direction:column">
+    <div class="review-topbar">
+      <div class="review-title">逐題檢討</div>
+      <div class="review-counter" id="review-counter">1/1</div>
+    </div>
+    <div class="review-body" id="review-body"></div>
+  </div>
+
+  <!-- MOCK REPORT -->
+  <div class="page" id="page-mock-report" style="display:flex;flex-direction:column">
+    <div class="header" style="display:flex">
+      <div class="header-title">模考報告</div>
+    </div>
+    <div class="report-page" id="report-page"></div>
   </div>
 
   <!-- BOTTOM NAV -->
@@ -1151,17 +1330,19 @@ function updateHeaderSub() {
 }
 
 // ─── NAVIGATION ──────────────────────────────────────────────────────────────
-const pages = ['page-home','page-browse','page-concepts','page-quiz'];
-const navIds = ['nav-home','nav-browse','nav-concepts',null];
+const pages = ['page-home','page-browse','page-concepts','page-quiz','page-mock-setup','page-mock-exam','page-mock-review','page-mock-report'];
+const navIds = ['nav-home','nav-browse','nav-concepts',null,null,null,null,null];
 
 function goPage(pageId) {
   pages.forEach((p,i) => {
     document.getElementById(p).classList.toggle('active', p === pageId);
     if (navIds[i]) document.getElementById(navIds[i]).classList.toggle('active', p === pageId);
   });
-  // Hide bottom nav during quiz
-  document.querySelector('.bottom-nav').style.display = pageId === 'page-quiz' ? 'none' : 'flex';
-  document.querySelector('.header').style.display = pageId === 'page-quiz' ? 'none' : 'flex';
+  const isMockPage = pageId.startsWith('page-mock-') || pageId === 'page-quiz';
+  document.querySelector('.bottom-nav').style.display = isMockPage ? 'none' : 'flex';
+  // Header: hide for quiz and mock-exam/review/report, show for mock-setup (has its own inline header)
+  const hideHeader = pageId === 'page-quiz' || pageId === 'page-mock-exam' || pageId === 'page-mock-review' || pageId === 'page-mock-report' || pageId === 'page-mock-setup';
+  document.querySelector('.header').style.display = hideHeader ? 'none' : 'flex';
   if (pageId === 'page-browse') renderBrowse();
   if (pageId === 'page-concepts') renderConcepts();
   if (pageId === 'page-home') renderHome();
@@ -2123,7 +2304,482 @@ function exportJSON() {
 function esc(str) { return (str||'').replace(/'/g,"\\'").replace(/"/g,'&quot;'); }
 function esc2(str) { return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-// ─── PWA ─────────────────────────────────────────────────────────────────────
+
+// ─── MOCK EXAM ────────────────────────────────────────────────────────────────
+
+let mockSettings = { count: '20', time: '30', source: 'all', year: 'all' };
+let mockQueue = [];
+let mockAnswers = {};   // id → 'A' | ['A','C'] | 'T'/'F' | string
+let mockNotes = {};     // id → textarea text (open questions)
+let mockSelfScores = {}; // id → 'correct'|'wrong'
+let mockExamIdx = 0;
+let mockReviewIdx = 0;
+let mockTimerInterval = null;
+let mockSecondsLeft = 0;
+let mockStartTime = null;
+
+function openMockSetup() {
+  goPage('page-mock-setup');
+}
+
+function mockPick(key, el) {
+  const rowId = 'mock-' + key + '-row';
+  document.querySelectorAll('#' + rowId + ' .mock-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  mockSettings[key] = el.dataset.val;
+}
+
+function startMockExam() {
+  // Build pool
+  let pool = questions.filter(q => {
+    if (mockSettings.source !== 'all' && q.source !== mockSettings.source) return false;
+    if (mockSettings.year !== 'all' && String(q.year) !== mockSettings.year) return false;
+    return true;
+  });
+  if (pool.length === 0) { alert('沒有符合條件的題目，請調整設定'); return; }
+
+  // Shuffle
+  pool = [...pool].sort(() => Math.random() - 0.5);
+
+  // Limit count
+  if (mockSettings.count !== 'all') {
+    const n = parseInt(mockSettings.count);
+    pool = pool.slice(0, Math.min(n, pool.length));
+  }
+
+  mockQueue = pool;
+  mockAnswers = {};
+  mockNotes = {};
+  mockSelfScores = {};
+  mockExamIdx = 0;
+  mockStartTime = Date.now();
+
+  // Setup timer
+  clearInterval(mockTimerInterval);
+  const timeMin = parseInt(mockSettings.time);
+  mockSecondsLeft = timeMin > 0 ? timeMin * 60 : 0;
+  updateExamTimer();
+  if (timeMin > 0) {
+    mockTimerInterval = setInterval(() => {
+      mockSecondsLeft--;
+      updateExamTimer();
+      if (mockSecondsLeft <= 0) {
+        clearInterval(mockTimerInterval);
+        autoSubmitExam();
+      }
+    }, 1000);
+  }
+
+  goPage('page-mock-exam');
+  renderExamQuestion();
+}
+
+function updateExamTimer() {
+  const el = document.getElementById('exam-timer');
+  if (!el) return;
+  if (parseInt(mockSettings.time) === 0) {
+    el.textContent = '∞';
+    el.className = 'exam-timer';
+    return;
+  }
+  const m = Math.floor(Math.max(mockSecondsLeft, 0) / 60);
+  const s = Math.max(mockSecondsLeft, 0) % 60;
+  el.textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+  el.className = 'exam-timer' + (mockSecondsLeft <= 60 ? ' danger' : mockSecondsLeft <= 300 ? ' warning' : '');
+}
+
+function getMockQType(q) {
+  if (q.type === '複選題') return 'multi';
+  if (q.type === '是非題') return 'tf';
+  if (q.options && q.options.length > 0) return 'single';
+  return 'open';
+}
+
+function renderExamQuestion() {
+  const pct = (mockExamIdx / mockQueue.length * 100) + '%';
+  document.getElementById('exam-progress-fill').style.width = pct;
+  document.getElementById('exam-counter').textContent = (mockExamIdx+1) + '/' + mockQueue.length;
+
+  const q = mockQueue[mockExamIdx];
+  const qtype = getMockQType(q);
+  const keys = ['A','B','C','D','E','F'];
+  const savedAns = mockAnswers[q.id];
+  const savedNote = mockNotes[q.id] || '';
+
+  let optionsHTML = '';
+  if (qtype === 'single') {
+    optionsHTML = `<div class="exam-options">` +
+      (q.options||[]).map((opt,i) => {
+        const k = keys[i];
+        const sel = savedAns === k ? 'selected' : '';
+        return `<div class="exam-option ${sel}" id="eopt-${i}" onclick="examSelectSingle(${i})">
+          <span class="exam-option-key">${k}</span>
+          <span class="exam-option-text">${opt.replace(/^\([A-Z]\)\s?|^[A-Z]\.\s?/,'')}</span>
+        </div>`;
+      }).join('') + `</div>`;
+  } else if (qtype === 'multi') {
+    const selArr = Array.isArray(savedAns) ? savedAns : [];
+    optionsHTML = `<div style="font-size:12px;color:var(--purple);margin-bottom:8px;font-weight:600">✦ 複選題 — 可選多個選項</div>
+    <div class="exam-options">` +
+      (q.options||[]).map((opt,i) => {
+        const k = keys[i];
+        const sel = selArr.includes(k) ? 'multi-selected' : '';
+        return `<div class="exam-option ${sel}" id="eopt-${i}" onclick="examSelectMulti(${i})">
+          <span class="exam-option-key">${k}</span>
+          <span class="exam-option-text">${opt.replace(/^\([A-Z]\)\s?|^[A-Z]\.\s?/,'')}</span>
+        </div>`;
+      }).join('') + `</div>`;
+  } else if (qtype === 'tf') {
+    const selT = savedAns === 'T' ? 'selected' : '';
+    const selF = savedAns === 'F' ? 'selected' : '';
+    optionsHTML = `<div class="exam-tf-row">
+      <div class="exam-tf-btn ${selT}" id="etf-T" onclick="examSelectTF('T')">○ 是（True）</div>
+      <div class="exam-tf-btn ${selF}" id="etf-F" onclick="examSelectTF('F')">✕ 否（False）</div>
+    </div>`;
+  } else {
+    // open
+    optionsHTML = `<div class="exam-open-note">申論／計算題：可在下方寫下你的思路（選填）</div>
+    <textarea class="exam-textarea" id="exam-free-text" placeholder="寫下解題思路或算式…" oninput="examSaveNote(this.value)">${esc2(savedNote)}</textarea>`;
+  }
+
+  const contextHTML = buildContext(q);
+
+  document.getElementById('exam-body').innerHTML = `
+    <div class="exam-q-meta">
+      <span class="q-badge school">${q.source}</span>
+      <span class="q-badge" style="font-family:'Space Mono',monospace;font-size:11px;color:var(--muted)">${q.id}</span>
+      <span class="q-badge">${q.type}</span>
+      ${q.difficulty ? `<span class="q-badge" style="color:${q.difficulty==='hard'?'var(--red)':q.difficulty==='easy'?'var(--green)':'var(--yellow)'}">
+        ${{easy:'簡單',medium:'中等',hard:'困難'}[q.difficulty]}</span>` : ''}
+    </div>
+    ${contextHTML}
+    <div class="exam-q-text">${q.question}</div>
+    ${optionsHTML}
+    <div class="exam-nav-row">
+      <button class="exam-nav-btn" onclick="examPrev()" ${mockExamIdx===0?'disabled':''}>← 上一題</button>
+      <button class="exam-nav-btn next" onclick="examNext()">
+        ${mockExamIdx===mockQueue.length-1 ? '完成作答' : '下一題 →'}
+      </button>
+    </div>
+    <div style="height:20px"></div>
+  `;
+}
+
+function examSelectSingle(i) {
+  const keys = ['A','B','C','D','E','F'];
+  const q = mockQueue[mockExamIdx];
+  mockAnswers[q.id] = keys[i];
+  document.querySelectorAll('.exam-option').forEach((el,j) => {
+    el.classList.toggle('selected', j===i);
+  });
+}
+
+function examSelectMulti(i) {
+  const keys = ['A','B','C','D','E','F'];
+  const q = mockQueue[mockExamIdx];
+  if (!Array.isArray(mockAnswers[q.id])) mockAnswers[q.id] = [];
+  const k = keys[i];
+  const arr = mockAnswers[q.id];
+  const idx = arr.indexOf(k);
+  if (idx >= 0) arr.splice(idx, 1); else arr.push(k);
+  arr.sort();
+  const el = document.getElementById('eopt-'+i);
+  if (el) el.classList.toggle('multi-selected', arr.includes(k));
+}
+
+function examSelectTF(val) {
+  const q = mockQueue[mockExamIdx];
+  mockAnswers[q.id] = val;
+  document.getElementById('etf-T')?.classList.toggle('selected', val==='T');
+  document.getElementById('etf-F')?.classList.toggle('selected', val==='F');
+}
+
+function examSaveNote(val) {
+  const q = mockQueue[mockExamIdx];
+  mockNotes[q.id] = val;
+}
+
+function examPrev() {
+  if (mockExamIdx > 0) { mockExamIdx--; renderExamQuestion(); }
+}
+
+function examNext() {
+  if (mockExamIdx < mockQueue.length - 1) {
+    mockExamIdx++;
+    renderExamQuestion();
+  } else {
+    confirmSubmitExam();
+  }
+}
+
+function confirmSubmitExam() {
+  const answered = Object.keys(mockAnswers).length;
+  const total = mockQueue.length;
+  const unanswered = total - answered;
+  const msg = unanswered > 0
+    ? `還有 ${unanswered} 題未作答，確定要交卷嗎？`
+    : `確定交卷？共 ${total} 題。`;
+  if (!confirm(msg)) return;
+  submitExam();
+}
+
+function autoSubmitExam() {
+  alert('時間到！自動交卷。');
+  submitExam();
+}
+
+function submitExam() {
+  clearInterval(mockTimerInterval);
+  mockReviewIdx = 0;
+  goPage('page-mock-review');
+  renderReviewQuestion();
+}
+
+// ─── REVIEW ──────────────────────────────────────────────────────────────────
+
+function renderReviewQuestion() {
+  const total = mockQueue.length;
+  document.getElementById('review-counter').textContent = (mockReviewIdx+1) + '/' + total;
+
+  const q = mockQueue[mockReviewIdx];
+  const qtype = getMockQType(q);
+  const keys = ['A','B','C','D','E','F'];
+  const userAns = mockAnswers[q.id];
+  const correctAns = (q.answer || '').trim();
+  const selfScore = mockSelfScores[q.id];
+
+  // Format user answer for display
+  let userAnsDisplay = '';
+  if (qtype === 'open') {
+    userAnsDisplay = mockNotes[q.id] || '';
+  } else if (Array.isArray(userAns)) {
+    userAnsDisplay = userAns.join('、');
+  } else {
+    userAnsDisplay = userAns || '';
+  }
+
+  // Auto-score for objective questions (single/multi/tf)
+  let autoScore = null;
+  if (qtype === 'single' || qtype === 'tf') {
+    if (userAns && correctAns) {
+      autoScore = userAns.toUpperCase() === correctAns.toUpperCase() ? 'correct' : 'wrong';
+    }
+  } else if (qtype === 'multi') {
+    if (Array.isArray(userAns) && correctAns) {
+      const ua = [...userAns].sort().join('');
+      const ca = correctAns.toUpperCase().replace(/[^A-F]/g,'').split('').sort().join('');
+      autoScore = ua === ca ? 'correct' : 'wrong';
+    }
+  }
+  // If auto-scored and no manual override yet, set it
+  if (autoScore && !mockSelfScores[q.id]) {
+    mockSelfScores[q.id] = autoScore;
+  }
+  const effectiveScore = mockSelfScores[q.id] || null;
+
+  // Correct answer display
+  let correctDisplay = correctAns || '（詳見解析）';
+  if (qtype === 'multi' && correctAns) {
+    correctDisplay = correctAns.toUpperCase().replace(/[^A-F]/g,'').split('').join('、');
+  }
+
+  // Steps
+  const steps = q.solution_steps || [];
+  const stepsHTML = steps.length
+    ? steps.map((s,i)=>`<div class="step"><span class="step-n">${String(i+1).padStart(2,'0')}</span><span>${s}</span></div>`).join('')
+    : `<div style="color:var(--dim);font-size:13px">尚無解析</div>`;
+
+  const contextHTML = buildContext(q);
+
+  document.getElementById('review-body').innerHTML = `
+    <div class="exam-q-meta">
+      <span class="q-badge school">${q.source}</span>
+      <span class="q-badge" style="font-family:'Space Mono',monospace;font-size:11px;color:var(--muted)">${q.id}</span>
+      <span class="q-badge">${q.type}</span>
+    </div>
+    ${contextHTML}
+    <div class="review-question">${q.question}</div>
+
+    ${qtype !== 'open' && q.options && q.options.length > 0 ? `
+      <div class="review-ans-block" style="margin-bottom:10px">
+        <div class="review-ans-label">選項</div>
+        ${q.options.map((opt,i) => {
+          const k = keys[i];
+          const isCorrect = correctAns.toUpperCase().replace(/[^A-F]/g,'').includes(k);
+          const isUser = Array.isArray(userAns) ? userAns.includes(k) : userAns===k;
+          return `<div style="font-size:13px;line-height:1.7;color:${isCorrect?'var(--green)':isUser?'var(--red)':'var(--muted)'}">
+            ${isCorrect?'✓':isUser?'✗':'○'} ${k}. ${opt.replace(/^\([A-Z]\)\s?|^[A-Z]\.\s?/,'')}
+          </div>`;
+        }).join('')}
+      </div>` : ''}
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+      <div class="review-ans-block">
+        <div class="review-ans-label">你的作答</div>
+        <div class="review-ans-val ${userAnsDisplay?'':'empty-color'}">${userAnsDisplay || '（未作答）'}</div>
+      </div>
+      <div class="review-ans-block">
+        <div class="review-ans-label">正確答案</div>
+        <div class="review-ans-val correct-color">${correctDisplay}</div>
+      </div>
+    </div>
+
+    ${qtype === 'open' && q.key_concepts ? `
+      <div class="review-ans-block" style="margin-bottom:10px">
+        <div class="review-ans-label">核心概念</div>
+        <div class="review-ans-val" style="font-size:13px">${q.key_concepts}</div>
+      </div>` : ''}
+
+    <div class="review-solution">
+      <div class="review-ans-label" style="margin-bottom:8px">解析</div>
+      <div class="steps">${stepsHTML}</div>
+    </div>
+
+    <div style="font-size:11px;color:var(--muted);margin-bottom:8px;font-weight:600;letter-spacing:0.05em">
+      ${qtype==='open'?'申論／計算題請手動自評：':'自評結果：'}
+    </div>
+    <div class="review-self-row">
+      <div class="review-self-btn ${effectiveScore==='correct'?'correct-active':''}" onclick="reviewSelfMark('correct')">✓ 答對</div>
+      <div class="review-self-btn ${effectiveScore==='wrong'?'wrong-active':''}" onclick="reviewSelfMark('wrong')">✗ 答錯</div>
+    </div>
+
+    <div class="review-nav-row">
+      <button class="review-nav-btn" onclick="reviewPrev()" ${mockReviewIdx===0?'disabled':''}>← 上一題</button>
+      <button class="review-nav-btn next" onclick="reviewNext()">
+        ${mockReviewIdx===mockQueue.length-1 ? '查看報告 →' : '下一題 →'}
+      </button>
+    </div>
+    <div style="height:20px"></div>
+  `;
+}
+
+function reviewSelfMark(score) {
+  const q = mockQueue[mockReviewIdx];
+  mockSelfScores[q.id] = score;
+  document.querySelectorAll('.review-self-btn').forEach(b => {
+    b.className = 'review-self-btn';
+  });
+  document.querySelector(score==='correct'?'.review-self-btn:first-child':'.review-self-btn:last-child')
+    ?.classList.add(score==='correct'?'correct-active':'wrong-active');
+}
+
+function reviewPrev() {
+  if (mockReviewIdx > 0) { mockReviewIdx--; renderReviewQuestion(); }
+}
+
+function reviewNext() {
+  if (mockReviewIdx < mockQueue.length - 1) {
+    mockReviewIdx++;
+    renderReviewQuestion();
+  } else {
+    renderMockReport();
+    goPage('page-mock-report');
+  }
+}
+
+// ─── REPORT ──────────────────────────────────────────────────────────────────
+
+function renderMockReport() {
+  const total = mockQueue.length;
+  const correctIds = mockQueue.filter(q => mockSelfScores[q.id]==='correct').map(q=>q.id);
+  const wrongIds   = mockQueue.filter(q => mockSelfScores[q.id]==='wrong').map(q=>q.id);
+  const skippedIds = mockQueue.filter(q => !mockSelfScores[q.id]).map(q=>q.id);
+  const correctN = correctIds.length;
+  const pct = total > 0 ? Math.round(correctN/total*100) : 0;
+
+  // Accuracy by type
+  const typeStats = {};
+  mockQueue.forEach(q => {
+    if (!typeStats[q.type]) typeStats[q.type] = {correct:0, total:0};
+    typeStats[q.type].total++;
+    if (mockSelfScores[q.id]==='correct') typeStats[q.type].correct++;
+  });
+
+  const typeRows = Object.entries(typeStats).map(([type,s]) => {
+    const typePct = s.total > 0 ? Math.round(s.correct/s.total*100) : 0;
+    const barColor = typePct >= 70 ? 'var(--green)' : typePct >= 40 ? 'var(--yellow)' : 'var(--red)';
+    return `<div class="report-type-row">
+      <div class="report-type-name">${type}</div>
+      <div class="report-type-bar-wrap"><div class="report-type-bar" style="width:${typePct}%;background:${barColor}"></div></div>
+      <div class="report-type-pct">${s.correct}/${s.total}</div>
+    </div>`;
+  }).join('');
+
+  const wrongList = mockQueue.filter(q => mockSelfScores[q.id]==='wrong').map(q => {
+    const preview = q.question.length > 60 ? q.question.slice(0,60)+'…' : q.question;
+    const isUnsure = getStatus(q.id) === 'unsure';
+    return `<div class="wrong-q-item">
+      <div class="wrong-q-text"><span class="q-badge" style="margin-right:4px">${q.id}</span>${preview}</div>
+      <button class="wrong-q-add-btn ${isUnsure?'added':''}" id="add-btn-${q.id}" onclick="addToUnsure('${q.id}',this)">
+        ${isUnsure ? '✓ 已加入' : '+ 不懂'}
+      </button>
+    </div>`;
+  }).join('') || `<div style="color:var(--dim);font-size:13px;padding:12px 0">沒有錯題 🎉</div>`;
+
+  const scoreColor = pct >= 70 ? 'var(--green)' : pct >= 50 ? 'var(--yellow)' : 'var(--red)';
+
+  document.getElementById('report-page').innerHTML = `
+    <div class="report-hero">
+      <div class="report-score" style="color:${scoreColor}">${pct}%</div>
+      <div class="report-score-label">答對率</div>
+    </div>
+
+    <div class="report-stats-row">
+      <div class="report-stat">
+        <div class="report-stat-num" style="color:var(--green)">${correctN}</div>
+        <div class="report-stat-label">答對</div>
+      </div>
+      <div class="report-stat">
+        <div class="report-stat-num" style="color:var(--red)">${wrongIds.length}</div>
+        <div class="report-stat-label">答錯</div>
+      </div>
+      <div class="report-stat">
+        <div class="report-stat-num" style="color:var(--muted)">${skippedIds.length}</div>
+        <div class="report-stat-label">未自評</div>
+      </div>
+    </div>
+
+    <div class="report-section-title">各題型答對率</div>
+    ${typeRows}
+
+    <div class="report-section-title">錯題清單（${wrongIds.length} 題）</div>
+    ${wrongList}
+
+    <div class="report-actions">
+      ${wrongIds.length > 0 ? `<button class="btn btn-outline" onclick="addAllWrongToUnsure()" style="font-size:13px">一鍵加入全部錯題到「不懂」複習佇列</button>` : ''}
+      <button class="btn btn-primary" onclick="exitMockExam()" style="margin-top:4px">回到主頁</button>
+    </div>
+    <div style="height:24px"></div>
+  `;
+}
+
+function addToUnsure(qid, btn) {
+  records[qid] = { status: 'unsure', ts: Date.now() };
+  saveRecords();
+  if (btn) { btn.textContent = '✓ 已加入'; btn.classList.add('added'); }
+}
+
+function addAllWrongToUnsure() {
+  const wrongQs = mockQueue.filter(q => mockSelfScores[q.id]==='wrong');
+  wrongQs.forEach(q => {
+    records[q.id] = { status: 'unsure', ts: Date.now() };
+  });
+  saveRecords();
+  // Update all buttons
+  wrongQs.forEach(q => {
+    const btn = document.getElementById('add-btn-'+q.id);
+    if (btn) { btn.textContent = '✓ 已加入'; btn.classList.add('added'); }
+  });
+  alert(`已將 ${wrongQs.length} 題加入「不確定」複習佇列`);
+}
+
+function exitMockExam() {
+  clearInterval(mockTimerInterval);
+  goPage('page-home');
+  renderHome();
+}
+
+
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./sw.js').catch(() => {});
 }
