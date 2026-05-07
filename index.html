@@ -1624,65 +1624,79 @@ function applyFilters() {
 
 // ─── CONTEXT (承上題) ────────────────────────────────────────────────────────
 function buildContext(q) {
-  // 判斷是否為承上題
-  const isFollowUp = /^[（(]?(承上題|續上題|接續上題|承第\d+題|接續第\d+題)/.test(q.question);
-  if (!isFollowUp) return '';
+  const isFollowUp = (text) => /^[（(]?(承上題|續上題|接續上題|承第\d+題|接續第\d+題)/.test(text);
+  if (!isFollowUp(q.question)) return '';
 
-  const prevQuestions = [];
+  // 遞迴往前追溯，收集整個題組鏈
+  function getPrevQ(curQ) {
+    const prevList = [];
 
-  // 策略一：末尾是字母的格式，如 NTU-114-02b → 找 02a
-  const letterMatch = q.id.match(/^(.+?)([a-z])$/);
-  if (letterMatch) {
-    const prefix = letterMatch[1];
-    const suffix = letterMatch[2];
-    const letters = 'abcdefghijklmnopqrstuvwxyz';
-    const myIdx = letters.indexOf(suffix);
-    for (let i = 0; i < myIdx; i++) {
-      const prevQ = questions.find(pq => pq.id === prefix + letters[i]);
-      if (prevQ) prevQuestions.push(prevQ);
+    // 策略一：末尾字母格式 NTU-114-02b → 02a
+    const letterMatch = curQ.id.match(/^(.+?)([a-z])$/);
+    if (letterMatch) {
+      const prefix = letterMatch[1];
+      const suffix = letterMatch[2];
+      const letters = 'abcdefghijklmnopqrstuvwxyz';
+      const myIdx = letters.indexOf(suffix);
+      for (let i = 0; i < myIdx; i++) {
+        const pq = questions.find(q => q.id === prefix + letters[i]);
+        if (pq) prevList.push(pq);
+      }
+      return prevList;
     }
-  }
 
-  // 策略二：純數字末尾格式，如 NCCU-114-37 → 找 NCCU-114-36
-  // 偵測「承第N題」來決定要找哪題；若只說「承上題」就找前一題
-  if (prevQuestions.length === 0) {
-    // 嘗試找「承第X題」的指定題號
-    const refMatch = q.question.match(/承第(\d+)題|接續第(\d+)題/);
+    // 策略二：純數字格式
+    const refMatch = curQ.question.match(/承第(\d+)題|接續第(\d+)題/);
     if (refMatch) {
       const refNum = refMatch[1] || refMatch[2];
-      // 同來源同年份，找題號含 refNum 的題
-      const school = q.id.split('-')[0];
-      const year = q.id.split('-')[1];
-      const prefix = `${school}-${year}-`;
-      const padded = String(refNum).padStart(2, '0');
-      const refQ = questions.find(pq => pq.id === prefix + padded);
-      if (refQ) prevQuestions.push(refQ);
-    } else {
-      // 承上題：找同來源同年份的前一題（數字-1）
-      const numMatch = q.id.match(/^(.+?-)(\d+)$/);
+      const numMatch = curQ.id.match(/^(.+?-)(\d+)$/);
       if (numMatch) {
-        const prefix = numMatch[1];
+        const padded = String(refNum).padStart(numMatch[2].length, '0');
+        const pq = questions.find(q => q.id === numMatch[1] + padded);
+        if (pq) prevList.push(pq);
+      }
+    } else {
+      const numMatch = curQ.id.match(/^(.+?-)(\d+)$/);
+      if (numMatch) {
         const num = parseInt(numMatch[2]);
         if (num > 1) {
-          const prevId = prefix + String(num - 1).padStart(numMatch[2].length, '0');
-          const prevQ = questions.find(pq => pq.id === prevId);
-          if (prevQ) prevQuestions.push(prevQ);
+          const prevId = numMatch[1] + String(num - 1).padStart(numMatch[2].length, '0');
+          const pq = questions.find(q => q.id === prevId);
+          if (pq) prevList.push(pq);
         }
       }
     }
+    return prevList;
   }
 
-  if (prevQuestions.length === 0) return '';
+  // 遞迴往前追溯整條鏈
+  function buildChain(curQ) {
+    const prevList = getPrevQ(curQ);
+    if (prevList.length === 0) return [];
+    // 對每個前題再往前追
+    let chain = [];
+    for (const pq of prevList) {
+      if (isFollowUp(pq.question)) {
+        chain = chain.concat(buildChain(pq));
+      }
+      chain.push(pq);
+    }
+    return chain;
+  }
 
-  // 只顯示第一題的完整情境（大題背景），其他子題只顯示題號+題目
-  const parts = prevQuestions.map((pq, i) => {
+  const chain = buildChain(q); // 從最早的題到最近的前題
+  if (chain.length === 0) return '';
+
+  const parts = chain.map((pq, i) => {
     if (i === 0) {
-      return `<div style="margin-bottom:${prevQuestions.length>1?'10px':'0'}">
+      // 第一題（原始情境）完整顯示
+      return `<div style="margin-bottom:${chain.length>1?'10px':'0'}">
         <div style="font-size:10px;font-family:'Space Mono',monospace;color:var(--blue);margin-bottom:4px">${pq.id}</div>
         <div style="font-size:13px;line-height:1.6;color:var(--text)">${pq.question}</div>
       </div>`;
     } else {
-      return `<div style="margin-bottom:${i<prevQuestions.length-1?'8px':'0'}">
+      // 中間子題：顯示題號＋前80字
+      return `<div style="margin-bottom:${i<chain.length-1?'8px':'0'}">
         <div style="font-size:10px;font-family:'Space Mono',monospace;color:var(--blue);margin-bottom:3px">${pq.id}</div>
         <div style="font-size:12px;line-height:1.5;color:var(--muted)">${pq.question.slice(0,80)}${pq.question.length>80?'…':''}</div>
       </div>`;
@@ -1695,6 +1709,7 @@ function buildContext(q) {
     border-left:3px solid var(--blue);
     border-radius:var(--radius);
     padding:12px 14px;
+    margin-bottom:4px;
   ">
     <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;color:var(--blue);margin-bottom:8px;text-transform:uppercase">📎 題組情境</div>
     ${parts.join('')}
