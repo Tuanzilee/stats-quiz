@@ -684,6 +684,35 @@ html, body {
 .concept-review-btn { padding:5px 9px; border-radius:6px; border:1px solid var(--border2); background:transparent; color:var(--muted); font-size:11px; cursor:pointer; white-space:nowrap; flex-shrink:0; transition:all .15s; }
 .concept-review-btn:hover { border-color:var(--purple); color:var(--purple); }
 
+/* Chat review overlay */
+.chat-overlay { position:fixed; inset:0; background:var(--bg); z-index:200; display:flex; flex-direction:column; max-width:680px; margin:0 auto; }
+.chat-topbar { display:flex; align-items:center; gap:10px; padding:10px 14px; padding-top:calc(10px + var(--safe-top)); border-bottom:1px solid var(--border); flex-shrink:0; background:var(--bg); }
+.chat-topbar-title { font-size:14px; font-weight:700; color:var(--purple); flex:1; }
+.chat-topbar-sub { font-size:11px; color:var(--muted); }
+.chat-messages { flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:14px 16px; display:flex; flex-direction:column; gap:12px; }
+.chat-msg { display:flex; flex-direction:column; gap:4px; }
+.chat-msg.user { align-items:flex-end; }
+.chat-msg.ai { align-items:flex-start; }
+.chat-bubble { max-width:88%; padding:10px 13px; border-radius:12px; font-size:13px; line-height:1.7; }
+.chat-msg.user .chat-bubble { background:var(--purple); color:#fff; border-bottom-right-radius:4px; }
+.chat-msg.ai .chat-bubble { background:var(--surface); border:1px solid var(--border); color:var(--text); border-bottom-left-radius:4px; }
+.chat-msg.ai .chat-bubble h3 { font-size:12px; font-weight:700; color:var(--purple); margin:10px 0 4px; letter-spacing:0.03em; }
+.chat-msg.ai .chat-bubble h3:first-child { margin-top:0; }
+.chat-msg.ai .chat-bubble p { margin:0 0 4px; }
+.chat-msg.ai .chat-bubble ul { margin:0 0 6px; padding-left:16px; }
+.chat-msg.ai .chat-bubble li { margin-bottom:2px; }
+.chat-msg.ai .chat-bubble .formula { background:var(--surface2); border-left:3px solid var(--purple); border-radius:4px; padding:6px 10px; font-family:'Space Mono',monospace; font-size:11px; color:var(--purple); margin:4px 0; white-space:pre-wrap; }
+.chat-msg.ai .chat-bubble .tip { background:var(--yellow-bg); border-radius:4px; padding:6px 10px; font-size:12px; color:var(--yellow); margin:4px 0; }
+.chat-input-bar { display:flex; align-items:flex-end; gap:8px; padding:10px 14px; padding-bottom:calc(10px + var(--safe-bottom)); border-top:1px solid var(--border); background:var(--bg); flex-shrink:0; }
+.chat-input { flex:1; background:var(--surface); border:1px solid var(--border2); border-radius:10px; color:var(--text); font-size:14px; line-height:1.5; padding:9px 12px; resize:none; font-family:'Noto Sans TC',sans-serif; max-height:100px; overflow-y:auto; }
+.chat-input:focus { outline:none; border-color:var(--purple); }
+.chat-send-btn { width:36px; height:36px; border-radius:50%; background:var(--purple); border:none; color:#fff; font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:opacity .15s; }
+.chat-send-btn:disabled { opacity:0.4; cursor:default; }
+.chat-typing { display:flex; gap:4px; align-items:center; padding:4px 0; }
+.chat-typing span { width:6px; height:6px; border-radius:50%; background:var(--muted); animation:ldot .9s infinite; }
+.chat-typing span:nth-child(2){animation-delay:.2s}
+.chat-typing span:nth-child(3){animation-delay:.4s}
+
 /* Review modal */
 .review-modal-content { padding:4px 0 8px; }
 .review-modal-content h3 { font-size:13px; font-weight:700; color:var(--purple); margin:14px 0 6px; letter-spacing:0.03em; }
@@ -2319,6 +2348,7 @@ function esc2(str) { return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;')
 // ─── CONCEPT REVIEW (AI) ─────────────────────────────────────────────────────
 
 const reviewCache = {};
+const chatHistory = {};
 const API_KEY_STORAGE = 'anthropic_api_key';
 
 function getApiKey() {
@@ -2361,60 +2391,60 @@ function saveApiKey(cb) {
 }
 
 function openConceptReview(concept) {
-  const html = `
-    <div class="modal-bg show" id="concept-review-modal" onclick="closeConceptReview(event)">
-      <div class="modal" onclick="event.stopPropagation()" style="max-height:80vh;overflow-y:auto;-webkit-overflow-scrolling:touch">
-        <div class="modal-handle"></div>
-        <div class="modal-title" style="color:var(--purple)">📖 ${concept}</div>
-        <div id="concept-review-body">
-          <div class="review-loading">
-            <div class="review-loading-dot"></div>
-            <div class="review-loading-dot"></div>
-            <div class="review-loading-dot"></div>
-            <span>AI 生成考前重點中…</span>
-          </div>
-        </div>
-        <div class="action-row" style="margin-top:12px">
-          <button class="btn btn-ghost" onclick="promptApiKey(null)" style="font-size:11px;color:var(--muted)">⚙ 設定 Key</button>
-          <button class="btn btn-outline" onclick="closeConceptReview()">關閉</button>
-          <button class="btn btn-primary" onclick="startConceptQuiz('${esc(concept)}');closeConceptReview()">開始練習 →</button>
-        </div>
-      </div>
-    </div>`;
-  document.body.insertAdjacentHTML('beforeend', html);
-
-  if (reviewCache[concept]) {
-    renderReviewContent(reviewCache[concept]);
-    return;
-  }
-
   const key = getApiKey();
+
+  // Build overlay
+  const overlay = document.createElement('div');
+  overlay.className = 'chat-overlay';
+  overlay.id = 'chat-overlay';
+  overlay.innerHTML = `
+    <div class="chat-topbar">
+      <button class="header-btn" onclick="closeChatOverlay()" style="flex-shrink:0">←</button>
+      <div class="chat-topbar-title">📖 ${concept}</div>
+      <button class="btn btn-ghost" onclick="promptApiKey(null)" style="font-size:11px;color:var(--muted);padding:4px 8px">⚙ Key</button>
+      <button class="btn btn-outline" onclick="startConceptQuiz('${esc(concept)}');closeChatOverlay()" style="font-size:12px;padding:6px 10px">練習 →</button>
+    </div>
+    <div class="chat-messages" id="chat-messages"></div>
+    <div class="chat-input-bar">
+      <textarea class="chat-input" id="chat-input" placeholder="追問任何問題…" rows="1"
+        onkeydown="chatKeydown(event)" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
+      <button class="chat-send-btn" id="chat-send-btn" onclick="sendChatMessage('${esc(concept)}')" disabled>↑</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+
+  // Enable send btn when input has content
+  const input = document.getElementById('chat-input');
+  input.addEventListener('input', () => {
+    document.getElementById('chat-send-btn').disabled = !input.value.trim();
+  });
+
   if (!key) {
-    document.getElementById('concept-review-body').innerHTML =
-      `<div style="color:var(--muted);font-size:13px;padding:12px 0">尚未設定 API Key，請點左下角「⚙ 設定 Key」</div>`;
+    appendAiMessage('尚未設定 API Key，請點右上角「⚙ Key」設定後重新開啟。');
     return;
   }
-  generateConceptReview(concept, key);
+
+  // Init conversation with system context
+  chatHistory[concept] = [];
+  if (reviewCache[concept]) {
+    appendAiMessage(reviewCache[concept]);
+  } else {
+    startConceptChat(concept, key);
+  }
 }
 
-async function generateConceptReview(concept, apiKey) {
+async function startConceptChat(concept, apiKey) {
+  appendTyping();
+  const systemPrompt = `你是心理統計學考前複習老師，專門幫學生用最白話的方式準備考試。
+學生現在在複習「${concept}」。
+先給一份完整的考前重點，之後學生可能會追問，請根據對話脈絡繼續回答。
+回答風格：口語、簡短、直接，多用條列，公式用純文字寫出。`;
+
+  const firstMsg = `請給我「${concept}」的考前重點複習，包含：一句話解釋、核心重點（2-4點）、記憶公式或口訣、常見考法。`;
+
+  chatHistory[concept] = [{ role: 'user', content: firstMsg }];
+
   try {
-    const prompt = `你是心理統計學考前複習老師。請針對「${concept}」這個考點，用最白話的方式幫學生快速複習。
-
-請依照以下格式回覆（直接輸出，不要多餘說明）：
-
-### 一句話解釋
-（用最口語的方式說明這個概念是什麼）
-
-### 核心重點
-（條列 2-4 個最容易考的重點，每點一行，簡短）
-
-### 記憶公式／提示
-（如果有公式，用純文字寫出，例如：t = (X̄ - μ) / (s/√n)；如果沒有公式，給一個記憶口訣或考試陷阱提醒）
-
-### 常見考法
-（一句話說明出題方向或常見錯誤）`;
-
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
@@ -2426,62 +2456,155 @@ async function generateConceptReview(concept, apiKey) {
       body: JSON.stringify({
         model: 'claude-haiku-4-5-20251001',
         max_tokens: 1000,
-        messages: [{ role: 'user', content: prompt }]
+        system: systemPrompt,
+        messages: chatHistory[concept]
       })
     });
     const data = await res.json();
     if (data.error) throw new Error(data.error.message);
-    const text = data.content?.[0]?.text || '生成失敗，請稍後再試';
+    const text = data.content?.[0]?.text || '生成失敗';
+    removeTyping();
+    chatHistory[concept].push({ role: 'assistant', content: text });
     reviewCache[concept] = text;
-    renderReviewContent(text);
+    appendAiMessage(text);
   } catch(e) {
-    const body = document.getElementById('concept-review-body');
-    if (body) body.innerHTML = `<div style="color:var(--red);font-size:13px;padding:12px 0">⚠ ${e.message || '無法連線，請確認 API Key 與網路'}</div>`;
+    removeTyping();
+    appendAiMessage(`⚠ ${e.message || '無法連線，請確認 API Key 與網路'}`);
   }
 }
 
-function renderReviewContent(markdown) {
-  const body = document.getElementById('concept-review-body');
-  if (!body) return;
+async function sendChatMessage(concept) {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text) return;
+  const key = getApiKey();
+  if (!key) { appendAiMessage('請先設定 API Key（右上角 ⚙ Key）'); return; }
 
-  // Parse markdown-ish format into HTML
+  input.value = '';
+  input.style.height = 'auto';
+  document.getElementById('chat-send-btn').disabled = true;
+
+  appendUserMessage(text);
+  if (!chatHistory[concept]) chatHistory[concept] = [];
+  chatHistory[concept].push({ role: 'user', content: text });
+
+  appendTyping();
+  try {
+    const systemPrompt = `你是心理統計學考前複習老師，專門幫學生用最白話的方式準備考試。
+學生現在在複習「${concept}」。回答風格：口語、簡短、直接，多用條列，公式用純文字寫出。`;
+
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': key,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 800,
+        system: systemPrompt,
+        messages: chatHistory[concept]
+      })
+    });
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message);
+    const reply = data.content?.[0]?.text || '無回應';
+    removeTyping();
+    chatHistory[concept].push({ role: 'assistant', content: reply });
+    appendAiMessage(reply);
+  } catch(e) {
+    removeTyping();
+    appendAiMessage(`⚠ ${e.message || '連線失敗'}`);
+  }
+}
+
+function chatKeydown(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    const conceptTitle = document.querySelector('.chat-topbar-title')?.textContent.replace('📖 ','').trim();
+    if (conceptTitle) sendChatMessage(conceptTitle);
+  }
+}
+
+function appendUserMessage(text) {
+  const msgs = document.getElementById('chat-messages');
+  if (!msgs) return;
+  const div = document.createElement('div');
+  div.className = 'chat-msg user';
+  div.innerHTML = `<div class="chat-bubble">${esc2(text)}</div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function appendAiMessage(markdown) {
+  const msgs = document.getElementById('chat-messages');
+  if (!msgs) return;
+  const div = document.createElement('div');
+  div.className = 'chat-msg ai';
+  div.innerHTML = `<div class="chat-bubble">${parseMarkdown(markdown)}</div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function appendTyping() {
+  const msgs = document.getElementById('chat-messages');
+  if (!msgs) return;
+  const div = document.createElement('div');
+  div.className = 'chat-msg ai';
+  div.id = 'chat-typing';
+  div.innerHTML = `<div class="chat-bubble"><div class="chat-typing"><span></span><span></span><span></span></div></div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function removeTyping() {
+  document.getElementById('chat-typing')?.remove();
+}
+
+function parseMarkdown(markdown) {
   let html = '';
   const lines = markdown.split('\n');
   let inList = false;
-
   for (const line of lines) {
-    const trimmed = line.trim();
-    if (!trimmed) {
+    const t = line.trim();
+    if (!t) { if (inList) { html += '</ul>'; inList = false; } continue; }
+    if (t.startsWith('### ')) {
       if (inList) { html += '</ul>'; inList = false; }
-      continue;
-    }
-    if (trimmed.startsWith('### ')) {
-      if (inList) { html += '</ul>'; inList = false; }
-      html += `<h3>${trimmed.slice(4)}</h3>`;
-    } else if (trimmed.startsWith('- ') || trimmed.startsWith('• ')) {
+      html += `<h3>${t.slice(4)}</h3>`;
+    } else if (t.startsWith('- ') || t.startsWith('• ')) {
       if (!inList) { html += '<ul>'; inList = true; }
-      html += `<li>${trimmed.slice(2)}</li>`;
-    } else if (/[=÷×√∑]/.test(trimmed) || /^[A-Za-zα-ωΑ-Ω\s]+\s*[=<>≤≥]/.test(trimmed) || trimmed.startsWith('（') && trimmed.includes('=')) {
+      html += `<li>${t.slice(2)}</li>`;
+    } else if (/[=÷×√∑]/.test(t) && t.length < 80) {
       if (inList) { html += '</ul>'; inList = false; }
-      html += `<div class="formula">${trimmed}</div>`;
-    } else if (trimmed.startsWith('⚠') || trimmed.startsWith('💡') || trimmed.startsWith('提醒') || trimmed.startsWith('考試陷阱')) {
+      html += `<div class="formula">${t}</div>`;
+    } else if (t.startsWith('⚠') || t.startsWith('💡') || t.startsWith('提醒') || t.startsWith('考試陷阱')) {
       if (inList) { html += '</ul>'; inList = false; }
-      html += `<div class="tip">${trimmed}</div>`;
+      html += `<div class="tip">${t}</div>`;
     } else {
       if (inList) { html += '</ul>'; inList = false; }
-      html += `<p>${trimmed}</p>`;
+      html += `<p>${t}</p>`;
     }
   }
   if (inList) html += '</ul>';
+  return html;
+}
 
-  body.innerHTML = `<div class="review-modal-content">${html}</div>`;
+function closeChatOverlay() {
+  document.getElementById('chat-overlay')?.remove();
+}
+
+// legacy — keep for cache compat
+function renderReviewContent(markdown) {
+  appendAiMessage(markdown);
 }
 
 function closeConceptReview(e) {
   if (e && e.target !== document.getElementById('concept-review-modal')) return;
-  const m = document.getElementById('concept-review-modal');
-  if (m) m.remove();
+  document.getElementById('concept-review-modal')?.remove();
 }
+
 
 
 
