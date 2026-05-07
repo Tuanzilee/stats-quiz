@@ -681,6 +681,23 @@ html, body {
 .concept-acc.mid { background: var(--yellow-bg); color: var(--yellow); border: 1px solid rgba(245,200,66,0.3); }
 .concept-acc.bad { background: var(--red-bg); color: var(--red); border: 1px solid rgba(247,95,95,0.3); }
 .concept-acc.none { background: var(--surface2); color: var(--dim); border: 1px solid var(--border); }
+.concept-review-btn { padding:5px 9px; border-radius:6px; border:1px solid var(--border2); background:transparent; color:var(--muted); font-size:11px; cursor:pointer; white-space:nowrap; flex-shrink:0; transition:all .15s; }
+.concept-review-btn:hover { border-color:var(--purple); color:var(--purple); }
+
+/* Review modal */
+.review-modal-content { padding:4px 0 8px; }
+.review-modal-content h3 { font-size:13px; font-weight:700; color:var(--purple); margin:14px 0 6px; letter-spacing:0.03em; }
+.review-modal-content h3:first-child { margin-top:0; }
+.review-modal-content p { font-size:13px; line-height:1.75; color:var(--text); margin:0 0 6px; }
+.review-modal-content ul { margin:0 0 8px; padding-left:18px; }
+.review-modal-content li { font-size:13px; line-height:1.75; color:var(--text); margin-bottom:2px; }
+.review-modal-content .formula { background:var(--surface2); border:1px solid var(--border2); border-left:3px solid var(--purple); border-radius:6px; padding:8px 12px; font-family:'Space Mono',monospace; font-size:12px; color:var(--purple); margin:6px 0; line-height:1.6; white-space:pre-wrap; }
+.review-modal-content .tip { background:var(--yellow-bg); border:1px solid rgba(245,200,66,0.25); border-radius:6px; padding:8px 12px; font-size:12px; color:var(--yellow); margin:6px 0; line-height:1.6; }
+.review-loading { display:flex; align-items:center; gap:10px; padding:24px 0; color:var(--muted); font-size:13px; }
+.review-loading-dot { width:6px; height:6px; border-radius:50%; background:var(--purple); animation:ldot .9s infinite; flex-shrink:0; }
+.review-loading-dot:nth-child(2){animation-delay:.2s}
+.review-loading-dot:nth-child(3){animation-delay:.4s}
+@keyframes ldot{0%,80%,100%{opacity:.2;transform:scale(0.8)}40%{opacity:1;transform:scale(1)}}
 
 /* ── MODALS ── */
 .modal-bg {
@@ -1483,6 +1500,7 @@ function renderConcepts() {
       <div class="concept-acc ${accClass}">${accText}</div>
       <div class="concept-name">${c}</div>
       <div class="concept-count">${s.total}題</div>
+      <button class="concept-review-btn" onclick="event.stopPropagation();openConceptReview('${esc(c)}')">重點複習</button>
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--dim)" stroke-width="2"><polyline points="9,18 15,12 9,6"/></svg>
     </div>`;
   }).join('');
@@ -2298,7 +2316,119 @@ function esc(str) { return (str||'').replace(/'/g,"\\'").replace(/"/g,'&quot;');
 function esc2(str) { return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 
-// ─── MOCK EXAM ────────────────────────────────────────────────────────────────
+// ─── CONCEPT REVIEW (AI) ─────────────────────────────────────────────────────
+
+const reviewCache = {};
+
+function openConceptReview(concept) {
+  const html = `
+    <div class="modal-bg show" id="concept-review-modal" onclick="closeConceptReview(event)">
+      <div class="modal" onclick="event.stopPropagation()" style="max-height:80vh;overflow-y:auto;-webkit-overflow-scrolling:touch">
+        <div class="modal-handle"></div>
+        <div class="modal-title" style="color:var(--purple)">📖 ${concept}</div>
+        <div id="concept-review-body">
+          <div class="review-loading">
+            <div class="review-loading-dot"></div>
+            <div class="review-loading-dot"></div>
+            <div class="review-loading-dot"></div>
+            <span>AI 生成考前重點中…</span>
+          </div>
+        </div>
+        <div class="action-row" style="margin-top:12px">
+          <button class="btn btn-outline" onclick="closeConceptReview()">關閉</button>
+          <button class="btn btn-primary" onclick="startConceptQuiz('${esc(concept)}');closeConceptReview()">開始練習 →</button>
+        </div>
+      </div>
+    </div>`;
+  document.body.insertAdjacentHTML('beforeend', html);
+
+  if (reviewCache[concept]) {
+    renderReviewContent(reviewCache[concept]);
+    return;
+  }
+  generateConceptReview(concept);
+}
+
+async function generateConceptReview(concept) {
+  try {
+    const prompt = `你是心理統計學考前複習老師。請針對「${concept}」這個考點，用最白話的方式幫學生快速複習。
+
+請依照以下格式回覆（直接輸出，不要多餘說明）：
+
+### 一句話解釋
+（用最口語的方式說明這個概念是什麼）
+
+### 核心重點
+（條列 2-4 個最容易考的重點，每點一行，簡短）
+
+### 記憶公式／提示
+（如果有公式，用純文字寫出，例如：t = (X̄ - μ) / (s/√n)；如果沒有公式，給一個記憶口訣或考試陷阱提醒）
+
+### 常見考法
+（一句話說明出題方向或常見錯誤）`;
+
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await res.json();
+    const text = data.content?.[0]?.text || '生成失敗，請稍後再試';
+    reviewCache[concept] = text;
+    renderReviewContent(text);
+  } catch(e) {
+    renderReviewContent('⚠ 無法連線，請確認網路後再試');
+  }
+}
+
+function renderReviewContent(markdown) {
+  const body = document.getElementById('concept-review-body');
+  if (!body) return;
+
+  // Parse markdown-ish format into HTML
+  let html = '';
+  const lines = markdown.split('\n');
+  let inList = false;
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed) {
+      if (inList) { html += '</ul>'; inList = false; }
+      continue;
+    }
+    if (trimmed.startsWith('### ')) {
+      if (inList) { html += '</ul>'; inList = false; }
+      html += `<h3>${trimmed.slice(4)}</h3>`;
+    } else if (trimmed.startsWith('- ') || trimmed.startsWith('• ')) {
+      if (!inList) { html += '<ul>'; inList = true; }
+      html += `<li>${trimmed.slice(2)}</li>`;
+    } else if (/[=÷×√∑]/.test(trimmed) || /^[A-Za-zα-ωΑ-Ω\s]+\s*[=<>≤≥]/.test(trimmed) || trimmed.startsWith('（') && trimmed.includes('=')) {
+      if (inList) { html += '</ul>'; inList = false; }
+      html += `<div class="formula">${trimmed}</div>`;
+    } else if (trimmed.startsWith('⚠') || trimmed.startsWith('💡') || trimmed.startsWith('提醒') || trimmed.startsWith('考試陷阱')) {
+      if (inList) { html += '</ul>'; inList = false; }
+      html += `<div class="tip">${trimmed}</div>`;
+    } else {
+      if (inList) { html += '</ul>'; inList = false; }
+      html += `<p>${trimmed}</p>`;
+    }
+  }
+  if (inList) html += '</ul>';
+
+  body.innerHTML = `<div class="review-modal-content">${html}</div>`;
+}
+
+function closeConceptReview(e) {
+  if (e && e.target !== document.getElementById('concept-review-modal')) return;
+  const m = document.getElementById('concept-review-modal');
+  if (m) m.remove();
+}
+
+
 
 let mockSettings = { count: '20', time: '30', source: 'all', year: 'all' };
 let mockQueue = [];
