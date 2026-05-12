@@ -3280,12 +3280,21 @@ function hwInit(qid, isReview) {
   canvas.addEventListener('pointercancel', hwPointerUp);
 }
 
+// Debounced save
+let hwSaveTimer = null;
+function hwSaveDebounced() {
+  clearTimeout(hwSaveTimer);
+  hwSaveTimer = setTimeout(hwSave, 800);
+}
+
 function hwPointerDown(e) {
+  if (e.pointerType === 'touch') return; // block palm/finger, allow pen+mouse
   e.preventDefault();
+  e.target.setPointerCapture(e.pointerId);
   hwDrawing = true;
   const rect = e.target.getBoundingClientRect();
-  hwLastX = (e.clientX - rect.left);
-  hwLastY = (e.clientY - rect.top);
+  hwLastX = e.clientX - rect.left;
+  hwLastY = e.clientY - rect.top;
   hwCtx.beginPath();
   if (hwTool === 'eraser') {
     hwCtx.globalCompositeOperation = 'destination-out';
@@ -3301,31 +3310,35 @@ function hwPointerDown(e) {
 
 function hwPointerMove(e) {
   if (!hwDrawing) return;
+  if (e.pointerType === 'touch') return;
   e.preventDefault();
   const rect = e.target.getBoundingClientRect();
-  const x = (e.clientX - rect.left);
-  const y = (e.clientY - rect.top);
-  hwCtx.beginPath();
-  hwCtx.lineWidth = hwTool === 'eraser' ? hwSize * 6 : hwSize;
-  if (hwTool === 'eraser') {
-    hwCtx.globalCompositeOperation = 'destination-out';
-    hwCtx.strokeStyle = 'rgba(0,0,0,1)';
-  } else {
-    hwCtx.globalCompositeOperation = 'source-over';
-    hwCtx.strokeStyle = '#000000';
-  }
-  hwCtx.moveTo(hwLastX, hwLastY);
-  hwCtx.lineTo(x, y);
-  hwCtx.stroke();
-  hwCtx.globalCompositeOperation = 'source-over';
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  const lx = hwLastX, ly = hwLastY;
   hwLastX = x; hwLastY = y;
+  requestAnimationFrame(() => {
+    hwCtx.beginPath();
+    hwCtx.lineWidth = hwTool === 'eraser' ? hwSize * 6 : hwSize;
+    if (hwTool === 'eraser') {
+      hwCtx.globalCompositeOperation = 'destination-out';
+      hwCtx.strokeStyle = 'rgba(0,0,0,1)';
+    } else {
+      hwCtx.globalCompositeOperation = 'source-over';
+      hwCtx.strokeStyle = '#000000';
+    }
+    hwCtx.moveTo(lx, ly);
+    hwCtx.lineTo(x, y);
+    hwCtx.stroke();
+    hwCtx.globalCompositeOperation = 'source-over';
+  });
 }
 
 function hwPointerUp(e) {
   if (!hwDrawing) return;
   hwDrawing = false;
   hwPushHistory();
-  hwSave();
+  hwSaveDebounced();
 }
 
 function hwPushHistory() {
