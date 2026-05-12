@@ -2871,6 +2871,11 @@ function renderExamQuestion() {
     </div>
     <div style="height:20px"></div>
   `;
+  // Init handwriting canvas
+  const _q = mockQueue[mockExamIdx];
+  if (_q && getMockQType(_q) === 'open') {
+    setTimeout(() => hwInit(_q.id, false), 60);
+  }
 }
 
 function examSelectSingle(i) {
@@ -3081,7 +3086,7 @@ function renderReviewQuestion() {
   `;
   // Init review canvas for open questions
   if (getMockQType(mockQueue[mockReviewIdx]) === 'open') {
-    hwReviewInit(mockQueue[mockReviewIdx].id);
+    setTimeout(() => hwReviewInit(mockQueue[mockReviewIdx].id), 60);
   }
 }
 
@@ -3239,7 +3244,7 @@ function hwInit(qid, isReview) {
   const canvas = document.getElementById('hw-canvas');
   if (!canvas) return;
   const container = document.getElementById('hw-container');
-  const w = container.offsetWidth || 600;
+  const w = (container?.offsetWidth || window.innerWidth || 600) - 2;
   canvas.width = w * DPR;
   canvas.height = hwCanvasHeight * DPR;
   canvas.style.height = hwCanvasHeight + 'px';
@@ -3415,7 +3420,7 @@ function hwReviewInit(qid) {
   const canvas = document.getElementById('hw-review-canvas');
   if (!canvas) return;
   const container = document.getElementById('hw-review-container');
-  const w = container.offsetWidth || 600;
+  const w = (container?.offsetWidth || window.innerWidth || 600) - 2;
   canvas.width = w * DPR;
   canvas.height = hwCanvasHeight * DPR;
   canvas.style.height = hwCanvasHeight + 'px';
