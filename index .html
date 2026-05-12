@@ -1,0 +1,3621 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="心統刷題">
+<meta name="theme-color" content="#0a0a0f">
+<title>心統刷題</title>
+<link rel="manifest" href="manifest.json">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap');
+
+:root {
+  --bg: #0a0a0f;
+  --bg2: #111118;
+  --surface: #16161f;
+  --surface2: #1e1e2a;
+  --border: #252535;
+  --border2: #32324a;
+  --text: #e8e8f0;
+  --muted: #6b6b8a;
+  --dim: #3a3a55;
+
+  --blue: #4f6ef7;
+  --blue-light: #6b85ff;
+  --blue-glow: rgba(79,110,247,0.12);
+
+  --green: #3dd68c;
+  --green-bg: rgba(61,214,140,0.08);
+  --yellow: #f5c842;
+  --yellow-bg: rgba(245,200,66,0.08);
+  --red: #f75f5f;
+  --red-bg: rgba(247,95,95,0.08);
+  --purple: #a78bfa;
+  --purple-bg: rgba(167,139,250,0.08);
+
+  --radius: 10px;
+  --safe-top: env(safe-area-inset-top);
+  --safe-bottom: env(safe-area-inset-bottom);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  overflow: hidden;
+}
+
+/* ── APP SHELL ── */
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  height: 100dvh;
+  max-width: 680px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* ── HEADER ── */
+.header {
+  padding: 12px 16px 10px;
+  padding-top: calc(12px + var(--safe-top));
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg);
+  position: relative;
+  z-index: 10;
+  flex-shrink: 0;
+}
+.header-title {
+  font-family: 'Space Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--blue-light);
+  letter-spacing: 0.04em;
+}
+.header-sub {
+  font-size: 11px;
+  color: var(--muted);
+  margin-left: auto;
+}
+.header-btn {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--border2);
+  background: var(--surface);
+  color: var(--muted);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+.header-btn:active { opacity: 0.7; }
+
+/* ── BOTTOM NAV ── */
+.bottom-nav {
+  display: flex;
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+  padding-bottom: var(--safe-bottom);
+  flex-shrink: 0;
+}
+.nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 10px 0 8px;
+  cursor: pointer;
+  color: var(--dim);
+  transition: color 0.15s;
+  font-size: 10px;
+  font-weight: 500;
+}
+.nav-item.active { color: var(--blue-light); }
+.nav-item svg { width: 20px; height: 20px; }
+
+/* ── PAGES ── */
+.page {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  display: none;
+}
+.page.active { display: block; }
+#page-mock-exam.active,
+#page-mock-review.active,
+#page-mock-report.active { display:flex !important; flex-direction:column; overflow:hidden; }
+.page::-webkit-scrollbar { display: none; }
+
+/* ── LOADING ── */
+#loading {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  z-index: 999;
+}
+.loading-logo {
+  font-family: 'Space Mono', monospace;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--blue-light);
+}
+.loading-bar {
+  width: 120px;
+  height: 2px;
+  background: var(--border);
+  border-radius: 1px;
+  overflow: hidden;
+}
+.loading-fill {
+  height: 100%;
+  background: var(--blue);
+  border-radius: 1px;
+  animation: loadbar 1.2s ease-in-out infinite;
+}
+@keyframes loadbar {
+  0% { width: 0; }
+  50% { width: 80%; }
+  100% { width: 100%; }
+}
+
+/* ── HOME PAGE ── */
+.home-section { padding: 16px; }
+.section-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+/* Stats row */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 10px;
+  text-align: center;
+}
+.stat-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1;
+  margin-bottom: 3px;
+}
+.stat-num.green { color: var(--green); }
+.stat-num.yellow { color: var(--yellow); }
+.stat-num.red { color: var(--red); }
+.stat-label { font-size: 10px; color: var(--muted); }
+
+/* Quick start buttons */
+.quick-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.quick-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.quick-card:active { background: var(--surface2); transform: scale(0.98); }
+.quick-card .icon { font-size: 20px; }
+.quick-card .label { font-size: 13px; font-weight: 500; }
+.quick-card .sub { font-size: 11px; color: var(--muted); }
+.quick-card.highlight {
+  border-color: var(--blue);
+  background: var(--blue-glow);
+}
+.quick-card.highlight .label { color: var(--blue-light); }
+
+/* Concept chips */
+.concept-scroll {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  margin-bottom: 20px;
+}
+.concept-scroll::-webkit-scrollbar { display: none; }
+.concept-chip {
+  flex-shrink: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  padding: 5px 12px;
+  font-size: 12px;
+  color: var(--muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+.concept-chip:active { color: var(--blue-light); border-color: var(--blue); background: var(--blue-glow); }
+
+/* Weak topics */
+.weak-list { display: flex; flex-direction: column; gap: 6px; }
+.weak-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+.weak-bar-wrap { flex: 1; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+.weak-bar { height: 100%; border-radius: 2px; }
+.weak-name { font-size: 12px; color: var(--muted); min-width: 80px; }
+.weak-pct { font-size: 11px; font-family: 'Space Mono', monospace; color: var(--red); min-width: 30px; text-align: right; }
+
+/* ── BROWSE PAGE ── */
+.filter-bar {
+  padding: 12px 16px;
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.filter-bar::-webkit-scrollbar { display: none; }
+.filter-pill {
+  flex-shrink: 0;
+  padding: 5px 12px;
+  border-radius: 99px;
+  font-size: 12px;
+  border: 1px solid var(--border2);
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+.filter-pill.active {
+  background: var(--blue-glow);
+  border-color: var(--blue);
+  color: var(--blue-light);
+}
+
+.search-wrap { padding: 10px 16px; border-bottom: 1px solid var(--border); }
+.search-input {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 13px;
+  font-family: inherit;
+  outline: none;
+}
+.search-input::placeholder { color: var(--dim); }
+.search-input:focus { border-color: var(--blue); }
+
+.q-list { padding: 8px 0; }
+.q-row {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  transition: background 0.1s;
+}
+.q-row:active { background: var(--surface); }
+.q-row-status {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+.q-row-status.correct { background: var(--green); }
+.q-row-status.wrong { background: var(--red); }
+.q-row-status.unsure { background: var(--yellow); }
+.q-row-status.unmarked { background: var(--dim); }
+.q-row-body { flex: 1; min-width: 0; }
+.q-row-id {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--blue);
+  margin-bottom: 2px;
+}
+.q-row-text {
+  font-size: 13px;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.4;
+}
+.q-row-tags { display: flex; gap: 4px; margin-top: 5px; flex-wrap: wrap; }
+.q-row-tag {
+  font-size: 10px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  background: var(--surface2);
+  color: var(--dim);
+}
+.q-row-diff {
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  font-weight: 500;
+}
+.q-row-diff.easy { background: var(--green-bg); color: var(--green); }
+.q-row-diff.medium { background: var(--yellow-bg); color: var(--yellow); }
+.q-row-diff.hard { background: var(--red-bg); color: var(--red); }
+
+/* ── QUIZ PAGE (QUESTION VIEW) ── */
+.quiz-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.quiz-back {
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 18px;
+}
+.quiz-progress {
+  flex: 1;
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.quiz-progress-fill {
+  height: 100%;
+  background: var(--blue);
+  border-radius: 2px;
+  transition: width 0.3s;
+}
+.quiz-counter {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.quiz-body { padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+
+.q-meta { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.q-badge {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--border2);
+  color: var(--muted);
+  background: var(--surface);
+}
+.q-badge.school { color: var(--blue-light); border-color: rgba(79,110,247,0.3); background: var(--blue-glow); }
+
+.q-text {
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 14px;
+}
+
+/* Options */
+.options { display: flex; flex-direction: column; gap: 8px; }
+.option {
+  padding: 11px 14px;
+  border-radius: 8px;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1.5;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  transition: all 0.15s;
+  color: var(--text);
+}
+.option:active { transform: scale(0.99); }
+.option.selected { border-color: var(--blue); background: var(--blue-glow); }
+.option.correct { border-color: var(--green); background: var(--green-bg); }
+.option.wrong { border-color: var(--red); background: var(--red-bg); }
+.option.reveal-correct { border-color: var(--green); background: var(--green-bg); }
+.option-key {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.option.correct .option-key { color: var(--green); }
+.option.wrong .option-key { color: var(--red); }
+.option.reveal-correct .option-key { color: var(--green); }
+
+/* Answer input (non-MC) */
+.answer-input-wrap { display: flex; flex-direction: column; gap: 8px; }
+.answer-input {
+  width: 100%;
+  background: var(--surface);
+  border: 1.5px solid var(--border2);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--text);
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  resize: none;
+  min-height: 80px;
+  line-height: 1.5;
+}
+.answer-input:focus { border-color: var(--blue); }
+
+/* Action buttons */
+.action-row { display: flex; gap: 8px; }
+.btn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1.5px solid;
+  font-family: inherit;
+  transition: all 0.15s;
+  text-align: center;
+}
+.btn:active { transform: scale(0.98); opacity: 0.85; }
+.btn-primary { background: var(--blue); border-color: var(--blue); color: #fff; }
+.btn-outline { background: transparent; border-color: var(--border2); color: var(--muted); }
+.btn-ghost { background: var(--surface); border-color: var(--border); color: var(--muted); }
+
+/* Mark buttons */
+.mark-row {
+  display: flex;
+  gap: 6px;
+}
+.mark-btn {
+  flex: 1;
+  padding: 8px 6px;
+  border-radius: 7px;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid;
+  font-family: inherit;
+  text-align: center;
+  transition: all 0.15s;
+}
+.mark-btn:active { transform: scale(0.97); }
+.mark-btn.correct-btn { border-color: rgba(61,214,140,0.4); color: var(--green); background: var(--green-bg); }
+.mark-btn.correct-btn.active { background: var(--green); color: #000; border-color: var(--green); }
+.mark-btn.unsure-btn { border-color: rgba(245,200,66,0.4); color: var(--yellow); background: var(--yellow-bg); }
+.mark-btn.unsure-btn.active { background: var(--yellow); color: #000; border-color: var(--yellow); }
+.mark-btn.wrong-btn { border-color: rgba(247,95,95,0.4); color: var(--red); background: var(--red-bg); }
+.mark-btn.wrong-btn.active { background: var(--red); color: #fff; border-color: var(--red); }
+
+/* ── SOLUTION PANEL ── */
+.solution-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: none;
+}
+.solution-panel.show { display: block; }
+.solution-tab-row {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+}
+.solution-tab {
+  flex: 1;
+  padding: 10px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+}
+.solution-tab.active { color: var(--blue-light); border-bottom-color: var(--blue); }
+
+.solution-content { padding: 14px; display: none; }
+.solution-content.active { display: block; }
+
+.slabel {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--dim);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.steps { display: flex; flex-direction: column; gap: 6px; }
+.step {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  padding: 8px 10px;
+  background: var(--bg2);
+  border-radius: 6px;
+  border-left: 2px solid var(--blue);
+  font-size: 13px;
+  line-height: 1.55;
+}
+.step-n {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--blue);
+  flex-shrink: 0;
+  min-width: 18px;
+  margin-top: 2px;
+}
+
+.key-box {
+  padding: 10px 12px;
+  background: var(--blue-glow);
+  border: 1px solid rgba(79,110,247,0.2);
+  border-radius: 7px;
+  font-size: 13px;
+  color: #8fa4ff;
+  line-height: 1.55;
+  margin-bottom: 10px;
+}
+.hint-box {
+  padding: 10px 12px;
+  background: var(--yellow-bg);
+  border: 1px solid rgba(245,200,66,0.2);
+  border-radius: 7px;
+  font-size: 13px;
+  color: #d4aa30;
+  line-height: 1.55;
+}
+.hint-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--yellow);
+  letter-spacing: 0.08em;
+  margin-bottom: 5px;
+}
+.formula-item {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  padding: 6px 10px;
+  background: var(--bg2);
+  border-radius: 5px;
+  color: var(--purple);
+  margin-bottom: 4px;
+  line-height: 1.5;
+}
+.concept-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+.concept-tag {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 99px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+
+/* ── CONCEPTS PAGE ── */
+.concept-grid {
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.concept-row {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 11px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.concept-row:active { background: var(--surface2); }
+.concept-name { flex: 1; font-size: 13px; }
+.concept-count {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+}
+.concept-acc {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: 'Space Mono', monospace;
+  flex-shrink: 0;
+}
+.concept-acc.good { background: var(--green-bg); color: var(--green); border: 1px solid rgba(61,214,140,0.3); }
+.concept-acc.mid { background: var(--yellow-bg); color: var(--yellow); border: 1px solid rgba(245,200,66,0.3); }
+.concept-acc.bad { background: var(--red-bg); color: var(--red); border: 1px solid rgba(247,95,95,0.3); }
+.concept-acc.none { background: var(--surface2); color: var(--dim); border: 1px solid var(--border); }
+.concept-review-btn { padding:5px 9px; border-radius:6px; border:1px solid var(--border2); background:transparent; color:var(--muted); font-size:11px; cursor:pointer; white-space:nowrap; flex-shrink:0; transition:all .15s; }
+.concept-review-btn:hover { border-color:var(--purple); color:var(--purple); }
+
+/* Chat review overlay */
+.chat-overlay { position:fixed; inset:0; background:var(--bg); z-index:200; display:flex; flex-direction:column; max-width:680px; margin:0 auto; }
+.chat-topbar { display:flex; align-items:center; gap:10px; padding:10px 14px; padding-top:calc(10px + var(--safe-top)); border-bottom:1px solid var(--border); flex-shrink:0; background:var(--bg); }
+.chat-topbar-title { font-size:14px; font-weight:700; color:var(--purple); flex:1; }
+.chat-topbar-sub { font-size:11px; color:var(--muted); }
+.chat-messages { flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:14px 16px; display:flex; flex-direction:column; gap:12px; }
+.chat-msg { display:flex; flex-direction:column; gap:4px; }
+.chat-msg.user { align-items:flex-end; }
+.chat-msg.ai { align-items:flex-start; }
+.chat-bubble { max-width:88%; padding:10px 13px; border-radius:12px; font-size:13px; line-height:1.7; }
+.chat-msg.user .chat-bubble { background:var(--purple); color:#fff; border-bottom-right-radius:4px; }
+.chat-msg.ai .chat-bubble { background:var(--surface); border:1px solid var(--border); color:var(--text); border-bottom-left-radius:4px; }
+.chat-msg.ai .chat-bubble h3 { font-size:12px; font-weight:700; color:var(--purple); margin:10px 0 4px; letter-spacing:0.03em; }
+.chat-msg.ai .chat-bubble h3:first-child { margin-top:0; }
+.chat-msg.ai .chat-bubble p { margin:0 0 4px; }
+.chat-msg.ai .chat-bubble ul { margin:0 0 6px; padding-left:16px; }
+.chat-msg.ai .chat-bubble li { margin-bottom:2px; }
+.chat-msg.ai .chat-bubble .formula { background:var(--surface2); border-left:3px solid var(--purple); border-radius:4px; padding:6px 10px; font-family:'Space Mono',monospace; font-size:11px; color:var(--purple); margin:4px 0; white-space:pre-wrap; }
+.chat-msg.ai .chat-bubble .tip { background:var(--yellow-bg); border-radius:4px; padding:6px 10px; font-size:12px; color:var(--yellow); margin:4px 0; }
+.chat-input-bar { display:flex; align-items:flex-end; gap:8px; padding:10px 14px; padding-bottom:calc(10px + var(--safe-bottom)); border-top:1px solid var(--border); background:var(--bg); flex-shrink:0; }
+.chat-input { flex:1; background:var(--surface); border:1px solid var(--border2); border-radius:10px; color:var(--text); font-size:14px; line-height:1.5; padding:9px 12px; resize:none; font-family:'Noto Sans TC',sans-serif; max-height:100px; overflow-y:auto; }
+.chat-input:focus { outline:none; border-color:var(--purple); }
+.chat-send-btn { width:36px; height:36px; border-radius:50%; background:var(--purple); border:none; color:#fff; font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:opacity .15s; }
+.chat-send-btn:disabled { opacity:0.4; cursor:default; }
+.chat-typing { display:flex; gap:4px; align-items:center; padding:4px 0; }
+.chat-typing span { width:6px; height:6px; border-radius:50%; background:var(--muted); animation:ldot .9s infinite; }
+.chat-typing span:nth-child(2){animation-delay:.2s}
+.chat-typing span:nth-child(3){animation-delay:.4s}
+
+/* Handwriting canvas */
+.hw-wrap { margin-bottom:16px; }
+.hw-toolbar { display:flex; align-items:center; gap:6px; padding:6px 8px; background:var(--surface); border:1px solid var(--border2); border-bottom:none; border-radius:var(--radius) var(--radius) 0 0; flex-wrap:wrap; }
+.hw-tool-btn { width:32px; height:32px; border-radius:7px; border:1px solid var(--border2); background:var(--bg); color:var(--text); font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .15s; flex-shrink:0; }
+.hw-tool-btn.active { border-color:var(--purple); background:var(--purple-bg); }
+.hw-tool-btn.red-active { border-color:var(--red); background:var(--red-bg); }
+.hw-pen-size { display:flex; align-items:center; gap:4px; margin-left:2px; }
+.hw-size-dot { border-radius:50%; background:var(--text); cursor:pointer; transition:all .15s; flex-shrink:0; }
+.hw-size-dot.active { background:var(--purple); box-shadow:0 0 0 2px var(--purple-bg); }
+.hw-separator { width:1px; height:20px; background:var(--border); margin:0 2px; }
+.hw-label { font-size:10px; color:var(--muted); margin-left:auto; }
+.hw-canvas-container { position:relative; border:1px solid var(--border2); border-radius:0 0 var(--radius) var(--radius); overflow:hidden; background:#fff; cursor:crosshair; touch-action:none; }
+.hw-canvas { display:block; width:100%; }
+.hw-extend-btn { width:100%; padding:8px; background:var(--surface); border:1px dashed var(--border2); border-top:none; border-radius:0 0 var(--radius) var(--radius); color:var(--muted); font-size:12px; cursor:pointer; transition:all .15s; text-align:center; }
+.hw-extend-btn:hover { background:var(--surface2); color:var(--text); }
+.hw-review-wrap { margin-bottom:12px; }
+.hw-review-toolbar { display:flex; align-items:center; gap:6px; padding:6px 8px; background:var(--surface); border:1px solid var(--border2); border-bottom:none; border-radius:var(--radius) var(--radius) 0 0; }
+.hw-review-label { font-size:11px; font-weight:700; color:var(--muted); letter-spacing:0.05em; text-transform:uppercase; flex:1; }
+.hw-empty-note { padding:20px; text-align:center; color:var(--dim); font-size:13px; font-style:italic; background:#fff; border:1px solid var(--border2); border-radius:0 0 var(--radius) var(--radius); }
+.formula-panel { position:fixed; top:0; right:0; bottom:0; width:min(360px,100vw); background:var(--bg); border-left:1px solid var(--border); z-index:300; display:flex; flex-direction:column; transform:translateX(100%); transition:transform .25s cubic-bezier(.4,0,.2,1); }
+.formula-panel.open { transform:translateX(0); }
+.formula-panel-topbar { display:flex; align-items:center; gap:10px; padding:10px 14px; padding-top:calc(10px + var(--safe-top)); border-bottom:1px solid var(--border); flex-shrink:0; }
+.formula-panel-title { font-size:14px; font-weight:700; color:var(--text); flex:1; }
+.formula-panel-close { width:28px; height:28px; border-radius:6px; border:1px solid var(--border2); background:var(--surface); color:var(--muted); font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+.formula-panel-tabs { display:flex; overflow-x:auto; gap:4px; padding:8px 12px; border-bottom:1px solid var(--border); flex-shrink:0; scrollbar-width:none; }
+.formula-panel-tabs::-webkit-scrollbar { display:none; }
+.fpanel-tab { padding:5px 10px; border-radius:12px; border:1px solid var(--border2); background:var(--surface); color:var(--muted); font-size:11px; cursor:pointer; white-space:nowrap; flex-shrink:0; transition:all .15s; }
+.fpanel-tab.active { background:var(--purple-bg); border-color:var(--purple); color:var(--purple); font-weight:600; }
+.formula-panel-body { flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:12px 14px; font-size:12px; line-height:1.7; color:var(--text); }
+.formula-panel-body h2 { font-size:11px; font-weight:700; color:var(--purple); letter-spacing:0.05em; text-transform:uppercase; margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--border); }
+.formula-panel-body h2:first-child { margin-top:0; }
+.formula-panel-body .fbox { background:var(--surface); border:1px solid var(--border2); border-radius:6px; padding:8px 11px; margin:5px 0 9px; }
+.formula-panel-body .fbox p { font-size:11px; font-weight:700; color:var(--purple); margin-bottom:3px; }
+.formula-panel-body table { width:100%; border-collapse:collapse; margin:5px 0 9px; font-size:11px; }
+.formula-panel-body th { background:var(--surface); color:var(--muted); font-weight:700; padding:4px 7px; border:1px solid var(--border); text-align:center; }
+.formula-panel-body td { padding:4px 7px; border:1px solid var(--border); vertical-align:top; }
+.formula-panel-body .note { background:rgba(245,200,66,0.08); border-left:3px solid var(--yellow); border-radius:0 4px 4px 0; padding:5px 9px; margin:4px 0; color:var(--yellow); font-size:11px; }
+.formula-panel-body .tip  { background:rgba(61,214,140,0.08); border-left:3px solid var(--green); border-radius:0 4px 4px 0; padding:5px 9px; margin:4px 0; color:var(--green); font-size:11px; }
+.formula-panel-body .plain{ background:var(--purple-bg); border-left:3px solid var(--purple); border-radius:0 4px 4px 0; padding:5px 9px; margin:4px 0; color:var(--purple); font-size:11px; }
+.formula-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:299; display:none; }
+.formula-overlay.open { display:block; }
+.formula-btn { padding:6px 10px; border-radius:8px; border:1px solid var(--border2); background:var(--surface); color:var(--text); font-size:12px; cursor:pointer; }
+
+/* Calc-only mode badge */
+.calc-mode-badge { font-size:10px; background:var(--yellow-bg); color:var(--yellow); border:1px solid rgba(245,200,66,0.3); border-radius:10px; padding:2px 7px; font-weight:600; }
+.calc-mode-note { background:rgba(245,200,66,0.06); border:1px solid rgba(245,200,66,0.2); border-radius:8px; padding:10px 13px; font-size:12px; color:var(--yellow); line-height:1.6; margin-bottom:14px; }
+.review-modal-content { padding:4px 0 8px; }
+.review-modal-content h3 { font-size:13px; font-weight:700; color:var(--purple); margin:14px 0 6px; letter-spacing:0.03em; }
+.review-modal-content h3:first-child { margin-top:0; }
+.review-modal-content p { font-size:13px; line-height:1.75; color:var(--text); margin:0 0 6px; }
+.review-modal-content ul { margin:0 0 8px; padding-left:18px; }
+.review-modal-content li { font-size:13px; line-height:1.75; color:var(--text); margin-bottom:2px; }
+.review-modal-content .formula { background:var(--surface2); border:1px solid var(--border2); border-left:3px solid var(--purple); border-radius:6px; padding:8px 12px; font-family:'Space Mono',monospace; font-size:12px; color:var(--purple); margin:6px 0; line-height:1.6; white-space:pre-wrap; }
+.review-modal-content .tip { background:var(--yellow-bg); border:1px solid rgba(245,200,66,0.25); border-radius:6px; padding:8px 12px; font-size:12px; color:var(--yellow); margin:6px 0; line-height:1.6; }
+.review-loading { display:flex; align-items:center; gap:10px; padding:24px 0; color:var(--muted); font-size:13px; }
+.review-loading-dot { width:6px; height:6px; border-radius:50%; background:var(--purple); animation:ldot .9s infinite; flex-shrink:0; }
+.review-loading-dot:nth-child(2){animation-delay:.2s}
+.review-loading-dot:nth-child(3){animation-delay:.4s}
+@keyframes ldot{0%,80%,100%{opacity:.2;transform:scale(0.8)}40%{opacity:1;transform:scale(1)}}
+
+/* ── MODALS ── */
+.modal-bg {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 100;
+  display: none;
+  align-items: flex-end;
+}
+.modal-bg.show { display: flex; }
+.modal {
+  background: var(--bg2);
+  border-top: 1px solid var(--border2);
+  border-radius: 18px 18px 0 0;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 20px 16px;
+  padding-bottom: calc(20px + var(--safe-bottom));
+}
+.modal-handle {
+  width: 36px; height: 4px;
+  background: var(--border2);
+  border-radius: 2px;
+  margin: 0 auto 16px;
+}
+.modal-title { font-size: 15px; font-weight: 700; margin-bottom: 14px; }
+
+.filter-section { margin-bottom: 16px; }
+.filter-section-label { font-size: 11px; color: var(--muted); margin-bottom: 8px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; }
+.filter-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.filter-chip {
+  padding: 6px 12px;
+  border-radius: 99px;
+  font-size: 12px;
+  border: 1px solid var(--border2);
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.filter-chip.active {
+  background: var(--blue-glow);
+  border-color: var(--blue);
+  color: var(--blue-light);
+}
+
+/* ── MISC ── */
+.divider { height: 1px; background: var(--border); margin: 12px 0; }
+.empty {
+  padding: 48px 24px;
+  text-align: center;
+  color: var(--dim);
+  font-size: 13px;
+  line-height: 1.7;
+}
+.empty-icon { font-size: 32px; margin-bottom: 10px; }
+
+.correct-answer-reveal {
+  padding: 10px 12px;
+  background: var(--green-bg);
+  border: 1px solid rgba(61,214,140,0.25);
+  border-radius: 7px;
+  font-size: 13px;
+  color: var(--green);
+  line-height: 1.5;
+}
+
+/* Scroll indicator */
+.scroll-hint {
+  text-align: center;
+  font-size: 11px;
+  color: var(--dim);
+  padding: 6px;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
+
+/* Answer reveal section */
+.reveal-section {
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin-top: 4px;
+  display: none;
+}
+.reveal-section.correct-reveal {
+  background: var(--green-bg);
+  border: 1px solid rgba(61,214,140,0.25);
+  display: block;
+}
+.reveal-section.wrong-reveal {
+  background: var(--red-bg);
+  border: 1px solid rgba(247,95,95,0.25);
+  display: block;
+}
+.reveal-result {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 3px;
+}
+.reveal-result.correct { color: var(--green); }
+.reveal-result.wrong { color: var(--red); }
+.reveal-ans { font-size: 12px; color: var(--muted); }
+
+/* ── EDIT / CORRECTIONS (移植自普心) ── */
+.q-edit-btn {
+  margin-left: auto;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  color: var(--muted);
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.12s;
+  padding: 0;
+}
+.q-edit-btn:hover, .q-edit-btn:active {
+  background: var(--blue-glow);
+  border-color: var(--blue);
+  color: var(--blue-light);
+}
+.q-corrected-badge {
+  background: rgba(255,180,0,0.12);
+  border: 1px solid rgba(255,180,0,0.4);
+  color: #ffc857;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.edit-field {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border2);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 13px;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+.edit-field:focus { outline: none; border-color: var(--blue); }
+.corrections-list {
+  max-height: 50vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 10px;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  line-height: 1.7;
+}
+.corr-entry { margin-bottom: 10px; }
+.corr-entry-id { color: var(--blue-light); font-weight: 700; }
+.corr-entry-line { padding-left: 10px; color: var(--text); }
+.edit-advanced {
+  margin-top: 4px;
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+}
+.edit-advanced-toggle {
+  font-size: 12px;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 6px 0;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.edit-advanced-toggle:hover { color: var(--blue-light); }
+.edit-advanced-toggle::before {
+  content: '▶';
+  font-size: 9px;
+  transition: transform 0.15s;
+}
+.edit-advanced.open .edit-advanced-toggle::before { transform: rotate(90deg); }
+.edit-advanced-body { display: none; padding-top: 8px; }
+.edit-advanced.open .edit-advanced-body { display: block; }
+.personal-note-box {
+  background: rgba(80,160,255,0.06);
+  border-left: 3px solid var(--blue);
+  padding: 10px 12px;
+  border-radius: 4px;
+  margin: 10px 0;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.personal-note-label {
+  font-size: 10px;
+  color: var(--blue-light);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+/* Export btn in header */
+.export-btn {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border2);
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+.export-btn:active { background: var(--blue-glow); color: var(--blue-light); border-color: var(--blue); }
+
+/* Skeleton */
+.skeleton {
+  background: linear-gradient(90deg, var(--surface) 25%, var(--surface2) 50%, var(--surface) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: 6px;
+}
+@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+/* ── MOCK EXAM ── */
+.mock-setup-page { display:flex; flex-direction:column; gap:0; overflow-y:auto; flex:1; -webkit-overflow-scrolling:touch; padding-bottom:24px; }
+.mock-section { padding:16px 16px 0; }
+.mock-section-label { font-size:11px; font-weight:700; letter-spacing:0.1em; color:var(--muted); text-transform:uppercase; margin-bottom:10px; }
+.mock-option-row { display:flex; flex-wrap:wrap; gap:7px; }
+.mock-pill { padding:7px 14px; border-radius:20px; border:1px solid var(--border2); background:var(--surface); color:var(--muted); font-size:13px; cursor:pointer; transition:all .15s; user-select:none; }
+.mock-pill.active { border-color:var(--purple); background:var(--purple-bg); color:var(--purple); font-weight:600; }
+.mock-start-btn { margin:20px 16px 0; padding:14px; border-radius:var(--radius); background:var(--purple); color:#fff; font-size:15px; font-weight:700; border:none; width:calc(100% - 32px); cursor:pointer; letter-spacing:0.03em; transition:opacity .15s; }
+.mock-start-btn:active { opacity:0.85; }
+
+/* Exam page */
+.exam-topbar { display:flex; align-items:center; gap:10px; padding:10px 14px; padding-top:calc(10px + var(--safe-top)); background:var(--bg); border-bottom:1px solid var(--border); flex-shrink:0; }
+.exam-timer { font-family:'Space Mono',monospace; font-size:15px; font-weight:700; color:var(--green); min-width:52px; transition:color .3s; }
+.exam-timer.warning { color:var(--yellow); }
+.exam-timer.danger  { color:var(--red); animation:pulse-timer .8s infinite; }
+@keyframes pulse-timer { 0%,100%{opacity:1}50%{opacity:.5} }
+.exam-progress-bar { flex:1; height:5px; background:var(--border); border-radius:3px; overflow:hidden; }
+.exam-progress-fill { height:100%; background:var(--purple); border-radius:3px; transition:width .3s; }
+.exam-counter { font-size:12px; color:var(--muted); font-family:'Space Mono',monospace; white-space:nowrap; }
+.exam-submit-btn { padding:6px 12px; border-radius:8px; border:1px solid var(--red); background:transparent; color:var(--red); font-size:12px; font-weight:600; cursor:pointer; white-space:nowrap; }
+.exam-body { overflow-y:auto; flex:1; -webkit-overflow-scrolling:touch; padding:14px 16px; }
+.exam-q-meta { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:10px; }
+.exam-q-text { font-size:15px; line-height:1.7; color:var(--text); margin-bottom:14px; }
+.exam-options { display:flex; flex-direction:column; gap:8px; margin-bottom:16px; }
+.exam-option { display:flex; align-items:flex-start; gap:10px; padding:11px 13px; border-radius:var(--radius); border:1px solid var(--border2); background:var(--surface); cursor:pointer; transition:all .15s; }
+.exam-option:active { transform:scale(0.99); }
+.exam-option.selected { border-color:var(--purple); background:var(--purple-bg); }
+.exam-option.multi-selected { border-color:var(--blue); background:var(--blue-glow); }
+.exam-option-key { font-family:'Space Mono',monospace; font-size:12px; color:var(--muted); flex-shrink:0; margin-top:1px; }
+.exam-option.selected .exam-option-key { color:var(--purple); font-weight:700; }
+.exam-option.multi-selected .exam-option-key { color:var(--blue); font-weight:700; }
+.exam-option-text { font-size:14px; line-height:1.55; }
+.exam-tf-row { display:flex; gap:10px; margin-bottom:16px; }
+.exam-tf-btn { flex:1; padding:13px; border-radius:var(--radius); border:1px solid var(--border2); background:var(--surface); color:var(--muted); font-size:15px; font-weight:700; cursor:pointer; transition:all .15s; text-align:center; }
+.exam-tf-btn.selected { border-color:var(--purple); background:var(--purple-bg); color:var(--purple); }
+.exam-textarea { width:100%; background:var(--surface); border:1px solid var(--border2); border-radius:var(--radius); color:var(--text); font-size:14px; line-height:1.6; padding:11px 13px; resize:vertical; min-height:90px; font-family:'Noto Sans TC',sans-serif; margin-bottom:16px; }
+.exam-textarea:focus { outline:none; border-color:var(--purple); }
+.exam-nav-row { display:flex; gap:8px; margin-top:4px; }
+.exam-nav-btn { flex:1; padding:11px; border-radius:var(--radius); border:1px solid var(--border2); background:var(--surface); color:var(--text); font-size:14px; cursor:pointer; font-weight:500; }
+.exam-nav-btn:disabled { opacity:0.35; cursor:default; }
+.exam-nav-btn.next { background:var(--purple); border-color:var(--purple); color:#fff; }
+.exam-answered-dot { display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--purple); margin-right:5px; vertical-align:middle; }
+.exam-open-note { font-size:12px; color:var(--muted); margin-bottom:10px; font-style:italic; }
+
+/* Review page */
+.review-topbar { display:flex; align-items:center; gap:10px; padding:10px 14px; padding-top:calc(10px + var(--safe-top)); background:var(--bg); border-bottom:1px solid var(--border); flex-shrink:0; }
+.review-title { font-size:14px; font-weight:700; color:var(--text); }
+.review-counter { font-size:12px; color:var(--muted); margin-left:auto; font-family:'Space Mono',monospace; }
+.review-body { overflow-y:auto; flex:1; -webkit-overflow-scrolling:touch; padding:14px 16px; }
+.review-question { font-size:15px; line-height:1.7; color:var(--text); margin-bottom:14px; }
+.review-ans-block { background:var(--surface); border-radius:var(--radius); padding:12px 14px; margin-bottom:10px; }
+.review-ans-label { font-size:10px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-bottom:5px; }
+.review-ans-val { font-size:14px; line-height:1.55; color:var(--text); }
+.review-ans-val.correct-color { color:var(--green); }
+.review-ans-val.wrong-color  { color:var(--red); }
+.review-ans-val.empty-color  { color:var(--dim); font-style:italic; }
+.review-solution { background:var(--surface); border-radius:var(--radius); padding:12px 14px; margin-bottom:12px; }
+.review-self-row { display:flex; gap:8px; margin-bottom:14px; }
+.review-self-btn { flex:1; padding:11px; border-radius:var(--radius); border:1px solid var(--border2); font-size:13px; font-weight:600; cursor:pointer; background:var(--surface); color:var(--muted); transition:all .15s; text-align:center; }
+.review-self-btn.correct-active { border-color:var(--green); background:var(--green-bg); color:var(--green); }
+.review-self-btn.wrong-active   { border-color:var(--red); background:var(--red-bg); color:var(--red); }
+.review-nav-row { display:flex; gap:8px; margin-top:4px; }
+.review-nav-btn { flex:1; padding:11px; border-radius:var(--radius); border:1px solid var(--border2); background:var(--surface); color:var(--text); font-size:14px; cursor:pointer; font-weight:500; }
+.review-nav-btn:disabled { opacity:0.35; cursor:default; }
+.review-nav-btn.next { background:var(--blue); border-color:var(--blue); color:#fff; }
+
+/* Report page */
+.report-page { overflow-y:auto; flex:1; -webkit-overflow-scrolling:touch; padding:16px; }
+.report-hero { text-align:center; padding:24px 0 20px; }
+.report-score { font-size:52px; font-weight:700; color:var(--purple); font-family:'Space Mono',monospace; line-height:1; }
+.report-score-label { font-size:13px; color:var(--muted); margin-top:6px; }
+.report-stats-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-bottom:16px; }
+.report-stat { background:var(--surface); border-radius:var(--radius); padding:12px 8px; text-align:center; }
+.report-stat-num { font-size:22px; font-weight:700; font-family:'Space Mono',monospace; }
+.report-stat-label { font-size:11px; color:var(--muted); margin-top:3px; }
+.report-section-title { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin:16px 0 8px; }
+.report-type-row { background:var(--surface); border-radius:var(--radius); padding:10px 12px; margin-bottom:6px; display:flex; align-items:center; gap:10px; }
+.report-type-name { font-size:13px; color:var(--text); flex:1; }
+.report-type-bar-wrap { width:100px; height:6px; background:var(--border); border-radius:3px; overflow:hidden; }
+.report-type-bar { height:100%; border-radius:3px; transition:width .5s; }
+.report-type-pct { font-size:12px; color:var(--muted); font-family:'Space Mono',monospace; min-width:36px; text-align:right; }
+.wrong-q-item { background:var(--surface); border-radius:var(--radius); padding:11px 13px; margin-bottom:8px; display:flex; align-items:flex-start; gap:10px; }
+.wrong-q-text { font-size:13px; color:var(--text); line-height:1.5; flex:1; }
+.wrong-q-add-btn { padding:5px 10px; border-radius:6px; border:1px solid var(--border2); background:transparent; color:var(--muted); font-size:11px; cursor:pointer; white-space:nowrap; flex-shrink:0; }
+.wrong-q-add-btn.added { border-color:var(--red); color:var(--red); }
+.report-actions { display:flex; flex-direction:column; gap:8px; margin-top:20px; }
+</style>
+<script>
+MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$']] },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] },
+  startup: { typeset: false }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml.min.js" defer></script>
+</head>
+<body>
+
+<div id="loading">
+  <div class="loading-logo">心統刷題</div>
+  <div class="loading-bar"><div class="loading-fill"></div></div>
+</div>
+
+<div id="app" style="display:none">
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-title">心統刷題</div>
+    <div class="header-sub" id="header-sub">載入中…</div>
+    <button class="export-btn" onclick="exportJSON()" title="匯出題庫">⬇ 匯出</button>
+    <div class="header-btn" id="filter-btn" onclick="openFilter()" title="篩選">⚙</div>
+  </div>
+
+  <!-- PAGES -->
+  <!-- HOME -->
+  <div class="page active" id="page-home">
+    <div class="home-section">
+      <div class="section-label">學習進度</div>
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-num" id="stat-total">0</div>
+          <div class="stat-label">題目總數</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num green" id="stat-correct">0</div>
+          <div class="stat-label">答對</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num red" id="stat-wrong">0</div>
+          <div class="stat-label">答錯</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="home-section" style="padding-top:0">
+      <div class="section-label">快速開始</div>
+      <div class="quick-grid">
+        <div class="quick-card highlight" onclick="startQuiz('all')">
+          <div class="icon">🎯</div>
+          <div class="label">隨機刷題</div>
+          <div class="sub">全部題目</div>
+        </div>
+        <div class="quick-card" onclick="startQuiz('wrong')">
+          <div class="icon">🔁</div>
+          <div class="label">錯題複習</div>
+          <div class="sub" id="wrong-count">0 題待複習</div>
+        </div>
+        <div class="quick-card" onclick="startQuiz('unsure')">
+          <div class="icon">⚡</div>
+          <div class="label">不確定題</div>
+          <div class="sub" id="unsure-count">0 題</div>
+        </div>
+        <div class="quick-card" onclick="goPage('page-concepts')">
+          <div class="icon">📚</div>
+          <div class="label">考點學習</div>
+          <div class="sub">按主題刷</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="home-section" style="padding-top:0">
+      <div class="section-label">勘誤管理</div>
+      <div class="quick-card" onclick="openCorrectionsModal()" style="grid-column:span 2">
+        <div class="icon">✏</div>
+        <div class="label">勘誤清單</div>
+        <div class="sub" id="corrections-count">尚無勘誤</div>
+      </div>
+    </div>
+
+    <div class="home-section" style="padding-top:0">
+      <div class="section-label">高頻考點</div>
+      <div class="concept-scroll" id="home-concepts"></div>
+    </div>
+
+    <div class="home-section" style="padding-top:0">
+      <div class="section-label">弱點考點</div>
+      <div class="weak-list" id="weak-list">
+        <div class="empty" style="padding:16px 0">
+          <div style="font-size:11px;color:var(--dim)">刷完幾題後這裡會顯示你的弱點</div>
+        </div>
+      </div>
+    </div>
+    <div style="height:20px"></div>
+  </div>
+
+  <!-- BROWSE -->
+  <div class="page" id="page-browse">
+    <div class="filter-bar" id="browse-filters">
+      <div class="filter-pill active" onclick="browseFilter('all',this)">全部</div>
+      <div class="filter-pill" onclick="browseFilter('NTU',this)">台大</div>
+      <div class="filter-pill" onclick="browseFilter('SCU',this)">東吳</div>
+      <div class="filter-pill" onclick="browseFilter('NCKU',this)">台綜</div>
+      <div class="filter-pill" onclick="browseFilter('NCCU',this)">政大</div>
+      <div class="filter-pill" onclick="browseFilter('correct',this)">✓ 答對</div>
+      <div class="filter-pill" onclick="browseFilter('wrong',this)">✗ 答錯</div>
+      <div class="filter-pill" onclick="browseFilter('unsure',this)">⚡ 不確定</div>
+      <div class="filter-pill" onclick="browseFilter('unmarked',this)">○ 未作答</div>
+    </div>
+    <div class="search-wrap">
+      <input class="search-input" type="text" id="browse-search" placeholder="搜尋題目、考點…" oninput="browseSearch()" autocomplete="off" autocorrect="off" spellcheck="false">
+    </div>
+    <div class="q-list" id="browse-list"></div>
+  </div>
+
+  <!-- CONCEPTS -->
+  <div class="page" id="page-concepts">
+    <div class="search-wrap">
+      <input class="search-input" type="text" id="concept-search" placeholder="搜尋考點…" oninput="conceptSearch()" autocomplete="off">
+    </div>
+    <div class="concept-grid" id="concept-grid"></div>
+  </div>
+
+  <!-- QUIZ (hidden by default, shown when quiz starts) -->
+  <div class="page" id="page-quiz">
+    <div class="quiz-header">
+      <div class="quiz-back" onclick="exitQuiz()">←</div>
+      <div class="quiz-progress"><div class="quiz-progress-fill" id="quiz-progress-fill"></div></div>
+      <div class="quiz-counter" id="quiz-counter">0/0</div>
+    </div>
+    <div style="overflow-y:auto;flex:1;-webkit-overflow-scrolling:touch">
+      <div class="quiz-body" id="quiz-body"></div>
+    </div>
+  </div>
+
+  <!-- MOCK SETUP -->
+  <div class="page" id="page-mock-setup">
+    <div class="mock-setup-page">
+      <div class="mock-section">
+        <div class="mock-section-label">題目數量</div>
+        <div class="mock-option-row" id="mock-count-row">
+          <div class="mock-pill active" data-val="20" onclick="mockPick('count',this)">20 題</div>
+          <div class="mock-pill" data-val="30" onclick="mockPick('count',this)">30 題</div>
+          <div class="mock-pill" data-val="40" onclick="mockPick('count',this)">40 題</div>
+          <div class="mock-pill" data-val="all" onclick="mockPick('count',this)">全部</div>
+        </div>
+      </div>
+      <div class="mock-section" style="margin-top:18px">
+        <div class="mock-section-label">時間限制</div>
+        <div class="mock-option-row" id="mock-time-row">
+          <div class="mock-pill active" data-val="30" onclick="mockPick('time',this)">30 分鐘</div>
+          <div class="mock-pill" data-val="45" onclick="mockPick('time',this)">45 分鐘</div>
+          <div class="mock-pill" data-val="60" onclick="mockPick('time',this)">60 分鐘</div>
+          <div class="mock-pill" data-val="0" onclick="mockPick('time',this)">無限制</div>
+        </div>
+      </div>
+      <div class="mock-section" style="margin-top:18px">
+        <div class="mock-section-label">來源（學校）</div>
+        <div class="mock-option-row" id="mock-source-row">
+          <div class="mock-pill active" data-val="all" onclick="mockPick('source',this)">全部</div>
+          <div class="mock-pill" data-val="台大" onclick="mockPick('source',this)">台大</div>
+          <div class="mock-pill" data-val="東吳" onclick="mockPick('source',this)">東吳</div>
+          <div class="mock-pill" data-val="台綜（成大）" onclick="mockPick('source',this)">台綜</div>
+          <div class="mock-pill" data-val="政大" onclick="mockPick('source',this)">政大</div>
+        </div>
+      </div>
+      <div class="mock-section" style="margin-top:18px">
+        <div class="mock-section-label">來源（年份）</div>
+        <div class="mock-option-row" id="mock-year-row">
+          <div class="mock-pill active" data-val="all" onclick="mockPick('year',this)">全部</div>
+          <div class="mock-pill" data-val="107" onclick="mockPick('year',this)">107</div>
+          <div class="mock-pill" data-val="108" onclick="mockPick('year',this)">108</div>
+          <div class="mock-pill" data-val="109" onclick="mockPick('year',this)">109</div>
+          <div class="mock-pill" data-val="111" onclick="mockPick('year',this)">111</div>
+          <div class="mock-pill" data-val="112" onclick="mockPick('year',this)">112</div>
+          <div class="mock-pill" data-val="113" onclick="mockPick('year',this)">113</div>
+          <div class="mock-pill" data-val="114" onclick="mockPick('year',this)">114</div>
+        </div>
+      </div>
+      <div class="mock-section" style="margin-top:18px">
+        <div class="mock-section-label">題型篩選</div>
+        <div class="mock-option-row" id="mock-qtype-row">
+          <div class="mock-pill active" data-val="all" onclick="mockPick('qtype',this)">全部題型</div>
+          <div class="mock-pill" data-val="計算題" onclick="mockPick('qtype',this)">⚡ 計算題專項</div>
+          <div class="mock-pill" data-val="申論題" onclick="mockPick('qtype',this)">申論題</div>
+          <div class="mock-pill" data-val="單選題" onclick="mockPick('qtype',this)">單選題</div>
+        </div>
+      </div>
+      <div class="mock-section" style="margin-top:14px;font-size:12px;color:var(--muted);line-height:1.7">
+        ⚠ 模考期間不顯示答案。計算題專項：只要能列出公式和思路就算成功，不強求算到最後答案。
+      </div>
+      <button class="mock-start-btn" onclick="startMockExam()">開始模考 →</button>
+    </div>
+  </div>
+
+  <!-- MOCK EXAM -->
+  <div class="page" id="page-mock-exam">
+    <div class="exam-topbar">
+      <div class="exam-timer" id="exam-timer">--:--</div>
+      <div class="exam-progress-bar"><div class="exam-progress-fill" id="exam-progress-fill" style="width:0%"></div></div>
+      <div class="exam-counter" id="exam-counter">0/0</div>
+      <button class="formula-btn" onclick="openFormulaPanel()">📐</button>
+      <button class="exam-submit-btn" onclick="confirmSubmitExam()">交卷</button>
+    </div>
+    <div class="exam-body" id="exam-body"></div>
+  </div>
+
+  <!-- FORMULA PANEL -->
+  <div class="formula-overlay" id="formula-overlay" onclick="closeFormulaPanel()"></div>
+  <div class="formula-panel" id="formula-panel">
+    <div class="formula-panel-topbar">
+      <div class="formula-panel-title">📐 公式速查</div>
+      <button class="formula-panel-close" onclick="closeFormulaPanel()">✕</button>
+    </div>
+    <div class="formula-panel-tabs" id="fpanel-tabs"></div>
+    <div class="formula-panel-body" id="fpanel-body"></div>
+  </div>
+
+  <!-- MOCK REVIEW -->
+  <div class="page" id="page-mock-review">
+    <div class="review-topbar">
+      <div class="review-title">逐題檢討</div>
+      <div class="review-counter" id="review-counter">1/1</div>
+    </div>
+    <div class="review-body" id="review-body"></div>
+  </div>
+
+  <!-- MOCK REPORT -->
+  <div class="page" id="page-mock-report">
+    <div class="header" style="display:flex">
+      <div class="header-title">模考報告</div>
+    </div>
+    <div class="report-page" id="report-page"></div>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <div class="bottom-nav">
+    <div class="nav-item active" id="nav-home" onclick="goPage('page-home')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+      主頁
+    </div>
+    <div class="nav-item" id="nav-browse" onclick="goPage('page-browse')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      瀏覽
+    </div>
+    <div class="nav-item" id="nav-concepts" onclick="goPage('page-concepts')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+      考點
+    </div>
+    <div class="nav-item" id="nav-mock" onclick="goPage('page-mock-setup')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="16" y2="11"/><line x1="8" y1="15" x2="13" y2="15"/></svg>
+      模考
+    </div>
+  </div>
+</div>
+
+<!-- FILTER MODAL -->
+<div class="modal-bg" id="filter-modal" onclick="closeFilter()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <div class="modal-title">篩選題目</div>
+    <div class="filter-section">
+      <div class="filter-section-label">學校</div>
+      <div class="filter-chips" id="fc-school">
+        <div class="filter-chip active" data-key="school" data-val="all" onclick="toggleFilter(this)">全部</div>
+        <div class="filter-chip" data-key="school" data-val="台大" onclick="toggleFilter(this)">台大</div>
+        <div class="filter-chip" data-key="school" data-val="東吳" onclick="toggleFilter(this)">東吳</div>
+        <div class="filter-chip" data-key="school" data-val="台綜（成大）" onclick="toggleFilter(this)">台綜</div>
+        <div class="filter-chip" data-key="school" data-val="政大" onclick="toggleFilter(this)">政大</div>
+      </div>
+    </div>
+    <div class="filter-section">
+      <div class="filter-section-label">難度</div>
+      <div class="filter-chips">
+        <div class="filter-chip active" data-key="diff" data-val="all" onclick="toggleFilter(this)">全部</div>
+        <div class="filter-chip" data-key="diff" data-val="easy" onclick="toggleFilter(this)">簡單</div>
+        <div class="filter-chip" data-key="diff" data-val="medium" onclick="toggleFilter(this)">中等</div>
+        <div class="filter-chip" data-key="diff" data-val="hard" onclick="toggleFilter(this)">困難</div>
+      </div>
+    </div>
+    <div class="filter-section">
+      <div class="filter-section-label">題型</div>
+      <div class="filter-chips">
+        <div class="filter-chip active" data-key="type" data-val="all" onclick="toggleFilter(this)">全部</div>
+        <div class="filter-chip" data-key="type" data-val="單選題" onclick="toggleFilter(this)">單選題</div>
+        <div class="filter-chip" data-key="type" data-val="計算題" onclick="toggleFilter(this)">計算題</div>
+        <div class="filter-chip" data-key="type" data-val="申論題" onclick="toggleFilter(this)">申論題</div>
+        <div class="filter-chip" data-key="type" data-val="填充題" onclick="toggleFilter(this)">填充題</div>
+      </div>
+    </div>
+    <div style="height:8px"></div>
+    <div class="action-row">
+      <button class="btn btn-outline" onclick="resetFilters()">重置</button>
+      <button class="btn btn-primary" onclick="applyFilters()">套用篩選</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── STATE ───────────────────────────────────────────────────────────────────
+let questions = [];
+let records = {};      // { id: { status: 'correct'|'wrong'|'unsure', ts } }
+let quizQueue = [];
+let quizIdx = 0;
+let currentQ = null;
+let answered = false;
+let currentTab = 'steps';
+let browseFilter_ = 'all';
+let activeFilters = { school: 'all', diff: 'all', type: 'all' };
+let conceptFilter = '';
+let browseSearchQ = '';
+
+const RECORDS_KEY = 'quiz_records_v1';
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+async function init() {
+  loadRecords();
+  loadCorrections();
+  applyCorrectionsToQuestions();
+  try {
+    const res = await fetch('./題庫.json');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    questions = await res.json();
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('app').style.display = 'flex';
+    renderHome();
+    renderBrowse();
+    renderConcepts();
+    updateHeaderSub();
+  } catch(e) {
+    document.querySelector('.loading-logo').textContent = '載入失敗';
+    document.querySelector('.loading-fill').style.background = '#f75f5f';
+    document.querySelector('.loading-fill').style.animation = 'none';
+    document.querySelector('.loading-fill').style.width = '100%';
+    console.error('題庫載入失敗:', e);
+    // Show error hint
+    const hint = document.createElement('div');
+    hint.style.cssText = 'color:#6b6b8a;font-size:12px;text-align:center;padding:0 24px;line-height:1.6';
+    hint.textContent = '請確認 題庫.json 與 index.html 在同一資料夾，並使用 python3 -m http.server 8080 啟動';
+    document.getElementById('loading').appendChild(hint);
+  }
+}
+
+function loadRecords() {
+  try { records = JSON.parse(localStorage.getItem(RECORDS_KEY) || '{}'); } catch(e) { records = {}; }
+}
+function saveRecords() {
+  localStorage.setItem(RECORDS_KEY, JSON.stringify(records));
+}
+function getStatus(id) { return records[id]?.status || 'unmarked'; }
+
+function updateHeaderSub() {
+  const done = Object.keys(records).length;
+  const total = questions.length;
+  document.getElementById('header-sub').textContent = `${done}/${total} 題`;
+}
+
+// ─── NAVIGATION ──────────────────────────────────────────────────────────────
+const pages = ['page-home','page-browse','page-concepts','page-quiz','page-mock-setup','page-mock-exam','page-mock-review','page-mock-report'];
+const navIds = ['nav-home','nav-browse','nav-concepts',null,'nav-mock','nav-mock','nav-mock','nav-mock'];
+
+function goPage(pageId) {
+  pages.forEach((p,i) => {
+    document.getElementById(p).classList.toggle('active', p === pageId);
+    if (navIds[i]) document.getElementById(navIds[i]).classList.toggle('active', p === pageId);
+  });
+  const hideNav = pageId === 'page-quiz' || pageId === 'page-mock-exam' || pageId === 'page-mock-review' || pageId === 'page-mock-report';
+  const hideHeader = pageId === 'page-quiz' || pageId === 'page-mock-exam' || pageId === 'page-mock-review' || pageId === 'page-mock-report';
+  document.querySelector('.bottom-nav').style.display = hideNav ? 'none' : 'flex';
+  document.querySelector('.header').style.display = hideHeader ? 'none' : 'flex';
+  if (pageId === 'page-browse') renderBrowse();
+  if (pageId === 'page-concepts') renderConcepts();
+  if (pageId === 'page-home') renderHome();
+}
+
+// ─── HOME ────────────────────────────────────────────────────────────────────
+function renderHome() {
+  const correct = Object.values(records).filter(r=>r.status==='correct').length;
+  const wrong = Object.values(records).filter(r=>r.status==='wrong').length;
+  const unsure = Object.values(records).filter(r=>r.status==='unsure').length;
+
+  document.getElementById('stat-total').textContent = questions.length;
+  document.getElementById('stat-correct').textContent = correct;
+  document.getElementById('stat-wrong').textContent = wrong;
+  document.getElementById('wrong-count').textContent = wrong + ' 題待複習';
+  document.getElementById('unsure-count').textContent = unsure + ' 題';
+  const cc = correctionsCount();
+  const ccEl = document.getElementById('corrections-count');
+  if (ccEl) ccEl.textContent = cc === 0 ? '尚無勘誤' : `${cc} 筆 — 點此匯出`;
+
+  // Top concepts
+  const conceptCounts = {};
+  questions.forEach(q => (q.concepts||[]).forEach(c => conceptCounts[c] = (conceptCounts[c]||0)+1));
+  const top = Object.entries(conceptCounts).sort((a,b)=>b[1]-a[1]).slice(0,12);
+  document.getElementById('home-concepts').innerHTML = top.map(([c]) =>
+    `<div class="concept-chip" onclick="startConceptQuiz('${esc(c)}')">${c}</div>`
+  ).join('');
+
+  // Weak concepts
+  const conceptStats = {};
+  questions.forEach(q => {
+    const st = getStatus(q.id);
+    (q.concepts||[]).forEach(c => {
+      if (!conceptStats[c]) conceptStats[c] = {total:0, wrong:0};
+      conceptStats[c].total++;
+      if (st==='wrong') conceptStats[c].wrong++;
+    });
+  });
+  const weak = Object.entries(conceptStats)
+    .filter(([,s]) => s.total >= 2 && s.wrong > 0)
+    .map(([c,s]) => [c, s.wrong/s.total, s.wrong])
+    .sort((a,b) => b[1]-a[1]).slice(0,5);
+
+  if (weak.length === 0) {
+    document.getElementById('weak-list').innerHTML = `<div style="font-size:11px;color:var(--dim);padding:8px 0;text-align:center">刷完幾題後這裡會顯示你的弱點</div>`;
+  } else {
+    document.getElementById('weak-list').innerHTML = weak.map(([c,pct,n]) => `
+      <div class="weak-item" onclick="startConceptQuiz('${esc(c)}')">
+        <div class="weak-name">${c}</div>
+        <div class="weak-bar-wrap"><div class="weak-bar" style="width:${pct*100}%;background:${pct>0.6?'var(--red)':pct>0.3?'var(--yellow)':'var(--green)'}"></div></div>
+        <div class="weak-pct">${Math.round(pct*100)}%錯</div>
+      </div>`).join('');
+  }
+}
+
+// ─── BROWSE ──────────────────────────────────────────────────────────────────
+function browseFilter(key, el) {
+  browseFilter_ = key;
+  document.querySelectorAll('#browse-filters .filter-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  renderBrowse();
+}
+function browseSearch() {
+  browseSearchQ = document.getElementById('browse-search').value.toLowerCase();
+  renderBrowse();
+}
+function renderBrowse() {
+  const sourceMap = { NTU:'台大', SCU:'東吳', NCKU:'台綜（成大）', NCCU:'政大' };
+  let filtered = questions.filter(q => {
+    const st = getStatus(q.id);
+    if (browseFilter_ === 'correct' && st !== 'correct') return false;
+    if (browseFilter_ === 'wrong' && st !== 'wrong') return false;
+    if (browseFilter_ === 'unsure' && st !== 'unsure') return false;
+    if (browseFilter_ === 'unmarked' && st !== 'unmarked') return false;
+    if (sourceMap[browseFilter_] && q.source !== sourceMap[browseFilter_]) return false;
+    if (browseSearchQ) {
+      const hay = (q.question + q.id + (q.concepts||[]).join(' ')).toLowerCase();
+      if (!hay.includes(browseSearchQ)) return false;
+    }
+    // Active filters
+    if (activeFilters.school !== 'all' && q.source !== activeFilters.school) return false;
+    if (activeFilters.diff !== 'all' && q.difficulty !== activeFilters.diff) return false;
+    if (activeFilters.type !== 'all' && q.type !== activeFilters.type) return false;
+    return true;
+  });
+
+  const diffMap = {easy:'簡',medium:'中',hard:'難'};
+  const list = document.getElementById('browse-list');
+  if (filtered.length === 0) {
+    list.innerHTML = `<div class="empty"><div class="empty-icon">🔍</div>找不到符合條件的題目</div>`;
+    return;
+  }
+  list.innerHTML = filtered.slice(0, 100).map(q => {
+    const st = getStatus(q.id);
+    return `<div class="q-row" onclick="openQuestion('${q.id}')">
+      <div class="q-row-status ${st}"></div>
+      <div class="q-row-body">
+        <div class="q-row-id">${q.id}</div>
+        <div class="q-row-text">${q.question.slice(0,55)}${q.question.length>55?'…':''}</div>
+        <div class="q-row-tags">${(q.concepts||[]).slice(0,3).map(c=>`<span class="q-row-tag">${c}</span>`).join('')}</div>
+      </div>
+      <div class="q-row-diff ${q.difficulty}">${diffMap[q.difficulty]||'?'}</div>
+    </div>`;
+  }).join('');
+  if (filtered.length > 100) {
+    list.innerHTML += `<div style="text-align:center;padding:12px;font-size:12px;color:var(--dim)">僅顯示前100題，請用搜尋縮小範圍</div>`;
+  }
+}
+
+// ─── CONCEPTS ────────────────────────────────────────────────────────────────
+function conceptSearch() {
+  conceptFilter = document.getElementById('concept-search').value.toLowerCase();
+  renderConcepts();
+}
+function renderConcepts() {
+  const conceptStats = {};
+  questions.forEach(q => {
+    const st = getStatus(q.id);
+    (q.concepts||[]).forEach(c => {
+      if (!conceptStats[c]) conceptStats[c] = {total:0, correct:0, wrong:0};
+      conceptStats[c].total++;
+      if (st==='correct') conceptStats[c].correct++;
+      if (st==='wrong') conceptStats[c].wrong++;
+    });
+  });
+
+  let entries = Object.entries(conceptStats)
+    .filter(([c, s]) => s.total >= 4 && (!conceptFilter || c.toLowerCase().includes(conceptFilter)))
+    .sort((a,b) => b[1].total - a[1].total);
+
+  const grid = document.getElementById('concept-grid');
+  if (entries.length === 0) {
+    grid.innerHTML = `<div class="empty"><div class="empty-icon">📚</div>找不到相符的考點</div>`;
+    return;
+  }
+  grid.innerHTML = entries.map(([c, s]) => {
+    const attempted = s.correct + s.wrong;
+    let accClass = 'none', accText = '—';
+    if (attempted > 0) {
+      const acc = s.correct / attempted;
+      accClass = acc >= 0.7 ? 'good' : acc >= 0.4 ? 'mid' : 'bad';
+      accText = Math.round(acc*100) + '%';
+    }
+    return `<div class="concept-row" onclick="startConceptQuiz('${esc(c)}')">
+      <div class="concept-acc ${accClass}">${accText}</div>
+      <div class="concept-name">${c}</div>
+      <div class="concept-count">${s.total}題</div>
+      <button class="concept-review-btn" onclick="event.stopPropagation();openConceptReview('${esc(c)}')">重點複習</button>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--dim)" stroke-width="2"><polyline points="9,18 15,12 9,6"/></svg>
+    </div>`;
+  }).join('');
+}
+
+// ─── QUIZ ENGINE ─────────────────────────────────────────────────────────────
+function startQuiz(mode) {
+  let pool;
+  if (mode === 'all') {
+    pool = getFilteredPool();
+  } else if (mode === 'wrong') {
+    pool = questions.filter(q => getStatus(q.id) === 'wrong');
+  } else if (mode === 'unsure') {
+    pool = questions.filter(q => getStatus(q.id) === 'unsure');
+  }
+  if (!pool || pool.length === 0) {
+    alert(mode === 'wrong' ? '目前沒有答錯的題目！' : mode === 'unsure' ? '目前沒有標記不確定的題目！' : '沒有符合條件的題目');
+    return;
+  }
+  // Shuffle
+  quizQueue = [...pool].sort(() => Math.random() - 0.5);
+  quizIdx = 0;
+  goPage('page-quiz');
+  showQuestion();
+}
+
+function startConceptQuiz(concept) {
+  const pool = questions.filter(q => (q.concepts||[]).includes(concept));
+  if (pool.length === 0) return;
+  quizQueue = [...pool].sort(() => Math.random() - 0.5);
+  quizIdx = 0;
+  goPage('page-quiz');
+  showQuestion();
+}
+
+function openQuestion(id) {
+  const idx = questions.findIndex(q => q.id === id);
+  if (idx < 0) return;
+  quizQueue = [questions[idx]];
+  quizIdx = 0;
+  goPage('page-quiz');
+  showQuestion();
+}
+
+function getFilteredPool() {
+  return questions.filter(q => {
+    if (activeFilters.school !== 'all' && q.source !== activeFilters.school) return false;
+    if (activeFilters.diff !== 'all' && q.difficulty !== activeFilters.diff) return false;
+    if (activeFilters.type !== 'all' && q.type !== activeFilters.type) return false;
+    return true;
+  });
+}
+
+function showQuestion() {
+  if (quizIdx >= quizQueue.length) {
+    showQuizDone();
+    return;
+  }
+  currentQ = quizQueue[quizIdx];
+  answered = false;
+  currentTab = 'steps';
+
+  const pct = (quizIdx / quizQueue.length * 100) + '%';
+  document.getElementById('quiz-progress-fill').style.width = pct;
+  document.getElementById('quiz-counter').textContent = `${quizIdx+1}/${quizQueue.length}`;
+
+  const isMultiChoice = currentQ.options && currentQ.options.length > 0;
+  const status = getStatus(currentQ.id);
+
+  // 承上題：找同組前面所有題的情境
+  const contextHTML = buildContext(currentQ);
+
+  document.getElementById('quiz-body').innerHTML = `
+    <div class="q-meta">
+      <span class="q-badge school">${currentQ.source}</span>
+      <span class="q-badge" style="font-family:'Space Mono',monospace;font-size:11px;color:var(--muted)">${currentQ.id}</span>
+      <span class="q-badge">${currentQ.type}</span>
+      ${currentQ.difficulty ? `<span class="q-badge" style="color:${currentQ.difficulty==='hard'?'var(--red)':currentQ.difficulty==='easy'?'var(--green)':'var(--yellow)'}">${{easy:'簡單',medium:'中等',hard:'困難'}[currentQ.difficulty]}</span>` : ''}
+      ${isCorrected(currentQ.id) ? `<span class="q-corrected-badge">✎ 已勘誤</span>` : ''}
+      <button class="q-edit-btn" onclick="openEditPanel()" title="編輯勘誤">✏</button>
+    </div>
+
+    ${contextHTML}
+
+    <div class="q-text">${currentQ.question}</div>
+
+    ${isMultiChoice ? renderOptions() : renderFreeAnswer()}
+
+    <div id="reveal-section" class="reveal-section"></div>
+
+    <div class="action-row" id="action-row">
+      ${isMultiChoice
+        ? `<button class="btn btn-primary" id="submit-btn" onclick="submitAnswer()" disabled style="opacity:0.5">確認答案</button>`
+        : `<div style="display:flex;flex-direction:column;gap:6px;width:100%">
+             <button class="btn btn-primary" onclick="revealAnswer()">查看答案</button>
+             <button class="btn btn-ghost" onclick="nextQuestion()" style="font-size:12px">跳過</button>
+           </div>`
+      }
+    </div>
+
+    <div class="solution-panel" id="solution-panel">
+      <div class="solution-tab-row">
+        <div class="solution-tab active" onclick="switchTab('steps',this)">解題步驟</div>
+        <div class="solution-tab" onclick="switchTab('concept',this)">考點</div>
+        <div class="solution-tab" onclick="switchTab('hint',this)">提示</div>
+      </div>
+      <div class="solution-content active" id="tab-steps">
+        ${renderSteps()}
+      </div>
+      <div class="solution-content" id="tab-concept">
+        ${renderConceptTab()}
+      </div>
+      <div class="solution-content" id="tab-hint">
+        ${renderHintTab()}
+      </div>
+    </div>
+
+    <div>
+      <div class="slabel" style="margin-bottom:8px">這題你：</div>
+      <div class="mark-row">
+        <div class="mark-btn correct-btn ${status==='correct'?'active':''}" onclick="markQ('correct',this)">✓ 懂了</div>
+        <div class="mark-btn unsure-btn ${status==='unsure'?'active':''}" onclick="markQ('unsure',this)">⚡ 不確定</div>
+        <div class="mark-btn wrong-btn ${status==='wrong'?'active':''}" onclick="markQ('wrong',this)">✗ 不懂</div>
+      </div>
+    </div>
+
+    ${renderNoteSection()}
+
+    <div class="action-row" style="margin-top:4px">
+      <button class="btn btn-ghost" onclick="prevQuestion()" ${quizIdx===0?'disabled style="opacity:0.4"':''}>← 上一題</button>
+      <button class="btn btn-outline" onclick="nextQuestion()">${quizIdx===quizQueue.length-1?'完成':'下一題 →'}</button>
+    </div>
+    <div style="height:20px"></div>
+  `;
+}
+
+function renderOptions() {
+  const keys = ['A','B','C','D','E','F'];
+  return `<div class="options" id="options-wrap">
+    ${(currentQ.options||[]).map((opt, i) => `
+      <div class="option" id="opt-${i}" onclick="selectOption(${i})">
+        <span class="option-key">${keys[i]}</span>
+        <span>${opt.replace(/^\([A-Z]\)\s?|^[A-Z]\.\s?/,'')}</span>
+      </div>`).join('')}
+  </div>`;
+}
+
+function renderFreeAnswer() {
+  return `<div class="answer-input-wrap">
+    <textarea class="answer-input" id="free-answer" placeholder="寫下你的思路或答案（選填）" rows="3"></textarea>
+  </div>`;
+}
+
+let selectedOpt = null;
+function selectOption(i) {
+  if (answered) return;
+  selectedOpt = i;
+  document.querySelectorAll('.option').forEach((el,j) => {
+    el.classList.toggle('selected', j === i);
+  });
+  const btn = document.getElementById('submit-btn');
+  if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
+}
+
+function submitAnswer() {
+  if (selectedOpt === null || answered) return;
+  answered = true;
+  const keys = ['A','B','C','D','E','F'];
+  const correctAns = (currentQ.answer || '').toUpperCase().trim();
+  const chosenKey = keys[selectedOpt];
+  const isCorrect = correctAns && chosenKey === correctAns;
+
+  // Color options
+  document.querySelectorAll('.option').forEach((el, i) => {
+    const key = keys[i];
+    if (key === correctAns) el.classList.add('reveal-correct');
+    else if (i === selectedOpt && !isCorrect) el.classList.add('wrong');
+    el.classList.remove('selected');
+  });
+
+  // Reveal section
+  const rev = document.getElementById('reveal-section');
+  if (isCorrect) {
+    rev.className = 'reveal-section correct-reveal';
+    rev.innerHTML = `<div class="reveal-result correct">✓ 答對了！</div>`;
+  } else {
+    rev.className = 'reveal-section wrong-reveal';
+    rev.innerHTML = `<div class="reveal-result wrong">✗ 答錯了</div><div class="reveal-ans">正確答案：${correctAns}</div>`;
+  }
+
+  // Show solution
+  document.getElementById('solution-panel').classList.add('show');
+  document.getElementById('action-row').innerHTML = `
+    <button class="btn btn-outline" onclick="prevQuestion()" ${quizIdx===0?'disabled style="opacity:0.4"':''}>← 上一題</button>
+    <button class="btn btn-primary" onclick="nextQuestion()">${quizIdx===quizQueue.length-1?'完成':'下一題 →'}</button>
+  `;
+
+  // Auto-mark
+  if (!records[currentQ.id]) {
+    markQ(isCorrect ? 'correct' : 'wrong', null, true);
+  }
+}
+
+function revealAnswer() {
+  answered = true;
+  document.getElementById('solution-panel').classList.add('show');
+  const rev = document.getElementById('reveal-section');
+  const ans = currentQ.answer || '（詳見解析）';
+  rev.className = 'reveal-section correct-reveal';
+  rev.innerHTML = `<div class="reveal-ans">✦ 答案：<strong style="color:var(--green)">${ans}</strong></div>`;
+  document.getElementById('action-row').innerHTML = `
+    <div style="display:flex;flex-direction:column;gap:6px;width:100%">
+      <button class="btn btn-primary" onclick="nextQuestion()">${quizIdx===quizQueue.length-1?'完成':'下一題 →'}</button>
+    </div>
+  `;
+}
+
+function renderSteps() {
+  const steps = currentQ.solution_steps || [];
+  if (steps.length === 0) return `<div style="color:var(--dim);font-size:13px">尚無解題步驟</div>`;
+  return `<div class="steps">${steps.map((s,i)=>`
+    <div class="step"><span class="step-n">${String(i+1).padStart(2,'0')}</span><span>${s}</span></div>`).join('')}
+  </div>`;
+}
+
+function renderConceptTab() {
+  const formulas = (currentQ.formula_used || []);
+  const key = currentQ.key_concepts || '';
+  const concepts = currentQ.concepts || [];
+  return `
+    ${key ? `<div class="slabel">核心概念</div><div class="key-box" style="margin-bottom:12px">${key}</div>` : ''}
+    ${formulas.length > 0 ? `<div class="slabel">公式</div>${formulas.map(f=>`<div class="formula-item">${f}</div>`).join('')}<div style="height:8px"></div>` : ''}
+    <div class="slabel">考點標籤</div>
+    <div class="concept-tags">${concepts.map(c=>`<span class="concept-tag" onclick="startConceptQuiz('${esc(c)}')">${c}</span>`).join('')}</div>
+  `;
+}
+
+function renderHintTab() {
+  const hint = currentQ.ai_hint || '';
+  if (!hint) return `<div style="color:var(--dim);font-size:13px">尚無提示</div>`;
+  return `<div class="hint-label">💡 AI 提示</div><div class="hint-box">${hint}</div>`;
+}
+
+function switchTab(tab, el) {
+  currentTab = tab;
+  document.querySelectorAll('.solution-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.solution-content').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-' + tab).classList.add('active');
+}
+
+function markQ(status, el, auto=false) {
+  if (!currentQ) return;
+  records[currentQ.id] = { status, ts: Date.now() };
+  saveRecords();
+  updateHeaderSub();
+  if (!auto) {
+    document.querySelectorAll('.mark-btn').forEach(b => {
+      b.classList.remove('active');
+    });
+    if (el) el.classList.add('active');
+  }
+}
+
+function nextQuestion() {
+  quizIdx++;
+  showQuestion();
+}
+function prevQuestion() {
+  if (quizIdx > 0) { quizIdx--; showQuestion(); }
+}
+function exitQuiz() {
+  goPage('page-home');
+  renderHome();
+}
+
+function showQuizDone() {
+  const correct = quizQueue.filter(q => records[q.id]?.status === 'correct').length;
+  const wrong = quizQueue.filter(q => records[q.id]?.status === 'wrong').length;
+  document.getElementById('quiz-body').innerHTML = `
+    <div style="text-align:center;padding:48px 24px">
+      <div style="font-size:40px;margin-bottom:16px">🎉</div>
+      <div style="font-size:18px;font-weight:700;margin-bottom:8px">完成！</div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:24px">${quizQueue.length} 題刷完了</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px">
+        <div class="stat-card"><div class="stat-num green">${correct}</div><div class="stat-label">答對</div></div>
+        <div class="stat-card"><div class="stat-num red">${wrong}</div><div class="stat-label">答錯</div></div>
+      </div>
+      <button class="btn btn-primary" onclick="exitQuiz()" style="width:100%;margin-bottom:8px">回到主頁</button>
+      <button class="btn btn-outline" onclick="startQuiz('wrong')" style="width:100%">複習錯題</button>
+    </div>
+  `;
+}
+
+// ─── FILTERS ─────────────────────────────────────────────────────────────────
+function openFilter() { document.getElementById('filter-modal').classList.add('show'); }
+function closeFilter() { document.getElementById('filter-modal').classList.remove('show'); }
+function toggleFilter(el) {
+  const key = el.dataset.key;
+  const val = el.dataset.val;
+  document.querySelectorAll(`[data-key="${key}"]`).forEach(e => e.classList.remove('active'));
+  el.classList.add('active');
+  activeFilters[key] = val;
+}
+function resetFilters() {
+  activeFilters = { school: 'all', diff: 'all', type: 'all' };
+  document.querySelectorAll('.filter-chip').forEach(el => {
+    el.classList.toggle('active', el.dataset.val === 'all');
+  });
+}
+function applyFilters() {
+  closeFilter();
+  renderBrowse();
+}
+
+// ─── CONTEXT (承上題) ────────────────────────────────────────────────────────
+function buildContext(q) {
+  const isFollowUp = (text) => /^[（(]?(承上題|續上題|接續上題|承第\d+題|接續第\d+題)/.test(text);
+  if (!isFollowUp(q.question)) return '';
+
+  // 遞迴往前追溯，收集整個題組鏈
+  function getPrevQ(curQ) {
+    const prevList = [];
+
+    // 策略一：末尾字母格式 NTU-114-02b → 02a
+    const letterMatch = curQ.id.match(/^(.+?)([a-z])$/);
+    if (letterMatch) {
+      const prefix = letterMatch[1];
+      const suffix = letterMatch[2];
+      const letters = 'abcdefghijklmnopqrstuvwxyz';
+      const myIdx = letters.indexOf(suffix);
+      for (let i = 0; i < myIdx; i++) {
+        const pq = questions.find(q => q.id === prefix + letters[i]);
+        if (pq) prevList.push(pq);
+      }
+      return prevList;
+    }
+
+    // 策略二：純數字格式
+    const refMatch = curQ.question.match(/承第(\d+)題|接續第(\d+)題/);
+    if (refMatch) {
+      const refNum = refMatch[1] || refMatch[2];
+      const numMatch = curQ.id.match(/^(.+?-)(\d+)$/);
+      if (numMatch) {
+        const padded = String(refNum).padStart(numMatch[2].length, '0');
+        const pq = questions.find(q => q.id === numMatch[1] + padded);
+        if (pq) prevList.push(pq);
+      }
+    } else {
+      const numMatch = curQ.id.match(/^(.+?-)(\d+)$/);
+      if (numMatch) {
+        const num = parseInt(numMatch[2]);
+        if (num > 1) {
+          const prevId = numMatch[1] + String(num - 1).padStart(numMatch[2].length, '0');
+          const pq = questions.find(q => q.id === prevId);
+          if (pq) prevList.push(pq);
+        }
+      }
+    }
+    return prevList;
+  }
+
+  // 遞迴往前追溯整條鏈
+  function buildChain(curQ) {
+    const prevList = getPrevQ(curQ);
+    if (prevList.length === 0) return [];
+    // 對每個前題再往前追
+    let chain = [];
+    for (const pq of prevList) {
+      if (isFollowUp(pq.question)) {
+        chain = chain.concat(buildChain(pq));
+      }
+      chain.push(pq);
+    }
+    return chain;
+  }
+
+  const chain = buildChain(q); // 從最早的題到最近的前題
+  if (chain.length === 0) return '';
+
+  const parts = chain.map((pq, i) => {
+    if (i === 0) {
+      // 第一題（原始情境）完整顯示
+      return `<div style="margin-bottom:${chain.length>1?'10px':'0'}">
+        <div style="font-size:10px;font-family:'Space Mono',monospace;color:var(--blue);margin-bottom:4px">${pq.id}</div>
+        <div style="font-size:13px;line-height:1.6;color:var(--text)">${pq.question}</div>
+      </div>`;
+    } else {
+      // 中間子題：顯示題號＋前80字
+      return `<div style="margin-bottom:${i<chain.length-1?'8px':'0'}">
+        <div style="font-size:10px;font-family:'Space Mono',monospace;color:var(--blue);margin-bottom:3px">${pq.id}</div>
+        <div style="font-size:12px;line-height:1.5;color:var(--muted)">${pq.question.slice(0,80)}${pq.question.length>80?'…':''}</div>
+      </div>`;
+    }
+  });
+
+  return `<div style="
+    background:var(--surface2);
+    border:1px solid var(--border2);
+    border-left:3px solid var(--blue);
+    border-radius:var(--radius);
+    padding:12px 14px;
+    margin-bottom:4px;
+  ">
+    <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;color:var(--blue);margin-bottom:8px;text-transform:uppercase">📎 題組情境</div>
+    ${parts.join('')}
+  </div>`;
+}
+
+// ─── CORRECTIONS & NOTES (移植自普心) ────────────────────────────────────────
+const CORRECTIONS_KEY = 'stat_corrections_v1';
+const NOTES_KEY = 'stat_notes_v1';
+
+// 心統欄位對應（可編輯的欄位）
+const STAT_FIELDS = {
+  answer:         '答案',
+  question:       '題目',
+  solution_steps: '解題步驟',
+  key_concepts:   '核心概念',
+  ai_hint:        'AI 提示',
+  answer_note:    '備註'
+};
+
+let corrections = {};
+let personalNotes = {};
+
+function loadCorrections() {
+  try { corrections = JSON.parse(localStorage.getItem(CORRECTIONS_KEY) || '{}'); }
+  catch(e) { corrections = {}; }
+  try { personalNotes = JSON.parse(localStorage.getItem(NOTES_KEY) || '{}'); }
+  catch(e) { personalNotes = {}; }
+}
+function saveCorrections() {
+  localStorage.setItem(CORRECTIONS_KEY, JSON.stringify(corrections));
+}
+function savePersonalNotes() {
+  localStorage.setItem(NOTES_KEY, JSON.stringify(personalNotes));
+}
+function getPersonalNote(id) { return personalNotes[id] || ''; }
+// 相容舊版備註 key
+function getNoteForQ(id) { return personalNotes[id] || ''; }
+
+function applyCorrectionsToQuestions() {
+  let dirty = false;
+  for (const id of Object.keys(corrections)) {
+    const q = questions.find(x => x.id === id);
+    if (!q) { delete corrections[id]; dirty = true; continue; }
+    for (const field of Object.keys(corrections[id])) {
+      if (field.startsWith('_')) continue;
+      const newVal = corrections[id][field];
+      // 若 repo 端已更新為同值，自動清除
+      const curVal = field === 'solution_steps'
+        ? JSON.stringify(q[field])
+        : q[field];
+      const storedVal = field === 'solution_steps'
+        ? JSON.stringify(newVal)
+        : newVal;
+      if (storedVal === (field === 'solution_steps' ? JSON.stringify(q._original?.[field] ?? q[field]) : (q._original?.[field] ?? q[field]))) {
+        // 不自動清除 solution_steps 因為序列化比較複雜，略過
+      }
+      if (!q._original) q._original = {};
+      if (!(field in q._original)) q._original[field] = q[field];
+      q[field] = newVal;
+    }
+    const realFields = Object.keys(corrections[id]).filter(k => !k.startsWith('_'));
+    if (realFields.length === 0) { delete corrections[id]; dirty = true; }
+  }
+  if (dirty) saveCorrections();
+}
+
+function isCorrected(qid) {
+  return corrections[qid] && Object.keys(corrections[qid]).some(k => !k.startsWith('_'));
+}
+
+function correctionsCount() {
+  return Object.keys(corrections).filter(id =>
+    Object.keys(corrections[id]).some(k => !k.startsWith('_'))
+  ).length;
+}
+
+let _editAnswer = null;
+
+function openEditPanel() {
+  if (!currentQ) return;
+  const isMultiChoice = currentQ.options && currentQ.options.length > 0;
+  const orig = currentQ._original || {};
+  _editAnswer = currentQ.answer;
+
+  const stepsVal = Array.isArray(currentQ.solution_steps)
+    ? currentQ.solution_steps.join('\n')
+    : (currentQ.solution_steps || '');
+
+  const html = `
+    <div class="modal-bg show" id="edit-modal" onclick="closeEditPanel(event)">
+      <div class="modal" onclick="event.stopPropagation()">
+        <div class="modal-handle"></div>
+        <div class="modal-title">編輯 — ${currentQ.id}</div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:14px;line-height:1.6">
+          <strong style="color:var(--blue-light)">勘誤</strong>（答案/解析等）會進匯出清單以便同步進 repo；
+          <strong style="color:var(--blue-light)">個人備註</strong>只存於本機，不會匯出。
+        </div>
+
+        ${isMultiChoice ? `
+          <div class="filter-section">
+            <div class="filter-section-label">答案${orig.answer !== undefined ? ` (原: ${orig.answer})` : ''}</div>
+            <div class="filter-chips" id="edit-answer-chips">
+              ${'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.slice(0, currentQ.options.length).split('').map(L =>
+                `<div class="filter-chip ${currentQ.answer === L ? 'active' : ''}" onclick="pickEditAnswer('${L}',this)">${L}</div>`
+              ).join('')}
+            </div>
+          </div>
+        ` : `
+          <div class="filter-section">
+            <div class="filter-section-label">答案${orig.answer !== undefined ? ` (原: ${orig.answer})` : ''}</div>
+            <input id="edit-answer-text" class="edit-field" value="${esc(currentQ.answer||'')}" placeholder="如 A 或 ABD 或 T/F">
+          </div>
+        `}
+
+        <div class="filter-section">
+          <div class="filter-section-label">備註${orig.answer_note !== undefined ? ' (已修改)' : ''}</div>
+          <textarea id="edit-note" rows="2" class="edit-field" style="resize:vertical" placeholder="例：答案來源、勘誤依據…">${esc2(currentQ.answer_note||'')}</textarea>
+        </div>
+
+        <div class="edit-advanced" id="edit-advanced">
+          <div class="edit-advanced-toggle" onclick="toggleEditAdvanced()">進階編輯（題目 / 解析 / 提示 / 個人備註）</div>
+          <div class="edit-advanced-body">
+            <div class="filter-section">
+              <div class="filter-section-label">題目${orig.question !== undefined ? ' (已修改)' : ''}</div>
+              <textarea id="edit-question" rows="3" class="edit-field" style="resize:vertical;font-size:12px;line-height:1.6">${esc2(currentQ.question||'')}</textarea>
+            </div>
+            <div class="filter-section">
+              <div class="filter-section-label">解題步驟（每行一步）${orig.solution_steps !== undefined ? ' (已修改)' : ''}</div>
+              <textarea id="edit-steps" rows="5" class="edit-field" style="resize:vertical;font-size:12px;line-height:1.6">${esc2(stepsVal)}</textarea>
+            </div>
+            <div class="filter-section">
+              <div class="filter-section-label">核心概念${orig.key_concepts !== undefined ? ' (已修改)' : ''}</div>
+              <textarea id="edit-key" rows="2" class="edit-field" style="resize:vertical;font-size:12px;line-height:1.6">${esc2(currentQ.key_concepts||'')}</textarea>
+            </div>
+            <div class="filter-section">
+              <div class="filter-section-label">AI 提示${orig.ai_hint !== undefined ? ' (已修改)' : ''}</div>
+              <textarea id="edit-hint" rows="3" class="edit-field" style="resize:vertical;font-size:12px;line-height:1.6">${esc2(currentQ.ai_hint||'')}</textarea>
+            </div>
+            <div class="filter-section">
+              <div class="filter-section-label" style="color:var(--blue-light)">個人備註（不匯出，只存本機）</div>
+              <textarea id="edit-personal" rows="3" class="edit-field" style="resize:vertical;font-size:12px;line-height:1.6" placeholder="記憶口訣、自己的思路、不懂的地方…">${esc2(getPersonalNote(currentQ.id))}</textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="action-row" style="flex-wrap:wrap">
+          ${isCorrected(currentQ.id) ? `<button class="btn btn-ghost" onclick="revertEdit()" style="color:var(--red);flex:1 1 100%;margin-bottom:6px">↶ 還原原始版本（保留個人備註）</button>` : ''}
+          <button class="btn btn-outline" onclick="closeEditPanel()">取消</button>
+          <button class="btn btn-primary" onclick="saveEdit()">儲存</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.insertAdjacentHTML('beforeend', html);
+  // 預設展開進階編輯
+  document.getElementById('edit-advanced').classList.add('open');
+}
+
+function toggleEditAdvanced() {
+  document.getElementById('edit-advanced').classList.toggle('open');
+}
+
+function pickEditAnswer(letter, el) {
+  _editAnswer = letter;
+  document.querySelectorAll('#edit-answer-chips .filter-chip').forEach(x => x.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function saveEdit() {
+  if (!currentQ) return;
+  const isMultiChoice = currentQ.options && currentQ.options.length > 0;
+
+  if (!currentQ._original) currentQ._original = {};
+  if (!corrections[currentQ.id]) corrections[currentQ.id] = {};
+
+  function setField(field, val) {
+    const cur = field === 'solution_steps'
+      ? JSON.stringify(currentQ[field])
+      : currentQ[field];
+    const nv = field === 'solution_steps' ? JSON.stringify(val) : val;
+    if (nv === cur) return;
+    if (!(field in currentQ._original)) currentQ._original[field] = currentQ[field];
+    currentQ[field] = val;
+    corrections[currentQ.id][field] = val;
+  }
+
+  // 答案
+  if (isMultiChoice) {
+    if (_editAnswer && _editAnswer !== currentQ.answer) setField('answer', _editAnswer);
+  } else {
+    const newAns = (document.getElementById('edit-answer-text')?.value || '').trim();
+    if (newAns !== (currentQ.answer || '').trim()) setField('answer', newAns);
+  }
+
+  // 備註
+  const newNote = (document.getElementById('edit-note')?.value || '').trim();
+  if (newNote !== (currentQ.answer_note || '').trim()) setField('answer_note', newNote);
+
+  // 進階欄位
+  const newQ = (document.getElementById('edit-question')?.value || '').trim();
+  if (newQ !== (currentQ.question || '').trim()) setField('question', newQ);
+
+  const stepsRaw = document.getElementById('edit-steps')?.value || '';
+  const newSteps = stepsRaw.split('\n').map(s=>s.trim()).filter(s=>s);
+  const oldSteps = JSON.stringify(Array.isArray(currentQ.solution_steps) ? currentQ.solution_steps : []);
+  if (JSON.stringify(newSteps) !== oldSteps) setField('solution_steps', newSteps);
+
+  const newKey = (document.getElementById('edit-key')?.value || '').trim();
+  if (newKey !== (currentQ.key_concepts || '').trim()) setField('key_concepts', newKey);
+
+  const newHint = (document.getElementById('edit-hint')?.value || '').trim();
+  if (newHint !== (currentQ.ai_hint || '').trim()) setField('ai_hint', newHint);
+
+  // 個人備註（獨立 namespace）
+  const newPersonal = (document.getElementById('edit-personal')?.value || '').trim();
+  if (newPersonal) { personalNotes[currentQ.id] = newPersonal; }
+  else { delete personalNotes[currentQ.id]; }
+  savePersonalNotes();
+
+  // 整理空 entry
+  const realFields = Object.keys(corrections[currentQ.id]).filter(k => !k.startsWith('_'));
+  if (realFields.length === 0) {
+    delete corrections[currentQ.id];
+  } else {
+    corrections[currentQ.id]._ts = Date.now();
+  }
+  saveCorrections();
+  _editAnswer = null;
+  closeEditPanel();
+  showQuestion();
+  renderHome();
+}
+
+function revertEdit() {
+  if (!confirm('確定還原為原始版本？此題的勘誤會被移除。')) return;
+  if (currentQ._original) {
+    for (const k of Object.keys(currentQ._original)) currentQ[k] = currentQ._original[k];
+    delete currentQ._original;
+  }
+  delete corrections[currentQ.id];
+  saveCorrections();
+  _editAnswer = null;
+  closeEditPanel();
+  showQuestion();
+}
+
+function closeEditPanel(e) {
+  if (e && e.target !== document.getElementById('edit-modal')) return;
+  const m = document.getElementById('edit-modal');
+  if (m) m.remove();
+}
+
+function openCorrectionsModal() {
+  const ids = Object.keys(corrections).filter(id =>
+    Object.keys(corrections[id]).some(k => !k.startsWith('_'))
+  );
+  const qmap = Object.fromEntries(questions.map(q => [q.id, q]));
+  const items = ids.map(id => {
+    const q = qmap[id];
+    if (!q) return null;
+    const corr = corrections[id];
+    const orig = q._original || {};
+    const lines = [];
+    for (const f of Object.keys(STAT_FIELDS)) {
+      if (!(f in corr)) continue;
+      const label = STAT_FIELDS[f];
+      const o = orig[f];
+      const n = corr[f];
+      if (f === 'solution_steps') {
+        lines.push(`${label}: (已修改)`);
+      } else if (f === 'answer_note' || f === 'key_concepts' || f === 'ai_hint' || f === 'question') {
+        const np = String(n).length > 30 ? String(n).slice(0,30)+'…' : String(n);
+        lines.push(`${label}: ${n ? `「${np}」` : '(清空)'}`);
+      } else {
+        lines.push(`${label}: ${o !== undefined ? o : '(空)'} → ${n}`);
+      }
+    }
+    return { id, lines };
+  }).filter(Boolean);
+
+  const html = `
+    <div class="modal-bg show" id="corrections-modal" onclick="closeCorrectionsModal(event)">
+      <div class="modal" onclick="event.stopPropagation()">
+        <div class="modal-handle"></div>
+        <div class="modal-title">勘誤管理 (${items.length} 筆)</div>
+        ${items.length === 0 ? `
+          <div class="empty" style="padding:32px 0;text-align:center;color:var(--muted);font-size:13px">
+            還沒有任何勘誤<br><br>
+            <span style="font-size:11px;color:var(--dim)">在刷題畫面點右上角 ✏ 開始編輯</span>
+          </div>
+          <div class="action-row"><button class="btn btn-outline" onclick="closeCorrectionsModal()">關閉</button></div>
+        ` : `
+          <div style="font-size:11px;color:var(--muted);margin-bottom:12px;line-height:1.6">
+            修改即時生效（存於本機）。點「複製清單」貼給 Claude 同步進 repo，同步後點清空。
+          </div>
+          <div class="corrections-list">
+            ${items.map(it => `
+              <div class="corr-entry">
+                <div class="corr-entry-id">${it.id}</div>
+                ${it.lines.map(ln => `<div class="corr-entry-line">${ln}</div>`).join('')}
+              </div>
+            `).join('')}
+          </div>
+          <div style="height:14px"></div>
+          <div class="action-row" style="flex-wrap:wrap;gap:6px">
+            <button class="btn btn-ghost" onclick="clearAllCorrections()" style="color:var(--red);flex:1 1 100%;margin-bottom:4px">🗑 清空全部</button>
+            <button class="btn btn-outline" onclick="closeCorrectionsModal()">關閉</button>
+            <button class="btn btn-primary" onclick="copyCorrectionsList()">📋 複製清單</button>
+          </div>
+        `}
+      </div>
+    </div>
+  `;
+  document.body.insertAdjacentHTML('beforeend', html);
+}
+
+function closeCorrectionsModal(e) {
+  if (e && e.target !== document.getElementById('corrections-modal')) return;
+  const m = document.getElementById('corrections-modal');
+  if (m) m.remove();
+}
+
+function copyCorrectionsList() {
+  const ids = Object.keys(corrections).filter(id =>
+    Object.keys(corrections[id]).some(k => !k.startsWith('_'))
+  );
+  const qmap = Object.fromEntries(questions.map(q => [q.id, q]));
+  const today = new Date().toISOString().slice(0,10);
+  const lines = [`# 心統題庫勘誤清單 (${ids.length} 筆) — ${today}`, ''];
+  for (const id of ids) {
+    const q = qmap[id];
+    if (!q) continue;
+    const corr = corrections[id];
+    const orig = q._original || {};
+    const fragments = [];
+    for (const f of Object.keys(STAT_FIELDS)) {
+      if (!(f in corr)) continue;
+      if (f === 'solution_steps') {
+        fragments.push(`solution_steps: (已修改，見 app)`);
+      } else if (f === 'answer') {
+        fragments.push(`answer: ${orig[f]||'(空)'} → ${corr[f]}`);
+      } else {
+        const val = String(corr[f]);
+        const short = val.length > 40 ? val.slice(0,40)+'…' : val;
+        fragments.push(`${f}: ${val ? `「${short}」` : '(清空)'}`);
+      }
+    }
+    if (fragments.length > 0) lines.push(`${id}  ${fragments.join('; ')}`);
+  }
+  const text = lines.join('\n');
+  function fallbackCopy() {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.cssText = 'position:fixed;top:-9999px';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); } catch(e) {}
+    ta.remove();
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(
+      () => alert(`已複製 ${ids.length} 筆勘誤到剪貼簿`),
+      () => { fallbackCopy(); alert(`已複製 ${ids.length} 筆`); }
+    );
+  } else { fallbackCopy(); alert(`已複製 ${ids.length} 筆`); }
+}
+
+function clearAllCorrections() {
+  const n = correctionsCount();
+  if (!confirm(`確定清空全部 ${n} 筆勘誤？\n所有題目會還原為原始版本。\n通常在已同步進 repo 後才這樣做。`)) return;
+  for (const q of questions) {
+    if (q._original) {
+      for (const k of Object.keys(q._original)) q[k] = q._original[k];
+      delete q._original;
+    }
+  }
+  corrections = {};
+  saveCorrections();
+  closeCorrectionsModal();
+  renderHome();
+}
+
+function renderNoteSection() {
+  const note = getPersonalNote(currentQ.id);
+  if (!note) return '';
+  return `<div>
+    <div class="personal-note-label">📝 我的備註</div>
+    <div class="personal-note-box">${esc2(note)}</div>
+  </div>`;
+}
+
+// ─── EXPORT ──────────────────────────────────────────────────────────────────
+function exportJSON() {
+  // 排除 _original 欄位（內部追蹤用，不應進 repo）
+  const clean = questions.map(q => {
+    const { _original, ...rest } = q;
+    return rest;
+  });
+  const json = JSON.stringify(clean, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = '題庫.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ─── UTILS ───────────────────────────────────────────────────────────────────
+function esc(str) { return (str||'').replace(/'/g,"\\'").replace(/"/g,'&quot;'); }
+function esc2(str) { return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+
+// ─── CONCEPT REVIEW (AI) ─────────────────────────────────────────────────────
+
+const reviewCache = {};
+const chatHistory = {};
+const API_KEY_STORAGE = 'anthropic_api_key';
+
+function getApiKey() {
+  return localStorage.getItem(API_KEY_STORAGE) || '';
+}
+
+function promptApiKey(onSuccess) {
+  const existing = getApiKey();
+  const html = `
+    <div class="modal-bg show" id="apikey-modal" onclick="event.stopPropagation()">
+      <div class="modal" onclick="event.stopPropagation()">
+        <div class="modal-handle"></div>
+        <div class="modal-title">設定 Anthropic API Key</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.7;margin-bottom:14px">
+          AI 重點複習功能需要 Anthropic API Key。<br>
+          Key 只存在你的裝置（localStorage），不會傳出去。<br>
+          <a href="https://console.anthropic.com/" target="_blank" style="color:var(--blue-light)">→ 前往 console.anthropic.com 取得 Key</a>
+        </div>
+        <input id="apikey-input" class="edit-field" type="password"
+          placeholder="sk-ant-..." value="${existing}"
+          style="width:100%;margin-bottom:14px;font-family:'Space Mono',monospace;font-size:12px">
+        <div class="action-row">
+          <button class="btn btn-outline" onclick="document.getElementById('apikey-modal').remove()">取消</button>
+          <button class="btn btn-primary" onclick="saveApiKey(${onSuccess ? 'savedApiKeyCallback' : 'null'})">儲存</button>
+        </div>
+      </div>
+    </div>`;
+  document.body.insertAdjacentHTML('beforeend', html);
+  setTimeout(() => document.getElementById('apikey-input')?.focus(), 100);
+}
+
+let savedApiKeyCallback = null;
+
+function saveApiKey(cb) {
+  const val = (document.getElementById('apikey-input')?.value || '').trim();
+  if (!val.startsWith('sk-')) { alert('請輸入正確的 API Key（以 sk- 開頭）'); return; }
+  localStorage.setItem(API_KEY_STORAGE, val);
+  document.getElementById('apikey-modal')?.remove();
+  if (cb) cb();
+}
+
+function openConceptReview(concept) {
+  const key = getApiKey();
+
+  // Build overlay
+  const overlay = document.createElement('div');
+  overlay.className = 'chat-overlay';
+  overlay.id = 'chat-overlay';
+  overlay.innerHTML = `
+    <div class="chat-topbar">
+      <button class="header-btn" onclick="closeChatOverlay()" style="flex-shrink:0">←</button>
+      <div class="chat-topbar-title">📖 ${concept}</div>
+      <button class="btn btn-ghost" onclick="promptApiKey(null)" style="font-size:11px;color:var(--muted);padding:4px 8px">⚙ Key</button>
+      <button class="btn btn-outline" onclick="startConceptQuiz('${esc(concept)}');closeChatOverlay()" style="font-size:12px;padding:6px 10px">練習 →</button>
+    </div>
+    <div class="chat-messages" id="chat-messages"></div>
+    <div class="chat-input-bar">
+      <textarea class="chat-input" id="chat-input" placeholder="追問任何問題…" rows="1"
+        onkeydown="chatKeydown(event)" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
+      <button class="chat-send-btn" id="chat-send-btn" onclick="sendChatMessage('${esc(concept)}')" disabled>↑</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+
+  // Enable send btn when input has content
+  const input = document.getElementById('chat-input');
+  input.addEventListener('input', () => {
+    document.getElementById('chat-send-btn').disabled = !input.value.trim();
+  });
+
+  if (!key) {
+    appendAiMessage('尚未設定 API Key，請點右上角「⚙ Key」設定後重新開啟。');
+    return;
+  }
+
+  // Init conversation with system context
+  chatHistory[concept] = [];
+  if (reviewCache[concept]) {
+    appendAiMessage(reviewCache[concept]);
+  } else {
+    startConceptChat(concept, key);
+  }
+}
+
+async function startConceptChat(concept, apiKey) {
+  appendTyping();
+  const systemPrompt = `你是心理統計學考前複習老師，專門幫學生用最白話的方式準備考試。
+學生現在在複習「${concept}」。
+先給一份完整的考前重點，之後學生可能會追問，請根據對話脈絡繼續回答。
+回答風格：口語、簡短、直接，多用條列，公式用純文字寫出。
+注意：不要使用 # * ** 等 markdown 符號，直接用純文字。標題用「【】」包起來。`;
+
+  const firstMsg = `請給我「${concept}」的考前重點複習，包含：一句話解釋、核心重點（2-4點）、記憶公式或口訣、常見考法。`;
+
+  chatHistory[concept] = [{ role: 'user', content: firstMsg }];
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 1000,
+        system: systemPrompt,
+        messages: chatHistory[concept]
+      })
+    });
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message);
+    const text = data.content?.[0]?.text || '生成失敗';
+    removeTyping();
+    chatHistory[concept].push({ role: 'assistant', content: text });
+    reviewCache[concept] = text;
+    appendAiMessage(text);
+  } catch(e) {
+    removeTyping();
+    appendAiMessage(`⚠ ${e.message || '無法連線，請確認 API Key 與網路'}`);
+  }
+}
+
+async function sendChatMessage(concept) {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text) return;
+  const key = getApiKey();
+  if (!key) { appendAiMessage('請先設定 API Key（右上角 ⚙ Key）'); return; }
+
+  input.value = '';
+  input.style.height = 'auto';
+  document.getElementById('chat-send-btn').disabled = true;
+
+  appendUserMessage(text);
+  if (!chatHistory[concept]) chatHistory[concept] = [];
+  chatHistory[concept].push({ role: 'user', content: text });
+
+  appendTyping();
+  try {
+    const systemPrompt = `你是心理統計學考前複習老師，專門幫學生用最白話的方式準備考試。
+學生現在在複習「${concept}」。回答風格：口語、簡短、直接，多用條列，公式用純文字寫出。
+注意：不要使用 # * ** 等 markdown 符號，直接用純文字。標題用「【】」包起來。`;
+
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': key,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 800,
+        system: systemPrompt,
+        messages: chatHistory[concept]
+      })
+    });
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message);
+    const reply = data.content?.[0]?.text || '無回應';
+    removeTyping();
+    chatHistory[concept].push({ role: 'assistant', content: reply });
+    appendAiMessage(reply);
+  } catch(e) {
+    removeTyping();
+    appendAiMessage(`⚠ ${e.message || '連線失敗'}`);
+  }
+}
+
+function chatKeydown(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    const conceptTitle = document.querySelector('.chat-topbar-title')?.textContent.replace('📖 ','').trim();
+    if (conceptTitle) sendChatMessage(conceptTitle);
+  }
+}
+
+function appendUserMessage(text) {
+  const msgs = document.getElementById('chat-messages');
+  if (!msgs) return;
+  const div = document.createElement('div');
+  div.className = 'chat-msg user';
+  div.innerHTML = `<div class="chat-bubble">${esc2(text)}</div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function appendAiMessage(markdown) {
+  const msgs = document.getElementById('chat-messages');
+  if (!msgs) return;
+  const div = document.createElement('div');
+  div.className = 'chat-msg ai';
+  div.innerHTML = `<div class="chat-bubble">${parseMarkdown(markdown)}</div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function appendTyping() {
+  const msgs = document.getElementById('chat-messages');
+  if (!msgs) return;
+  const div = document.createElement('div');
+  div.className = 'chat-msg ai';
+  div.id = 'chat-typing';
+  div.innerHTML = `<div class="chat-bubble"><div class="chat-typing"><span></span><span></span><span></span></div></div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function removeTyping() {
+  document.getElementById('chat-typing')?.remove();
+}
+
+function parseMarkdown(markdown) {
+  let html = '';
+  const lines = markdown.split('\n');
+  let inList = false;
+  for (const line of lines) {
+    let t = line.trim();
+    if (!t) { if (inList) { html += '</ul>'; inList = false; } continue; }
+
+    // Strip bold/italic markers
+    t = t.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    t = t.replace(/\*(.+?)\*/g, '$1');
+
+    if (/^#{1,3} /.test(t)) {
+      if (inList) { html += '</ul>'; inList = false; }
+      html += `<h3>${t.replace(/^#{1,3} /, '')}</h3>`;
+    } else if (/^【.+】/.test(t)) {
+      if (inList) { html += '</ul>'; inList = false; }
+      html += `<h3>${t}</h3>`;
+    } else if (t.startsWith('- ') || t.startsWith('• ') || /^\d+\.\s/.test(t)) {
+      if (!inList) { html += '<ul>'; inList = true; }
+      html += `<li>${t.replace(/^[-•]\s|^\d+\.\s/, '')}</li>`;
+    } else if (/[=÷×√∑]/.test(t) && t.length < 100 && !t.includes('，') && !t.includes('。')) {
+      if (inList) { html += '</ul>'; inList = false; }
+      html += `<div class="formula">${t}</div>`;
+    } else if (t.startsWith('⚠') || t.startsWith('💡') || t.startsWith('提醒') || t.startsWith('考試陷阱')) {
+      if (inList) { html += '</ul>'; inList = false; }
+      html += `<div class="tip">${t}</div>`;
+    } else {
+      if (inList) { html += '</ul>'; inList = false; }
+      html += `<p>${t}</p>`;
+    }
+  }
+  if (inList) html += '</ul>';
+  return html;
+}
+
+function closeChatOverlay() {
+  document.getElementById('chat-overlay')?.remove();
+}
+
+// legacy — keep for cache compat
+function renderReviewContent(markdown) {
+  appendAiMessage(markdown);
+}
+
+function closeConceptReview(e) {
+  if (e && e.target !== document.getElementById('concept-review-modal')) return;
+  document.getElementById('concept-review-modal')?.remove();
+}
+
+
+
+
+let mockSettings = { count: '20', time: '30', source: 'all', year: 'all', qtype: 'all' };
+let mockQueue = [];
+let mockAnswers = {};   // id → 'A' | ['A','C'] | 'T'/'F' | string
+let mockNotes = {};     // id → textarea text (open questions)
+let mockSelfScores = {}; // id → 'correct'|'wrong'
+let mockExamIdx = 0;
+let mockReviewIdx = 0;
+let mockTimerInterval = null;
+let mockSecondsLeft = 0;
+let mockStartTime = null;
+
+function openMockSetup() {
+  goPage('page-mock-setup');
+}
+
+function mockPick(key, el) {
+  const rowId = 'mock-' + key + '-row';
+  document.querySelectorAll('#' + rowId + ' .mock-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  mockSettings[key] = el.dataset.val;
+}
+
+function startMockExam() {
+  // Build pool
+  let pool = questions.filter(q => {
+    if (mockSettings.source !== 'all' && q.source !== mockSettings.source) return false;
+    if (mockSettings.year !== 'all' && String(q.year) !== mockSettings.year) return false;
+    if (mockSettings.qtype !== 'all' && q.type !== mockSettings.qtype) return false;
+    return true;
+  });
+  if (pool.length === 0) { alert('沒有符合條件的題目，請調整設定'); return; }
+
+  // Shuffle
+  pool = [...pool].sort(() => Math.random() - 0.5);
+
+  // Limit count
+  if (mockSettings.count !== 'all') {
+    const n = parseInt(mockSettings.count);
+    pool = pool.slice(0, Math.min(n, pool.length));
+  }
+
+  mockQueue = pool;
+  mockAnswers = {};
+  mockNotes = {};
+  mockSelfScores = {};
+  mockExamIdx = 0;
+  mockStartTime = Date.now();
+
+  // Setup timer
+  clearInterval(mockTimerInterval);
+  const timeMin = parseInt(mockSettings.time);
+  mockSecondsLeft = timeMin > 0 ? timeMin * 60 : 0;
+  updateExamTimer();
+  if (timeMin > 0) {
+    mockTimerInterval = setInterval(() => {
+      mockSecondsLeft--;
+      updateExamTimer();
+      if (mockSecondsLeft <= 0) {
+        clearInterval(mockTimerInterval);
+        autoSubmitExam();
+      }
+    }, 1000);
+  }
+
+  goPage('page-mock-exam');
+  renderExamQuestion();
+}
+
+function updateExamTimer() {
+  const el = document.getElementById('exam-timer');
+  if (!el) return;
+  if (parseInt(mockSettings.time) === 0) {
+    el.textContent = '∞';
+    el.className = 'exam-timer';
+    return;
+  }
+  const m = Math.floor(Math.max(mockSecondsLeft, 0) / 60);
+  const s = Math.max(mockSecondsLeft, 0) % 60;
+  el.textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+  el.className = 'exam-timer' + (mockSecondsLeft <= 60 ? ' danger' : mockSecondsLeft <= 300 ? ' warning' : '');
+}
+
+function getMockQType(q) {
+  if (q.type === '複選題') return 'multi';
+  if (q.type === '是非題') return 'tf';
+  if (q.options && q.options.length > 0) return 'single';
+  return 'open';
+}
+
+function renderExamQuestion() {
+  const pct = (mockExamIdx / mockQueue.length * 100) + '%';
+  document.getElementById('exam-progress-fill').style.width = pct;
+  document.getElementById('exam-counter').textContent = (mockExamIdx+1) + '/' + mockQueue.length;
+
+  const q = mockQueue[mockExamIdx];
+  const qtype = getMockQType(q);
+  const keys = ['A','B','C','D','E','F'];
+  const savedAns = mockAnswers[q.id];
+  const savedNote = mockNotes[q.id] || '';
+
+  let optionsHTML = '';
+  if (qtype === 'single') {
+    optionsHTML = `<div class="exam-options">` +
+      (q.options||[]).map((opt,i) => {
+        const k = keys[i];
+        const sel = savedAns === k ? 'selected' : '';
+        return `<div class="exam-option ${sel}" id="eopt-${i}" onclick="examSelectSingle(${i})">
+          <span class="exam-option-key">${k}</span>
+          <span class="exam-option-text">${opt.replace(/^\([A-Z]\)\s?|^[A-Z]\.\s?/,'')}</span>
+        </div>`;
+      }).join('') + `</div>`;
+  } else if (qtype === 'multi') {
+    const selArr = Array.isArray(savedAns) ? savedAns : [];
+    optionsHTML = `<div style="font-size:12px;color:var(--purple);margin-bottom:8px;font-weight:600">✦ 複選題 — 可選多個選項</div>
+    <div class="exam-options">` +
+      (q.options||[]).map((opt,i) => {
+        const k = keys[i];
+        const sel = selArr.includes(k) ? 'multi-selected' : '';
+        return `<div class="exam-option ${sel}" id="eopt-${i}" onclick="examSelectMulti(${i})">
+          <span class="exam-option-key">${k}</span>
+          <span class="exam-option-text">${opt.replace(/^\([A-Z]\)\s?|^[A-Z]\.\s?/,'')}</span>
+        </div>`;
+      }).join('') + `</div>`;
+  } else if (qtype === 'tf') {
+    const selT = savedAns === 'T' ? 'selected' : '';
+    const selF = savedAns === 'F' ? 'selected' : '';
+    optionsHTML = `<div class="exam-tf-row">
+      <div class="exam-tf-btn ${selT}" id="etf-T" onclick="examSelectTF('T')">○ 是（True）</div>
+      <div class="exam-tf-btn ${selF}" id="etf-F" onclick="examSelectTF('F')">✕ 否（False）</div>
+    </div>`;
+  } else {
+    // open — handwriting canvas
+    optionsHTML = `<div class="hw-wrap" id="hw-wrap">
+      <div class="hw-toolbar">
+        <button class="hw-tool-btn active" id="hw-btn-pen" onclick="hwSetTool('pen')" title="黑筆">✏️</button>
+        <button class="hw-tool-btn" id="hw-btn-eraser" onclick="hwSetTool('eraser')" title="橡皮擦">⬜</button>
+        <div class="hw-separator"></div>
+        <div class="hw-pen-size">
+          <div class="hw-size-dot active" id="hw-sz-s" style="width:8px;height:8px" onclick="hwSetSize(2,'s')" title="細"></div>
+          <div class="hw-size-dot" id="hw-sz-m" style="width:12px;height:12px" onclick="hwSetSize(4,'m')" title="中"></div>
+          <div class="hw-size-dot" id="hw-sz-l" style="width:16px;height:16px" onclick="hwSetSize(7,'l')" title="粗"></div>
+        </div>
+        <div class="hw-separator"></div>
+        <button class="hw-tool-btn" onclick="hwUndo()" title="復原">↩</button>
+        <button class="hw-tool-btn" onclick="hwClear()" title="清除全部">🗑</button>
+        <div class="hw-label">Apple Pencil 手寫</div>
+      </div>
+      <div class="hw-canvas-container" id="hw-container">
+        <canvas class="hw-canvas" id="hw-canvas"></canvas>
+      </div>
+      <button class="hw-extend-btn" onclick="hwExtend()">＋ 延伸畫布</button>
+    </div>`;
+  }
+
+  const contextHTML = buildContext(q);
+
+  const calcModeNote = mockSettings.qtype === '計算題'
+    ? `<div class="calc-mode-note">💡 計算題專項模式：能列出公式和思路就算成功，不強求算到最後答案。</div>` : '';
+
+  document.getElementById('exam-body').innerHTML = `
+    <div class="exam-q-meta">
+      <span class="q-badge school">${q.source}</span>
+      <span class="q-badge" style="font-family:'Space Mono',monospace;font-size:11px;color:var(--muted)">${q.id}</span>
+      <span class="q-badge">${q.type}</span>
+      ${q.difficulty ? `<span class="q-badge" style="color:${q.difficulty==='hard'?'var(--red)':q.difficulty==='easy'?'var(--green)':'var(--yellow)'}">
+        ${{easy:'簡單',medium:'中等',hard:'困難'}[q.difficulty]}</span>` : ''}
+    </div>
+    ${calcModeNote}
+    ${contextHTML}
+    <div class="exam-q-text">${q.question}</div>
+    ${optionsHTML}
+    <div class="exam-nav-row">
+      <button class="exam-nav-btn" onclick="examPrev()" ${mockExamIdx===0?'disabled':''}>← 上一題</button>
+      <button class="exam-nav-btn next" onclick="examNext()">
+        ${mockExamIdx===mockQueue.length-1 ? '完成作答' : '下一題 →'}
+      </button>
+    </div>
+    <div style="height:20px"></div>
+  `;
+}
+
+function examSelectSingle(i) {
+  const keys = ['A','B','C','D','E','F'];
+  const q = mockQueue[mockExamIdx];
+  mockAnswers[q.id] = keys[i];
+  document.querySelectorAll('.exam-option').forEach((el,j) => {
+    el.classList.toggle('selected', j===i);
+  });
+}
+
+function examSelectMulti(i) {
+  const keys = ['A','B','C','D','E','F'];
+  const q = mockQueue[mockExamIdx];
+  if (!Array.isArray(mockAnswers[q.id])) mockAnswers[q.id] = [];
+  const k = keys[i];
+  const arr = mockAnswers[q.id];
+  const idx = arr.indexOf(k);
+  if (idx >= 0) arr.splice(idx, 1); else arr.push(k);
+  arr.sort();
+  const el = document.getElementById('eopt-'+i);
+  if (el) el.classList.toggle('multi-selected', arr.includes(k));
+}
+
+function examSelectTF(val) {
+  const q = mockQueue[mockExamIdx];
+  mockAnswers[q.id] = val;
+  document.getElementById('etf-T')?.classList.toggle('selected', val==='T');
+  document.getElementById('etf-F')?.classList.toggle('selected', val==='F');
+}
+
+function examSaveNote(val) {
+  const q = mockQueue[mockExamIdx];
+  mockNotes[q.id] = val;
+}
+
+function examPrev() {
+  if (mockExamIdx > 0) { mockExamIdx--; renderExamQuestion(); }
+}
+
+function examNext() {
+  if (mockExamIdx < mockQueue.length - 1) {
+    mockExamIdx++;
+    renderExamQuestion();
+  } else {
+    confirmSubmitExam();
+  }
+}
+
+function confirmSubmitExam() {
+  const answered = Object.keys(mockAnswers).length;
+  const total = mockQueue.length;
+  const unanswered = total - answered;
+  const msg = unanswered > 0
+    ? `還有 ${unanswered} 題未作答，確定要交卷嗎？`
+    : `確定交卷？共 ${total} 題。`;
+  if (!confirm(msg)) return;
+  submitExam();
+}
+
+function autoSubmitExam() {
+  alert('時間到！自動交卷。');
+  submitExam();
+}
+
+function submitExam() {
+  clearInterval(mockTimerInterval);
+  mockReviewIdx = 0;
+  goPage('page-mock-review');
+  renderReviewQuestion();
+}
+
+// ─── REVIEW ──────────────────────────────────────────────────────────────────
+
+function renderReviewQuestion() {
+  const total = mockQueue.length;
+  document.getElementById('review-counter').textContent = (mockReviewIdx+1) + '/' + total;
+
+  const q = mockQueue[mockReviewIdx];
+  const qtype = getMockQType(q);
+  const keys = ['A','B','C','D','E','F'];
+  const userAns = mockAnswers[q.id];
+  const correctAns = (q.answer || '').trim();
+  const selfScore = mockSelfScores[q.id];
+
+  // Format user answer for display
+  let userAnsDisplay = '';
+  if (qtype === 'open') {
+    userAnsDisplay = mockNotes[q.id] || '';
+  } else if (Array.isArray(userAns)) {
+    userAnsDisplay = userAns.join('、');
+  } else {
+    userAnsDisplay = userAns || '';
+  }
+
+  // Auto-score for objective questions (single/multi/tf)
+  let autoScore = null;
+  if (qtype === 'single' || qtype === 'tf') {
+    if (userAns && correctAns) {
+      autoScore = userAns.toUpperCase() === correctAns.toUpperCase() ? 'correct' : 'wrong';
+    }
+  } else if (qtype === 'multi') {
+    if (Array.isArray(userAns) && correctAns) {
+      const ua = [...userAns].sort().join('');
+      const ca = correctAns.toUpperCase().replace(/[^A-F]/g,'').split('').sort().join('');
+      autoScore = ua === ca ? 'correct' : 'wrong';
+    }
+  }
+  // If auto-scored and no manual override yet, set it
+  if (autoScore && !mockSelfScores[q.id]) {
+    mockSelfScores[q.id] = autoScore;
+  }
+  const effectiveScore = mockSelfScores[q.id] || null;
+
+  // Correct answer display
+  let correctDisplay = correctAns || '（詳見解析）';
+  if (qtype === 'multi' && correctAns) {
+    correctDisplay = correctAns.toUpperCase().replace(/[^A-F]/g,'').split('').join('、');
+  }
+
+  // Steps
+  const steps = q.solution_steps || [];
+  const stepsHTML = steps.length
+    ? steps.map((s,i)=>`<div class="step"><span class="step-n">${String(i+1).padStart(2,'0')}</span><span>${s}</span></div>`).join('')
+    : `<div style="color:var(--dim);font-size:13px">尚無解析</div>`;
+
+  const contextHTML = buildContext(q);
+
+  document.getElementById('review-body').innerHTML = `
+    <div class="exam-q-meta">
+      <span class="q-badge school">${q.source}</span>
+      <span class="q-badge" style="font-family:'Space Mono',monospace;font-size:11px;color:var(--muted)">${q.id}</span>
+      <span class="q-badge">${q.type}</span>
+    </div>
+    ${contextHTML}
+    <div class="review-question">${q.question}</div>
+
+    ${qtype !== 'open' && q.options && q.options.length > 0 ? `
+      <div class="review-ans-block" style="margin-bottom:10px">
+        <div class="review-ans-label">選項</div>
+        ${q.options.map((opt,i) => {
+          const k = keys[i];
+          const isCorrect = correctAns.toUpperCase().replace(/[^A-F]/g,'').includes(k);
+          const isUser = Array.isArray(userAns) ? userAns.includes(k) : userAns===k;
+          return `<div style="font-size:13px;line-height:1.7;color:${isCorrect?'var(--green)':isUser?'var(--red)':'var(--muted)'}">
+            ${isCorrect?'✓':isUser?'✗':'○'} ${k}. ${opt.replace(/^\([A-Z]\)\s?|^[A-Z]\.\s?/,'')}
+          </div>`;
+        }).join('')}
+      </div>` : ''}
+
+    ${qtype === 'open' ? `
+      <div class="hw-review-wrap" id="hw-review-wrap">
+        <div class="hw-review-toolbar">
+          <div class="hw-review-label">✏ 你的手寫</div>
+          <button class="hw-tool-btn" id="hw-r-btn-pen" onclick="hwReviewSetTool('pen')" title="黑筆" style="width:28px;height:28px;font-size:12px">✏️</button>
+          <button class="hw-tool-btn red-active" id="hw-r-btn-red" onclick="hwReviewSetTool('red')" title="紅筆批改" style="width:28px;height:28px;font-size:12px;color:var(--red)">🔴</button>
+          <button class="hw-tool-btn" id="hw-r-btn-eraser" onclick="hwReviewSetTool('eraser')" title="橡皮擦" style="width:28px;height:28px;font-size:12px">⬜</button>
+          <button class="hw-tool-btn" onclick="hwReviewUndo()" title="復原" style="width:28px;height:28px;font-size:12px">↩</button>
+        </div>
+        <div class="hw-canvas-container" id="hw-review-container" style="border-radius:0 0 var(--radius) var(--radius)">
+          <canvas class="hw-canvas" id="hw-review-canvas"></canvas>
+        </div>
+        <button class="hw-extend-btn" onclick="hwReviewExtend()">＋ 延伸畫布</button>
+      </div>` : `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+      <div class="review-ans-block">
+        <div class="review-ans-label">你的作答</div>
+        <div class="review-ans-val ${userAnsDisplay?'':'empty-color'}">${userAnsDisplay || '（未作答）'}</div>
+      </div>
+      <div class="review-ans-block">
+        <div class="review-ans-label">正確答案</div>
+        <div class="review-ans-val correct-color">${correctDisplay}</div>
+      </div>
+    </div>`}
+
+    ${qtype === 'open' ? `
+      <div class="review-ans-block" style="margin-bottom:10px">
+        <div class="review-ans-label">正確答案</div>
+        <div class="review-ans-val correct-color" style="white-space:pre-wrap">${correctDisplay}</div>
+      </div>` : ''}
+
+    ${qtype === 'open' && q.key_concepts ? `
+      <div class="review-ans-block" style="margin-bottom:10px">
+        <div class="review-ans-label">核心概念</div>
+        <div class="review-ans-val" style="font-size:13px">${q.key_concepts}</div>
+      </div>` : ''}
+
+    <div class="review-solution">
+      <div class="review-ans-label" style="margin-bottom:8px">解析</div>
+      <div class="steps">${stepsHTML}</div>
+    </div>
+
+    <div style="font-size:11px;color:var(--muted);margin-bottom:8px;font-weight:600;letter-spacing:0.05em">
+      ${qtype==='open'?'申論／計算題請手動自評：':'自評結果：'}
+    </div>
+    <div class="review-self-row">
+      <div class="review-self-btn ${effectiveScore==='correct'?'correct-active':''}" onclick="reviewSelfMark('correct')">✓ 答對</div>
+      <div class="review-self-btn ${effectiveScore==='wrong'?'wrong-active':''}" onclick="reviewSelfMark('wrong')">✗ 答錯</div>
+    </div>
+
+    <div class="review-nav-row">
+      <button class="review-nav-btn" onclick="reviewPrev()" ${mockReviewIdx===0?'disabled':''}>← 上一題</button>
+      <button class="review-nav-btn next" onclick="reviewNext()">
+        ${mockReviewIdx===mockQueue.length-1 ? '查看報告 →' : '下一題 →'}
+      </button>
+    </div>
+    <div style="height:20px"></div>
+  `;
+  // Init review canvas for open questions
+  if (getMockQType(mockQueue[mockReviewIdx]) === 'open') {
+    hwReviewInit(mockQueue[mockReviewIdx].id);
+  }
+}
+
+function reviewSelfMark(score) {
+  const q = mockQueue[mockReviewIdx];
+  mockSelfScores[q.id] = score;
+  document.querySelectorAll('.review-self-btn').forEach(b => {
+    b.className = 'review-self-btn';
+  });
+  document.querySelector(score==='correct'?'.review-self-btn:first-child':'.review-self-btn:last-child')
+    ?.classList.add(score==='correct'?'correct-active':'wrong-active');
+}
+
+function reviewPrev() {
+  if (mockReviewIdx > 0) { mockReviewIdx--; renderReviewQuestion(); }
+}
+
+function reviewNext() {
+  if (mockReviewIdx < mockQueue.length - 1) {
+    mockReviewIdx++;
+    renderReviewQuestion();
+  } else {
+    renderMockReport();
+    goPage('page-mock-report');
+  }
+}
+
+// ─── REPORT ──────────────────────────────────────────────────────────────────
+
+function renderMockReport() {
+  const total = mockQueue.length;
+  const correctIds = mockQueue.filter(q => mockSelfScores[q.id]==='correct').map(q=>q.id);
+  const wrongIds   = mockQueue.filter(q => mockSelfScores[q.id]==='wrong').map(q=>q.id);
+  const skippedIds = mockQueue.filter(q => !mockSelfScores[q.id]).map(q=>q.id);
+  const correctN = correctIds.length;
+  const pct = total > 0 ? Math.round(correctN/total*100) : 0;
+
+  // Accuracy by type
+  const typeStats = {};
+  mockQueue.forEach(q => {
+    if (!typeStats[q.type]) typeStats[q.type] = {correct:0, total:0};
+    typeStats[q.type].total++;
+    if (mockSelfScores[q.id]==='correct') typeStats[q.type].correct++;
+  });
+
+  const typeRows = Object.entries(typeStats).map(([type,s]) => {
+    const typePct = s.total > 0 ? Math.round(s.correct/s.total*100) : 0;
+    const barColor = typePct >= 70 ? 'var(--green)' : typePct >= 40 ? 'var(--yellow)' : 'var(--red)';
+    return `<div class="report-type-row">
+      <div class="report-type-name">${type}</div>
+      <div class="report-type-bar-wrap"><div class="report-type-bar" style="width:${typePct}%;background:${barColor}"></div></div>
+      <div class="report-type-pct">${s.correct}/${s.total}</div>
+    </div>`;
+  }).join('');
+
+  const wrongList = mockQueue.filter(q => mockSelfScores[q.id]==='wrong').map(q => {
+    const preview = q.question.length > 60 ? q.question.slice(0,60)+'…' : q.question;
+    const isUnsure = getStatus(q.id) === 'unsure';
+    return `<div class="wrong-q-item">
+      <div class="wrong-q-text"><span class="q-badge" style="margin-right:4px">${q.id}</span>${preview}</div>
+      <button class="wrong-q-add-btn ${isUnsure?'added':''}" id="add-btn-${q.id}" onclick="addToUnsure('${q.id}',this)">
+        ${isUnsure ? '✓ 已加入' : '+ 不懂'}
+      </button>
+    </div>`;
+  }).join('') || `<div style="color:var(--dim);font-size:13px;padding:12px 0">沒有錯題 🎉</div>`;
+
+  const scoreColor = pct >= 70 ? 'var(--green)' : pct >= 50 ? 'var(--yellow)' : 'var(--red)';
+
+  document.getElementById('report-page').innerHTML = `
+    <div class="report-hero">
+      <div class="report-score" style="color:${scoreColor}">${pct}%</div>
+      <div class="report-score-label">答對率</div>
+    </div>
+
+    <div class="report-stats-row">
+      <div class="report-stat">
+        <div class="report-stat-num" style="color:var(--green)">${correctN}</div>
+        <div class="report-stat-label">答對</div>
+      </div>
+      <div class="report-stat">
+        <div class="report-stat-num" style="color:var(--red)">${wrongIds.length}</div>
+        <div class="report-stat-label">答錯</div>
+      </div>
+      <div class="report-stat">
+        <div class="report-stat-num" style="color:var(--muted)">${skippedIds.length}</div>
+        <div class="report-stat-label">未自評</div>
+      </div>
+    </div>
+
+    <div class="report-section-title">各題型答對率</div>
+    ${typeRows}
+
+    <div class="report-section-title">錯題清單（${wrongIds.length} 題）</div>
+    ${wrongList}
+
+    <div class="report-actions">
+      ${wrongIds.length > 0 ? `<button class="btn btn-outline" onclick="addAllWrongToUnsure()" style="font-size:13px">一鍵加入全部錯題到「不懂」複習佇列</button>` : ''}
+      <button class="btn btn-primary" onclick="exitMockExam()" style="margin-top:4px">回到主頁</button>
+    </div>
+    <div style="height:24px"></div>
+  `;
+}
+
+function addToUnsure(qid, btn) {
+  records[qid] = { status: 'unsure', ts: Date.now() };
+  saveRecords();
+  if (btn) { btn.textContent = '✓ 已加入'; btn.classList.add('added'); }
+}
+
+function addAllWrongToUnsure() {
+  const wrongQs = mockQueue.filter(q => mockSelfScores[q.id]==='wrong');
+  wrongQs.forEach(q => {
+    records[q.id] = { status: 'unsure', ts: Date.now() };
+  });
+  saveRecords();
+  // Update all buttons
+  wrongQs.forEach(q => {
+    const btn = document.getElementById('add-btn-'+q.id);
+    if (btn) { btn.textContent = '✓ 已加入'; btn.classList.add('added'); }
+  });
+  alert(`已將 ${wrongQs.length} 題加入「不確定」複習佇列`);
+}
+
+function exitMockExam() {
+  clearInterval(mockTimerInterval);
+  goPage('page-home');
+  renderHome();
+}
+
+
+
+
+// ─── HANDWRITING CANVAS ──────────────────────────────────────────────────────
+
+const hwCanvasHeight = 500; // initial height px
+const hwExtendHeight = 400;
+const DPR = window.devicePixelRatio || 1;
+
+// State
+let hwTool = 'pen';       // 'pen' | 'eraser'
+let hwSize = 2;
+let hwDrawing = false;
+let hwLastX = 0, hwLastY = 0;
+let hwHistory = [];       // undo stack (array of ImageData snapshots)
+let hwCtx = null;
+
+// Review canvas state
+let hwRTool = 'red';
+let hwRDrawing = false;
+let hwRLastX = 0, hwRLastY = 0;
+let hwRHistory = [];
+let hwRCtx = null;
+
+function hwInit(qid, isReview) {
+  const canvas = document.getElementById('hw-canvas');
+  if (!canvas) return;
+  const container = document.getElementById('hw-container');
+  const w = container.offsetWidth || 600;
+  canvas.width = w * DPR;
+  canvas.height = hwCanvasHeight * DPR;
+  canvas.style.height = hwCanvasHeight + 'px';
+
+  hwCtx = canvas.getContext('2d');
+  hwCtx.scale(DPR, DPR);
+  hwCtx.lineCap = 'round';
+  hwCtx.lineJoin = 'round';
+  hwCtx.fillStyle = '#ffffff';
+  hwCtx.fillRect(0, 0, w, hwCanvasHeight);
+
+  hwHistory = [];
+  hwTool = 'pen';
+  hwSize = 2;
+
+  // Load saved drawing if any
+  const saved = mockNotes[qid];
+  if (saved && saved.startsWith('data:image')) {
+    const img = new Image();
+    img.onload = () => {
+      hwCtx.drawImage(img, 0, 0, w, hwCanvasHeight);
+      hwPushHistory();
+    };
+    img.src = saved;
+  } else {
+    hwPushHistory();
+  }
+
+  // Pointer events — only pen (Apple Pencil)
+  canvas.addEventListener('pointerdown', hwPointerDown, { passive: false });
+  canvas.addEventListener('pointermove', hwPointerMove, { passive: false });
+  canvas.addEventListener('pointerup', hwPointerUp);
+  canvas.addEventListener('pointercancel', hwPointerUp);
+}
+
+function hwPointerDown(e) {
+  if (e.pointerType !== 'pen' && e.pointerType !== 'mouse') return;
+  e.preventDefault();
+  hwDrawing = true;
+  const rect = e.target.getBoundingClientRect();
+  hwLastX = e.clientX - rect.left;
+  hwLastY = e.clientY - rect.top;
+  // Dot for tap
+  hwCtx.beginPath();
+  if (hwTool === 'eraser') {
+    hwCtx.globalCompositeOperation = 'destination-out';
+    hwCtx.arc(hwLastX, hwLastY, hwSize * 3, 0, Math.PI * 2);
+    hwCtx.fill();
+    hwCtx.globalCompositeOperation = 'source-over';
+  } else {
+    hwCtx.fillStyle = '#000000';
+    hwCtx.arc(hwLastX, hwLastY, hwSize / 2, 0, Math.PI * 2);
+    hwCtx.fill();
+  }
+}
+
+function hwPointerMove(e) {
+  if (!hwDrawing) return;
+  if (e.pointerType !== 'pen' && e.pointerType !== 'mouse') return;
+  e.preventDefault();
+  const rect = e.target.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+
+  hwCtx.beginPath();
+  hwCtx.lineWidth = hwTool === 'eraser' ? hwSize * 6 : hwSize;
+  if (hwTool === 'eraser') {
+    hwCtx.globalCompositeOperation = 'destination-out';
+    hwCtx.strokeStyle = 'rgba(0,0,0,1)';
+  } else {
+    hwCtx.globalCompositeOperation = 'source-over';
+    hwCtx.strokeStyle = '#000000';
+  }
+  hwCtx.moveTo(hwLastX, hwLastY);
+  hwCtx.lineTo(x, y);
+  hwCtx.stroke();
+  hwCtx.globalCompositeOperation = 'source-over';
+  hwLastX = x; hwLastY = y;
+}
+
+function hwPointerUp(e) {
+  if (!hwDrawing) return;
+  hwDrawing = false;
+  hwPushHistory();
+  hwSave();
+}
+
+function hwPushHistory() {
+  const canvas = document.getElementById('hw-canvas');
+  if (!canvas || !hwCtx) return;
+  const w = canvas.width / DPR;
+  const h = canvas.height / DPR;
+  hwHistory.push(hwCtx.getImageData(0, 0, canvas.width, canvas.height));
+  if (hwHistory.length > 30) hwHistory.shift();
+}
+
+function hwUndo() {
+  if (hwHistory.length <= 1) return;
+  hwHistory.pop();
+  const snap = hwHistory[hwHistory.length - 1];
+  if (snap && hwCtx) {
+    hwCtx.putImageData(snap, 0, 0);
+    hwSave();
+  }
+}
+
+function hwClear() {
+  const canvas = document.getElementById('hw-canvas');
+  if (!canvas || !hwCtx) return;
+  const w = canvas.width / DPR;
+  const h = canvas.height / DPR;
+  hwCtx.fillStyle = '#ffffff';
+  hwCtx.fillRect(0, 0, w, h);
+  hwHistory = [];
+  hwPushHistory();
+  hwSave();
+}
+
+function hwSetTool(tool) {
+  hwTool = tool;
+  document.getElementById('hw-btn-pen')?.classList.toggle('active', tool === 'pen');
+  document.getElementById('hw-btn-eraser')?.classList.toggle('active', tool === 'eraser');
+}
+
+function hwSetSize(size, key) {
+  hwSize = size;
+  ['s','m','l'].forEach(k => document.getElementById('hw-sz-'+k)?.classList.toggle('active', k === key));
+}
+
+function hwExtend() {
+  const canvas = document.getElementById('hw-canvas');
+  if (!canvas || !hwCtx) return;
+  const w = canvas.width / DPR;
+  const oldH = canvas.height / DPR;
+  const newH = oldH + hwExtendHeight;
+
+  // Save current content
+  const imageData = hwCtx.getImageData(0, 0, canvas.width, canvas.height);
+
+  canvas.width = w * DPR;
+  canvas.height = newH * DPR;
+  canvas.style.height = newH + 'px';
+
+  hwCtx.scale(DPR, DPR);
+  hwCtx.lineCap = 'round';
+  hwCtx.lineJoin = 'round';
+  // Fill white
+  hwCtx.fillStyle = '#ffffff';
+  hwCtx.fillRect(0, 0, w, newH);
+  // Restore old content
+  hwCtx.putImageData(imageData, 0, 0);
+  hwPushHistory();
+}
+
+function hwSave() {
+  const canvas = document.getElementById('hw-canvas');
+  const q = mockQueue[mockExamIdx];
+  if (!canvas || !q) return;
+  // Flatten to white background before saving
+  const offscreen = document.createElement('canvas');
+  offscreen.width = canvas.width;
+  offscreen.height = canvas.height;
+  const ctx2 = offscreen.getContext('2d');
+  ctx2.fillStyle = '#ffffff';
+  ctx2.fillRect(0, 0, offscreen.width, offscreen.height);
+  ctx2.drawImage(canvas, 0, 0);
+  mockNotes[q.id] = offscreen.toDataURL('image/jpeg', 0.8);
+}
+
+// ─── REVIEW CANVAS ───────────────────────────────────────────────────────────
+
+function hwReviewInit(qid) {
+  const canvas = document.getElementById('hw-review-canvas');
+  if (!canvas) return;
+  const container = document.getElementById('hw-review-container');
+  const w = container.offsetWidth || 600;
+  canvas.width = w * DPR;
+  canvas.height = hwCanvasHeight * DPR;
+  canvas.style.height = hwCanvasHeight + 'px';
+
+  hwRCtx = canvas.getContext('2d');
+  hwRCtx.scale(DPR, DPR);
+  hwRCtx.lineCap = 'round';
+  hwRCtx.lineJoin = 'round';
+  hwRCtx.fillStyle = '#ffffff';
+  hwRCtx.fillRect(0, 0, w, hwCanvasHeight);
+
+  hwRHistory = [];
+  hwRTool = 'red';
+
+  // Load saved drawing
+  const saved = mockNotes[qid];
+  if (saved && saved.startsWith('data:image')) {
+    const img = new Image();
+    img.onload = () => {
+      hwRCtx.drawImage(img, 0, 0, w, hwCanvasHeight);
+      hwRPushHistory();
+    };
+    img.src = saved;
+  } else {
+    hwRPushHistory();
+  }
+
+  canvas.addEventListener('pointerdown', hwRPointerDown, { passive: false });
+  canvas.addEventListener('pointermove', hwRPointerMove, { passive: false });
+  canvas.addEventListener('pointerup', hwRPointerUp);
+  canvas.addEventListener('pointercancel', hwRPointerUp);
+}
+
+function hwRPointerDown(e) {
+  if (e.pointerType !== 'pen' && e.pointerType !== 'mouse') return;
+  e.preventDefault();
+  hwRDrawing = true;
+  const rect = e.target.getBoundingClientRect();
+  hwRLastX = e.clientX - rect.left;
+  hwRLastY = e.clientY - rect.top;
+  hwRCtx.beginPath();
+  if (hwRTool === 'eraser') {
+    hwRCtx.globalCompositeOperation = 'destination-out';
+    hwRCtx.arc(hwRLastX, hwRLastY, 12, 0, Math.PI * 2);
+    hwRCtx.fill();
+    hwRCtx.globalCompositeOperation = 'source-over';
+  } else {
+    const col = hwRTool === 'red' ? '#ef4444' : '#000000';
+    hwRCtx.fillStyle = col;
+    hwRCtx.arc(hwRLastX, hwRLastY, 1.5, 0, Math.PI * 2);
+    hwRCtx.fill();
+  }
+}
+
+function hwRPointerMove(e) {
+  if (!hwRDrawing) return;
+  if (e.pointerType !== 'pen' && e.pointerType !== 'mouse') return;
+  e.preventDefault();
+  const rect = e.target.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  hwRCtx.beginPath();
+  if (hwRTool === 'eraser') {
+    hwRCtx.globalCompositeOperation = 'destination-out';
+    hwRCtx.lineWidth = 20;
+    hwRCtx.strokeStyle = 'rgba(0,0,0,1)';
+  } else {
+    hwRCtx.globalCompositeOperation = 'source-over';
+    hwRCtx.lineWidth = 3;
+    hwRCtx.strokeStyle = hwRTool === 'red' ? '#ef4444' : '#000000';
+  }
+  hwRCtx.moveTo(hwRLastX, hwRLastY);
+  hwRCtx.lineTo(x, y);
+  hwRCtx.stroke();
+  hwRCtx.globalCompositeOperation = 'source-over';
+  hwRLastX = x; hwRLastY = y;
+}
+
+function hwRPointerUp() {
+  if (!hwRDrawing) return;
+  hwRDrawing = false;
+  hwRPushHistory();
+}
+
+function hwRPushHistory() {
+  const canvas = document.getElementById('hw-review-canvas');
+  if (!canvas || !hwRCtx) return;
+  hwRHistory.push(hwRCtx.getImageData(0, 0, canvas.width, canvas.height));
+  if (hwRHistory.length > 30) hwRHistory.shift();
+}
+
+function hwReviewUndo() {
+  if (hwRHistory.length <= 1) return;
+  hwRHistory.pop();
+  const snap = hwRHistory[hwRHistory.length - 1];
+  if (snap && hwRCtx) hwRCtx.putImageData(snap, 0, 0);
+}
+
+function hwReviewSetTool(tool) {
+  hwRTool = tool;
+  document.getElementById('hw-r-btn-pen')?.classList.toggle('active', tool === 'pen');
+  document.getElementById('hw-r-btn-red')?.classList.toggle('red-active', tool === 'red');
+  document.getElementById('hw-r-btn-eraser')?.classList.toggle('active', tool === 'eraser');
+  ['pen','red','eraser'].forEach(t => {
+    if (t !== tool) {
+      document.getElementById('hw-r-btn-'+t)?.classList.remove('active','red-active');
+    }
+  });
+}
+
+function hwReviewExtend() {
+  const canvas = document.getElementById('hw-review-canvas');
+  if (!canvas || !hwRCtx) return;
+  const w = canvas.width / DPR;
+  const oldH = canvas.height / DPR;
+  const newH = oldH + hwExtendHeight;
+  const imageData = hwRCtx.getImageData(0, 0, canvas.width, canvas.height);
+  canvas.width = w * DPR;
+  canvas.height = newH * DPR;
+  canvas.style.height = newH + 'px';
+  hwRCtx.scale(DPR, DPR);
+  hwRCtx.lineCap = 'round';
+  hwRCtx.lineJoin = 'round';
+  hwRCtx.fillStyle = '#ffffff';
+  hwRCtx.fillRect(0, 0, w, newH);
+  hwRCtx.putImageData(imageData, 0, 0);
+  hwRPushHistory();
+}
+
+
+
+const formulaSections = {"s1": {"name": "描述統計", "html": "一、描述統計與標準化</h1>\n\n<h2>1.1 集中趨勢</h2>\n<div class=\"fbox\">\n  <p>算術平均數</p>\n  $$\\bar{x} = \\frac{\\sum_{i=1}^{N} X_i}{N} = \\frac{\\sum X}{N}$$\n  <div class=\"plain\">把所有數字加起來（$\\sum X$ 是「全部相加」），再除以總個數 $N$。$\\bar{x}$ 唸作「x bar」，代表平均。</div>\n</div>\n<table>\n  <tr><td class=\"tn\">中位數 (Md)</td><td>排序後第 $\\frac{N+1}{2}$ 個值；偶數 $N$ 取中間兩值平均</td></tr>\n  <tr><td class=\"tn\">眾數 (Mo)</td><td>出現次數最多的值（可有多個）</td></tr>\n  <tr><td class=\"tn\">偏態與三者</td><td>正偏（右偏）：$\\text{Mo} < \\text{Md} < \\bar{X}$　　負偏（左偏）：$\\bar{X} < \\text{Md} < \\text{Mo}$</td></tr>\n</table>\n<div class=\"plain\">偏態方向看「尾巴拖到哪邊」：<b>正偏</b>＝尾巴拖右邊（少數高分把平均拉高 → 平均最大）；<b>負偏</b>＝尾巴拖左邊（少數低分把平均拉低 → 平均最小）。記憶法：<b>平均跟著尾巴跑</b>。</div>\n\n<h2>1.2 離散趨勢</h2>\n<div class=\"fbox\">\n  <p>母群變異數（定義式）</p>\n  $$\\sigma^2 = \\frac{\\sum(X_i - \\mu)^2}{N}$$\n  <div class=\"plain\">$\\sigma$ 唸「sigma」、$\\mu$ 唸「mu」（母群平均）。每筆資料減去平均 → 平方（避免正負抵消）→ 全部加起來 → 除以 $N$。意義：<b>平均來說，每筆資料離平均「平方距離」是多少</b>。</div>\n  <p>母群變異數（計算式）</p>\n  $$\\sigma^2 = \\frac{\\sum X_i^2 }{N}- \\mu^2 = \\frac{\\displaystyle\\sum X^2 - \\frac{(\\sum X)^2}{N}}{N}$$\n  <div class=\"plain\">這是<b>速算版</b>，不必先算每個離差，直接用 $\\sum X^2$（每個數字平方後加總）和 $\\sum X$（直接加總）就能算。考試手算比較快。</div>\n  <p>樣本變異數（不偏，定義式）</p>\n  $$s^2 = \\frac{\\sum(X_i - \\bar{x})^2}{N-1}$$\n  <div class=\"plain\">分母用 $N-1$（不是 $N$）才能<b>不偏估計</b>母群變異數。$N-1$ 叫「自由度」——因為平均已經用掉一個資訊。</div>\n  <p>樣本變異數（計算式）— 除 $N-1$</p>\n  $$s^2 = \\frac{\\displaystyle\\sum X^2 - \\frac{(\\sum X)^2}{N}}{N-1}$$\n  <div class=\"plain\">同上，速算版，分母換成 $N-1$ 就是樣本變異數。</div>\n  <p>標準差　　　變異係數</p>\n  $$\\sigma = \\sqrt{\\sigma^2},\\quad s = \\sqrt{s^2} \\qquad CV = \\frac{SD}{Mean} \\times 100\\%$$\n  <div class=\"plain\"><b>標準差</b>＝變異數開根號，把單位變回原本（變異數的單位是平方）。<b>變異係數 CV</b>＝標準差佔平均的百分比，用來<b>比較不同單位/不同量級資料</b>的離散程度（例：身高 vs 體重）。</div>\n</div>\n<table>\n  <tr><td class=\"tn\">全距</td><td>$R = X_{\\max} - X_{\\min}$</td></tr>\n  <tr><td class=\"tn\">四分位距</td><td>$\\text{IQR} = Q_3 - Q_1$</td></tr>\n</table>\n<div class=\"plain\"><b>全距</b>＝最大值減最小值（容易被極端值影響）；<b>四分位距 IQR</b>＝第 75 百分位 $-$ 第 25 百分位（中間 50% 的範圍，抗極端值）。</div>\n<div class=\"note\">線性轉換：$\\text{Var}(a+bX) = b^2\\cdot\\text{Var}(X)$；$\\text{SD}(a+bX) = |b|\\cdot\\text{SD}(X)$；加常數 $a$ 不影響 SD</div>\n<div class=\"plain\">資料整體 $+a$（每筆加同一個數）→ <b>離散度不變</b>（大家一起平移）。資料 $\\times b$（每筆乘 $b$）→ <b>標準差變 $|b|$ 倍、變異數變 $b^2$ 倍</b>。</div>\n\n<h2>1.3 z 分數（標準化）</h2>\n<div class=\"fbox\">\n  <p>z 分數　　　反推原始分數</p>\n  $$z = \\frac{X - \\mu}{\\sigma} \\qquad X = \\mu + z\\cdot\\sigma$$\n  <div class=\"plain\"><b>z 分數的意思：「我距離平均有幾個標準差」</b>。$z=+2$ 代表比平均高 2 個標準差；$z=-1$ 代表比平均低 1 個標準差。右式是反推：知道 $z$ 倒回去算原始分數。</div>\n  標準化後：$\\mu_z = 0$，$\\sigma_z = 1$（分配形狀不變！）\n  <div class=\"plain\">把整批資料都做 z 轉換後，新平均一定是 0、新標準差一定是 1，但<b>分配形狀（偏態、峰度）完全沒變</b>。</div>\n</div>\n<div class=\"note\">z 轉換不改變分配形狀！原始非常態 → 轉換後仍非常態</div>\n\n<h2>1.4 偏態與峰度</h2>\n<div class=\"fbox\">\n  <p>偏態（Skewness）—— 三次方矩</p>\n  $$g_1 = \\frac{\\dfrac{1}{N}\\sum(X_i - \\bar{x})^3}{s^3}$$\n  <div class=\"plain\">用<b>三次方</b>是因為要保留正負號（左偏為負、右偏為正）。$g_1 = 0$ 對稱；$g_1 > 0$ 右偏（尾巴拖右）；$g_1 < 0$ 左偏（尾巴拖左）。</div>\n  <p>峰度（Kurtosis）—— 四次方矩（尾端厚度）</p>\n  $$g_2 = \\frac{\\dfrac{1}{N}\\sum(X_i - \\bar{x})^4}{s^4} - 3 \\quad\\text{（超額峰度；常態分配 }g_2=0\\text{）}$$\n  <div class=\"plain\"><b>四次方</b>放大「離平均很遠的點」的影響，所以衡量<b>尾巴厚不厚</b>。減 3 是因為常態分配的原始峰度=3，減掉後常態的「超額峰度」=0 比較好對照。$g_2 > 0$ 尾巴厚（極端值多）；$g_2 < 0$ 尾巴薄。</div>\n</div>\n\n<!-- ═══ 二、機率分配 ═══ -->"}, "s2": {"name": "機率分配", "html": "二、機率分配</h1>\n\n<h2>2.1 常用分配摘要</h2>\n<table>\n  <tr><td class=\"tn\">常態 $N(\\mu,\\sigma^2)$</td><td>$\\mu\\pm1\\sigma=68.26\\%$；$\\mu\\pm2\\sigma=95.44\\%$；$\\mu\\pm3\\sigma=99.74\\%$</td></tr>\n  <tr><td class=\"tn\">標準常態 $Z$</td><td>$\\mu=0$，$\\sigma=1$；$z_{0.025}=1.96$，$z_{0.005}=2.576$</td></tr>\n  <tr><td class=\"tn\">$t(df)$</td><td>$df\\to\\infty$ 趨近 $Z$；$\\text{Var}=\\dfrac{df}{df-2}>1$，尾端比 $Z$ 厚</td></tr>\n  <tr><td class=\"tn\">$\\chi^2(df)$</td><td>$\\chi^2=\\sum Z_i^2$（$df$ 個獨立 $Z^2$ 之和）；右偏；$df\\to\\infty$ 趨近常態</td></tr>\n  <tr><td class=\"tn\">$F(df_1,df_2)$</td><td>$F=\\dfrac{\\chi^2(df_1)/df_1}{\\chi^2(df_2)/df_2}$；右偏；$F=t^2$（兩組）</td></tr>\n  <tr><td class=\"tn\">二項 $B(n,p)$</td><td>$E(X)=np$；$\\text{Var}=np(1-p)$；$n$ 大時趨近常態</td></tr>\n  <tr><td class=\"tn\">波松 $\\text{Pois}(\\lambda)$</td><td>$E(X)=\\text{Var}(X)=\\lambda$；單位時間事件次數</td></tr>\n  <tr><td class=\"tn\">超幾何</td><td>不放回抽樣；有限母群；每次 $p$ 改變</td></tr>\n  <tr><td class=\"tn\">伯努利 $B(p)$</td><td>$n=1$ 的二項；單次試驗（0或1）</td></tr>\n</table>\n<div class=\"plain\">\n  <b>常態</b>就是鐘形曲線，68-95-99.7 法則：離平均 1/2/3 個 SD 內大約佔 68%/95%/99.7% 的資料。<br>\n  <b>$t$ 分配</b>：樣本小、$\\sigma$ 未知時用，<b>長得像常態但尾巴比較厚</b>（因為要多一份不確定性）；$df$ 越大越接近常態。<br>\n  <b>$\\chi^2$ 分配</b>：好幾個 $Z^2$（標準常態平方）加起來，因為是平方所以<b>恆正、右偏</b>。<br>\n  <b>$F$ 分配</b>：兩個變異數（標準化後）的比值，<b>恆正、右偏</b>；ANOVA 用它。<br>\n  <b>二項</b>：$n$ 次獨立試驗，每次成功機率 $p$，數成功幾次（如丟銅板 10 次幾次正面）。$E(X)=np$ 直觀：「次數 × 成功率」。<br>\n  <b>波松</b>：單位時間/空間內事件發生次數（如每小時來幾通電話）；<b>平均=變異數=$\\lambda$</b>。<br>\n  <b>超幾何</b>：抽不放回（如抽撲克牌不放回），每抽一張機率就變了。<br>\n  <b>伯努利</b>：只做一次試驗（成功=1 / 失敗=0）；是二項的特例 $n=1$。\n</div>\n<div class=\"tip\">$F=t^2$（兩組）；機率密度（PDF值）可以 $>1$（面積$=1$，高度不限）</div>\n\n<h2>2.2 抽樣分配與標準誤</h2>\n<div class=\"fbox\">\n  <p>標準誤（SE）</p>\n  $$SE_{\\bar{x}} = \\frac{\\sigma}{\\sqrt{n}}$$\n  <div class=\"plain\"><b>標準誤就是「樣本平均的標準差」</b>。同一個母群抽很多次樣本，每次算的 $\\bar{x}$ 都會略有不同——這些 $\\bar{x}$ 的分散程度就是 SE。<b>樣本越大（$n$ 越大），SE 越小，估得越準</b>（除以 $\\sqrt{n}$）。</div>\n  <p>比例的 SE　　　兩比例差的 SE</p>\n  $$SE_{\\hat{p}} = \\sqrt{\\frac{p(1-p)}{n}} \\qquad SE_{\\hat{p}_1-\\hat{p}_2} = \\sqrt{\\frac{p_1(1-p_1)}{n_1} + \\frac{p_2(1-p_2)}{n_2}}$$\n  <div class=\"plain\"><b>左式</b>：當資料是 0/1（如支持/不支持），樣本比例 $\\hat{p}$ 的標準誤。<b>右式</b>：兩組比例差的標準誤——把兩組 SE 平方相加再開根（因為兩組獨立，<b>變異數可以相加</b>）。</div>\n</div>\n\n<!-- ═══ 三、信賴區間 ═══ -->"}, "s3": {"name": "信賴區間", "html": "三、信賴區間與樣本數估計</h1>\n<div class=\"fbox\">\n  <p>均值 CI（$\\sigma$ 已知）　　均值 CI（$\\sigma$ 未知）</p>\n  $$\\bar{x} \\pm z_{\\alpha/2}\\cdot\\frac{\\sigma}{\\sqrt{n}} \\qquad \\bar{x} \\pm t_{\\alpha/2,\\,n-1}\\cdot\\frac{s}{\\sqrt{n}}$$\n  <div class=\"plain\"><b>結構都是「樣本平均 ± 臨界值 × 標準誤」</b>。$\\sigma$ 已知用 $z$，$\\sigma$ 未知（要用樣本 $s$ 估）改用 $t$（尾巴比較厚以反映多出來的不確定性）。「95% CI」的意思是<b>「同樣方法重複抽樣很多次，95% 算出的區間會包含真值」</b>，<b>不是</b>「真值有 95% 機率落在這個區間」。</div>\n  <p>比例 CI</p>\n  $$\\hat{p} \\pm z_{\\alpha/2}\\cdot\\sqrt{\\frac{\\hat{p}(1-\\hat{p})}{n}}$$\n  <div class=\"plain\">同樣是「點估計 ± 臨界值 × 標準誤」，只是把均值換成比例。</div>\n  <p>樣本數估計（一般式）　　樣本數估計（保守，$p=0.5$）</p>\n  $$n \\geq \\frac{z_{\\alpha/2}^2\\cdot p(1-p)}{E^2} \\qquad n \\geq \\frac{z_{\\alpha/2}^2\\cdot 0.25}{E^2} = \\left(\\frac{z_{\\alpha/2}}{2E}\\right)^2$$\n  <div class=\"plain\">想讓誤差不超過 $E$，至少要抽多少人。$p$ 不知道時用 $p=0.5$（最保守，因為 $p(1-p)$ 在 0.5 達到最大 0.25）。<b>$E$ 越小（要更精準）→ $n$ 越大</b>，且 $E$ 在分母平方，所以「誤差減半 → 樣本要 4 倍」。</div>\n  <p>範例：95% 信心（$z=1.96$），誤差半寬 $E=0.02$</p>\n  $$n \\geq \\left(\\frac{1.96}{2\\times 0.02}\\right)^2 = 49^2 = 2401 \\approx 2500$$\n</div>\n<div class=\"note\">$E$ = 誤差「半寬」；若題目說「上下誤差總範圍 $0.04$」則 $E = 0.02$</div>\n\n<!-- ═══ 四、假設檢定 ═══ -->"}, "s4": {"name": "假設檢定", "html": "四、假設檢定</h1>\n\n<h2>4.1 基本概念</h2>\n<table>\n  <tr><td class=\"tn\">Type I error ($\\alpha$)</td><td>H$_0$ 為真卻拒絕 H$_0$（偽陽性）= 顯著水準</td></tr>\n  <tr><td class=\"tn\">Type II error ($\\beta$)</td><td>H$_1$ 為真卻保留 H$_0$（偽陰性）</td></tr>\n  <tr><td class=\"tn\">Power（統計力）</td><td>$1-\\beta = P(\\text{拒絕 H}_0 \\mid \\text{H}_1\\text{ 為真})$；通常要求 $\\geq 0.80$</td></tr>\n  <tr><td class=\"tn\">$p$ 值</td><td>H$_0$ 為真時，觀察到此結果或更極端的機率</td></tr>\n  <tr><td class=\"tn\">決策</td><td>$p < \\alpha \\Rightarrow$ 拒絕 H$_0$；$p \\geq \\alpha \\Rightarrow$ 保留 H$_0$（非接受！）</td></tr>\n</table>\n<div class=\"plain\">\n  用「醫學檢驗」來想很好記：H$_0$＝「沒病」，H$_1$＝「有病」。<br>\n  <b>Type I（$\\alpha$）= 偽陽性</b>：沒病卻說有病（冤枉好人）。<br>\n  <b>Type II（$\\beta$）= 偽陰性</b>：有病卻說沒病（漏掉壞人）。<br>\n  <b>Power（$1-\\beta$）</b>＝<b>「真有效時能正確抓到的機率」</b>，是檢定的「靈敏度」。<br>\n  <b>$p$ 值</b>＝「假如 H$_0$ 是真的，看到目前資料（或更極端）的機率」。<b>$p$ 小代表資料和 H$_0$ 不合 → 拒絕 H$_0$</b>。<br>\n  注意「保留 H$_0$」<b>不等於「H$_0$ 為真」</b>，只是「沒有足夠證據反駁它」。\n</div>\n<div class=\"note\">$\\alpha + \\beta \\neq 1$！　Power $= 1-\\beta$（不是 $1-\\alpha$）</div>\n<div class=\"tip\">$\\alpha\\uparrow\\Rightarrow$ Power $\\uparrow$；$n\\uparrow\\Rightarrow$ Power $\\uparrow$；效果量 $\\uparrow\\Rightarrow$ Power $\\uparrow$</div>\n\n<h2>4.2 各種 $t$ 檢定</h2>\n<div class=\"fbox\">\n  <p>單樣本 $t$</p>\n  $$t = \\frac{\\bar{x} - \\mu_0}{s/\\sqrt{n}},\\quad df = n-1$$\n  <div class=\"plain\"><b>「樣本平均離假設值差幾個標準誤」</b>。$\\mu_0$ 是 H$_0$ 設的目標值（如「平均身高=170」）。分子＝差距，分母＝標準誤。$|t|$ 越大代表離假設值越遠，越可能拒絕 H$_0$。</div>\n  <p>獨立樣本 $t$</p>\n  $$t = \\frac{\\bar{x}_1 - \\bar{x}_2}{\\sqrt{s_p^2\\!\\left(\\frac{1}{n_1}+\\frac{1}{n_2}\\right)}},\\quad df = n_1+n_2-2$$\n  <div class=\"plain\"><b>「兩組平均的差距，等於幾個標準誤」</b>。比較兩個獨立群體（如男女、實驗組對照組）。分母用「合併變異數」估兩組共同的變異程度。</div>\n  <p>調和變異數（Pooled Variance）</p>\n  $$s_p^2 = \\frac{(n_1-1)s_1^2 + (n_2-1)s_2^2}{n_1+n_2-2}$$\n  <div class=\"plain\">把兩組變異數<b>用各自自由度當權重加總平均</b>。前提是「兩組變異數相等」（同質性假設）。如果兩組 $n$ 差很多，大樣本那組的 $s^2$ 會占主導。</div>\n  <p>配對樣本 $t$　（$D_i = X_{1i} - X_{2i}$）</p>\n  $$t = \\frac{\\bar{D}}{s_D/\\sqrt{n}},\\quad df = n-1$$\n  <div class=\"plain\"><b>「同一個人前後測」或「配對的兩筆資料」</b>。先算出每對的差 $D_i$，問題就<b>變成單樣本</b>：「平均差距 $\\bar{D}$ 和 0 差幾個標準誤？」配對能消掉個體差異，<b>檢定力比獨立樣本高</b>。</div>\n  <p>$t$ 與 $F$ 的關係</p>\n  $$F(1,\\;df) = t^2(df)\\quad\\text{（兩組時）}$$\n  <div class=\"plain\">兩組比較時，做獨立樣本 $t$ 檢定 = 做單因子兩水準 ANOVA，且<b>$F$ 值剛好是 $t$ 值的平方</b>。$p$ 值也會完全一樣。</div>\n</div>\n\n<h2>4.3 卡方檢定</h2>\n<div class=\"fbox\">\n  <p>卡方統計量　　　期望值（列聯表）</p>\n  $$\\chi^2 = \\sum\\frac{(O-E)^2}{E} \\qquad E_{ij} = \\frac{\\text{列和}_i \\times \\text{欄和}_j}{N}$$\n  <div class=\"plain\"><b>核心想法：「觀察值（$O$）和期望值（$E$）差多少？」</b>$O-E$ 是差距、平方避免正負抵消、再除以 $E$ 做標準化（讓格子大小可比）。$\\chi^2$ 越大代表差距越大，越可能拒絕「兩變項獨立」的 H$_0$。<br>\n  期望值 $E_{ij}$＝「<b>如果兩變項真的獨立</b>，這格應該有多少」（用邊際機率算）。</div>\n  <p>適合度：$df = k-1$（$k$=類別數）　　獨立性：$df = (r-1)(c-1)$</p>\n  <div class=\"plain\"><b>適合度檢定</b>：一個變項的分配是否符合理論比例（如骰子是否公平）。<br>\n  <b>獨立性檢定</b>：兩個類別變項是否相關（如性別 × 投票偏好）。</div>\n  <p>單樣本變異數</p>\n  $$\\chi^2 = \\frac{(n-1)s^2}{\\sigma_0^2},\\quad df = n-1$$\n  <div class=\"plain\">檢定「樣本變異數和某個假設值 $\\sigma_0^2$ 是否相同」。當 H$_0$ 為真時 $s^2 \\approx \\sigma_0^2$，這個比值會接近 $n-1$（即 $df$）。</div>\n</div>\n<div class=\"note\">期望值要求 $E \\geq 5$（不是10！）；$E < 5$ 時考慮 Fisher's Exact Test</div>\n\n<!-- ═══ 五、相關與迴歸 ═══ -->"}, "s5": {"name": "相關迴歸", "html": "五、相關與迴歸</h1>\n\n<h2>5.1 Pearson 相關</h2>\n<div class=\"fbox\">\n  <p>定義式</p>\n  $$r = \\frac{\\text{Cov}(X,Y)}{\\sigma_X\\cdot\\sigma_Y} = \\frac{\\sum(X_i-\\bar{x})(Y_i-\\bar{y})}{\\sqrt{\\sum(X_i-\\bar{x})^2\\cdot\\sum(Y_i-\\bar{y})^2}}$$\n  <div class=\"plain\"><b>$r$ 是「共變數除以兩個標準差」 → 把單位消掉的相關</b>，永遠落在 $-1$ 到 $+1$。<br>\n  分子 $(X-\\bar{x})(Y-\\bar{y})$：當 $X,Y$ <b>同時大於或同時小於各自平均</b>時為正（正相關）；一高一低時為負（負相關）。整批資料加總後，正相關會以正值居多。</div>\n  <p>計算式</p>\n  $$r = \\frac{\\displaystyle\\sum X_i Y_i - \\frac{(\\sum X_i)(\\sum Y_i)}{N}}{\\sqrt{\\left[\\displaystyle\\sum X_i^2 - \\frac{(\\sum X_i)^2}{N}\\right]\\!\\left[\\displaystyle\\sum Y_i^2 - \\frac{(\\sum Y_i)^2}{N}\\right]}}$$\n  <div class=\"plain\">速算版：考試只要算 $\\sum X$, $\\sum Y$, $\\sum XY$, $\\sum X^2$, $\\sum Y^2$ 五個量，直接代入即可。</div>\n  <p>共變數　　　$r$ 的 $t$ 檢定</p>\n  $$\\text{Cov}(X,Y)=r\\cdot\\sigma_X\\cdot\\sigma_Y \\qquad t=\\frac{r\\sqrt{n-2}}{\\sqrt{1-r^2}},\\quad df=n-2$$\n  <div class=\"plain\"><b>共變數</b>：未標準化的相關，受單位影響大；除以兩個 SD 後就變成 $r$。<br>\n  <b>$r$ 的 $t$ 檢定</b>：問「樣本算出的 $r$ 和 0 的差距，是否大到不能用抽樣誤差解釋」。$|r|$ 大、$n$ 大 → $t$ 大 → 越顯著。</div>\n  <p>決定係數</p>\n  $$R^2 = r^2\\quad\\text{（$X$ 能解釋 $Y$ 的變異比例）}$$\n  <div class=\"plain\">$r=0.6$ 不代表「解釋 60% 的變異」，要平方：$R^2 = 0.36$，<b>「$X$ 解釋了 $Y$ 中 36% 的變異」</b>。</div>\n</div>\n<div class=\"note\">$r=0$ 只代表無「線性」相關；可能有非線性關係！</div>\n<div class=\"tip\">$R^2$ 對稱：$X$ 預測 $Y$ 和 $Y$ 預測 $X$ 的 $R^2$ 完全相同</div>\n\n<h2>5.2 簡單線性迴歸</h2>\n<div class=\"fbox\">\n  <p>迴歸方程式</p>\n  $$\\hat{Y} = b_0 + b_1 X$$\n  <div class=\"plain\"><b>$\\hat{Y}$ 唸「Y hat」＝預測值</b>。$b_0$ 是截距、$b_1$ 是斜率；用 $X$ 來預測 $Y$ 的最佳直線。「最佳」的標準＝<b>讓殘差平方和最小（最小平方法 OLS）</b>。</div>\n  <p>斜率（定義式 / 計算式）</p>\n  $$b_1 = \\frac{\\text{Cov}(X,Y)}{\\text{Var}(X)} = r\\cdot\\frac{s_Y}{s_X} = \\frac{\\displaystyle\\sum X_i Y_i - \\frac{(\\sum X_i)(\\sum Y_i)}{N}}{\\displaystyle\\sum X_i^2 - \\frac{(\\sum X_i)^2}{N}}$$\n  <div class=\"plain\"><b>斜率 $b_1$ 的意義：「$X$ 每增加 1 單位，$Y$ 平均變化多少」</b>。中間式 $b_1 = r\\cdot\\frac{s_Y}{s_X}$ 很實用——已知 $r$ 和兩變項 SD 就能直接算斜率。</div>\n  <p>截距　　　標準化迴歸係數</p>\n  $$b_0 = \\bar{Y} - b_1\\bar{X}\\quad\\text{（迴歸線必過 $(\\bar{X},\\bar{Y})$）} \\qquad \\beta = r\\quad\\text{（截距}=0\\text{）}$$\n  <div class=\"plain\"><b>截距 $b_0$</b>＝「$X=0$ 時 $Y$ 的預測值」。迴歸線一定通過資料中心 $(\\bar{X},\\bar{Y})$。<br>\n  <b>標準化迴歸係數 $\\beta$</b>＝把 $X,Y$ 都做 z 轉換後再做迴歸的斜率，<b>單變項時直接等於 $r$</b>，截距為 0。</div>\n  <p>估計標準誤（SEE）</p>\n  $$SEE = s_Y\\sqrt{1-R^2} = \\sqrt{\\frac{\\sum(Y_i-\\hat{Y}_i)^2}{N-2}}$$\n  <div class=\"plain\"><b>SEE 是「預測誤差的標準差」 → 預測值平均偏離真實值多少</b>。$R^2$ 越大（解釋越多）→ SEE 越小（預測越準）。分母 $N-2$ 是因為估了截距和斜率兩個參數。</div>\n  <p>95% 預測區間　　　整體 $F$ 檢定</p>\n  $$\\hat{Y}\\pm 1.96\\cdot SEE \\qquad F=\\frac{R^2/p}{(1-R^2)/(N-p-1)},\\quad df_1=p,\\;df_2=N-p-1$$\n  <div class=\"plain\"><b>預測區間</b>：對某個特定 $X$ 值，$Y$ 大約落在 $\\hat{Y} \\pm 1.96\\cdot SEE$ 內（粗略式）。<br>\n  <b>整體 $F$ 檢定</b>：問「整個迴歸模型是否顯著」（$R^2$ 是否大到不能用抽樣誤差解釋）。$p$ 是預測變項數，這裡 $p=1$。</div>\n</div>\n<div class=\"note\">$X$ 和 $Y$ 互換後斜率不同（除非 $s_X=s_Y$），但 $R^2$ 相同</div>\n\n<h2>5.3 多元迴歸</h2>\n<div class=\"fbox\">\n  <p>多元迴歸方程式　　　調整後 $R^2$</p>\n  $$\\hat{Y} = b_0 + b_1X_1 + \\cdots + b_pX_p \\qquad R^2_{\\text{adj}} = 1-(1-R^2)\\frac{N-1}{N-p-1}$$\n  <div class=\"plain\"><b>多元迴歸</b>：用多個 $X$ 變項一起預測 $Y$。每個 $b_i$＝「<b>控制其他變項不變</b>時，$X_i$ 增加 1 單位，$Y$ 平均變化多少」。<br>\n  <b>調整後 $R^2$</b>：$R^2$ 會隨變項越多而越大（即使加沒用的變項），調整後 $R^2$ 會懲罰多餘的變項，<b>用來做模型比較才公平</b>。</div>\n  <p>整體 $F$ 檢定</p>\n  $$F(p,\\;N-p-1)=\\frac{R^2/p}{(1-R^2)/(N-p-1)}$$\n  <div class=\"plain\">問「至少有一個 $b_i \\neq 0$」嗎？$F$ 顯著表示<b>整個模型有效</b>，但不告訴你哪個變項顯著（要看每個 $b_i$ 的個別 $t$ 檢定）。</div>\n</div>\n\n<h2>5.4 虛擬變項與調節迴歸</h2>\n<div class=\"fbox\">\n  $k$ 類別 $\\Rightarrow$ $k-1$ 個虛擬變項（以1組為參照組）<br>\n  截距 $=$ 參照組均值；各組係數 $=$ 該組均值 $-$ 參照組均值<br>\n  <div class=\"plain\"><b>虛擬變項（dummy）</b>：把類別變項（如「血型 A/B/O/AB」4 類）變成 0/1 變數放進迴歸。$k$ 類只需 $k-1$ 個 dummy（多了會共線性），<b>沒被編碼的那組叫「參照組」</b>。每個 dummy 的係數＝「該組平均比參照組高/低多少」。<br>\n  例：性別只要 1 個 dummy（女=0、男=1），$b_1$ 就是「男生比女生平均多多少」。</div>\n  <p>調節迴歸（含交互作用）</p>\n  $$\\hat{Y} = b_0 + b_1X + b_2Z + b_3XZ$$\n  <div class=\"plain\"><b>$XZ$ 是 $X$ 和 $Z$ 相乘的「交互作用項」</b>。$b_3$ 顯著代表 <b>$X$ 對 $Y$ 的效果會因為 $Z$ 不同而改變</b>——這時 $Z$ 叫「<b>調節變項</b>」（moderator）。<br>\n  例：「練習量（$X$）→ 成績（$Y$）」的效果，可能在「動機高」（$Z$ 高）時比較強。</div>\n  $b_3$ 顯著 $\\neq 0$ $\\Rightarrow$ $X$ 對 $Y$ 的影響隨 $Z$ 改變（$Z$ 為調節變項）<br><br>\n  <p>平減（Centering）後截距</p>\n  $$X_c = X-\\bar{X} \\Rightarrow b_0' = \\bar{Y}$$\n  <div class=\"plain\"><b>平減＝把每筆資料減掉平均</b>，讓新變項平均=0。好處：<b>讓截距和主效果有意義</b>（在「平均處」的值），且降低交互作用造成的多元共線性。</div>\n</div>\n\n<h2>5.5 相關係數的選擇</h2>\n<table>\n  <tr><td class=\"tn\">兩個連續變項</td><td>Pearson $r$</td></tr>\n  <tr><td class=\"tn\">兩個次序變項</td><td>Spearman $\\rho$（或 Kendall $\\tau$）</td></tr>\n  <tr><td class=\"tn\">一個二元 + 一個連續</td><td>點雙列相關（Point Biserial）</td></tr>\n  <tr><td class=\"tn\">兩個二元變項</td><td>Phi 相關（$\\phi$）</td></tr>\n  <tr><td class=\"tn\">兩個名義多類別</td><td>Cramer's $V$</td></tr>\n</table>\n<div class=\"plain\"><b>選哪個看資料尺度</b>：連續→Pearson；只有大小順序（排名）→Spearman；含類別變項就用對應的相關。Spearman $\\rho$ 唸「rho」、Kendall $\\tau$ 唸「tau」、Phi $\\phi$ 唸「fai」。</div>\n\n<!-- ═══ 六、ANOVA ═══ -->"}, "s6": {"name": "ANOVA", "html": "六、ANOVA 自由度完整整理</h1>\n\n<h2>6.1 單因子受試者間（One-way Between-subjects）</h2>\n<p class=\"desc\">$K$ 組，每組 $n_k$ 人，總 $N=\\sum n_k$</p>\n<table>\n  <tr><th>來源</th><th>$df$</th><th>$MS$</th><th>$F$</th></tr>\n  <tr><td class=\"tl\">組間（Between）</td><td class=\"tc\">$K-1$</td><td class=\"tc\">$\\dfrac{SSB}{K-1}$</td><td class=\"tc\">$\\dfrac{MSB}{MSW}$</td></tr>\n  <tr><td class=\"tl\">組內（Within）</td><td class=\"tc\">$N-K$</td><td class=\"tc\">$\\dfrac{SSW}{N-K}$</td><td class=\"tc\"></td></tr>\n  <tr><td class=\"tl\">總計</td><td class=\"tc\">$N-1$</td><td class=\"tc\"></td><td class=\"tc\"></td></tr>\n</table>\n<div class=\"plain\">\n  <b>ANOVA 的核心想法：「組間差異 vs 組內差異」誰大？</b><br>\n  <b>$SSB$ 組間平方和</b>＝各組平均離總平均的差距（組與組間的變異）。<br>\n  <b>$SSW$ 組內平方和</b>＝每筆資料離自己組平均的差距（純粹個體差異 = 誤差）。<br>\n  <b>$MS$（均方）= SS / df</b>，把平方和變成「平均變異量」（因為組數越多 SS 自然越大，要除以自由度才公平）。<br>\n  <b>$F = MSB/MSW$</b>：若各組平均真的不同，組間變異會「大過」純誤差很多 → $F$ 大 → 拒絕「各組平均皆相等」。\n</div>\n<div class=\"fbox\">\n  $$SSB=\\sum_{k}n_k(\\bar{X}_k-\\bar{X})^2,\\quad SSW=\\sum_{k}\\sum_{i}(X_{ik}-\\bar{X}_k)^2,\\quad SST=SSB+SSW$$\n  <div class=\"plain\"><b>$SSB$</b>：每組平均減總平均後平方，<b>乘以該組人數 $n_k$</b>（人多的組權重大），全部加總。<b>$SSW$</b>：每筆資料減自己組平均後平方，組內加總，再跨組加總。<br>\n  最重要的恆等式：<b>$SST = SSB + SSW$</b>（總變異 = 組間變異 + 組內變異）。</div>\n  $$\\eta^2=\\frac{SSB}{SST}\\qquad\\omega^2=\\frac{SSB-(K-1)\\cdot MSW}{SST+MSW}$$\n  <div class=\"plain\"><b>$\\eta^2$（eta squared）</b>＝組間變異佔總變異的比例（解釋 $Y$ 變異的比例），<b>跟迴歸的 $R^2$ 是同個概念</b>。但 $\\eta^2$ 會高估，<b>$\\omega^2$（omega squared）</b>是修正後較不偏的版本。</div>\n</div>\n<div class=\"tip\">df 驗算：$(K-1)+(N-K)=N-1$ ✓</div>\n\n<h2>6.2 單因子受試者內（One-way Within-subjects）</h2>\n<p class=\"desc\">$a$ 個水準，$b$ 位受試者，$N=a\\times b$</p>\n<table>\n  <tr><th>來源</th><th>$df$</th></tr>\n  <tr><td class=\"tl\">處理（A）</td><td class=\"tc\">$a-1$</td></tr>\n  <tr><td class=\"tl\">受試者（S）</td><td class=\"tc\">$b-1$</td></tr>\n  <tr><td class=\"tl\">誤差（A$\\times$S）</td><td class=\"tc\">$(a-1)(b-1)$</td></tr>\n  <tr><td class=\"tl\">總計</td><td class=\"tc\">$ab-1$</td></tr>\n</table>\n<div class=\"plain\"><b>「受試者內」＝同一個人接受所有處理</b>（重複量測，例：同樣的人吃 3 種藥，比較三次反應）。<br>\n比起「受試者間」，把「個體差異（S）」<b>從誤差裡分離出來</b>，誤差變小 → 統計力變大。<br>\n新的誤差項是「A×S」（處理 × 受試者的交互作用），代表「<b>每個人對處理的反應模式不同</b>」的部分。</div>\n<div class=\"note\">需球型假設（Sphericity）；違反時用 Greenhouse-Geisser 或 Huynh-Feldt 校正</div>\n\n<h2>6.3 二因子受試者間（Two-way Between-subjects）</h2>\n<p class=\"desc\">A 因子 $a$ 水準，B 因子 $b$ 水準，每格 $r$ 人，$N=abr$</p>\n<table>\n  <tr><th>來源</th><th>$df$</th><th>$F$ 的分母</th></tr>\n  <tr><td class=\"tl\">A 主效果</td><td class=\"tc\">$a-1$</td><td class=\"tc\">$MSE$</td></tr>\n  <tr><td class=\"tl\">B 主效果</td><td class=\"tc\">$b-1$</td><td class=\"tc\">$MSE$</td></tr>\n  <tr><td class=\"tl\">A$\\times$B 交互作用</td><td class=\"tc\">$(a-1)(b-1)$</td><td class=\"tc\">$MSE$</td></tr>\n  <tr><td class=\"tl\">誤差（Error）</td><td class=\"tc\">$ab(r-1)$</td><td class=\"tc\">—</td></tr>\n  <tr><td class=\"tl\">總計</td><td class=\"tc\">$abr-1$</td><td class=\"tc\"></td></tr>\n</table>\n<div class=\"plain\">\n  <b>兩個獨立變項同時操弄</b>（例：A=性別、B=教學法）。<br>\n  <b>A 主效果</b>：忽略 B，A 各水準的平均有沒有差。<br>\n  <b>B 主效果</b>：忽略 A，B 各水準的平均有沒有差。<br>\n  <b>A×B 交互作用</b>：A 的效果<b>會不會因為 B 的水準而不同</b>（例：教學法的效果在男女身上不一樣）。<br>\n  受試者間設計三個 $F$ <b>共用同一個 $MSE$</b>（每格內的純誤差）。\n</div>\n<div class=\"tip\">三個 $F$ 的分母都是同一個 $MSE$　　df 驗算：$(a-1)+(b-1)+(a-1)(b-1)+ab(r-1)=abr-1$ ✓</div>\n\n<h2>6.4 二因子受試者內（Two-way Within-subjects）</h2>\n<p class=\"desc\">A 因子 $a$ 水準，B 因子 $b$ 水準，$r$ 位受試者（每人接受所有 $ab$ 種條件）</p>\n<table>\n  <tr><th>來源</th><th>$df$</th><th>誤差項</th></tr>\n  <tr><td class=\"tl\">A</td><td class=\"tc\">$a-1$</td><td class=\"tc\">A$\\times$S</td></tr>\n  <tr><td class=\"tl\">B</td><td class=\"tc\">$b-1$</td><td class=\"tc\">B$\\times$S</td></tr>\n  <tr><td class=\"tl\">A$\\times$B</td><td class=\"tc\">$(a-1)(b-1)$</td><td class=\"tc\">A$\\times$B$\\times$S</td></tr>\n  <tr><td class=\"tl\">受試者（S）</td><td class=\"tc\">$r-1$</td><td class=\"tc\">—</td></tr>\n  <tr><td class=\"tl\">A$\\times$S</td><td class=\"tc\">$(a-1)(r-1)$</td><td class=\"tc\">—</td></tr>\n  <tr><td class=\"tl\">B$\\times$S</td><td class=\"tc\">$(b-1)(r-1)$</td><td class=\"tc\">—</td></tr>\n  <tr><td class=\"tl\">A$\\times$B$\\times$S</td><td class=\"tc\">$(a-1)(b-1)(r-1)$</td><td class=\"tc\">—</td></tr>\n  <tr><td class=\"tl\">總計</td><td class=\"tc\">$abr-1$</td><td class=\"tc\"></td></tr>\n</table>\n<div class=\"plain\"><b>同一個人經歷所有 $a\\times b$ 種組合</b>。每個效果都有<b>「自己對應的 ×S 誤差項」</b>——因為受試者的反應模式對 A、對 B、對 A×B 可能各不相同。記憶法：<b>檢驗哪個效果，就用「那個效果 × S」當分母</b>。</div>\n<div class=\"note\">三個效果各有自己的誤差項，不共用 $MSE$</div>\n\n<h2>6.5 混合設計（Mixed Design）</h2>\n<p class=\"desc\">A = 受試者間因子（$a$ 水準），B = 受試者內因子（$b$ 水準），每組 $r$ 人</p>\n<table>\n  <tr><th>來源</th><th>$df$</th><th>誤差項</th></tr>\n  <tr><td class=\"tl\">A（受試者間）</td><td class=\"tc\">$a-1$</td><td class=\"tc\">$S/A$</td></tr>\n  <tr><td class=\"tl\">$S/A$（受試者間誤差）</td><td class=\"tc\">$a(r-1)$</td><td class=\"tc\">—</td></tr>\n  <tr><td class=\"tl\">B（受試者內）</td><td class=\"tc\">$b-1$</td><td class=\"tc\">$B\\times S/A$</td></tr>\n  <tr><td class=\"tl\">A$\\times$B</td><td class=\"tc\">$(a-1)(b-1)$</td><td class=\"tc\">$B\\times S/A$</td></tr>\n  <tr><td class=\"tl\">$B\\times S/A$（受試者內誤差）</td><td class=\"tc\">$a(b-1)(r-1)$</td><td class=\"tc\">—</td></tr>\n  <tr><td class=\"tl\">總計</td><td class=\"tc\">$abr-1$</td><td class=\"tc\"></td></tr>\n</table>\n<div class=\"plain\"><b>「混合」＝一個因子受試者間（不同人），一個因子受試者內（同個人重複量）</b>。例：A=男女（不同人），B=前測/中測/後測（同個人三次）。<br>\n記號 <b>$S/A$ 唸「S nested in A」</b>＝受試者「巢套」在 A 之下（每個 A 組裡有自己一群人）。受試者間和受試者內的誤差<b>本質不同</b>，所以分配誤差項時不能混用。</div>\n<div class=\"note\">混合設計：受試者間（A）和受試者內（B）使用<strong>不同</strong>誤差項！<br>A 的誤差 $= S/A$；B 和 A$\\times$B 的誤差 $= B\\times S/A$</div>\n\n<!-- ═══ 七、效果量 ═══ -->"}, "s7": {"name": "效果量", "html": "七、效果量（Effect Size）</h1>\n<div class=\"fbox\">\n  <p>Cohen's $d$（$t$ 檢定）</p>\n  $$d = \\frac{M_1-M_2}{s_p}\\quad\\text{小: }0.2\\quad\\text{中: }0.5\\quad\\text{大: }0.8$$\n  <div class=\"plain\"><b>「兩組平均差距相當於幾個標準差」</b>。$d=0.5$＝兩組平均差距等於 0.5 個標準差。<b>不受樣本數影響</b>，是「差異的大小」本身。</div>\n  <p>$\\eta^2$（eta squared）</p>\n  $$\\eta^2 = \\frac{SS_\\text{effect}}{SS_\\text{total}}\\quad\\text{小: }0.01\\quad\\text{中: }0.06\\quad\\text{大: }0.14$$\n  <div class=\"plain\"><b>「該效果解釋了 $Y$ 多少比例的變異」</b>。和迴歸的 $R^2$ 同概念，範圍 0~1。</div>\n  <p>partial $\\eta^2$　　　$\\omega^2$（較不偏）</p>\n  $$\\text{partial}\\;\\eta^2 = \\frac{SS_\\text{effect}}{SS_\\text{effect}+SS_\\text{error}} \\qquad \\omega^2 = \\frac{SSB-(K-1)\\cdot MSW}{SST+MSW}$$\n  <div class=\"plain\"><b>partial $\\eta^2$（淨 eta 平方）</b>＝<b>排除其他效果</b>後的解釋比例（分母只看「該效果 + 誤差」，不含其他效果）。多因子設計常報這個。<br>\n  <b>$\\omega^2$（omega squared）</b>＝修正後較不偏的版本，比 $\\eta^2$ 更準確估計「<b>母群中</b>的效果大小」。</div>\n  <p>從 $F$ 值反推 $\\eta^2$　　　Cohen's $f$</p>\n  $$\\eta^2 = \\frac{F\\cdot df_1}{F\\cdot df_1+df_2} \\qquad f=\\sqrt{\\frac{\\eta^2}{1-\\eta^2}}\\quad\\text{小: }0.10\\;\\text{中: }0.25\\;\\text{大: }0.40$$\n  <div class=\"plain\"><b>左式</b>：論文只報 $F$ 和 $df$ 也能反算 $\\eta^2$。<br>\n  <b>Cohen's $f$</b>＝ANOVA 用的效果量，<b>用來計算統計力（power analysis）</b>，是 G*Power 軟體的輸入。</div>\n</div>\n<div class=\"note\">$F$ 統計量不是效果量（受 $n$ 影響）！$\\eta^2$ 和 $\\omega^2$ 才是效果量</div>\n\n<!-- ═══ 八、快速查閱 ═══ -->"}, "s8": {"name": "快速查閱", "html": "八、常用臨界值與快速判斷</h1>\n\n<h2>8.1 常用 $z$ 臨界值</h2>\n<table>\n  <tr><td class=\"tn\">雙尾 $\\alpha=.10$</td><td>$z=\\pm1.645$</td></tr>\n  <tr><td class=\"tn\">雙尾 $\\alpha=.05$</td><td>$z=\\pm1.96$</td></tr>\n  <tr><td class=\"tn\">雙尾 $\\alpha=.02$</td><td>$z=\\pm2.326$</td></tr>\n  <tr><td class=\"tn\">雙尾 $\\alpha=.01$</td><td>$z=\\pm2.576$</td></tr>\n  <tr><td class=\"tn\">單尾 $\\alpha=.05$</td><td>$z=1.645$（右尾）</td></tr>\n</table>\n\n<h2>8.2 統計方法選擇</h2>\n<table>\n  <tr><td class=\"tn\">兩組獨立均值</td><td>獨立樣本 $t$；無母數：Wilcoxon rank-sum</td></tr>\n  <tr><td class=\"tn\">兩組配對均值</td><td>配對樣本 $t$；無母數：Wilcoxon signed-rank</td></tr>\n  <tr><td class=\"tn\">三組以上獨立</td><td>One-way between ANOVA；無母數：Kruskal-Wallis</td></tr>\n  <tr><td class=\"tn\">三組以上重複</td><td>One-way within ANOVA；無母數：Friedman</td></tr>\n  <tr><td class=\"tn\">兩個類別變項</td><td>卡方獨立性；$E<5$ 用 Fisher's Exact Test</td></tr>\n  <tr><td class=\"tn\">一個類別分配</td><td>卡方適合度（$df=k-1$）</td></tr>\n  <tr><td class=\"tn\">一個變異數</td><td>$\\chi^2=(n-1)s^2/\\sigma_0^2$</td></tr>\n  <tr><td class=\"tn\">兩個變異數</td><td>$F=s_1^2/s_2^2$</td></tr>\n</table>\n\n<h2>8.3 Bonferroni 校正</h2>\n<div class=\"fbox\">\n  $$\\alpha_\\text{個別}=\\frac{\\alpha_\\text{家族}}{\\text{比較次數}} \\qquad \\binom{k}{2}=\\frac{k(k-1)}{2}\\text{（$k$ 組兩兩比較次數）}$$\n  <div class=\"plain\"><b>多重比較問題</b>：做越多次檢定，至少出現一次「假陽性」的機率越高。<br>\n  <b>Bonferroni 修正法</b>：把<b>每次檢定的 $\\alpha$ 變嚴</b>（除以比較次數），讓「家族錯誤率（整體犯錯機率）」維持在 0.05。<br>\n  $\\binom{k}{2}$ 唸「k 取 2」＝從 $k$ 組裡任挑 2 組的組合數，就是「兩兩比較的次數」。</div>\n  範例：5 組兩兩比較 $\\Rightarrow$ $\\binom{5}{2}=10$ 次；個別 $\\alpha=.05/10=.005$\n</div>\n\n<h2>8.4 常考陷阱提醒</h2>\n<table>\n  <tr><td class=\"tn\">Power $=1-\\beta$</td><td>不是 $1-\\alpha$！</td></tr>\n  <tr><td class=\"tn\">$\\alpha+\\beta\\neq 1$</td><td>兩者不互補</td></tr>\n  <tr><td class=\"tn\">機率密度可以 $>1$</td><td>面積 $=1$，但高度不限</td></tr>\n  <tr><td class=\"tn\">$r=0\\neq$ 無任何關係</td><td>只是無線性相關，可能有非線性關係</td></tr>\n  <tr><td class=\"tn\">統計顯著 $\\neq$ 實質重要</td><td>需同時看效果量</td></tr>\n  <tr><td class=\"tn\">卡方 $E\\geq 5$</td><td>不是 $E\\geq 10$！</td></tr>\n  <tr><td class=\"tn\">$z$ 轉換不改變形狀</td><td>原始非常態 $\\Rightarrow$ z 轉換後仍非常態</td></tr>\n  <tr><td class=\"tn\">降低 $\\alpha$ 不提升 Power</td><td>$\\alpha\\downarrow\\Rightarrow\\beta\\uparrow\\Rightarrow$ Power $\\downarrow$</td></tr>\n  <tr><td class=\"tn\">單尾比雙尾更容易顯著</td><td>單尾把 $\\alpha$ 全放一側，不嚴格</td></tr>\n</table>\n\n</div>"}};
+
+let fpanelCurrentTab = 's1';
+
+function openFormulaPanel() {
+  const panel = document.getElementById('formula-panel');
+  const overlay = document.getElementById('formula-overlay');
+  if (!panel) return;
+  // Build tabs if empty
+  if (!document.getElementById('fpanel-tabs').children.length) {
+    buildFormulaTabs();
+  }
+  panel.classList.add('open');
+  overlay.classList.add('open');
+}
+
+function closeFormulaPanel() {
+  document.getElementById('formula-panel')?.classList.remove('open');
+  document.getElementById('formula-overlay')?.classList.remove('open');
+}
+
+function buildFormulaTabs() {
+  const tabsEl = document.getElementById('fpanel-tabs');
+  const bodyEl = document.getElementById('fpanel-body');
+  tabsEl.innerHTML = '';
+  Object.entries(formulaSections).forEach(([sid, sec]) => {
+    const btn = document.createElement('button');
+    btn.className = 'fpanel-tab' + (sid === fpanelCurrentTab ? ' active' : '');
+    btn.textContent = sec.name;
+    btn.onclick = () => switchFormulaTab(sid);
+    tabsEl.appendChild(btn);
+  });
+  renderFormulaTab(fpanelCurrentTab);
+}
+
+function switchFormulaTab(sid) {
+  fpanelCurrentTab = sid;
+  document.querySelectorAll('.fpanel-tab').forEach((b,i) => {
+    b.classList.toggle('active', Object.keys(formulaSections)[i] === sid);
+  });
+  renderFormulaTab(sid);
+}
+
+function renderFormulaTab(sid) {
+  const bodyEl = document.getElementById('fpanel-body');
+  if (!bodyEl) return;
+  const sec = formulaSections[sid];
+  if (!sec) return;
+  // Convert LaTeX $...$ to readable text, clean up classes for dark theme
+  let html = sec.html;
+  // Map light-theme classes to panel-friendly display
+  html = html.replace(/class="tn"/g, 'style="font-weight:600;color:var(--purple);width:35%;font-size:11px"');
+  html = html.replace(/class="tc"/g, 'style="text-align:center;font-family:monospace;font-size:11px"');
+  html = html.replace(/class="tl"/g, 'style="font-size:11px"');
+  html = html.replace(/class="fbox"/g, 'class="fbox"');
+  bodyEl.innerHTML = html;
+  bodyEl.scrollTop = 0;
+
+  // Render MathJax if available
+  if (window.MathJax && window.MathJax.typesetPromise) {
+    MathJax.typesetPromise([bodyEl]).catch(()=>{});
+  }
+}
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js').catch(() => {});
+}
+
+init();
+</script>
+</body>
+</html>
