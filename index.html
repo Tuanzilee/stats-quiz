@@ -725,7 +725,7 @@ html, body {
 .hw-separator { width:1px; height:20px; background:var(--border); margin:0 2px; }
 .hw-label { font-size:10px; color:var(--muted); margin-left:auto; }
 .hw-canvas-container { position:relative; border:1px solid var(--border2); border-radius:0 0 var(--radius) var(--radius); overflow:hidden; background:#fff; cursor:crosshair; touch-action:none; }
-.hw-canvas { display:block; width:100%; }
+.hw-canvas { display:block; width:100%; touch-action:none; user-select:none; -webkit-user-select:none; cursor:crosshair; }
 .hw-extend-btn { width:100%; padding:8px; background:var(--surface); border:1px dashed var(--border2); border-top:none; border-radius:0 0 var(--radius) var(--radius); color:var(--muted); font-size:12px; cursor:pointer; transition:all .15s; text-align:center; }
 .hw-extend-btn:hover { background:var(--surface2); color:var(--text); }
 .hw-review-wrap { margin-bottom:12px; }
@@ -3281,13 +3281,11 @@ function hwInit(qid, isReview) {
 }
 
 function hwPointerDown(e) {
-  if (e.pointerType !== 'pen' && e.pointerType !== 'mouse') return;
   e.preventDefault();
   hwDrawing = true;
   const rect = e.target.getBoundingClientRect();
-  hwLastX = e.clientX - rect.left;
-  hwLastY = e.clientY - rect.top;
-  // Dot for tap
+  hwLastX = (e.clientX - rect.left);
+  hwLastY = (e.clientY - rect.top);
   hwCtx.beginPath();
   if (hwTool === 'eraser') {
     hwCtx.globalCompositeOperation = 'destination-out';
@@ -3303,12 +3301,10 @@ function hwPointerDown(e) {
 
 function hwPointerMove(e) {
   if (!hwDrawing) return;
-  if (e.pointerType !== 'pen' && e.pointerType !== 'mouse') return;
   e.preventDefault();
   const rect = e.target.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
-
+  const x = (e.clientX - rect.left);
+  const y = (e.clientY - rect.top);
   hwCtx.beginPath();
   hwCtx.lineWidth = hwTool === 'eraser' ? hwSize * 6 : hwSize;
   if (hwTool === 'eraser') {
@@ -3381,21 +3377,23 @@ function hwExtend() {
   const oldH = canvas.height / DPR;
   const newH = oldH + hwExtendHeight;
 
-  // Save current content
-  const imageData = hwCtx.getImageData(0, 0, canvas.width, canvas.height);
+  // Snapshot current content at raw pixel level
+  const offscreen = document.createElement('canvas');
+  offscreen.width = canvas.width;
+  offscreen.height = canvas.height;
+  offscreen.getContext('2d').drawImage(canvas, 0, 0);
 
-  canvas.width = w * DPR;
   canvas.height = newH * DPR;
   canvas.style.height = newH + 'px';
 
-  hwCtx.scale(DPR, DPR);
+  // Re-setup context (resize clears everything and resets transform)
+  hwCtx = canvas.getContext('2d');
+  hwCtx.setTransform(DPR, 0, 0, DPR, 0, 0);
   hwCtx.lineCap = 'round';
   hwCtx.lineJoin = 'round';
-  // Fill white
   hwCtx.fillStyle = '#ffffff';
   hwCtx.fillRect(0, 0, w, newH);
-  // Restore old content
-  hwCtx.putImageData(imageData, 0, 0);
+  hwCtx.drawImage(offscreen, 0, 0, w, oldH);
   hwPushHistory();
 }
 
@@ -3455,7 +3453,6 @@ function hwReviewInit(qid) {
 }
 
 function hwRPointerDown(e) {
-  if (e.pointerType !== 'pen' && e.pointerType !== 'mouse') return;
   e.preventDefault();
   hwRDrawing = true;
   const rect = e.target.getBoundingClientRect();
@@ -3468,8 +3465,7 @@ function hwRPointerDown(e) {
     hwRCtx.fill();
     hwRCtx.globalCompositeOperation = 'source-over';
   } else {
-    const col = hwRTool === 'red' ? '#ef4444' : '#000000';
-    hwRCtx.fillStyle = col;
+    hwRCtx.fillStyle = hwRTool === 'red' ? '#ef4444' : '#000000';
     hwRCtx.arc(hwRLastX, hwRLastY, 1.5, 0, Math.PI * 2);
     hwRCtx.fill();
   }
@@ -3477,7 +3473,6 @@ function hwRPointerDown(e) {
 
 function hwRPointerMove(e) {
   if (!hwRDrawing) return;
-  if (e.pointerType !== 'pen' && e.pointerType !== 'mouse') return;
   e.preventDefault();
   const rect = e.target.getBoundingClientRect();
   const x = e.clientX - rect.left;
@@ -3537,16 +3532,22 @@ function hwReviewExtend() {
   const w = canvas.width / DPR;
   const oldH = canvas.height / DPR;
   const newH = oldH + hwExtendHeight;
-  const imageData = hwRCtx.getImageData(0, 0, canvas.width, canvas.height);
-  canvas.width = w * DPR;
+
+  const offscreen = document.createElement('canvas');
+  offscreen.width = canvas.width;
+  offscreen.height = canvas.height;
+  offscreen.getContext('2d').drawImage(canvas, 0, 0);
+
   canvas.height = newH * DPR;
   canvas.style.height = newH + 'px';
-  hwRCtx.scale(DPR, DPR);
+
+  hwRCtx = canvas.getContext('2d');
+  hwRCtx.setTransform(DPR, 0, 0, DPR, 0, 0);
   hwRCtx.lineCap = 'round';
   hwRCtx.lineJoin = 'round';
   hwRCtx.fillStyle = '#ffffff';
   hwRCtx.fillRect(0, 0, w, newH);
-  hwRCtx.putImageData(imageData, 0, 0);
+  hwRCtx.drawImage(offscreen, 0, 0, w, oldH);
   hwRPushHistory();
 }
 
