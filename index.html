@@ -713,7 +713,19 @@ html, body {
 .chat-typing span:nth-child(2){animation-delay:.2s}
 .chat-typing span:nth-child(3){animation-delay:.4s}
 
-/* Handwriting canvas */
+/* Split layout for open questions on iPad */
+.exam-split { display:flex; flex:1; overflow:hidden; }
+.exam-split-left { flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:14px 16px; border-right:1px solid var(--border); }
+.exam-split-right { width:52%; display:flex; flex-direction:column; background:#fff; position:relative; }
+.exam-split-right .hw-toolbar { border-radius:0; border-left:none; border-right:none; border-top:none; }
+.exam-split-right .hw-canvas-container { flex:1; border:none; border-radius:0; overflow:hidden; }
+.exam-split-right .hw-canvas { height:100% !important; }
+.exam-split-right .hw-extend-btn { display:none; }
+@media (orientation: portrait) {
+  .exam-split { flex-direction:column; }
+  .exam-split-left { flex:none; max-height:40%; border-right:none; border-bottom:1px solid var(--border); }
+  .exam-split-right { flex:1; width:100%; }
+}
 .hw-wrap { margin-bottom:16px; }
 .hw-toolbar { display:flex; align-items:center; gap:6px; padding:6px 8px; background:var(--surface); border:1px solid var(--border2); border-bottom:none; border-radius:var(--radius) var(--radius) 0 0; flex-wrap:wrap; }
 .hw-tool-btn { width:32px; height:32px; border-radius:7px; border:1px solid var(--border2); background:var(--bg); color:var(--text); font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .15s; flex-shrink:0; }
@@ -2823,58 +2835,76 @@ function renderExamQuestion() {
       <div class="exam-tf-btn ${selF}" id="etf-F" onclick="examSelectTF('F')">✕ 否（False）</div>
     </div>`;
   } else {
-    // open — handwriting canvas
-    optionsHTML = `<div class="hw-wrap" id="hw-wrap">
-      <div class="hw-toolbar">
-        <button class="hw-tool-btn active" id="hw-btn-pen" onclick="hwSetTool('pen')" title="黑筆">✏️</button>
-        <button class="hw-tool-btn" id="hw-btn-eraser" onclick="hwSetTool('eraser')" title="橡皮擦">⬜</button>
-        <div class="hw-separator"></div>
-        <div class="hw-pen-size">
-          <div class="hw-size-dot active" id="hw-sz-s" style="width:8px;height:8px" onclick="hwSetSize(2,'s')" title="細"></div>
-          <div class="hw-size-dot" id="hw-sz-m" style="width:12px;height:12px" onclick="hwSetSize(4,'m')" title="中"></div>
-          <div class="hw-size-dot" id="hw-sz-l" style="width:16px;height:16px" onclick="hwSetSize(7,'l')" title="粗"></div>
-        </div>
-        <div class="hw-separator"></div>
-        <button class="hw-tool-btn" onclick="hwUndo()" title="復原">↩</button>
-        <button class="hw-tool-btn" onclick="hwClear()" title="清除全部">🗑</button>
-        <div class="hw-label">Apple Pencil 手寫</div>
-      </div>
-      <div class="hw-canvas-container" id="hw-container">
-        <canvas class="hw-canvas" id="hw-canvas"></canvas>
-      </div>
-      <button class="hw-extend-btn" onclick="hwExtend()">＋ 延伸畫布</button>
-    </div>`;
+    // open — handled by split layout, no optionsHTML needed
+    optionsHTML = '';
   }
 
   const contextHTML = buildContext(q);
 
   const calcModeNote = mockSettings.qtype === '計算題'
-    ? `<div class="calc-mode-note">💡 計算題專項模式：能列出公式和思路就算成功，不強求算到最後答案。</div>` : '';
+    ? `<div class="calc-mode-note">💡 計算題專項：能列出公式和思路就算成功</div>` : '';
 
-  document.getElementById('exam-body').innerHTML = `
-    <div class="exam-q-meta">
+  const metaHTML = `<div class="exam-q-meta">
       <span class="q-badge school">${q.source}</span>
       <span class="q-badge" style="font-family:'Space Mono',monospace;font-size:11px;color:var(--muted)">${q.id}</span>
       <span class="q-badge">${q.type}</span>
       ${q.difficulty ? `<span class="q-badge" style="color:${q.difficulty==='hard'?'var(--red)':q.difficulty==='easy'?'var(--green)':'var(--yellow)'}">
         ${{easy:'簡單',medium:'中等',hard:'困難'}[q.difficulty]}</span>` : ''}
-    </div>
-    ${calcModeNote}
-    ${contextHTML}
-    <div class="exam-q-text">${q.question}</div>
-    ${optionsHTML}
-    <div class="exam-nav-row">
+    </div>`;
+
+  const navHTML = `<div class="exam-nav-row">
       <button class="exam-nav-btn" onclick="examPrev()" ${mockExamIdx===0?'disabled':''}>← 上一題</button>
       <button class="exam-nav-btn next" onclick="examNext()">
         ${mockExamIdx===mockQueue.length-1 ? '完成作答' : '下一題 →'}
       </button>
-    </div>
-    <div style="height:20px"></div>
-  `;
-  // Init handwriting canvas
-  const _q = mockQueue[mockExamIdx];
-  if (_q && getMockQType(_q) === 'open') {
-    setTimeout(() => hwInit(_q.id, false), 60);
+    </div>`;
+
+  if (qtype === 'open') {
+    // Split layout: question left, canvas right
+    document.getElementById('exam-body').style.padding = '0';
+    document.getElementById('exam-body').style.overflow = 'hidden';
+    document.getElementById('exam-body').innerHTML = `
+      <div class="exam-split">
+        <div class="exam-split-left">
+          ${metaHTML}
+          ${calcModeNote}
+          ${contextHTML}
+          <div class="exam-q-text">${q.question}</div>
+          <div style="height:12px"></div>
+          ${navHTML}
+          <div style="height:16px"></div>
+        </div>
+        <div class="exam-split-right">
+          <div class="hw-toolbar">
+            <button class="hw-tool-btn active" id="hw-btn-pen" onclick="hwSetTool('pen')">✏️</button>
+            <button class="hw-tool-btn" id="hw-btn-eraser" onclick="hwSetTool('eraser')">⬜</button>
+            <div class="hw-separator"></div>
+            <div class="hw-pen-size">
+              <div class="hw-size-dot active" id="hw-sz-s" style="width:8px;height:8px" onclick="hwSetSize(2,'s')"></div>
+              <div class="hw-size-dot" id="hw-sz-m" style="width:12px;height:12px" onclick="hwSetSize(4,'m')"></div>
+              <div class="hw-size-dot" id="hw-sz-l" style="width:16px;height:16px" onclick="hwSetSize(7,'l')"></div>
+            </div>
+            <div class="hw-separator"></div>
+            <button class="hw-tool-btn" onclick="hwUndo()">↩</button>
+            <button class="hw-tool-btn" onclick="hwClear()">🗑</button>
+          </div>
+          <div class="hw-canvas-container" id="hw-container">
+            <canvas class="hw-canvas" id="hw-canvas"></canvas>
+          </div>
+        </div>
+      </div>`;
+    setTimeout(() => hwInit(q.id, false), 60);
+  } else {
+    document.getElementById('exam-body').style.padding = '';
+    document.getElementById('exam-body').style.overflow = '';
+    document.getElementById('exam-body').innerHTML = `
+      ${metaHTML}
+      ${contextHTML}
+      <div class="exam-q-text">${q.question}</div>
+      ${optionsHTML}
+      ${navHTML}
+      <div style="height:20px"></div>
+    `;
   }
 }
 
@@ -3244,10 +3274,13 @@ function hwInit(qid, isReview) {
   const canvas = document.getElementById('hw-canvas');
   if (!canvas) return;
   const container = document.getElementById('hw-container');
-  const w = (container?.offsetWidth || window.innerWidth || 600) - 2;
+  const w = (container?.offsetWidth || window.innerWidth / 2 || 400);
+  const h = container?.offsetHeight || window.innerHeight - 100;
+
   canvas.width = w * DPR;
-  canvas.height = hwCanvasHeight * DPR;
-  canvas.style.height = hwCanvasHeight + 'px';
+  canvas.height = h * DPR;
+  canvas.style.width = w + 'px';
+  canvas.style.height = h + 'px';
 
   hwCtx = canvas.getContext('2d');
   hwCtx.scale(DPR, DPR);
@@ -3288,9 +3321,8 @@ function hwSaveDebounced() {
 }
 
 function hwPointerDown(e) {
-  if (e.pointerType === 'touch') return; // block palm/finger, allow pen+mouse
+  if (e.pointerType === 'touch') return;
   e.preventDefault();
-  e.target.setPointerCapture(e.pointerId);
   hwDrawing = true;
   const rect = e.target.getBoundingClientRect();
   hwLastX = e.clientX - rect.left;
@@ -3315,23 +3347,21 @@ function hwPointerMove(e) {
   const rect = e.target.getBoundingClientRect();
   const x = e.clientX - rect.left;
   const y = e.clientY - rect.top;
-  const lx = hwLastX, ly = hwLastY;
-  hwLastX = x; hwLastY = y;
-  requestAnimationFrame(() => {
-    hwCtx.beginPath();
-    hwCtx.lineWidth = hwTool === 'eraser' ? hwSize * 6 : hwSize;
-    if (hwTool === 'eraser') {
-      hwCtx.globalCompositeOperation = 'destination-out';
-      hwCtx.strokeStyle = 'rgba(0,0,0,1)';
-    } else {
-      hwCtx.globalCompositeOperation = 'source-over';
-      hwCtx.strokeStyle = '#000000';
-    }
-    hwCtx.moveTo(lx, ly);
-    hwCtx.lineTo(x, y);
-    hwCtx.stroke();
+  hwCtx.beginPath();
+  hwCtx.lineWidth = hwTool === 'eraser' ? hwSize * 6 : hwSize;
+  if (hwTool === 'eraser') {
+    hwCtx.globalCompositeOperation = 'destination-out';
+    hwCtx.strokeStyle = 'rgba(0,0,0,1)';
+  } else {
     hwCtx.globalCompositeOperation = 'source-over';
-  });
+    hwCtx.strokeStyle = '#000000';
+  }
+  hwCtx.moveTo(hwLastX, hwLastY);
+  hwCtx.lineTo(x, y);
+  hwCtx.stroke();
+  hwCtx.globalCompositeOperation = 'source-over';
+  hwLastX = x;
+  hwLastY = y;
 }
 
 function hwPointerUp(e) {
