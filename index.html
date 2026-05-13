@@ -2860,41 +2860,17 @@ function renderExamQuestion() {
     </div>`;
 
   if (qtype === 'open') {
-    // Split layout: question left, canvas right
-    document.getElementById('exam-body').style.padding = '0';
-    document.getElementById('exam-body').style.overflow = 'hidden';
+    document.getElementById('exam-body').style.padding = '';
+    document.getElementById('exam-body').style.overflow = '';
     document.getElementById('exam-body').innerHTML = `
-      <div class="exam-split">
-        <div class="exam-split-left">
-          ${metaHTML}
-          ${calcModeNote}
-          ${contextHTML}
-          <div class="exam-q-text">${q.question}</div>
-          <div style="height:12px"></div>
-          <button class="btn" style="width:100%;padding:11px;background:var(--purple-bg);border:1px solid rgba(167,139,250,0.3);color:var(--purple);font-size:13px;font-weight:600;border-radius:var(--radius);cursor:pointer;margin-bottom:10px" onclick="openStepAIChat('${esc(q.id)}')">💬 AI 逐步引導</button>
-          ${navHTML}
-          <div style="height:16px"></div>
-        </div>
-        <div class="exam-split-right">
-          <div class="hw-toolbar">
-            <button class="hw-tool-btn active" id="hw-btn-pen" onclick="hwSetTool('pen')">✏️</button>
-            <button class="hw-tool-btn" id="hw-btn-eraser" onclick="hwSetTool('eraser')">⬜</button>
-            <div class="hw-separator"></div>
-            <div class="hw-pen-size">
-              <div class="hw-size-dot active" id="hw-sz-s" style="width:8px;height:8px" onclick="hwSetSize(2,'s')"></div>
-              <div class="hw-size-dot" id="hw-sz-m" style="width:12px;height:12px" onclick="hwSetSize(4,'m')"></div>
-              <div class="hw-size-dot" id="hw-sz-l" style="width:16px;height:16px" onclick="hwSetSize(7,'l')"></div>
-            </div>
-            <div class="hw-separator"></div>
-            <button class="hw-tool-btn" onclick="hwUndo()">↩</button>
-            <button class="hw-tool-btn" onclick="hwClear()">🗑</button>
-          </div>
-          <div class="hw-canvas-container" id="hw-container">
-            <canvas class="hw-canvas" id="hw-canvas"></canvas>
-          </div>
-        </div>
-      </div>`;
-    setTimeout(() => hwInit(q.id, false), 60);
+      ${metaHTML}
+      ${calcModeNote}
+      ${contextHTML}
+      <div class="exam-q-text">${q.question}</div>
+      <button class="btn" style="width:100%;padding:12px;background:var(--purple-bg);border:1px solid rgba(167,139,250,0.3);color:var(--purple);font-size:14px;font-weight:600;border-radius:var(--radius);cursor:pointer;margin-bottom:14px" onclick="openStepAIChat('${esc(q.id)}')">💬 AI 逐步引導</button>
+      ${navHTML}
+      <div style="height:20px"></div>
+    `;
   } else {
     document.getElementById('exam-body').style.padding = '';
     document.getElementById('exam-body').style.overflow = '';
