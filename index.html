@@ -2871,6 +2871,7 @@ function renderExamQuestion() {
           ${contextHTML}
           <div class="exam-q-text">${q.question}</div>
           <div style="height:12px"></div>
+          <button class="btn" style="width:100%;padding:11px;background:var(--purple-bg);border:1px solid rgba(167,139,250,0.3);color:var(--purple);font-size:13px;font-weight:600;border-radius:var(--radius);cursor:pointer;margin-bottom:10px" onclick="openStepAIChat('${esc(q.id)}')">💬 AI 逐步引導</button>
           ${navHTML}
           <div style="height:16px"></div>
         </div>
@@ -3175,11 +3176,15 @@ function renderMockReport() {
   const wrongList = mockQueue.filter(q => mockSelfScores[q.id]==='wrong').map(q => {
     const preview = q.question.length > 60 ? q.question.slice(0,60)+'…' : q.question;
     const isUnsure = getStatus(q.id) === 'unsure';
+    const isOpenType = ['計算題','申論題','證明題','填充題'].includes(q.type);
     return `<div class="wrong-q-item">
       <div class="wrong-q-text"><span class="q-badge" style="margin-right:4px">${q.id}</span>${preview}</div>
-      <button class="wrong-q-add-btn ${isUnsure?'added':''}" id="add-btn-${q.id}" onclick="addToUnsure('${q.id}',this)">
-        ${isUnsure ? '✓ 已加入' : '+ 不懂'}
-      </button>
+      <div style="display:flex;flex-direction:column;gap:5px;flex-shrink:0">
+        ${isOpenType ? `<button class="wrong-q-add-btn" style="border-color:var(--purple);color:var(--purple)" onclick="openWrongAIChat('${q.id}')">💬 AI 一起看</button>` : ''}
+        <button class="wrong-q-add-btn ${isUnsure?'added':''}" id="add-btn-${q.id}" onclick="addToUnsure('${q.id}',this)">
+          ${isUnsure ? '✓ 已加入' : '+ 不懂'}
+        </button>
+      </div>
     </div>`;
   }).join('') || `<div style="color:var(--dim);font-size:13px;padding:12px 0">沒有錯題 🎉</div>`;
 
@@ -3248,6 +3253,145 @@ function exitMockExam() {
 
 
 
+
+// ─── CALC AI CHAT ─────────────────────────────────────────────────────────────
+
+function openStepAIChat(qid) {
+  const q = questions.find(x => x.id === qid);
+  if (!q) return;
+  const key = getApiKey();
+
+  const overlay = document.createElement('div');
+  overlay.className = 'chat-overlay';
+  overlay.id = 'chat-overlay';
+  overlay.innerHTML = `
+    <div class="chat-topbar">
+      <button class="header-btn" onclick="closeChatOverlay()" style="flex-shrink:0">←</button>
+      <div class="chat-topbar-title">💬 逐步引導</div>
+      <div class="chat-topbar-sub">${q.id}</div>
+    </div>
+    <div class="chat-messages" id="chat-messages"></div>
+    <div class="chat-input-bar">
+      <textarea class="chat-input" id="chat-input" placeholder="輸入你的想法或答案…" rows="1"
+        onkeydown="calcChatKeydown(event,'${esc(qid)}')" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
+      <button class="chat-send-btn" id="chat-send-btn" onclick="sendStepMessage('${esc(qid)}')" disabled>↑</button>
+    </div>`;
+  document.body.appendChild(overlay);
+  document.getElementById('chat-input').addEventListener('input', () => {
+    document.getElementById('chat-send-btn').disabled = !document.getElementById('chat-input').value.trim();
+  });
+
+  if (!key) { appendAiMessage('請先設定 API Key（考點頁任一考點 → 重點複習 → ⚙ Key）'); return; }
+
+  chatHistory[qid] = [{ role: 'user', content: '開始引導我解這題' }];
+  appendTyping();
+  callCalcAI(buildStepSystemPrompt(q), chatHistory[qid], qid);
+}
+
+function openWrongAIChat(qid) {
+  const q = questions.find(x => x.id === qid);
+  if (!q) return;
+  const key = getApiKey();
+
+  const overlay = document.createElement('div');
+  overlay.className = 'chat-overlay';
+  overlay.id = 'chat-overlay';
+  overlay.innerHTML = `
+    <div class="chat-topbar">
+      <button class="header-btn" onclick="closeChatOverlay()" style="flex-shrink:0">←</button>
+      <div class="chat-topbar-title">💬 錯題分析</div>
+      <div class="chat-topbar-sub">${q.id}</div>
+    </div>
+    <div class="chat-messages" id="chat-messages"></div>
+    <div class="chat-input-bar">
+      <textarea class="chat-input" id="chat-input" placeholder="說說你卡在哪裡…" rows="1"
+        onkeydown="calcChatKeydown(event,'${esc(qid)}')" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
+      <button class="chat-send-btn" id="chat-send-btn" onclick="sendStepMessage('${esc(qid)}')" disabled>↑</button>
+    </div>`;
+  document.body.appendChild(overlay);
+  document.getElementById('chat-input').addEventListener('input', () => {
+    document.getElementById('chat-send-btn').disabled = !document.getElementById('chat-input').value.trim();
+  });
+
+  if (!key) { appendAiMessage('請先設定 API Key（考點頁任一考點 → 重點複習 → ⚙ Key）'); return; }
+
+  chatHistory[qid] = [{ role: 'user', content: '我剛做錯這題，幫我分析' }];
+  appendTyping();
+  callCalcAI(buildWrongSystemPrompt(q), chatHistory[qid], qid);
+}
+
+function buildStepSystemPrompt(q) {
+  return `你是心理統計家教，用蘇格拉底引導法帶學生解題，一次只引導一步。
+題目：${q.question}
+正確答案：${q.answer || '見解析'}
+解題步驟：${(q.solution_steps||[]).join(' → ')}
+規則：把題目拆成3-5步，每次只問一步；不直接給答案；答對給鼓勵再給下一步；答錯給提示；語氣口語不要用markdown符號。`;
+}
+
+function buildWrongSystemPrompt(q) {
+  return `你是心理統計家教，學生做錯了這題，你要幫他找出卡在哪裡。
+題目：${q.question}
+正確答案：${q.answer || '見解析'}
+解題步驟：${(q.solution_steps||[]).join(' → ')}
+規則：先問「你覺得你卡在哪一步？」；根據回答只解釋那個步驟；不要一次給完整解答；語氣口語有耐心；不要用markdown符號。`;
+}
+
+async function callCalcAI(systemPrompt, messages, qid) {
+  const key = getApiKey();
+  if (!key) return;
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': key,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 600,
+        system: systemPrompt,
+        messages
+      })
+    });
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message);
+    const reply = data.content?.[0]?.text || '無回應';
+    removeTyping();
+    if (!chatHistory[qid]) chatHistory[qid] = [];
+    chatHistory[qid].push({ role: 'assistant', content: reply });
+    appendAiMessage(reply);
+  } catch(e) {
+    removeTyping();
+    appendAiMessage(`⚠ ${e.message || '連線失敗'}`);
+  }
+}
+
+async function sendStepMessage(qid) {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text) return;
+  const key = getApiKey();
+  if (!key) return;
+  input.value = '';
+  input.style.height = 'auto';
+  document.getElementById('chat-send-btn').disabled = true;
+  appendUserMessage(text);
+  if (!chatHistory[qid]) chatHistory[qid] = [];
+  chatHistory[qid].push({ role: 'user', content: text });
+  appendTyping();
+  const q = questions.find(x => x.id === qid);
+  const sys = `你是心理統計家教，正在引導學生解題。題目：${q?.question||''}　答案：${q?.answer||''}　步驟：${(q?.solution_steps||[]).join(' → ')}　繼續對話，不直接給完整答案，口語風格，不用markdown符號。`;
+  callCalcAI(sys, chatHistory[qid], qid);
+}
+
+function calcChatKeydown(e, qid) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendStepMessage(qid);
+  }
+}
 
 // ─── HANDWRITING CANVAS ──────────────────────────────────────────────────────
 
