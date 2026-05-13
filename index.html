@@ -1933,7 +1933,12 @@ function applyFilters() {
 
 // ─── CONTEXT (承上題) ────────────────────────────────────────────────────────
 function buildContext(q) {
-  const isFollowUp = (text) => /^[（(]?(承上題|續上題|接續上題|承第\d+題|接續第\d+題)/.test(text);
+  // 直接顯示 context 欄位（題組補充資料）
+  if (q.context) {
+    return `<div class="context-block" style="background:var(--surface);border:1px solid var(--border2);border-left:3px solid var(--purple);border-radius:var(--radius);padding:10px 13px;margin-bottom:12px;font-size:13px;line-height:1.7;color:var(--text);white-space:pre-wrap">${q.context}</div>`;
+  }
+
+  const isFollowUp = (text) => /^[（(]?(承上題|承上|續上題|續上|接續上題|承第\d+題|接續第\d+題|承前題|如上題|依上題|接上題)/.test(text);
   if (!isFollowUp(q.question)) return '';
 
   // 遞迴往前追溯，收集整個題組鏈
