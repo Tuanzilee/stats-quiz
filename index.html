@@ -3321,7 +3321,6 @@ function hwSaveDebounced() {
 }
 
 function hwPointerDown(e) {
-  if (e.pointerType === 'touch') return;
   e.preventDefault();
   hwDrawing = true;
   const rect = e.target.getBoundingClientRect();
@@ -3342,7 +3341,6 @@ function hwPointerDown(e) {
 
 function hwPointerMove(e) {
   if (!hwDrawing) return;
-  if (e.pointerType === 'touch') return;
   e.preventDefault();
   const rect = e.target.getBoundingClientRect();
   const x = e.clientX - rect.left;
