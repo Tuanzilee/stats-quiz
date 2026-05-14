@@ -1118,6 +1118,7 @@ MathJax = {
   <div class="header">
     <div class="header-title">心統刷題</div>
     <div class="header-sub" id="header-sub">載入中…</div>
+    <button class="formula-btn" onclick="openFormulaPanel()" style="margin-left:auto">📐</button>
     <button class="export-btn" onclick="exportJSON()" title="匯出題庫">⬇ 匯出</button>
     <div class="header-btn" id="filter-btn" onclick="openFilter()" title="篩選">⚙</div>
   </div>
@@ -1165,6 +1166,11 @@ MathJax = {
           <div class="icon">📚</div>
           <div class="label">考點學習</div>
           <div class="sub">按主題刷</div>
+        </div>
+        <div class="quick-card" onclick="goPage('page-mock-setup')" style="grid-column:span 2;background:linear-gradient(135deg,rgba(167,139,250,0.08),rgba(79,110,247,0.06));border-color:rgba(167,139,250,0.25)">
+          <div class="icon">📝</div>
+          <div class="label" style="color:var(--purple)">模考練習</div>
+          <div class="sub" id="mock-history-sub">限時作答，交卷後逐題檢討</div>
         </div>
       </div>
     </div>
@@ -1227,6 +1233,7 @@ MathJax = {
       <div class="quiz-back" onclick="exitQuiz()">←</div>
       <div class="quiz-progress"><div class="quiz-progress-fill" id="quiz-progress-fill"></div></div>
       <div class="quiz-counter" id="quiz-counter">0/0</div>
+      <button class="formula-btn" onclick="openFormulaPanel()" style="margin-left:4px">📐</button>
     </div>
     <div style="overflow-y:auto;flex:1;-webkit-overflow-scrolling:touch">
       <div class="quiz-body" id="quiz-body"></div>
@@ -1291,6 +1298,10 @@ MathJax = {
       <div class="mock-section" style="margin-top:14px;font-size:12px;color:var(--muted);line-height:1.7">
         ⚠ 模考期間不顯示答案。計算題專項：只要能列出公式和思路就算成功，不強求算到最後答案。
       </div>
+      <div class="mock-section" style="margin-top:18px">
+        <div class="mock-section-label">模考紀錄</div>
+        <div id="mock-history-list"></div>
+      </div>
       <button class="mock-start-btn" onclick="startMockExam()">開始模考 →</button>
     </div>
   </div>
@@ -1298,6 +1309,7 @@ MathJax = {
   <!-- MOCK EXAM -->
   <div class="page" id="page-mock-exam">
     <div class="exam-topbar">
+      <button class="formula-btn" onclick="confirmExitExam()" style="color:var(--muted);font-size:13px;padding:6px 8px">✕</button>
       <div class="exam-timer" id="exam-timer">--:--</div>
       <div class="exam-progress-bar"><div class="exam-progress-fill" id="exam-progress-fill" style="width:0%"></div></div>
       <div class="exam-counter" id="exam-counter">0/0</div>
@@ -1323,6 +1335,7 @@ MathJax = {
     <div class="review-topbar">
       <div class="review-title">逐題檢討</div>
       <div class="review-counter" id="review-counter">1/1</div>
+      <button class="formula-btn" onclick="openFormulaPanel()">📐</button>
     </div>
     <div class="review-body" id="review-body"></div>
   </div>
@@ -1331,6 +1344,7 @@ MathJax = {
   <div class="page" id="page-mock-report">
     <div class="header" style="display:flex">
       <div class="header-title">模考報告</div>
+      <button class="formula-btn" onclick="openFormulaPanel()" style="margin-left:auto">📐</button>
     </div>
     <div class="report-page" id="report-page"></div>
   </div>
@@ -1472,7 +1486,8 @@ function goPage(pageId) {
   document.querySelector('.header').style.display = hideHeader ? 'none' : 'flex';
   if (pageId === 'page-browse') renderBrowse();
   if (pageId === 'page-concepts') renderConcepts();
-  if (pageId === 'page-home') renderHome();
+  if (pageId === 'page-home') { renderHome(); updateMockHistorySub(); }
+  if (pageId === 'page-mock-setup') renderMockHistory();
 }
 
 // ─── HOME ────────────────────────────────────────────────────────────────────
@@ -2849,7 +2864,9 @@ function renderExamQuestion() {
   const contextHTML = buildContext(q);
 
   const calcModeNote = mockSettings.qtype === '計算題'
-    ? `<div class="calc-mode-note">💡 計算題專項：能列出公式和思路就算成功</div>` : '';
+    ? `<div class="calc-mode-note">💡 只要能列出公式和思路就算成功，不強求算到最後答案</div>` : '';
+
+  const aiBtn = `<button class="btn" style="width:100%;padding:11px;background:var(--purple-bg);border:1px solid rgba(167,139,250,0.3);color:var(--purple);font-size:13px;font-weight:600;border-radius:var(--radius);cursor:pointer;margin-bottom:10px" onclick="openStepAIChat('${esc(q.id)}')">💬 AI 逐步引導</button>`;
 
   const metaHTML = `<div class="exam-q-meta">
       <span class="q-badge school">${q.source}</span>
@@ -2874,7 +2891,7 @@ function renderExamQuestion() {
       ${calcModeNote}
       ${contextHTML}
       <div class="exam-q-text">${q.question}</div>
-      <button class="btn" style="width:100%;padding:12px;background:var(--purple-bg);border:1px solid rgba(167,139,250,0.3);color:var(--purple);font-size:14px;font-weight:600;border-radius:var(--radius);cursor:pointer;margin-bottom:14px" onclick="openStepAIChat('${esc(q.id)}')">💬 AI 逐步引導</button>
+      ${aiBtn}
       ${navHTML}
       <div style="height:20px"></div>
     `;
@@ -3041,19 +3058,16 @@ function renderReviewQuestion() {
       </div>` : ''}
 
     ${qtype === 'open' ? `
-      <div class="hw-review-wrap" id="hw-review-wrap">
-        <div class="hw-review-toolbar">
-          <div class="hw-review-label">✏ 你的手寫</div>
-          <button class="hw-tool-btn" id="hw-r-btn-pen" onclick="hwReviewSetTool('pen')" title="黑筆" style="width:28px;height:28px;font-size:12px">✏️</button>
-          <button class="hw-tool-btn red-active" id="hw-r-btn-red" onclick="hwReviewSetTool('red')" title="紅筆批改" style="width:28px;height:28px;font-size:12px;color:var(--red)">🔴</button>
-          <button class="hw-tool-btn" id="hw-r-btn-eraser" onclick="hwReviewSetTool('eraser')" title="橡皮擦" style="width:28px;height:28px;font-size:12px">⬜</button>
-          <button class="hw-tool-btn" onclick="hwReviewUndo()" title="復原" style="width:28px;height:28px;font-size:12px">↩</button>
-        </div>
-        <div class="hw-canvas-container" id="hw-review-container" style="border-radius:0 0 var(--radius) var(--radius)">
-          <canvas class="hw-canvas" id="hw-review-canvas"></canvas>
-        </div>
-        <button class="hw-extend-btn" onclick="hwReviewExtend()">＋ 延伸畫布</button>
-      </div>` : `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+      <div class="review-ans-block">
+        <div class="review-ans-label">你的作答</div>
+        <div class="review-ans-val empty-color">（計算題請對照正確答案自評）</div>
+      </div>
+      <div class="review-ans-block">
+        <div class="review-ans-label">正確答案</div>
+        <div class="review-ans-val correct-color" style="white-space:pre-wrap">${correctDisplay}</div>
+      </div>
+    </div>` : `
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
       <div class="review-ans-block">
         <div class="review-ans-label">你的作答</div>
@@ -3098,10 +3112,6 @@ function renderReviewQuestion() {
     </div>
     <div style="height:20px"></div>
   `;
-  // Init review canvas for open questions
-  if (getMockQType(mockQueue[mockReviewIdx]) === 'open') {
-    setTimeout(() => hwReviewInit(mockQueue[mockReviewIdx].id), 60);
-  }
 }
 
 function reviewSelfMark(score) {
@@ -3173,6 +3183,16 @@ function renderMockReport() {
 
   const scoreColor = pct >= 70 ? 'var(--green)' : pct >= 50 ? 'var(--yellow)' : 'var(--red)';
 
+  // Save to history
+  saveMockResult({
+    ts: Date.now(),
+    pct,
+    correct: correctN,
+    total,
+    wrong: wrongIds.length,
+    settings: { ...mockSettings }
+  });
+
   document.getElementById('report-page').innerHTML = `
     <div class="report-hero">
       <div class="report-score" style="color:${scoreColor}">${pct}%</div>
@@ -3237,7 +3257,66 @@ function exitMockExam() {
 
 
 
-// ─── CALC AI CHAT ─────────────────────────────────────────────────────────────
+function confirmExitExam() {
+  if (!confirm('確定要離開模考？作答進度將不會儲存。')) return;
+  clearInterval(mockTimerInterval);
+  goPage('page-mock-setup');
+}
+
+// ─── MOCK HISTORY ─────────────────────────────────────────────────────────────
+
+const MOCK_HISTORY_KEY = 'mock_history';
+
+function loadMockHistory() {
+  try { return JSON.parse(localStorage.getItem(MOCK_HISTORY_KEY) || '[]'); }
+  catch(e) { return []; }
+}
+
+function saveMockResult(result) {
+  const history = loadMockHistory();
+  history.unshift(result);
+  if (history.length > 20) history.pop(); // keep last 20
+  localStorage.setItem(MOCK_HISTORY_KEY, JSON.stringify(history));
+}
+
+function updateMockHistorySub() {
+  const history = loadMockHistory();
+  const el = document.getElementById('mock-history-sub');
+  if (!el) return;
+  if (history.length === 0) {
+    el.textContent = '限時作答，交卷後逐題檢討';
+  } else {
+    const last = history[0];
+    const d = new Date(last.ts);
+    const dateStr = `${d.getMonth()+1}/${d.getDate()}`;
+    el.textContent = `上次 ${dateStr}：${last.pct}% 答對（${last.correct}/${last.total}）`;
+  }
+}
+
+function renderMockHistory() {
+  const el = document.getElementById('mock-history-list');
+  if (!el) return;
+  const history = loadMockHistory();
+  if (history.length === 0) {
+    el.innerHTML = `<div style="font-size:12px;color:var(--dim);padding:4px 0">尚無紀錄</div>`;
+    return;
+  }
+  el.innerHTML = history.slice(0, 5).map(r => {
+    const d = new Date(r.ts);
+    const dateStr = `${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+    const color = r.pct >= 70 ? 'var(--green)' : r.pct >= 50 ? 'var(--yellow)' : 'var(--red)';
+    const typeLabel = r.settings?.qtype && r.settings.qtype !== 'all' ? ` · ${r.settings.qtype}` : '';
+    return `<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
+      <div style="font-family:'Space Mono',monospace;font-size:18px;font-weight:700;color:${color};min-width:48px">${r.pct}%</div>
+      <div style="flex:1">
+        <div style="font-size:12px;color:var(--text)">${r.correct}/${r.total} 答對${typeLabel}</div>
+        <div style="font-size:11px;color:var(--muted)">${dateStr}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+
 
 function openStepAIChat(qid) {
   const q = questions.find(x => x.id === qid);
