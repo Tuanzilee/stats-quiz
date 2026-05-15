@@ -1507,7 +1507,9 @@ function renderHome() {
 
   // Top concepts
   const conceptCounts = {};
-  questions.forEach(q => (q.concepts||[]).forEach(c => conceptCounts[c] = (conceptCounts[c]||0)+1));
+  questions.forEach(q => {
+    if (q.primary_concept) conceptCounts[q.primary_concept] = (conceptCounts[q.primary_concept]||0)+1;
+  });
   const top = Object.entries(conceptCounts).sort((a,b)=>b[1]-a[1]).slice(0,12);
   document.getElementById('home-concepts').innerHTML = top.map(([c]) =>
     `<div class="concept-chip" onclick="startConceptQuiz('${esc(c)}')">${c}</div>`
@@ -1517,11 +1519,11 @@ function renderHome() {
   const conceptStats = {};
   questions.forEach(q => {
     const st = getStatus(q.id);
-    (q.concepts||[]).forEach(c => {
-      if (!conceptStats[c]) conceptStats[c] = {total:0, wrong:0};
-      conceptStats[c].total++;
-      if (st==='wrong') conceptStats[c].wrong++;
-    });
+    const c = q.primary_concept;
+    if (!c) return;
+    if (!conceptStats[c]) conceptStats[c] = {total:0, wrong:0};
+    conceptStats[c].total++;
+    if (st==='wrong') conceptStats[c].wrong++;
   });
   const weak = Object.entries(conceptStats)
     .filter(([,s]) => s.total >= 2 && s.wrong > 0)
@@ -1603,16 +1605,16 @@ function renderConcepts() {
   const conceptStats = {};
   questions.forEach(q => {
     const st = getStatus(q.id);
-    (q.concepts||[]).forEach(c => {
-      if (!conceptStats[c]) conceptStats[c] = {total:0, correct:0, wrong:0};
-      conceptStats[c].total++;
-      if (st==='correct') conceptStats[c].correct++;
-      if (st==='wrong') conceptStats[c].wrong++;
-    });
+    const primary = q.primary_concept;
+    if (!primary) return;
+    if (!conceptStats[primary]) conceptStats[primary] = {total:0, correct:0, wrong:0};
+    conceptStats[primary].total++;
+    if (st==='correct') conceptStats[primary].correct++;
+    if (st==='wrong') conceptStats[primary].wrong++;
   });
 
   let entries = Object.entries(conceptStats)
-    .filter(([c, s]) => s.total >= 4 && (!conceptFilter || c.toLowerCase().includes(conceptFilter)))
+    .filter(([c, s]) => !conceptFilter || c.toLowerCase().includes(conceptFilter))
     .sort((a,b) => b[1].total - a[1].total);
 
   const grid = document.getElementById('concept-grid');
@@ -1660,7 +1662,7 @@ function startQuiz(mode) {
 }
 
 function startConceptQuiz(concept) {
-  const pool = questions.filter(q => (q.concepts||[]).includes(concept));
+  const pool = questions.filter(q => q.primary_concept === concept);
   if (pool.length === 0) return;
   quizQueue = [...pool].sort(() => Math.random() - 0.5);
   quizIdx = 0;

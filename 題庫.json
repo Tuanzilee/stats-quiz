@@ -26,7 +26,8 @@
     "ai_hint": "考官想看你是否理解相關係數的侷限性。U型曲線是最標準答案，記得一定要畫圖。",
     "formula_used": [
       "r = Σ(xi-x̄)(yi-ȳ) / √[Σ(xi-x̄)²·Σ(yi-ȳ)²]"
-    ]
+    ],
+    "primary_concept": "相關"
   },
   {
     "id": "NTU-108-02",
@@ -53,7 +54,8 @@
     "formula_used": [
       "P(A|B) = P(B|A)·P(A) / P(B)",
       "P(B) = P(B|A)·P(A) + P(B|Aᶜ)·P(Aᶜ)"
-    ]
+    ],
+    "primary_concept": "條件機率與貝氏"
   },
   {
     "id": "NTU-108-03a",
@@ -82,7 +84,8 @@
     "formula_used": [
       "n ≥ (z_{α/2})² · p(1-p) / E²",
       "保守估計：p=0.5時 n ≥ (z_{α/2})² · 0.25 / E²"
-    ]
+    ],
+    "primary_concept": "樣本數估計"
   },
   {
     "id": "NTU-108-03b",
@@ -110,7 +113,8 @@
     "formula_used": [
       "n ≥ (z_{α/2})² · p(1-p) / E²",
       "p(1-p)在p∈[0.15,0.3]的最大值"
-    ]
+    ],
+    "primary_concept": "樣本數估計"
   },
   {
     "id": "NTU-108-04a",
@@ -140,7 +144,8 @@
     "formula_used": [
       "χ² = Σ(O_i - E_i)² / E_i",
       "df = k-1（k為類別數）"
-    ]
+    ],
+    "primary_concept": "卡方檢定"
   },
   {
     "id": "NTU-108-04b",
@@ -166,7 +171,8 @@
     ],
     "key_concepts": "結合統計推論與實際知識；學測設計讓前1%為基準，造成低分段人數聚集",
     "ai_hint": "這題考你對學測制度的理解。實際上各級距人數差很多 → 必定拒絕H0。圖要畫兩個：一個反映現實（拒絕），一個反映均等（未拒絕）。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NTU-108-05a",
@@ -197,7 +203,8 @@
       "Y ~ B(N, p)",
       "P(Y=k) = C(N,k) · pᵏ · (1-p)^(N-k)",
       "k = 0, 1, ..., N"
-    ]
+    ],
+    "primary_concept": "機率分配"
   },
   {
     "id": "NTU-108-05b",
@@ -232,7 +239,8 @@
       "有效性（MSE）：MSE = Var(θ̂) + [Bias(θ̂)]²",
       "E(Y/N) = p",
       "Var(Y/N) = p(1-p)/N"
-    ]
+    ],
+    "primary_concept": "估計與信賴區間"
   },
   {
     "id": "NTU-108-06a",
@@ -264,7 +272,8 @@
     "formula_used": [
       "x̄ ~ N(μ, σ²/n)（當n夠大或母群為常態時）",
       "中央極限定理：n→∞時，x̄的分配趨近常態"
-    ]
+    ],
+    "primary_concept": "中央極限定理"
   },
   {
     "id": "NTU-108-06b",
@@ -294,7 +303,8 @@
     "ai_hint": "第二列圖→母群接近常態（對稱鐘形）。此時x̄的分配比第一列更完美地服從常態，因為常態母群的x̄在任何n下都是常態。答題重點：與(a)題對比，說明母群形狀越接近常態，抽樣分配也越快趨近常態。",
     "formula_used": [
       "中央極限定理（n越大越趨近常態）"
-    ]
+    ],
+    "primary_concept": "中央極限定理"
   },
   {
     "id": "NTU-109-01",
@@ -334,7 +344,8 @@
       "t(k) = Z / √(χ²(k)/k)",
       "F(m,n) = [χ²(m)/m] / [χ²(n)/n]",
       "t²(n) = F(1,n)"
-    ]
+    ],
+    "primary_concept": "卡方檢定"
   },
   {
     "id": "NTU-109-02",
@@ -373,7 +384,8 @@
       "1-α = P(未拒絕H0 | H0為真) = 信心水準",
       "β = P(未拒絕H0 | H1為真) = 型二錯誤率",
       "1-β = P(拒絕H0 | H1為真) = 統計檢定力(Power)"
-    ]
+    ],
+    "primary_concept": "假設檢定"
   },
   {
     "id": "NTU-109-03",
@@ -407,7 +419,8 @@
       "有效性：Var(x̄) = σ²/n（MVUE）",
       "一致性：plim(x̄) = μ（n→∞時）",
       "充分性：x̄ 是 μ 的充分統計量（常態母群）"
-    ]
+    ],
+    "primary_concept": "估計與信賴區間"
   },
   {
     "id": "NTU-109-04",
@@ -444,7 +457,8 @@
       "單樣本t：df = n-1",
       "簡單迴歸殘差：df = n-2",
       "ANOVA：df_between = J-1，df_within = N-J"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NTU-109-05",
@@ -475,7 +489,8 @@
     "formula_used": [
       "當n夠大：x̄ ~ N(μ, σ²/n)，不論母群分配",
       "標準化：Z = (x̄ - μ) / (σ/√n) ~ N(0,1)"
-    ]
+    ],
+    "primary_concept": "中央極限定理"
   },
   {
     "id": "NTU-111-01",
@@ -509,7 +524,8 @@
       "1-α = P(未拒絕H0 | H0為真)",
       "β = P(未拒絕H0 | H1為真)",
       "1-β = Power = P(拒絕H0 | H1為真)"
-    ]
+    ],
+    "primary_concept": "假設檢定"
   },
   {
     "id": "NTU-111-02",
@@ -545,7 +561,8 @@
       "SSWG = Σⱼ Σᵢ (xᵢⱼ - x̄ⱼ)²",
       "SSBG/σ² ~ χ²(J-1)（H0下）",
       "SSWG/σ² ~ χ²(N-J)"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NTU-111-03",
@@ -578,7 +595,8 @@
     "formula_used": [
       "CLT：√n(x̄-μ)/σ →ᵈ N(0,1) 當 n→∞",
       "大數法則：x̄ →ᵖ μ 當 n→∞"
-    ]
+    ],
+    "primary_concept": "中央極限定理"
   },
   {
     "id": "NTU-111-04",
@@ -615,7 +633,8 @@
     "formula_used": [
       "Y = β₀ + β₁X₁ + β₂X₂ + ... + βₚXₚ + ε",
       "ε ~ N(0, σ²)，獨立同分配"
-    ]
+    ],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NTU-111-05",
@@ -648,7 +667,8 @@
       "一致：plim(θ̂) = θ（n→∞）",
       "有效：Var(θ̂) ≤ Var(θ̃)（所有不偏估計量中）",
       "MSE = Var(θ̂) + [Bias(θ̂)]²"
-    ]
+    ],
+    "primary_concept": "估計與信賴區間"
   },
   {
     "id": "NTU-112-01a",
@@ -676,7 +696,8 @@
     "ai_hint": "為什麼不用t檢定？因為三組要兩兩比較需要做3次t檢定，型一錯誤率膨脹。ANOVA同時比較，控制整體α。",
     "formula_used": [
       "F = MSBG / MSWG"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NTU-112-01b",
@@ -705,7 +726,8 @@
     "formula_used": [
       "對比：L = Σcⱼμⱼ，其中Σcⱼ=0",
       "正交條件：Σcⱼ₁·cⱼ₂=0（兩個對比係數乘積之和為0）"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NTU-112-01c",
@@ -737,7 +759,8 @@
       "D₁=1若第1組，0否；D₂=1若第2組，0否",
       "b₀ = x̄₃（基準組平均）",
       "b₁ = x̄₁ - x̄₃，b₂ = x̄₂ - x̄₃"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NTU-112-01d",
@@ -770,7 +793,8 @@
       "effect coding：比較組：1；基準組：-1；其他組：0",
       "b₀ = 總體平均 x̄",
       "b₁ = x̄₁ - x̄，b₂ = x̄₂ - x̄"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NTU-112-02",
@@ -796,7 +820,8 @@
       "F = MSBG/MSWG ~ F(J-1, N-J)",
       "SSBG/σ² ~ χ²(J-1)（H0下）",
       "SSWG/σ² ~ χ²(N-J)"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NTU-112-03a",
@@ -825,7 +850,8 @@
     "formula_used": [
       "Ry(3.12) = semipartial correlation of Y with X3, partialling X1 X2 from X3 only",
       "步驟：迴歸X3 on X1,X2，取殘差e₃.₁₂；再求r(Y, e₃.₁₂)"
-    ]
+    ],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NTU-112-03b",
@@ -854,7 +880,8 @@
     "formula_used": [
       "Ry3.12 = partial correlation of Y and X3, controlling X1 X2",
       "步驟：分別對Y和X3控制X1、X2，取各自殘差後求相關"
-    ]
+    ],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NTU-112-04",
@@ -891,7 +918,8 @@
     "formula_used": [
       "x̄ ~ N(μ, σ²/n)（n夠大時，CLT）",
       "SE = σ/√n = s/√n（標準誤）"
-    ]
+    ],
+    "primary_concept": "中央極限定理"
   },
   {
     "id": "NTU-112-05",
@@ -919,7 +947,8 @@
       "E(x̄) = μ（不偏）",
       "Var(x̄) = σ²/n（有效）",
       "MSE(x̄) = σ²/n（不偏時MSE=Var）"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NTU-113-TF-01",
@@ -945,7 +974,8 @@
     "ai_hint": "常見陷阱！α是「型一錯誤率」，描述在H0成立的前提下的行為，而非描述H0為真的機率。",
     "formula_used": [
       "α = P(拒絕H0 | H0為真)"
-    ]
+    ],
+    "primary_concept": "假設檢定"
   },
   {
     "id": "NTU-113-TF-02",
@@ -972,7 +1002,8 @@
     "ai_hint": "正確！LLN確實在說x̄收斂到μ。弱（機率收斂）vs 強（幾乎確定收斂）是考點。",
     "formula_used": [
       "P(|x̄ₙ - μ| > ε) → 0 當 n→∞（弱大數法則）"
-    ]
+    ],
+    "primary_concept": "估計與信賴區間"
   },
   {
     "id": "NTU-113-TF-03",
@@ -1002,7 +1033,8 @@
     "formula_used": [
       "Cov(X,Y) = E[(X-μx)(Y-μy)]",
       "r = Cov(Zx, Zy) = Cov(X,Y)/(σxσy)"
-    ]
+    ],
+    "primary_concept": "相關"
   },
   {
     "id": "NTU-113-TF-04",
@@ -1030,7 +1062,8 @@
     "ai_hint": "正確！相關係數天生就是無單位的，標準化不改變r值。與第3題形成對比（共變數會改變，相關係數不會）。",
     "formula_used": [
       "r = Cov(X,Y)/(σxσy)"
-    ]
+    ],
+    "primary_concept": "相關"
   },
   {
     "id": "NTU-113-TF-05",
@@ -1058,7 +1091,8 @@
     "formula_used": [
       "b = Cov(X,Y)/Var(X)（未標準化）",
       "β = b × (σx/σy)（標準化係數）"
-    ]
+    ],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NTU-113-TF-06",
@@ -1088,7 +1122,8 @@
       "t = r√(n-2)/√(1-r²)（相關係數檢定）",
       "t = b/SE(b)（斜率檢定）",
       "兩者使用同一個t統計量"
-    ]
+    ],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NTU-113-TF-10",
@@ -1114,7 +1149,8 @@
     "ai_hint": "正確！一致性的標準定義。注意：不偏性是有限n的性質，一致性是漸進性質（asymptotic property）。",
     "formula_used": [
       "plim(θ̂ₙ) = θ 當 n→∞"
-    ]
+    ],
+    "primary_concept": "估計與信賴區間"
   },
   {
     "id": "NTU-113-MC-11",
@@ -1142,7 +1178,8 @@
     "formula_used": [
       "P(A|B) = P(B|A)·P(A) / P(B)",
       "P(B) = P(B|A)·P(A) + P(B|Aᶜ)·P(Aᶜ)"
-    ]
+    ],
+    "primary_concept": "條件機率與貝氏"
   },
   {
     "id": "NTU-113-MC-12",
@@ -1177,7 +1214,8 @@
     "formula_used": [
       "Σ(Xi-x̄)²/σ² ~ χ²(n-1)",
       "(n-1)s²/σ² ~ χ²(n-1)"
-    ]
+    ],
+    "primary_concept": "卡方檢定"
   },
   {
     "id": "NTU-113-MC-17",
@@ -1219,7 +1257,8 @@
       "df_AB = (a-1)(b-1) = 3 → (4-1)(b-1)=3 → b=2（B有2個水準）",
       "df_error = N-ab",
       "df_total = N-1"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NTU-113-MC-22",
@@ -1252,7 +1291,8 @@
     "ai_hint": "超重要概念！CI最常見誤解：不能說「μ有99%機率在區間內」（μ是固定的）。正確說法：長期看99%的這樣的區間會包含μ。A、C、D都是典型錯誤解讀。",
     "formula_used": [
       "95% CI的正確解讀：長期重複抽樣，有95%的區間會包含真實μ"
-    ]
+    ],
+    "primary_concept": "估計與信賴區間"
   },
   {
     "id": "NTU-113-MC-23",
@@ -1287,7 +1327,8 @@
     "ai_hint": "Power三大影響因素：效果量、樣本數、α。記住這三個！想提高Power：加大n、放寬α、或尋找有較大效果量的現象。",
     "formula_used": [
       "Power = 1-β = f(效果量δ, 樣本數n, α)"
-    ]
+    ],
+    "primary_concept": "假設檢定"
   },
   {
     "id": "NTU-113-MC-25",
@@ -1326,7 +1367,8 @@
       "SSWG = Σⱼ(nⱼ-1)sⱼ² = Σⱼ(nⱼ-1)×sⱼ²",
       "SSBG = Σⱼ nⱼ(x̄ⱼ-x̄)²",
       "總平均：x̄ = Σx̄ⱼ/J（等樣本時）"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NTU-114-01",
@@ -1362,7 +1404,8 @@
     "formula_used": [
       "Y = β₀ + β₁X + ε",
       "ε ~ N(0, σ²)，獨立"
-    ]
+    ],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NTU-114-02",
@@ -1395,7 +1438,8 @@
       "(c) χ²(k) = Z₁²+Z₂²+...+Zₖ²",
       "(d) Z = (X-μ)/σ，X~N(μ,σ²)",
       "(e) t(n) = Z/√(χ²(n)/n)"
-    ]
+    ],
+    "primary_concept": "卡方檢定"
   },
   {
     "id": "NTU-114-03",
@@ -1425,7 +1469,8 @@
     "formula_used": [
       "A（獨立）：SS_total = SS_between + SS_within",
       "B（重複量數）：SS_total = SS_between + SS_subjects + SS_error"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NTU-114-04",
@@ -1455,7 +1500,8 @@
     "formula_used": [
       "Logit(p) = log(p/(1-p)) = β₀ + β₁X",
       "Yi ~ Binomial(10, pᵢ)"
-    ]
+    ],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NCKU-107-01",
@@ -1488,7 +1534,8 @@
     "formula_used": [
       "s² = SSx / (n-1) = 90/9 = 10",
       "SE = s/√n = √10/√10 = 1"
-    ]
+    ],
+    "primary_concept": "估計與信賴區間"
   },
   {
     "id": "NCKU-107-02",
@@ -1525,7 +1572,8 @@
     "formula_used": [
       "r = [nΣxy - ΣxΣy] / √{[nΣx² - (Σx)²][nΣy² - (Σy)²]}",
       "或 r = SP / √(SSx · SSy)"
-    ]
+    ],
+    "primary_concept": "相關"
   },
   {
     "id": "NCKU-107-03",
@@ -1556,7 +1604,8 @@
     "ai_hint": "簡單！R²就是r的平方。r=0.3 → R²=0.09，代表身高可解釋腰圍9%的變異量。",
     "formula_used": [
       "R² = r² = (0.3)² = 0.09"
-    ]
+    ],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NCKU-107-04",
@@ -1591,7 +1640,8 @@
     "formula_used": [
       "t = r√(n-2) / √(1-r²)",
       "t = 0.3×√16 / √(1-0.09) = 1.2/√0.91"
-    ]
+    ],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NCKU-107-05",
@@ -1630,7 +1680,8 @@
       "SEE = √[(1-r²)·(n-1)/(n-2)]（對標準化資料）",
       "= √[0.91×17/16] = √0.966 → 再除以√n可能不對",
       "或 SEE = √(SSresidual/df) = √[(1-r²)(n-1)/(n-2)]"
-    ]
+    ],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NCKU-107-06",
@@ -1660,7 +1711,8 @@
     "ai_hint": "與第3題相同概念。R²=9%代表身高能解釋腰圍9%的變異。注意r≠R²，r=0.3但R²=0.09。",
     "formula_used": [
       "SS_regression/SS_total = R² = r² = 0.09 = 9%"
-    ]
+    ],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NCKU-107-07",
@@ -1698,7 +1750,8 @@
     "formula_used": [
       "F = (R²/p) / [(1-R²)/(n-p-1)]",
       "df_regression = p = 2，df_residual = n-p-1 = 18-2-1 = 15"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCKU-107-08",
@@ -1735,7 +1788,8 @@
     "formula_used": [
       "配對t：t = D̄/(sD/√n)，df = n_pairs - 1 = 9-1 = 8？",
       "或依題目設計，若是重複量數則df=n-1"
-    ]
+    ],
+    "primary_concept": "t檢定"
   },
   {
     "id": "NCKU-107-09",
@@ -1768,7 +1822,8 @@
     ],
     "key_concepts": "t檢定假設：常態性（非對稱性）、變異數齊一、獨立性、隨機抽樣",
     "ai_hint": "t檢定要求常態分配，但「對稱」只是常態的一個特性。實務上t檢定不直接檢查對稱性，所以C是最不需要考量的。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "t檢定"
   },
   {
     "id": "NCKU-107-10",
@@ -1802,7 +1857,8 @@
     ],
     "key_concepts": "顯著 = p < α = 拒絕H0；此時可能的錯誤是Type I error（非Type II）",
     "ai_hint": "顯著的唯一定義：p < α。拒絕H0後，若H0其實是對的，就是Type I error；Type II error發生在未拒絕但H0是錯的時候。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "假設檢定"
   },
   {
     "id": "NCKU-107-11",
@@ -1841,7 +1897,8 @@
       "MS = SS/df",
       "F = MS_regression / MS_residual",
       "R² = SS_regression / SS_total"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCKU-107-12",
@@ -1875,7 +1932,8 @@
     ],
     "key_concepts": "F<1表示組間≤組內，幾乎不可能顯著；df_within=N-J推算總N",
     "ai_hint": "F=0.75<1，幾乎一定不顯著（p>0.05）。另外N=df_within+J=18+4=22，不是21。選C。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCKU-107-13",
@@ -1909,7 +1967,8 @@
     ],
     "key_concepts": "事後比較用MSWithin（所有組的pooled variance）作為SE計算基礎，比個別t更穩定",
     "ai_hint": "事後比較的關鍵差異：SE是用MSW（全部組的合併估計），不是只用比較的兩組。這讓自由度更大、估計更穩定，但同時控制了整體錯誤率。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCKU-107-14",
@@ -1948,7 +2007,8 @@
       "合併各鄉鎮：A=2+15+8=25, B=10+12+13=35, C=8+6+6=20, D=5+7+8=20，總N=100",
       "H0：4位參選人支持人數相等（各25人）",
       "df = k-1 = 4-1 = 3"
-    ]
+    ],
+    "primary_concept": "卡方檢定"
   },
   {
     "id": "NCKU-107-16",
@@ -1984,7 +2044,8 @@
     ],
     "key_concepts": "p值=在H0下，觀察到此統計量或更極端值的機率；F檢定是右尾，p=P(F≥F_obs)",
     "ai_hint": "p值正確定義：P(F ≥ F_observed | H0)。不是「=」某值的機率（那是0），是「≥」的面積。F分配無負值，B選項直接排除。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "機率分配"
   },
   {
     "id": "NCKU-107-17",
@@ -2016,7 +2077,8 @@
     ],
     "key_concepts": "雙尾p/2=單尾p；單尾更容易顯著→power增加→β減少",
     "ai_hint": "雙尾p=0.099 → 單尾p=0.0495<0.05，所以A正確（達顯著）。拒絕域擴大 → Power增加 → β（Type II error）下降，所以C也正確。選E。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "假設檢定"
   },
   {
     "id": "NCKU-107-18",
@@ -2050,7 +2112,8 @@
     ],
     "key_concepts": "Power三大影響：效果量δ、樣本數n、顯著水準α；換算效果量指標不會改變power",
     "ai_hint": "φ和r都是效果量，可以互相換算（φ=r√n/√(n-2)），只是換個表達方式，不會改變統計力本身。其他選項都是實質提升Power的方法。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "假設檢定"
   },
   {
     "id": "NCKU-107-19",
@@ -2082,7 +2145,8 @@
     ],
     "key_concepts": "CLT：任何母群，n夠大時x̄~N(μ,σ²/n)；Var(x̄)=σ²/n是關鍵結論",
     "ai_hint": "CLT的核心：x̄的分配有兩個性質(1)平均=μ (2)變異數=σ²/n。A正確。注意CLT不要求母群常態，也不說個別分數趨近常態。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "中央極限定理"
   },
   {
     "id": "NCKU-107-25",
@@ -2120,7 +2184,8 @@
     "formula_used": [
       "df = n1+n2-2 = 100+100-2 = 198",
       "pooled variance = [(n1-1)s1² + (n2-1)s2²] / (n1+n2-2)"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCKU-108-01",
@@ -2152,7 +2217,8 @@
     ],
     "key_concepts": "直方圖用於連續資料；名義/次序資料用長條圖（bar chart）",
     "ai_hint": "名義資料（地區）→ 應用長條圖（Bar Chart），不是直方圖（Histogram）。直方圖的x軸是連續的數值，長條之間沒有間隔；長條圖的長條之間有間隔。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "描述統計"
   },
   {
     "id": "NCKU-108-05",
@@ -2183,7 +2249,8 @@
     ],
     "key_concepts": "α↓ → 臨界值更嚴格 → 更難拒絕H0 → Power↓；α和Power是此消彼長的關係",
     "ai_hint": "降低α→更難達到顯著→Power反而下降！提高Power的方法是增加n或增大效果量，而非降低α。D是錯誤的。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "假設檢定"
   },
   {
     "id": "NCKU-108-07",
@@ -2216,7 +2283,8 @@
     ],
     "key_concepts": "顯著性需計算z/χ²統計量和p值；59/100在α=0.05下未必顯著",
     "ai_hint": "C錯！z=(59-50)/5=1.8，雙尾p≈0.072>0.05，在α=0.05下不顯著，不能說硬幣被動手腳。顯著性是算出來的，不是感覺的。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "卡方檢定"
   },
   {
     "id": "NCKU-108-20",
@@ -2246,7 +2314,8 @@
     ],
     "key_concepts": "無母數統計仍做推論（只是不假設分配形式）；通常比有母數方法power低",
     "ai_hint": "無母數≠無推論！無母數只是不假設母群的特定分配（如常態），但仍然做統計推論。A是錯的。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "無母數"
   },
   {
     "id": "NCKU-109-01",
@@ -2281,7 +2350,8 @@
     "ai_hint": "台綜109年申論題。答題架構：優點（power高、受試者少）vs 缺點（順序效應、攜帶效應、球形假設）。要說明為何power高：SS_subjects從誤差中分出，分母MS_error更小。",
     "formula_used": [
       "SS_total = SS_between + SS_subjects + SS_error（重複量數ANOVA）"
-    ]
+    ],
+    "primary_concept": "抽樣與設計"
   },
   {
     "id": "NCKU-109-02",
@@ -2313,7 +2383,8 @@
       "t(k) = Z / √(χ²(k)/k)",
       "F(m,n) = [χ²(m)/m] / [χ²(n)/n]",
       "t²(n) = F(1,n)"
-    ]
+    ],
+    "primary_concept": "卡方檢定"
   },
   {
     "id": "NCKU-109-03",
@@ -2348,7 +2419,8 @@
     "formula_used": [
       "Mann-Whitney U: 計算兩組的排序並用U統計量",
       "或Wilcoxon rank-sum test"
-    ]
+    ],
+    "primary_concept": "無母數"
   },
   {
     "id": "NCKU-109-04",
@@ -2383,7 +2455,8 @@
       "χ² = Σ(O-E)²/E",
       "φ = √(χ²/n)（效果量）",
       "df = (r-1)(c-1) = 1"
-    ]
+    ],
+    "primary_concept": "卡方檢定"
   },
   {
     "id": "NCKU-109-05a",
@@ -2413,7 +2486,8 @@
       "b = Cov(X,Y)/Var(X) = 30/49",
       "a = Ȳ - b×X̄ = 70 - (30/49)×170",
       "r = Cov(X,Y)/(σx×σy) = 30/(√49×√36) = 30/42"
-    ]
+    ],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NCKU-109-05b",
@@ -2441,7 +2515,8 @@
     "formula_used": [
       "SS_regression = r² × SS_total = r² × (n-1) × Var(Y)",
       "df_regression = 1（簡單迴歸）"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCKU-109-05c",
@@ -2472,7 +2547,8 @@
       "單位轉換：1m = 100cm",
       "r不變（尺度不影響r）",
       "b改變：新b = 舊b × 100"
-    ]
+    ],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NCKU-109-05d",
@@ -2503,7 +2579,8 @@
       "Ŷ = a + b×Gender",
       "b = Ȳ男 - Ȳ女",
       "a = Ȳ女"
-    ]
+    ],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NCKU-111-01",
@@ -2533,7 +2610,8 @@
     "ai_hint": "卡方檢定檢測類別變數間關聯，隨機抽樣是推論的基礎。注意題目有說「隨機受訪者」，故可推論。答A。",
     "formula_used": [
       "χ² = Σ(O-E)²/E"
-    ]
+    ],
+    "primary_concept": "卡方檢定"
   },
   {
     "id": "NCKU-111-02",
@@ -2561,7 +2639,8 @@
     ],
     "key_concepts": "觀察資料中施打數差異≠受歡迎程度差異，存在混淆變項（如政策、供貨）",
     "ai_hint": "這是混淆變項的問題。施打數多可能是政府政策決定的，不能直接推論民眾偏好。答B。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "抽樣與設計"
   },
   {
     "id": "NCKU-111-03",
@@ -2588,7 +2667,8 @@
     ],
     "key_concepts": "相關不等於因果；施打量最高受政策/供貨影響，不能直接推論偏好",
     "ai_hint": "AZ最早引進台灣，施打數多是時間優勢和政策因素，不代表最受歡迎。答B。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "抽樣與設計"
   },
   {
     "id": "NCKU-111-04",
@@ -2616,7 +2696,8 @@
     ],
     "key_concepts": "相關係數衡量關聯程度，不是差異；比較差異應用t檢定或卡方檢定",
     "ai_hint": "相關係數是看兩變數的線性關係，不是看「差異」。要看AZ vs BNT的意願差異，應用卡方。答B。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "相關"
   },
   {
     "id": "NCKU-111-05",
@@ -2642,7 +2723,8 @@
     ],
     "key_concepts": "莖葉圖適用於數值型資料的分布呈現，兼顧分布形狀與原始數值",
     "ai_hint": "施打數是數值資料，莖葉圖可以使用。答A。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "資料視覺化"
   },
   {
     "id": "NCKU-111-06",
@@ -2670,7 +2752,8 @@
     ],
     "key_concepts": "觀察到的施打率差異不等於意願母群差異；混淆變項（人口結構、政策）需控制",
     "ai_hint": "施打率高低受人口數、政策、供貨等影響。百分率差異不能直接推論「意願母群不同」。答B。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "抽樣與設計"
   },
   {
     "id": "NCKU-111-07",
@@ -2701,7 +2784,8 @@
     "ai_hint": "z分數轉換：平均必為0，SD必為1。中位數=(12-10)/5=0.4，與題目吻合。答A。",
     "formula_used": [
       "z = (x - μ) / σ"
-    ]
+    ],
+    "primary_concept": "描述統計"
   },
   {
     "id": "NCKU-111-08",
@@ -2728,7 +2812,8 @@
     ],
     "key_concepts": "分布形狀（單峰/多峰）需由資料圖形判斷，不能由平均數、標準差推定",
     "ai_hint": "知道平均、中位數、SD無法確定分布峰數。若母群由兩個子群組成可能是雙峰。答B。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "描述統計"
   },
   {
     "id": "NCKU-111-09",
@@ -2758,7 +2843,8 @@
     "ai_hint": "Bootstrap的樣本平均值會趨近原始資料的平均值=10，不是中位數12。SE=5/√16=1.25雖正確，但前半段錯。答B。",
     "formula_used": [
       "SE = s / √n = 5 / √16 = 1.25"
-    ]
+    ],
+    "primary_concept": "描述統計"
   },
   {
     "id": "NCKU-111-10",
@@ -2784,7 +2870,8 @@
     ],
     "key_concepts": "CLT改變的是x̄的抽樣分配，不是母群分配；母群形狀固定不變",
     "ai_hint": "CLT說的是「樣本平均數的抽樣分配」趨近常態，母群本身不會因多抽幾次就變常態。答B。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "中央極限定理"
   },
   {
     "id": "NCKU-111-11",
@@ -2811,7 +2898,8 @@
     ],
     "key_concepts": "n=1時抽樣分配等同母群分配；平均<中位數→左偏（負偏）",
     "ai_hint": "每次抽1筆，抽無限次的分布=母群分布。原始平均(10)<中位數(12)→負偏。答A。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "描述統計"
   },
   {
     "id": "NCKU-111-12",
@@ -2841,7 +2929,8 @@
     "ai_hint": "20-39歲CI約[3.4, 5.8]，40-59歲CI約[9.5, 12.3]，兩區間差很遠完全不重疊。答A。",
     "formula_used": [
       "95% CI = x̄ ± 1.96 × (σ/√n)"
-    ]
+    ],
+    "primary_concept": "機率分配"
   },
   {
     "id": "NCKU-111-13",
@@ -2868,7 +2957,8 @@
     ],
     "key_concepts": "Kruskal-Wallis test：三組以上獨立樣本的無母數比較，為one-way ANOVA的無母數替代",
     "ai_hint": "三組獨立樣本要做無母數比較→Kruskal-Wallis test，正是此情境的適用方法。答A。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "無母數"
   },
   {
     "id": "NCKU-111-14",
@@ -2894,7 +2984,8 @@
     ],
     "key_concepts": "ANOVA前提：常態性、獨立性、變異數同質性；不知母群σ時需先做Levene's test",
     "ai_hint": "ANOVA假設各組變異數相等（homogeneity of variance），需先用Levene's test驗證。答A。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCKU-111-15",
@@ -2926,7 +3017,8 @@
       "總df = N - 1 = 160 - 1 = 159",
       "迴歸df = k = 2",
       "殘差df = N - k - 1 = 157"
-    ]
+    ],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NCKU-111-16",
@@ -2954,7 +3046,8 @@
     ],
     "key_concepts": "ANOVA ≡ dummy coding迴歸；兩者F值完全相同，屬一般線性模型（GLM）的特例",
     "ai_hint": "One-way ANOVA和用dummy coding的多元迴歸在數學上完全等價，F值相同。答A。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCKU-111-17",
@@ -2984,7 +3077,8 @@
     "ai_hint": "p=0.02<0.05，表示卡方值超過臨界值3.84，不是小於。p和χ²反向關係。答B。",
     "formula_used": [
       "df=1時，χ²臨界值(α=0.05) = 3.84"
-    ]
+    ],
+    "primary_concept": "卡方檢定"
   },
   {
     "id": "NCKU-111-18",
@@ -3011,7 +3105,8 @@
     ],
     "key_concepts": "統計顯著（第二劑整體較強）≠兩劑之間負相關；需要相關分析才能判斷方向",
     "ai_hint": "p=0.02只說明第二劑整體較強，不代表第一劑弱時第二劑一定強（負相關）。答B。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NCKU-111-19",
@@ -3038,7 +3133,8 @@
     ],
     "key_concepts": "配對t檢定檢驗平均差異，不是相關性；p=0.02表示有顯著差異，非無相關",
     "ai_hint": "paired t test看的是差異（第二劑-第一劑≠0），不是兩劑間的相關。答B。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "t檢定"
   },
   {
     "id": "NCKU-111-20",
@@ -3067,7 +3163,8 @@
     "ai_hint": "光知道α=0.05不夠，還需要效果量和樣本數才能計算Power。無法判斷是否合宜。答B。",
     "formula_used": [
       "Power = 1 - β = f(效果量, n, α)"
-    ]
+    ],
+    "primary_concept": "假設檢定"
   },
   {
     "id": "NCKU-111-21",
@@ -3097,7 +3194,8 @@
     "ai_hint": "p=0.02且有顯著差異→F>1→組間變異(MS)大於組內（受試者間）變異。答A。",
     "formula_used": [
       "F = MS_between / MS_within > 1（顯著時）"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCKU-111-22",
@@ -3125,7 +3223,8 @@
     "ai_hint": "兩組（第一劑、第二劑）比較，組間df=k-1=2-1=1。答A。",
     "formula_used": [
       "df_between = k - 1 = 2 - 1 = 1"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCKU-111-23",
@@ -3152,7 +3251,8 @@
     ],
     "key_concepts": "p=0.02 > α=0.01 → 不顯著；p值需小於α才能宣稱顯著",
     "ai_hint": "p=0.02比α=0.01大，所以不顯著。當α設為0.01時，p=0.02是不夠小的。答B。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "假設檢定"
   },
   {
     "id": "NCKU-111-24",
@@ -3179,7 +3279,8 @@
     ],
     "key_concepts": "Mann-Whitney U=獨立樣本；配對設計需用Wilcoxon signed-rank test",
     "ai_hint": "同一批人接種兩劑→配對設計→無母數版本應用Wilcoxon signed-rank，不是Mann-Whitney U。答A。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "t檢定"
   },
   {
     "id": "NCKU-111-25",
@@ -3209,7 +3310,8 @@
     "ai_hint": "完整描述了Wilcoxon signed-rank test。無母數方法不受常態分布限制。答A。",
     "formula_used": [
       "T = min(R+, R-)"
-    ]
+    ],
+    "primary_concept": "無母數"
   },
   {
     "id": "NCKU-111-26",
@@ -3240,7 +3342,8 @@
     ],
     "key_concepts": "雙峰→兩種反應/兩個母群；獨立t需對照組；卡方適用類別非連續變數",
     "ai_hint": "雙峰分布→AB正確。C錯：沒有對照組不能用獨立t。D錯：連續分數不用卡方，應用單樣本t。答AB。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "卡方檢定"
   },
   {
     "id": "NCKU-111-27",
@@ -3278,7 +3381,8 @@
       "df_between = k - 1 → k = 4",
       "df_total = N - 1 → N = 80",
       "df_within = N - k = 76"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCKU-111-28",
@@ -3314,7 +3418,8 @@
     "formula_used": [
       "迴歸df = 預測變項數 = 2",
       "殘差df = N - k - 1 = 20 - 2 - 1 = 17"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCKU-111-29",
@@ -3349,7 +3454,8 @@
     "ai_hint": "組間1 df=1→2個between groups；組間2 df=3→4個within-subject水準(C✓)。混和設計(A✓)；組間2顯著可做Bonferroni(D✓)。答ACD。",
     "formula_used": [
       "組間df = k - 1 → k = df + 1"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCKU-111-30",
@@ -3387,7 +3493,8 @@
       "df交互 = df組間1 × df組間2 = 1 × 3 = 3",
       "MS交互 = 0.60/3 = 0.20",
       "F交互 = 0.20/0.03 = 6.67"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCKU-112-01",
@@ -3418,7 +3525,8 @@
     ],
     "key_concepts": "全體新生=母群，可做描述統計；類別資料可用眾數和直方圖（次數分配）呈現",
     "ai_hint": "新生來源學校是類別資料，無需假設檢定（已有全體資料）。直方圖可呈現各學校人數分布。答D。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "描述統計"
   },
   {
     "id": "NCKU-112-02",
@@ -3451,7 +3559,8 @@
     "ai_hint": "z=(x-μ)/σ後平均=0、SD=1是必然的數學結果，但形狀不變。答D。",
     "formula_used": [
       "z = (x - μ) / σ"
-    ]
+    ],
+    "primary_concept": "機率分配"
   },
   {
     "id": "NCKU-112-03",
@@ -3485,7 +3594,8 @@
     "formula_used": [
       "若X' = X - c：平均'=平均-c，SD'=SD，Var'=Var",
       "若X' = X × c：平均'=c×平均，SD'=|c|×SD，Var'=c²×Var"
-    ]
+    ],
+    "primary_concept": "描述統計"
   },
   {
     "id": "NCKU-112-04",
@@ -3517,7 +3627,8 @@
     "ai_hint": "CLT的核心：樣本數越大，x̄的抽樣分配越接近常態。答C。",
     "formula_used": [
       "x̄ ~ N(μ, σ²/n) 當n夠大時"
-    ]
+    ],
+    "primary_concept": "中央極限定理"
   },
   {
     "id": "NCKU-112-05",
@@ -3552,7 +3663,8 @@
       "α = P(拒絕H0 | H0為真)",
       "β = P(未拒絕H0 | H0為假)",
       "Power = 1 - β"
-    ]
+    ],
+    "primary_concept": "假設檢定"
   },
   {
     "id": "NCKU-112-06",
@@ -3586,7 +3698,8 @@
     "formula_used": [
       "E(χ²) = df",
       "Var(χ²) = 2df"
-    ]
+    ],
+    "primary_concept": "卡方檢定"
   },
   {
     "id": "NCKU-112-07",
@@ -3623,7 +3736,8 @@
     ],
     "key_concepts": "複選題資料：每人可選多項，總次數≠樣本數；次數分配可呈現人次但比率意義不明",
     "ai_hint": "複選資料可用名義量尺處理、眾數找最多人選的選項、卡方檢定。次數分配表在複選中若要計算「比率」會有問題（分母不明確）。答D。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "卡方檢定"
   },
   {
     "id": "NCKU-112-08",
@@ -3666,7 +3780,8 @@
     "formula_used": [
       "總df = 總觀測數 - 1 = 30×2 - 1 = 59",
       "df交互 = df_A × df_B = (3-1)(2-1) = 2"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCKU-112-09",
@@ -3702,7 +3817,8 @@
       "df組間 = k - 1 = 1（兩組時）",
       "df_t = n1 + n2 - 2",
       "F = t²（兩組時）"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCKU-112-10",
@@ -3736,7 +3852,8 @@
     "ai_hint": "同一批學生前後測→配對設計。直接說「進行變異數分析」不夠精確（應為重複測量ANOVA）。答B。",
     "formula_used": [
       "df配對t = n - 1"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCKU-112-11",
@@ -3770,7 +3887,8 @@
     "formula_used": [
       "β_standardized = r",
       "標準化後迴歸：ẑY = r × zX"
-    ]
+    ],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NCKU-112-12",
@@ -3805,7 +3923,8 @@
     ],
     "key_concepts": "統計顯著的r只代表r≠0；大樣本下小r也可顯著；顯著≠實際重要；≠強線性關係",
     "ai_hint": "相關顯著只表示r≠0，不代表r大或關係重要。r>0.0（若正向顯著）是最保守正確的說法。答A。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "相關"
   },
   {
     "id": "NCKU-112-13",
@@ -3836,7 +3955,8 @@
     "ai_hint": "不知道X時，用Y的平均數ȳ預測Y，可使預測誤差（SSE）最小。答B。",
     "formula_used": [
       "當X未知：ŷ = ȳ"
-    ]
+    ],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NCKU-112-14",
@@ -3869,7 +3989,8 @@
     "ai_hint": "多元迴歸的R²不超過各自簡單迴歸r²的總和，因為預測變項之間可能有重疊解釋力。答D。",
     "formula_used": [
       "R²_multiple ≤ r²_X1Y + r²_X2Y"
-    ]
+    ],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NCKU-112-15",
@@ -3900,7 +4021,8 @@
     ],
     "key_concepts": "無母數方法仍有假設（獨立性、隨機性等）；只是不假設特定分配形式",
     "ai_hint": "無母數方法不是「不須任何假設」，仍需獨立性、隨機抽樣等假設，只是不假設常態分配。答D。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "無母數"
   },
   {
     "id": "NCKU-112-16",
@@ -3933,7 +4055,8 @@
     "ai_hint": "ANOVA、簡單迴歸、多元迴歸都與t有數學關聯（F=t²或係數用t檢定）。卡方檢定結構完全不同。答A。",
     "formula_used": [
       "F(1,df) = t²(df)"
-    ]
+    ],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NCKU-112-17",
@@ -3976,7 +4099,8 @@
     "formula_used": [
       "完全受試者間誤差df = N - k = 12 - 6 = 6",
       "混和設計總df = N×T - 1（N=受試者數，T=within水準數）"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCKU-112-18",
@@ -4008,7 +4132,8 @@
     ],
     "key_concepts": "二因子ANOVA可檢驗兩個主效果和一個交互作用；季節是固定因子",
     "ai_hint": "兩個類別變項（性別×季節）進行二因子ANOVA，當然可以檢驗交互作用。答C。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCKU-112-19",
@@ -4040,7 +4165,8 @@
     ],
     "key_concepts": "相依三組以上比較→Friedman test（無母數）；Kruskal-Wallis→獨立三組",
     "ai_hint": "同一批人三個時間點（相依）→Friedman test。Kruskal-Wallis是獨立樣本用的。n=5太小不宜用ANOVA。答A。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "無母數"
   },
   {
     "id": "NCKU-112-20",
@@ -4075,7 +4201,8 @@
     "ai_hint": "選A或B是類別資料，用卡方檢定看偏好比例是否顯著偏向某產品。答B。",
     "formula_used": [
       "χ² = Σ(O-E)²/E"
-    ]
+    ],
+    "primary_concept": "卡方檢定"
   },
   {
     "id": "NCKU-113-01",
@@ -4109,7 +4236,8 @@
     ],
     "key_concepts": "直方圖≠長條圖；直方圖用於連續資料，長條圖用於類別資料",
     "ai_hint": "台綜必考考點！類別資料（學院）→長條圖，不是直方圖。答B。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "資料視覺化"
   },
   {
     "id": "NCKU-113-02",
@@ -4145,7 +4273,8 @@
     "ai_hint": "Σ(Xi-X̄)恆=0，這是平均數的定義性質。因此離均差和永遠為0，無法反映任何離散資訊。答D。",
     "formula_used": [
       "Σ(Xi - X̄) = 0（恆等式）"
-    ]
+    ],
+    "primary_concept": "描述統計"
   },
   {
     "id": "NCKU-113-03",
@@ -4179,7 +4308,8 @@
     "ai_hint": "標準常態分配平均=0，SD=1。「中線為1」是錯的，中線應為0。答A。",
     "formula_used": [
       "Z ~ N(0, 1)"
-    ]
+    ],
+    "primary_concept": "機率分配"
   },
   {
     "id": "NCKU-113-04",
@@ -4215,7 +4345,8 @@
     "formula_used": [
       "線性轉換X'=bX+ab：平均'=b×平均+ab，SD'=b×SD",
       "形態不變（線性轉換）"
-    ]
+    ],
+    "primary_concept": "描述統計"
   },
   {
     "id": "NCKU-113-05",
@@ -4248,7 +4379,8 @@
     ],
     "key_concepts": "統計學中只有「拒絕」或「未拒絕」H0，永遠不說「接受H0」",
     "ai_hint": "E是最常見的錯誤表述！正確說法是「未拒絕（fail to reject）H0」，不是「接受H0」。因為未顯著可能只是Power不足。答E。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "假設檢定"
   },
   {
     "id": "NCKU-113-06",
@@ -4282,7 +4414,8 @@
     "ai_hint": "C混淆了「樣本」和「抽樣分配」。抽樣分配是x̄的機率分配（概念上的分配），不是實際抽出的樣本。答C。",
     "formula_used": [
       "SE = σ/√n（x̄抽樣分配的標準差）"
-    ]
+    ],
+    "primary_concept": "中央極限定理"
   },
   {
     "id": "NCKU-113-07",
@@ -4316,7 +4449,8 @@
     ],
     "key_concepts": "簡單迴歸中r顯著↔b顯著（等價）；但「預測變項不為0」是模糊說法，邏輯有誤",
     "ai_hint": "C的說法混淆了「相關係數不為0」和「迴歸係數不為0」的概念，雖然在簡單迴歸中兩者等價，但表述邏輯有誤。答C。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NCKU-113-08",
@@ -4352,7 +4486,8 @@
     "ai_hint": "B錯：R²是決定係數（解釋變異比例），不是相關係數本身。另外D也有問題（抑制效果可使係數方向不同），但B的定義錯誤更基本。答B。",
     "formula_used": [
       "R² = 1 - SS_residual/SS_total = r²(Y, Ŷ)"
-    ]
+    ],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NCKU-113-09",
@@ -4389,7 +4524,8 @@
     "formula_used": [
       "χ² = Σ(O-E)²/E",
       "df = (r-1)(c-1)"
-    ]
+    ],
+    "primary_concept": "卡方檢定"
   },
   {
     "id": "NCKU-113-10",
@@ -4425,7 +4561,8 @@
     "ai_hint": "30人各測2次→總觀測=60→總df=59，不是29。D錯。答D。",
     "formula_used": [
       "總df = 總觀測數 - 1 = 30×2 - 1 = 59"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCKU-113-11",
@@ -4458,7 +4595,8 @@
     ],
     "key_concepts": "無母數≠不推論；只是不假設母群特定分配形式；仍對母群參數做推論",
     "ai_hint": "A錯：無母數統計仍然對母群參數進行推論（如中位數），只是不假設常態分配等。答A。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "無母數"
   },
   {
     "id": "NCKU-113-12",
@@ -4492,7 +4630,8 @@
     ],
     "key_concepts": "只有一個因子→無交互作用；交互作用需要兩個（含）以上的因子",
     "ai_hint": "只有一個獨變項（茶的種類）→無法檢驗交互作用。交互作用需要≥2個因子。答B。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "t檢定"
   },
   {
     "id": "NCKU-113-13",
@@ -4538,7 +4677,8 @@
     "formula_used": [
       "誤差df = ab(n-1) = 2×3×(10-1) = 54",
       "或 df_error = N - ab = 60 - 6 = 54"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCKU-113-14",
@@ -4574,7 +4714,8 @@
     "formula_used": [
       "χ² = Σ(O-E)²/E（適合度檢定）",
       "H0：三堂課選課人數相等（各200/3≈66.7人）"
-    ]
+    ],
+    "primary_concept": "卡方檢定"
   },
   {
     "id": "NCKU-113-15",
@@ -4610,7 +4751,8 @@
     "formula_used": [
       "t²(df) = F(1,df)",
       "z² = χ²(1)（僅df=1時成立）"
-    ]
+    ],
+    "primary_concept": "卡方檢定"
   },
   {
     "id": "NCKU-113-16",
@@ -4643,7 +4785,8 @@
     ],
     "key_concepts": "Likert量表是次序量尺；ANOVA假設連續DV；次序資料應用無母數方法或卡方",
     "ai_hint": "看法是五點量表（次序量尺），ANOVA需要連續變項假設，不適用。答A。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCKU-113-17",
@@ -4676,7 +4819,8 @@
     ],
     "key_concepts": "推論只能到抽樣框架內的母群；在中正大學抽樣→只能推論中正大學學生，不能推論全台灣",
     "ai_hint": "E錯！只在中正大學抽樣，只能推論中正大學的學生，無法推論到全台灣大學生。這是外部效度的問題。答E。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "描述統計"
   },
   {
     "id": "NCKU-113-18",
@@ -4709,7 +4853,8 @@
     ],
     "key_concepts": "受試者間因子=不同人在不同組；受試者內因子=同一人接受所有水準",
     "ai_hint": "出生序將不同人分到不同組（第一出生、第二出生）→受試者間因子，不是受試者內因子。答C。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "抽樣與設計"
   },
   {
     "id": "NCKU-113-19",
@@ -4746,7 +4891,8 @@
     ],
     "key_concepts": "一個因子確實無交互作用；比率量尺需要真正的零點",
     "ai_hint": "只有一個因子（腦區破壞是/否），確實無法檢驗交互作用（需要≥2個因子）。E說「無法」是正確的，但題目脈絡可能將E視為需要確認的選項。答E。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "t檢定"
   },
   {
     "id": "NCKU-113-20",
@@ -4778,7 +4924,8 @@
     ],
     "key_concepts": "r顯著=r統計上不為0；不代表r大或實際重要",
     "ai_hint": "相關係數顯著只代表r≠0（B正確）。A錯：r可以很小但顯著（大樣本）。C錯：顯著≠重要。答B。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "相關"
   },
   {
     "id": "NCKU-114-01",
@@ -4814,7 +4961,8 @@
     ],
     "key_concepts": "移除等於均值的點：均值不變；SD略增（分母減少）；全距不變（若非極值）",
     "ai_hint": "關鍵：移除的點=均值（偏差=0），對SS無貢獻，但n-1減少→SD=√(SS/(n-1))增大。均值不變。全距只受最大/最小值影響，移除中間點不影響。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "描述統計"
   },
   {
     "id": "NCKU-114-02",
@@ -4848,7 +4996,8 @@
       "殘差變異數 = (1-R²) × Var(Y)",
       "預測值 = b0 + b1×X1 + b2×X2",
       "95%預測區間 = Ŷ ± 1.96 × SEE"
-    ]
+    ],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NCKU-114-03",
@@ -4890,7 +5039,8 @@
       "True positives = Power × H1真實數 = 0.60×200 = 120",
       "Total significant = 40+120 = 160",
       "Precision (PPV) = 120/160 = 0.75"
-    ]
+    ],
+    "primary_concept": "假設檢定"
   },
   {
     "id": "NCKU-114-04",
@@ -4928,7 +5078,8 @@
       "獨立t = (x̄1-x̄2)/√(sp²(1/n1+1/n2))",
       "配對t = D̄/(sD/√n)",
       "符號檢定：p = P(X≥6|n=6, p=0.5) = 1/2^6"
-    ]
+    ],
+    "primary_concept": "t檢定"
   },
   {
     "id": "NCKU-114-05",
@@ -4965,7 +5116,8 @@
       "SSW = Σ Σ(xij - x̄j)²",
       "SSB = SST - SSW",
       "F = MSB/MSW = [SSB/df_B] / [SSW/df_W]"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCKU-107-20",
@@ -5003,7 +5155,8 @@
       "二因子受試者間ANOVA：3個F tests（A主效果、B主效果、A×B）",
       "df_interaction=(a-1)(b-1)=1",
       "df_error=ab(n-1)=4×7=28"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCKU-107-21",
@@ -5038,7 +5191,8 @@
     "formula_used": [
       "z=(X-μ)/σ",
       "標準化後：平均數=0，標準差=1，總和=0"
-    ]
+    ],
+    "primary_concept": "描述統計"
   },
   {
     "id": "NCKU-107-22",
@@ -5068,7 +5222,8 @@
     ],
     "key_concepts": "變異數同質性=各組母群變異數相等；可用Levene's test檢驗；違反時用Welch's ANOVA",
     "ai_hint": "同質性就是問：各組的變異數是不是一樣大？是ANOVA的前提假設。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCKU-107-23",
@@ -5102,7 +5257,8 @@
     ],
     "key_concepts": "Q-Q plot是最標準的常態性圖形檢驗；正式統計檢定可用Shapiro-Wilk",
     "ai_hint": "四種方法都可以用來判斷常態性，答E。Q-Q plot是最直接的，若點落在對角線上則常態。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "資料視覺化"
   },
   {
     "id": "NCKU-107-24",
@@ -5138,7 +5294,8 @@
     "formula_used": [
       "正偏態：mean > median > mode",
       "反應速度 = 1/反應時間"
-    ]
+    ],
+    "primary_concept": "描述統計"
   },
   {
     "id": "NCKU-107-15",
@@ -5178,7 +5335,8 @@
       "卡方獨立性檢定 df = (r-1)(c-1)",
       "r=3（鄉鎮數），c=4（參選人數）",
       "df = (3-1)(4-1) = 2×3 = 6"
-    ]
+    ],
+    "primary_concept": "卡方檢定"
   },
   {
     "id": "NCKU-108-02",
@@ -5209,7 +5367,8 @@
     ],
     "key_concepts": "r=0只代表無線性相關；r=0.2是微弱正相關，不是沒有關係",
     "ai_hint": "r≠0就代表有相關（不管多小）。r=0.2是微弱正相關。只有r=0才能說「無線性相關」，但即使r=0也可能有非線性關係。C說沒有關係是錯的。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "相關"
   },
   {
     "id": "NCKU-108-03",
@@ -5242,7 +5401,8 @@
     "ai_hint": "B是經典陷阱：z轉換≠變成常態分配。z轉換只是改變均值和SD，不改變形狀。",
     "formula_used": [
       "SE = σ/√n"
-    ]
+    ],
+    "primary_concept": "中央極限定理"
   },
   {
     "id": "NCKU-108-04",
@@ -5276,7 +5436,8 @@
     "formula_used": [
       "正偏態：mean > median > mode",
       "Var(X/3) = Var(X)/9，SD(X/3) = SD(X)/3"
-    ]
+    ],
+    "primary_concept": "機率分配"
   },
   {
     "id": "NCKU-108-06",
@@ -5310,7 +5471,8 @@
     "formula_used": [
       "CI = x̄ ± z_(α/2) × SE",
       "α越大→z_(α/2)越小→CI越窄"
-    ]
+    ],
+    "primary_concept": "估計與信賴區間"
   },
   {
     "id": "NCKU-108-08",
@@ -5343,7 +5505,8 @@
     "ai_hint": "B錯：Spearman相關需要配對（每個人有X和Y兩個分數）。這裡兩班是不同的人，無法配對，所以不能算相關係數。",
     "formula_used": [
       "獨立樣本t df = n₁+n₂-2 = 10+10-2 = 18"
-    ]
+    ],
+    "primary_concept": "t檢定"
   },
   {
     "id": "NCKU-108-09",
@@ -5374,7 +5537,8 @@
     ],
     "key_concepts": "DV為連續→ANOVA；DV為類別→卡方；卡方用於類別資料的分析",
     "ai_hint": "D說進行卡方，但滿意度是連續資料（量表分數），應進行二因子ANOVA。卡方用於類別次數資料。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCKU-108-10",
@@ -5405,7 +5569,8 @@
     ],
     "key_concepts": "兩個類別變項的關聯→卡方獨立性檢定；ANOVA用於連續DV",
     "ai_hint": "D錯：顏色（類別）和性別（類別）的關係→卡方獨立性檢定，不是ANOVA。ANOVA需要連續的依變項。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCKU-108-11",
@@ -5442,7 +5607,8 @@
       "學校：各5所（隨機巢狀於公私立）",
       "N=10×100=1000，df_total=999",
       "公私立df=2-1=1；學校（巢狀）df=10-2=8；交互作用概念在此不適用"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCKU-108-12",
@@ -5475,7 +5641,8 @@
     "ai_hint": "A錯：兩大超商是特定選定的（不是從所有超商中隨機抽）→固定因子。隨機因子是從更大的母群中隨機抽取（如隨機找10家超商）。",
     "formula_used": [
       "配對t df = n-1 = 9 → n=10"
-    ]
+    ],
+    "primary_concept": "t檢定"
   },
   {
     "id": "NCKU-108-13",
@@ -5506,7 +5673,8 @@
     ],
     "key_concepts": "每人只接受一種條件→受試者間設計；受試者內設計需要每人接受多種條件",
     "ai_hint": "B錯：每位學生只參加一個時段+一種類型，是純受試者間設計。要分離受試者內變異，需要每人接受多種實驗條件（重複量數）。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCKU-108-14",
@@ -5540,7 +5708,8 @@
     "formula_used": [
       "卡方適合度 df = k-1 = 2-1 = 1",
       "但若N=100，df=N-1=99？需確認是哪種df"
-    ]
+    ],
+    "primary_concept": "卡方檢定"
   },
   {
     "id": "NCKU-108-15",
@@ -5575,7 +5744,8 @@
       "簡單迴歸df_model=1（一個預測變項）",
       "標準化迴歸：β=r（斜率=相關係數），截距=0",
       "r不受單一變項標準化影響"
-    ]
+    ],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NCKU-108-16",
@@ -5606,7 +5776,8 @@
     ],
     "key_concepts": "每人只在一個組→受試者間；要分離受試者內變異需要重複量數設計",
     "ai_hint": "D錯：課後複習是受試者間因子（每個學生只屬於一種複習狀態）。要分離受試者內變異，需要同一個人接受不同條件（重複量數）。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCKU-108-17",
@@ -5638,7 +5809,8 @@
     ],
     "key_concepts": "Kruskal-Wallis：獨立多組；Friedman：重複量數/配對；Wilcoxon signed-rank：配對兩組",
     "ai_hint": "C錯：Kruskal-Wallis是用於獨立多組的無母數檢定（ANOVA的無母數版），不適合配對（前後測）設計。前後測配對應用Wilcoxon符號等級、Sign test或Friedman。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "無母數"
   },
   {
     "id": "NCKU-108-18",
@@ -5669,7 +5841,8 @@
     ],
     "key_concepts": "受試者間vs內取決於研究設計；通常每組不同動物→受試者間；同一動物接受多種劑量→受試者內",
     "ai_hint": "B有問題：題目說「施打劑量」但沒說同一隻老鼠施打多次。通常癌症研究中不同組施打不同劑量（受試者間），說受試者內是錯的。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCKU-108-19",
@@ -5707,7 +5880,8 @@
       "4位教師各10位學生，N=40",
       "df_total = N-1 = 39",
       "但若考慮巢狀結構，整體df應從N計算"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "SCU-109-01",
@@ -5715,7 +5889,7 @@
     "year": 109,
     "type": "單選題",
     "question": "下列何者屬間斷變項（discrete variable）？(1)身高 (2)家中人數 (3)考試成績 (4)收入",
-    "answer": "B",
+    "answer": "2",
     "options": [
       "(1)身高",
       "(2)家中人數",
@@ -5736,7 +5910,8 @@
     ],
     "key_concepts": "間斷變項：可數（countable），如人數、次數；連續變項：可測量，如身高、體重",
     "ai_hint": "判斷關鍵：能不能在兩個值之間取到更多值？家中人數不行（沒有2.5人），所以是間斷。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "描述統計"
   },
   {
     "id": "SCU-109-02",
@@ -5744,7 +5919,7 @@
     "year": 109,
     "type": "單選題",
     "question": "「某調查蒐集當地300位65歲以上老人之血壓資料，用以推知該地區所有65歲以上老年人的血壓值」。下列何者為對？(1)母群是指300位老人 (2)樣本是指該地區所有老年人 (3)上述調查指出樣本採隨機抽樣 (4)以上皆非",
-    "answer": "D",
+    "answer": "4",
     "options": [
       "(1)母群是指300位老人",
       "(2)樣本是指該地區所有老年人",
@@ -5767,7 +5942,8 @@
     ],
     "key_concepts": "母群=研究對象全體；樣本=從母群中選取的子集；不能假設抽樣方式",
     "ai_hint": "常見混淆：母群 vs 樣本。母群是你想推論的那個大群體（所有老年人），樣本是你手上的資料（300人）。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "抽樣與設計"
   },
   {
     "id": "SCU-109-03",
@@ -5799,7 +5975,8 @@
     ],
     "key_concepts": "比率量尺需有絕對零點（如體重、身高）；考試分數和態度量表無絕對零點→等距/次序量尺",
     "ai_hint": "比率量尺的關鍵：有真正的「零」（代表完全沒有）。體重0kg=真的沒有體重✓；考試0分≠真的什麼都不懂（量尺任意設定）。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "描述統計"
   },
   {
     "id": "SCU-109-04",
@@ -5807,7 +5984,7 @@
     "year": 109,
     "type": "單選題",
     "question": "下列對於偏態之敘述，何者為對？(1)圖一（右尾長）屬典型正偏態 (2)圖二（左偏直方圖）屬典型正偏態 (3)負偏態之平均數>中位數>眾數 (4)當測驗分數集中在低分的一端為正偏態",
-    "answer": "D",
+    "answer": "4",
     "options": [
       "(1)圖一屬正偏態",
       "(2)圖二屬正偏態",
@@ -5830,7 +6007,8 @@
     ],
     "key_concepts": "正偏態（右偏）：右尾長，眾數<中位數<平均數；負偏態（左偏）：左尾長，平均數<中位數<眾數",
     "ai_hint": "記憶口訣：正偏→右尾長→平均數被右尾拉高→平均>中位>眾數。集中在低分端→大多數低分→右尾長→正偏態。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "資料視覺化"
   },
   {
     "id": "SCU-109-05",
@@ -5838,7 +6016,7 @@
     "year": 109,
     "type": "單選題",
     "question": "10位員工壓力指數：10, 8, 7, 7, 10, 11, 7, 8, 2, 7。請問平均數是？(1)8 (2)5 (3)7.7 (4)6.4",
-    "answer": "C",
+    "answer": "3",
     "options": [
       "(1)8",
       "(2)5",
@@ -5861,7 +6039,8 @@
     "ai_hint": "逐一加總：10+8=18，+7=25，+7=32，+10=42，+11=53，+7=60，+8=68，+2=70，+7=77。77÷10=7.7。",
     "formula_used": [
       "x̄ = ΣX/N"
-    ]
+    ],
+    "primary_concept": "描述統計"
   },
   {
     "id": "SCU-109-06",
@@ -5869,7 +6048,7 @@
     "year": 109,
     "type": "單選題",
     "question": "承第5題，請問該資料之(ΣX)²為？(1)4929 (2)5929 (3)657 (4)645",
-    "answer": "B",
+    "answer": "2",
     "options": [
       "(1)4929",
       "(2)5929",
@@ -5892,7 +6071,8 @@
     "ai_hint": "(ΣX)² = (77)² = 5929。常見混淆：ΣX²=10²+8²+7²+...（先平方後加）≠(ΣX)²（先加後平方）。",
     "formula_used": [
       "(ΣX)² = (77)² = 5929"
-    ]
+    ],
+    "primary_concept": "描述統計"
   },
   {
     "id": "SCU-109-07",
@@ -5900,7 +6080,7 @@
     "year": 109,
     "type": "單選題",
     "question": "承第5題，請問該資料之眾數是？(1)8 (2)5 (3)7 (4)7.7",
-    "answer": "C",
+    "answer": "3",
     "options": [
       "(1)8",
       "(2)5",
@@ -5921,7 +6101,8 @@
     ],
     "key_concepts": "眾數=出現次數最多的值；可有多個眾數",
     "ai_hint": "數7出現了四次（位置3,4,7,10），是最多的，所以眾數=7。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "描述統計"
   },
   {
     "id": "SCU-109-08",
@@ -5929,7 +6110,7 @@
     "year": 109,
     "type": "單選題",
     "question": "承第5題，請問該資料之全距是？(1)8 (2)9 (3)7 (4)6",
-    "answer": "B",
+    "answer": "2",
     "options": [
       "(1)8",
       "(2)9",
@@ -5952,7 +6133,8 @@
     "ai_hint": "全距=11-2=9。全距是最粗糙的離散指標，因為只用到兩個數值。",
     "formula_used": [
       "全距 = 最大值 - 最小值"
-    ]
+    ],
+    "primary_concept": "描述統計"
   },
   {
     "id": "SCU-109-09",
@@ -5960,7 +6142,7 @@
     "year": 109,
     "type": "單選題",
     "question": "當數列(5,4,2,3,4,9,5)每個數值各加10之後，下列敘述何者為對？(1)平均數不變 (2)標準差不變 (3)平均數=5.57 (4)標準差=2.54",
-    "answer": "B",
+    "answer": "2",
     "options": [
       "(1)平均數不變",
       "(2)標準差不變",
@@ -5990,7 +6172,8 @@
       "加常數c：新平均=舊平均+c；新SD=舊SD（不變）",
       "原平均=(5+4+2+3+4+9+5)/7=32/7≈4.57",
       "新平均=4.57+10=14.57"
-    ]
+    ],
+    "primary_concept": "描述統計"
   },
   {
     "id": "SCU-109-10",
@@ -5998,7 +6181,7 @@
     "year": 109,
     "type": "單選題",
     "question": "下列對於常態分配的敘述，何者為對？(1)平均數±1SD之間的人數佔68.26% (2)平均數±3SD之間佔95.44% (3)標準化平均數=1 (4)平均數±3SD之外的人約佔3%",
-    "answer": "A",
+    "answer": "1",
     "options": [
       "(1)±1SD佔68.26%",
       "(2)±3SD佔95.44%",
@@ -6024,7 +6207,8 @@
       "μ±1σ：68.26%",
       "μ±2σ：95.44%",
       "μ±3σ：99.74%（外側0.26%≈0.3%）"
-    ]
+    ],
+    "primary_concept": "機率分配"
   },
   {
     "id": "SCU-109-11",
@@ -6032,7 +6216,7 @@
     "year": 109,
     "type": "單選題",
     "question": "教師測量30名學生平均智商=115，想檢定本校兩千名學生平均智商是否為115。下列敘述何者為對？(1)H0：平均智商>115 (2)H1：平均智商=115 (3)母群為兩千名學生之平均智商 (4)母群之智商不是常態分配",
-    "answer": "C",
+    "answer": "3",
     "options": [
       "(1)H0:μ>115",
       "(2)H1:μ=115",
@@ -6055,7 +6239,8 @@
     ],
     "key_concepts": "母群=研究想推論的整體；H0通常含等號；H1是研究假設（不等、大於或小於）",
     "ai_hint": "母群是你想推論的那群人：題目想知道「兩千名學生的智商是否為115」→母群就是這兩千名學生。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "t檢定"
   },
   {
     "id": "SCU-109-12",
@@ -6063,7 +6248,7 @@
     "year": 109,
     "type": "單選題",
     "question": "下列敘述何者為對？(1)拒絕H0，H0為真時，犯了第一類型錯誤 (2)Power是指正確接受H1的概率 (3)第二類型錯誤為α (4)當H0為假，正確拒絕時power=1-α",
-    "answer": "A",
+    "answer": "1",
     "options": [
       "(1)拒絕H0且H0真→Type I error",
       "(2)Power=正確接受H1",
@@ -6087,7 +6272,8 @@
     ],
     "key_concepts": "α=Type I error（錯誤拒絕H0）；β=Type II error（錯誤保留H0）；Power=1-β",
     "ai_hint": "只有(1)正確。常見混淆：Power=1-β（不是1-α）；Type II error=β（不是α）。統計學不說「接受H1」，只說「拒絕H0」。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "假設檢定"
   },
   {
     "id": "SCU-109-13",
@@ -6095,7 +6281,7 @@
     "year": 109,
     "type": "單選題",
     "question": "15名受試者參加戒菸計畫，記錄前後測每週抽菸量。應使用哪種統計方法？(1)獨立樣本t (2)相依樣本t (3)卡方適合度檢定 (4)單一樣本t",
-    "answer": "B",
+    "answer": "2",
     "options": [
       "(1)獨立樣本t",
       "(2)相依樣本t",
@@ -6120,7 +6306,8 @@
     "ai_hint": "前後測設計：同一人測兩次→相依樣本t。df=n-1=14（n=15個配對）。",
     "formula_used": [
       "配對t：t = D̄/(sD/√n)，df=n-1=14"
-    ]
+    ],
+    "primary_concept": "卡方檢定"
   },
   {
     "id": "SCU-109-14",
@@ -6128,7 +6315,7 @@
     "year": 109,
     "type": "單選題",
     "question": "承第13題，檢驗戒菸計畫是否能降低每週抽菸數量，正確的統計假設為？(1)H0:μ後≥μ前 (2)H1:μ後≤μ前 (3)H0:μ後=μ前 (4)H1:μ後>μ前",
-    "answer": "C",
+    "answer": "3",
     "options": [
       "(1)H0:μ後≥μ前",
       "(2)H1:μ後≤μ前",
@@ -6154,7 +6341,8 @@
     ],
     "key_concepts": "H0通常用等號；H1的方向要和研究目的一致（降低→μ後<μ前）",
     "ai_hint": "想驗證「降低」→H1:μ後<μ前；H0:μ後=μ前。(4)方向反了（>應為<）。(3)最標準。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "t檢定"
   },
   {
     "id": "SCU-109-15",
@@ -6162,7 +6350,7 @@
     "year": 109,
     "type": "單選題",
     "question": "SPSS成對樣本檢定：前測-後測，平均差=2.40，SD=3.52，SE=.91，95%CI=[.45,4.35]，t=2.64，df=14，顯著性(雙尾)=.019。關於結果之敘述何者為對？(1)α<.05 (2)α<.01 (3)後測抽菸量並未小於前測 (4)應該接受H0",
-    "answer": "A",
+    "answer": "1",
     "options": [
       "(1)達α<.05顯著",
       "(2)達α<.01顯著",
@@ -6186,7 +6374,8 @@
     ],
     "key_concepts": "p=.019<.05達顯著；前測-後測=2.4>0→前測較高→後測較低（戒菸效果存在）",
     "ai_hint": "p=0.019<0.05→顯著；前測-後測=+2.4→前測平均比後測高2.4根，表示後測確實減少。CI=[.45,4.35]不含0，也支持顯著。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "t檢定"
   },
   {
     "id": "SCU-109-16",
@@ -6194,7 +6383,7 @@
     "year": 109,
     "type": "單選題",
     "question": "下列關於相關係數r的敘述，何者為非？(1)-1≤r≤1 (2)當X愈低Y也愈低，可說XY有正相關 (3)當XY有顯著相關時，可用X預測Y (4)散點圖為正相關",
-    "answer": "D",
+    "answer": "4",
     "options": [
       "(1)-1≤r≤1",
       "(2)X低Y低→正相關",
@@ -6218,7 +6407,8 @@
     ],
     "key_concepts": "正相關：X↑Y↑或X↓Y↓；負相關：X↑Y↓或X↓Y↑；r範圍[-1,1]",
     "ai_hint": "依題目圖示，散點圖應顯示負相關（左上到右下），說它是正相關是錯的。(2)正確：X低Y也低=同方向=正相關。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "SCU-109-17",
@@ -6226,7 +6416,7 @@
     "year": 109,
     "type": "單選題",
     "question": "關於ANOVA，下列敘述何者為非？(1)可用來考驗兩組平均數差異 (2)組別>3時若F顯著需透過事後比較 (3)多因子ANOVA目的在考驗每個自變項的主要效果 (4)兩組比較時F=t²",
-    "answer": "C",
+    "answer": "3",
     "options": [
       "(1)可用於兩組比較",
       "(2)F顯著後需事後比較",
@@ -6250,7 +6440,8 @@
     ],
     "key_concepts": "多因子ANOVA考驗：(1)A主要效果 (2)B主要效果 (3)A×B交互作用；交互作用是多因子設計的核心",
     "ai_hint": "(3)是錯的。多因子ANOVA最重要的是檢驗「交互作用」，不只是主要效果。有交互作用時，主要效果的解讀需要謹慎。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "SCU-109-18",
@@ -6258,7 +6449,7 @@
     "year": 109,
     "type": "單選題",
     "question": "ANOVA表：群組之間SS=.14, df=2, MS=.070；在群組內SS=172.35, df=404, MS=.427。F值應為多少？(1)0.16 (2)6.1 (3)0.04 (4)0.75",
-    "answer": "A",
+    "answer": "1",
     "options": [
       "(1)0.16",
       "(2)6.1",
@@ -6280,7 +6471,8 @@
     "ai_hint": "F=MS組間/MS組內=0.070/0.427≈0.16。F<1幾乎不可能顯著（組間變異小於組內隨機誤差）。",
     "formula_used": [
       "F = MS_between / MS_within = .070 / .427"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "SCU-109-19",
@@ -6288,7 +6480,7 @@
     "year": 109,
     "type": "單選題",
     "question": "承上題，請問F值之顯著性為何？(1)達α<.01 (2)達α<.05 (3)以上皆是 (4)以上皆非",
-    "answer": "D",
+    "answer": "4",
     "options": [
       "(1)達α<.01",
       "(2)達α<.05",
@@ -6313,7 +6505,8 @@
     ],
     "key_concepts": "p=.849遠大於.05和.01，完全不顯著；F<1時p必然>0.5",
     "ai_hint": "p=.849>>0.05，完全未達顯著。ANOVA表已給出顯著性=.849，直接判斷即可。F=0.16<1，組間變異比隨機誤差還小。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "機率分配"
   },
   {
     "id": "SCU-109-20",
@@ -6321,7 +6514,7 @@
     "year": 109,
     "type": "單選題",
     "question": "從互動效果圖（減肥知識低→高，男性效果斜率較大，女性效果斜率較小）解釋，何者為對？(1)減肥行為為獨變項 (2)兩者無交互作用 (3)女性效果比男性強 (4)男性效果比女性強",
-    "answer": "D",
+    "answer": "4",
     "options": [
       "(1)減肥行為為獨變項",
       "(2)無交互作用",
@@ -6343,7 +6536,8 @@
     ],
     "key_concepts": "交互效果圖：兩線不平行→有交互作用；斜率較大的那條線對應的組別，該因子效果較強",
     "ai_hint": "看交互作用圖：兩線不平行→有交互作用。男性線斜率更陡→隨著減肥知識提高，男性減肥行為增加更多→男性效果更強。答(4)。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "SCU-111-01",
@@ -6368,7 +6562,8 @@
     ],
     "key_concepts": "內效度↔隨機分派（控制混淆）；外效度↔隨機抽樣（代表性）",
     "ai_hint": "內效度：能確定效果是由實驗操弄造成的→靠隨機分派排除混淆變項。外效度：能推論到更廣的母群→靠隨機抽樣確保代表性。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "抽樣與設計"
   },
   {
     "id": "SCU-111-02",
@@ -6393,7 +6588,8 @@
     ],
     "key_concepts": "四種機率抽樣：簡單隨機（每人等機率）、分層（按比例）、聚落（抽群體）、系統（等間距）",
     "ai_hint": "系統抽樣關鍵：k=N/n（抽樣間距），從1到k隨機選起點，之後每隔k個抽一個。聚落抽樣：先抽群體（行政區），再普查群體內所有人。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "抽樣與設計"
   },
   {
     "id": "SCU-111-03",
@@ -6417,7 +6613,8 @@
     ],
     "key_concepts": "相關選擇依據：兩連續→Pearson；一二分一連續→點雙列；兩二分→phi",
     "ai_hint": "記憶方式：都是連續→Pearson；一個是二元→點雙列；兩個都是二元→phi（φ）。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "相關"
   },
   {
     "id": "SCU-111-04",
@@ -6444,7 +6641,8 @@
     ],
     "key_concepts": "長條圖：類別比較；直方圖：連續次數分配；折線圖：時間趨勢；散佈圖：兩變數關係",
     "ai_hint": "(13)成績是連續資料→直方圖（not 長條圖）。(14)時間趨勢→折線圖。(15)交互作用圖通常也是折線圖，但依題目選項選散佈圖。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "資料視覺化"
   },
   {
     "id": "SCU-111-05",
@@ -6468,7 +6666,8 @@
     ],
     "key_concepts": "p<α→拒絕H0；p≥α→未拒絕H0",
     "ai_hint": "p=0.03<α=0.05，所以拒絕虛無假設（r）。記住：p值越小，越有證據反對H0。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "假設檢定"
   },
   {
     "id": "SCU-111-06",
@@ -6494,7 +6693,8 @@
     ],
     "key_concepts": "α↓：Type I error↓，Type II error(β)↑，Power(1-β)↓；兩種錯誤是此消彼長的關係",
     "ai_hint": "降低α=更保守=更難拒絕H0=Type I error減少，但同時Type II error增加（更容易漏掉真實效果）。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "假設檢定"
   },
   {
     "id": "SCU-111-07",
@@ -6529,7 +6729,8 @@
       "MSB = SSB/df_B",
       "MSW = SSW/df_W",
       "F = MSB/MSW"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "SCU-111-08",
@@ -6562,7 +6763,8 @@
       "df_AB = (a-1)(b-1) = 2",
       "df_Error = ab(n-1) = 2×3×11 = 66",
       "df_Total = abn-1 = 72-1 = 71"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "SCU-111-09",
@@ -6591,7 +6793,8 @@
     ],
     "key_concepts": "交互效果圖：兩線交叉→交互作用顯著，A的影響方向隨B改變",
     "ai_hint": "兩線交叉=顯著交互作用，表示A的效果在不同B水準下方向相反。主要效果看邊際平均（各水準的平均）。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "SCU-112-01",
@@ -6616,7 +6819,8 @@
     "ai_hint": "獨立事件：P(A且B)=P(A)×P(B)=0.5×0.6=0.30。若不獨立，需用條件機率：P(A∩B)=P(A)×P(B|A)。",
     "formula_used": [
       "P(A∩B) = P(A)×P(B)（獨立事件）"
-    ]
+    ],
+    "primary_concept": "條件機率與貝氏"
   },
   {
     "id": "SCU-112-02",
@@ -6637,7 +6841,8 @@
     ],
     "key_concepts": "CLT：不論母群分配形狀，n夠大時x̄的分配趨近N(μ, σ²/n)",
     "ai_hint": "直接填「中央極限定理（Central Limit Theorem）」。這是心統最重要的定理之一。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "中央極限定理"
   },
   {
     "id": "SCU-112-03",
@@ -6667,7 +6872,8 @@
       "x̄ ~ N(μ, σ²/n)",
       "E(x̄) = μ = 60",
       "SE = σ/√n = 10/√4 = 5"
-    ]
+    ],
+    "primary_concept": "機率分配"
   },
   {
     "id": "SCU-112-04",
@@ -6695,7 +6901,8 @@
       "α = P(拒絕H0|H0真) = Type I error",
       "β = P(不拒絕H0|H1真) = Type II error",
       "Power = 1-β = P(拒絕H0|H1真)"
-    ]
+    ],
+    "primary_concept": "假設檢定"
   },
   {
     "id": "SCU-112-05",
@@ -6724,7 +6931,8 @@
       "F = t² = 3.2² = 10.24",
       "df1（分子）= 1（兩組比較）",
       "df2（分母）= df_t = 18"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "SCU-112-06",
@@ -6747,7 +6955,8 @@
     ],
     "key_concepts": "有交互作用→解讀主要效果需謹慎，改看simple main effect；無交互作用→直接看main effect",
     "ai_hint": "交互作用顯著→不能直接解讀主要效果（因為效果隨另一因子改變）→需做simple main effect（固定一個因子，看另一個）。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "SCU-112-07",
@@ -6773,7 +6982,8 @@
     ],
     "key_concepts": "r=0只代表無線性相關；獨立→r=0，但r=0不一定獨立（可能有非線性關係）",
     "ai_hint": "最好的反例：X∈[-1,1]，Y=X²。r(X,Y)=0，但Y完全由X決定（X越大或越小，Y越大）。這顯示r=0不代表獨立。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "相關"
   },
   {
     "id": "SCU-112-08",
@@ -6798,7 +7008,8 @@
     "ai_hint": "OLS是最常用的迴歸係數估計方法，原理是最小化預測值與觀測值之差的平方和（殘差平方和）。",
     "formula_used": [
       "OLS：minimize Σ(Yi - Ŷi)²"
-    ]
+    ],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "SCU-112-09",
@@ -6825,7 +7036,8 @@
     "formula_used": [
       "假設：殘差變異數齊一（homoscedasticity）",
       "b0 = Ȳ - b1×X̄ = 6 - 2×2.1 = 6-4.2 = 1.8"
-    ]
+    ],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "SCU-112-10",
@@ -6863,7 +7075,8 @@
       "E(Y)=3E(X)+1；Var(Y)=9Var(X)；SD(Y)=3SD(X)",
       "中位數、眾數、Q3、全距也按線性轉換",
       "CV=SD/Mean×100%"
-    ]
+    ],
+    "primary_concept": "描述統計"
   },
   {
     "id": "SCU-112-11",
@@ -6892,7 +7105,8 @@
     "formula_used": [
       "P(近視) = P(近視|國一)P(國一) + P(近視|國二)P(國二) + P(近視|國三)P(國三)",
       "P(國二|近視) = P(近視|國二)P(國二) / P(近視)"
-    ]
+    ],
+    "primary_concept": "條件機率與貝氏"
   },
   {
     "id": "SCU-112-12",
@@ -6923,7 +7137,8 @@
       "D = 後-前",
       "t = D̄/(sD/√n)",
       "df = n-1 = 4"
-    ]
+    ],
+    "primary_concept": "t檢定"
   },
   {
     "id": "SCU-112-13",
@@ -6956,7 +7171,8 @@
       "χ² = Σ(O-E)²/E",
       "E_ij = (行和×列和)/N",
       "df = (r-1)(c-1) = 1×2 = 2"
-    ]
+    ],
+    "primary_concept": "卡方檢定"
   },
   {
     "id": "SCU-112-14",
@@ -6985,7 +7201,8 @@
       "Ŷ = b0 + b1X = 4.18 + 0.97X",
       "R² = 0.7388",
       "p=.006 < .01 → 達α=.01顯著"
-    ]
+    ],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "SCU-112-15",
@@ -7023,7 +7240,8 @@
       "SSB = Σnj(x̄j-x̄)²",
       "SSW = SST-SSB",
       "η² = SSB/SST"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "SCU-113-01",
@@ -7055,7 +7273,8 @@
     ],
     "key_concepts": "球員背號是名義量尺（只是識別符號）；生活滿意度問卷通常是等距量尺（無絕對零點）",
     "ai_hint": "常見陷阱：(2)球員背號看起來像數字，但只是識別碼→名義量尺；(4)生活滿意度問卷無真正的「0」→等距，非比率。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "描述統計"
   },
   {
     "id": "SCU-113-02",
@@ -7089,7 +7308,8 @@
     ],
     "key_concepts": "10個資料的中位數=第5、6個值的平均；偶數個資料中位數取中間兩值之平均",
     "ai_hint": "中位數：n=10，中位數=(第5+第6)÷2=(4+5)÷2=4.5，不是5。答B（B是錯誤的陳述）。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "描述統計"
   },
   {
     "id": "SCU-113-03",
@@ -7119,7 +7339,8 @@
     ],
     "key_concepts": "莖葉圖獨特優勢：保留原始資料（每個葉就是個別數值），同時呈現分配形狀",
     "ai_hint": "莖葉圖=直方圖+原始數據。莖代表十位數，葉代表個位數，你可以從莖葉圖讀出每個原始值。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "資料視覺化"
   },
   {
     "id": "SCU-113-06",
@@ -7150,7 +7371,8 @@
     ],
     "key_concepts": "標準化後：平均=0，SD=1（不是平均=1）；z分數=(X-μ)/σ",
     "ai_hint": "C明顯錯誤：標準化後平均值=0，SD=1。不是平均=1。這是基本概念，不要記成1。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "機率分配"
   },
   {
     "id": "SCU-113-07",
@@ -7181,7 +7403,8 @@
     ],
     "key_concepts": "Power=正確拒絕H0；Type I=α=錯誤拒絕H0；Type II=β=錯誤保留H0",
     "ai_hint": "A正確。B錯：錯誤拒絕H0=α（不是1-α）。C錯：α太小會增加Type II error。D錯：錯誤接受H0是Type II error，不是Type I。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "假設檢定"
   },
   {
     "id": "SCU-113-11",
@@ -7218,7 +7441,8 @@
       "P(X=k) = C(n,k)×p^k×(1-p)^(n-k)",
       "p(反面)=0.4，n=3",
       "P(X≥2) = P(X=2) + P(X=3)"
-    ]
+    ],
+    "primary_concept": "機率分配"
   },
   {
     "id": "SCU-113-填空1",
@@ -7250,7 +7474,8 @@
       "Ŷ = b0 + b1X = 65.26 + 0.89X",
       "R² = SS_reg/SS_total = 196.14/346.48 ≈ 0.566",
       "平減後截距 = 原截距 + b1×X̄ = 65.26 + 0.89×5.5 = 70.15"
-    ]
+    ],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "SCU-114-01",
@@ -7294,7 +7519,8 @@
       "df_total = an-1 = 14 → an=15 → n=5（受試者數）",
       "df_Error = (a-1)(n-1) = 2×4 = 8",
       "MSA = SSA/2，MSE = SSE/8，FA = MSA/MSE"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "SCU-114-02",
@@ -7332,7 +7558,8 @@
       "df_A=a-1=1，df_B=b-1=2，df_AB=(a-1)(b-1)=2",
       "df_Error=ab(n-1)=6×9=54",
       "MSA=SSA/1，MSB=SSB/2，MSAB=SSAB/2，FA=MSA/MSE，FB=MSB/MSE，FAB=MSAB/MSE"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "SCU-114-03",
@@ -7359,7 +7586,8 @@
     ],
     "key_concepts": "調節效果：若B的效果隨A而改變，A是調節因子；若A效果隨B改變，B是調節因子",
     "ai_hint": "主效果看邊際平均（某因子所有水準的平均）；交互作用看A的效果是否隨B水準而改變。若B對DV影響的方向在不同A水準下相同→無序數交互作用（ordinal interaction）。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "SCU-114-04",
@@ -7392,7 +7620,8 @@
     ],
     "key_concepts": "統計方法選擇：依據DV類型、IV數量、受試者設計（間/內）選擇",
     "ai_hint": "選擇統計方法的步驟：(1)DV是連續還是類別？(2)幾個IV？(3)受試者間還是內？連續DV+一個IV+兩組→t；連續DV+一個IV+三組→one-way ANOVA；類別DV→卡方。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "SCU-114-05",
@@ -7424,7 +7653,8 @@
     ],
     "key_concepts": "抽樣方法：系統（等間距）、分層（按比例）、聚落（先抽群體）、多階段（層層抽）、便利（易接觸）",
     "ai_hint": "分層抽樣=依特徵分組後各組分別抽；多階段=層層往下抽（區→校→班→人）；系統=固定間距；便利=抽手邊容易取得的。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "抽樣與設計"
   },
   {
     "id": "NCCU-108-01",
@@ -7453,7 +7683,8 @@
     ],
     "key_concepts": "集中趨勢：平均數、中位數、眾數；離散趨勢：變異數、標準差、全距",
     "ai_hint": "變異數衡量資料的分散程度（離均差平方和），不是中心位置。這是最基本的區分。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "描述統計"
   },
   {
     "id": "NCCU-108-02",
@@ -7487,7 +7718,8 @@
     "formula_used": [
       "z~N(0,1)，Var=1",
       "t(k)~t分配，Var=k/(k-2)>1（k>2）"
-    ]
+    ],
+    "primary_concept": "機率分配"
   },
   {
     "id": "NCCU-108-03",
@@ -7520,7 +7752,8 @@
     "formula_used": [
       "z = (X-M)/S",
       "P(Z < z) = 百分等級"
-    ]
+    ],
+    "primary_concept": "機率分配"
   },
   {
     "id": "NCCU-108-04",
@@ -7554,7 +7787,8 @@
     "formula_used": [
       "Power = 1-β",
       "α↑ → 拒絕域變大 → β↓"
-    ]
+    ],
+    "primary_concept": "假設檢定"
   },
   {
     "id": "NCCU-108-05",
@@ -7585,7 +7819,8 @@
     "formula_used": [
       "r = Cov(X,Y)/(σx·σy)",
       "Cov(X,Y) = r·σx·σy"
-    ]
+    ],
+    "primary_concept": "相關"
   },
   {
     "id": "NCCU-108-06",
@@ -7619,7 +7854,8 @@
     "formula_used": [
       "SE(b₁) = √[MSe/SSx] = √[Σ(y-ŷ)²/(N-2)] / √[Σ(x-x̄)²]",
       "SEE = √[Σ(y-ŷ)²/(N-2)]（估計標準誤）"
-    ]
+    ],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NCCU-108-07",
@@ -7651,7 +7887,8 @@
     "ai_hint": "記住：SE=σ/√n。因為n≥1，所以√n≥1，SE=σ/√n≤σ。樣本均值的變異比個別觀測值小，因為平均化會減少極端值的影響。",
     "formula_used": [
       "SE = σ/√n < σ（當n>1）"
-    ]
+    ],
+    "primary_concept": "中央極限定理"
   },
   {
     "id": "NCCU-108-08",
@@ -7691,7 +7928,8 @@
       "標準化迴歸β=r（簡單迴歸）",
       "R²=r²",
       "若b₁=0.8且X和Y已標準化，則r=0.8，R²=0.64"
-    ]
+    ],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NCCU-108-09",
@@ -7729,7 +7967,8 @@
       "男性(s=0)：w=b₀+b₁h",
       "女性(s=1)：w=(b₀+b₂)+(b₁+b₃)h",
       "b₃=交互作用係數=男女身高效果差異"
-    ]
+    ],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NCCU-108-10",
@@ -7760,7 +7999,8 @@
     ],
     "key_concepts": "p值≠效果量；比較效果強度需要效果量指標（Cohen's d, η²等），僅憑p值無法比較兩研究的效果大小",
     "ai_hint": "重要概念！p值受樣本數影響。小樣本大效果 vs 大樣本小效果都可能得到相同p值。要比較兩個研究的效果大小，需要效果量，不是p值。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "假設檢定"
   },
   {
     "id": "NCCU-108-11",
@@ -7792,7 +8032,8 @@
     "ai_hint": "關鍵詞：「針對每一位」→單次觀察→Bernoulli。如果問「100位中有多少男性」→Binomial(100,p)。",
     "formula_used": [
       "Bernoulli(p)：單次試驗，結果為0或1"
-    ]
+    ],
+    "primary_concept": "條件機率與貝氏"
   },
   {
     "id": "NCCU-108-12",
@@ -7823,7 +8064,8 @@
     ],
     "key_concepts": "Power三大影響：效果量↑→Power↑；n↑→Power↑；α↑→Power↑；慣例要求Power≥0.80",
     "ai_hint": "Power的慣例標準是0.80（80%），這是Cohen提出的。記住：效果量大、樣本多、α放寬都可以提高Power。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "假設檢定"
   },
   {
     "id": "NCCU-108-13",
@@ -7864,7 +8106,8 @@
       "SSB=MSB×df_B；F=MSB/MSe=2→MSB=7→SSB=14",
       "SST=SSB+SSW=14+42=56",
       "η²=SSB/SST=14/56=0.25"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCCU-108-14",
@@ -7896,7 +8139,8 @@
     ],
     "key_concepts": "多重比較需控制家族型一錯誤率；事前比較（planned comparison）比事後比較更有效率；直接多次t檢定不調整α不建議",
     "ai_hint": "做多次t檢定時Type I error率會膨脹。以事前比較或Bonferroni調整才適當。C的問題是直接用t檢定而沒有整體性地控制錯誤率。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCCU-108-15",
@@ -7929,7 +8173,8 @@
     ],
     "key_concepts": "指數分配（右偏）→取log→趨近常態；log轉換是處理右偏資料最常用的方法",
     "ai_hint": "指數分配是右偏的，反應時間資料常見此問題。Log轉換可以「壓縮」右尾，使分配更對稱。記住：right skew→log transformation。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "機率分配"
   },
   {
     "id": "NCCU-108-16",
@@ -7961,7 +8206,8 @@
     ],
     "key_concepts": "兩次序變項→Spearman's ρ；兩連續→Pearson r；兩類別→phi/Cramer's V；卡方是檢定非相關指標",
     "ai_hint": "次序資料→Spearman（用排名計算）。Kendall's τ也適用但選項沒有。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "卡方檢定"
   },
   {
     "id": "NCCU-108-17",
@@ -7999,7 +8245,8 @@
       "df_A=a-1=2→a=3水準",
       "df_Error=(a-1)(n-1)=2(n-1)=12→n-1=6→n=7",
       "等等，若df_error=(a-1)(n-1)=12，a=3→(3-1)(n-1)=12→n-1=6→n=7"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCCU-108-18",
@@ -8039,7 +8286,8 @@
       "年齡：受試者間因子（年輕vs老年）",
       "交互作用A×B df=(a-1)(b-1)=(4-1)(2-1)=3 ✓",
       "交互作用誤差df=21"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCCU-108-19",
@@ -8073,7 +8321,8 @@
     "ai_hint": "這是卡方分配的重要應用：單一樣本的變異數檢定。(n-1)s²/σ²服從χ²(n-1)。F檢定是比較兩組變異數（s₁²vs s₂²）用的。",
     "formula_used": [
       "χ² = (n-1)s²/σ² ~ χ²(n-1)"
-    ]
+    ],
+    "primary_concept": "卡方檢定"
   },
   {
     "id": "NCCU-108-20",
@@ -8107,7 +8356,8 @@
     "formula_used": [
       "n ≥ (z_{α/2})²·p(1-p)/E²",
       "保守估計p=0.5：n ≥ (1.96)²·0.25/(0.02)² = 3.8416·0.25/0.0004 = 2401"
-    ]
+    ],
+    "primary_concept": "樣本數估計"
   },
   {
     "id": "NCCU-108-21",
@@ -8152,7 +8402,8 @@
       "X~Uniform(0,100): E(X)=50, Var(X)=100²/12≈833",
       "Z=X+Y: E(Z)=E(X)+E(Y)=50+50=100",
       "等等，Z=X+Y的均值=100，不是50"
-    ]
+    ],
+    "primary_concept": "中央極限定理"
   },
   {
     "id": "NCCU-108-22",
@@ -8184,7 +8435,8 @@
     "formula_used": [
       "超幾何分配：不放回抽樣，有限母群",
       "二項分配：放回抽樣（或無限母群）"
-    ]
+    ],
+    "primary_concept": "機率分配"
   },
   {
     "id": "NCCU-108-23",
@@ -8214,7 +8466,8 @@
     ],
     "key_concepts": "卡方檢定期望次數要求：E≥5（通常）；若E<5，可用Fisher's Exact Test；不是>10",
     "ai_hint": "A是錯的！卡方檢定要求期望次數（Expected frequency）≥5，不是>10。當E<5時考慮合併類別或用Fisher's exact test。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "卡方檢定"
   },
   {
     "id": "NCCU-108-24",
@@ -8245,7 +8498,8 @@
     ],
     "key_concepts": "效果量：Cohen's d、η²、ω²、r、R²等；F是檢定統計量（受n影響），不是效果量",
     "ai_hint": "F值隨樣本數增大而增大（受n影響），所以不能作為效果量。效果量應該與n無關（或弱相關）。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "效果量"
   },
   {
     "id": "NCCU-108-25",
@@ -8279,7 +8533,8 @@
     "ai_hint": "CV=SD/Mean=10/100=10%（A）；2/20=10%（B）。兩者CV相同，代表相對於均值的離散程度一樣。選B。",
     "formula_used": [
       "CV = SD/Mean × 100%"
-    ]
+    ],
+    "primary_concept": "描述統計"
   },
   {
     "id": "NCCU-109-01",
@@ -8311,7 +8566,8 @@
     ],
     "key_concepts": "選擇vs偏好（名義資料）→比例檢定（z、卡方、Fisher's exact）；不能用t檢定（需連續資料）",
     "ai_hint": "資料是「選A或選B」的名義資料，不是連續數值，所以t檢定不合適。應用比例相關的檢定（z比例檢定、卡方適合度、Fisher's exact）。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "卡方檢定"
   },
   {
     "id": "NCCU-109-02",
@@ -8344,7 +8600,8 @@
     "formula_used": [
       "SEE = sy×√(1-R²) = 10×√(1-0.64) = 10×√0.36 = 10×0.6 = 6",
       "95%預測區間：ŷ ± 1.96×SEE = 100 ± 1.96×6 ≈ 100 ± 11.76 ≈ [88, 112]"
-    ]
+    ],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NCCU-109-03",
@@ -8377,7 +8634,8 @@
       "三類別教養方式→需要2個虛擬變項",
       "迴歸模型：Ŷ=b₀+b₁D₁+b₂D₂",
       "df_residual = N - p - 1 = 100 - 2 - 1 = 97"
-    ]
+    ],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NCCU-109-04",
@@ -8412,7 +8670,8 @@
       "df_A=a-1=2",
       "df_subjects=n-1=29",
       "df_error=(a-1)(n-1)=2×29=58"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCCU-109-05",
@@ -8455,7 +8714,8 @@
       "若假設受試者與實驗操弄無交互作用（即不分開估計每個交互作用），",
       "df_error=(ab-1)(n-1)=(6-1)(29)=5×29=145？",
       "或者是兩個因子都是within，誤差df=(a-1)(b-1)(n-1)+(a-1)(n-1)+(b-1)(n-1)"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCCU-109-06",
@@ -8488,7 +8748,8 @@
     "formula_used": [
       "注意：上下誤差「總範圍」=0.04，半寬E=0.02",
       "n = (1.96)²×0.25/(0.02)² ≈ 2401 → 選2500"
-    ]
+    ],
+    "primary_concept": "樣本數估計"
   },
   {
     "id": "NCCU-109-07",
@@ -8520,7 +8781,8 @@
     "ai_hint": "C正確：r=Cov(X,Y)/(σx·σy)，所以r確實正比於Cov（當σx和σy固定時）。D是常見錯誤：r=0不代表完全無關（可能有U型等非線性關係）。",
     "formula_used": [
       "r = Cov(X,Y)/(σx·σy)"
-    ]
+    ],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NCCU-109-08",
@@ -8546,7 +8808,8 @@
     ],
     "key_concepts": "兩個次序變項→Spearman's ρ",
     "ai_hint": "與108年16題相同。次序→Spearman。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "卡方檢定"
   },
   {
     "id": "NCCU-109-09",
@@ -8577,7 +8840,8 @@
     ],
     "key_concepts": "ANOVA已內建整體α控制；事後比較（post hoc）才需要Bonferroni等調整；F顯著只說明至少一對組別差異",
     "ai_hint": "B錯：進行ANOVA本身就是為了避免多次t檢定的α膨脹，ANOVA的F檢定直接控制整體α=0.05，不需要在進行F檢定前額外下修α。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCCU-109-10",
@@ -8609,7 +8873,8 @@
     ],
     "key_concepts": "Power=f(效果量, n, α)；效果量越大→Power越大；d、η²、r都是效果量",
     "ai_hint": "D明顯錯誤：Power和效果量高度相關！效果量大→兩個分配距離遠→更容易達顯著→Power大。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "相關"
   },
   {
     "id": "NCCU-109-11to15",
@@ -8651,7 +8916,8 @@
       "AB:df=6=(a-1)(b-1)=3×(b-1)→b-1=2→b=3→B有4水準？",
       "AB:df=6=(4-1)(b-1)=3(b-1)=6→b-1=2→b=3",
       "AB/s:df=c，AB/s是A×B×subject的交互誤差"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCCU-109-16",
@@ -8681,7 +8947,8 @@
     ],
     "key_concepts": "t檢定絕對必要假設：常態性；變異數同質是標準t的假設但Welch's t可處理；樣本數和是否等n非必要",
     "ai_hint": "t檢定最核心的假設是常態性（尤其小樣本時）。變異數同質性可通過Welch調整；n不需要相等；n<30是錯誤說法（那是教材常見但不正確的「規則」）。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "t檢定"
   },
   {
     "id": "NCCU-109-17",
@@ -8712,7 +8979,8 @@
     ],
     "key_concepts": "兩組比較的迴歸等價於t檢定；截距=基準組均值，斜率=兩組均值差；不同組的資料不能計算跨組相關",
     "ai_hint": "C是錯的：x₁和x₂是兩個不同組的獨立樣本，不是同一受試者的兩個變項，「兩組的共變數除以各自SD」的運算沒有統計意義。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NCCU-109-18",
@@ -8743,7 +9011,8 @@
     ],
     "key_concepts": "F=[χ²(m)/m]/[χ²(n)/n]；χ²(k)=ΣZᵢ²；F不是Z的加總，是χ²/df的比值",
     "ai_hint": "C錯：F分配是兩個卡方（除以各自df）的比值。卡方是Z²的加總，不是Z的加總。要區分：χ²=ΣZ²（平方和），F=比值。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "卡方檢定"
   },
   {
     "id": "NCCU-109-19to23",
@@ -8776,7 +9045,8 @@
       "Risk ratio = Risk(吸菸)/Risk(不吸菸) = (5/55)/(50/1050) ≈ (1/11)/(1/21) = 21/11",
       "Odds(吸菸者) = P(肺癌|吸菸)/P(無肺癌|吸菸) = 5/50 = 1/10",
       "Odds ratio = Odds(吸菸)/Odds(不吸菸) = (5/50)/(50/1000) = 0.1/0.05 = 2"
-    ]
+    ],
+    "primary_concept": "卡方檢定"
   },
   {
     "id": "NCCU-109-24",
@@ -8801,7 +9071,8 @@
     ],
     "key_concepts": "F是檢定統計量，受n影響，不是效果量",
     "ai_hint": "與108年第24題相同。F不是效果量，F=MSB/MSW隨n增大而增大。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "效果量"
   },
   {
     "id": "NCCU-109-25",
@@ -8831,7 +9102,8 @@
     ],
     "key_concepts": "箱形圖的結構：下箱=Q1，中線=中位數（Q2），上箱=Q3，鬚線=最大/最小值（去除離群值）",
     "ai_hint": "箱形圖（Box-and-whisker plot）：中間的橫線就是中位數Q2。這是箱形圖最直接標示中位數的圖形。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "資料視覺化"
   },
   {
     "id": "NCCU-111-01",
@@ -8861,7 +9133,8 @@
     "ai_hint": "10+4=14，+9=23，+5=28，+3=31，+19=50，+28=78，+18=96。96/8=12。選C。",
     "formula_used": [
       "x̄ = ΣX/N"
-    ]
+    ],
+    "primary_concept": "描述統計"
   },
   {
     "id": "NCCU-111-02",
@@ -8888,7 +9161,8 @@
     ],
     "key_concepts": "偶數個資料中位數=(第n/2+第n/2+1個)/2",
     "ai_hint": "排序後：3,4,5,9,10,18,19,28。第4個=9，第5個=10。中位數=(9+10)/2=9.5。選B。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "無母數"
   },
   {
     "id": "NCCU-111-03",
@@ -8921,7 +9195,8 @@
     "ai_hint": "計算步驟：偏差=[−2,−8,−3,−7,−9,7,16,6]；平方=[4,64,9,49,81,49,256,36]；和=548；548/7≈78.3，最接近A(78)。需對照標準答案確認。",
     "formula_used": [
       "s² = Σ(xi-x̄)²/(n-1)"
-    ]
+    ],
+    "primary_concept": "描述統計"
   },
   {
     "id": "NCCU-111-04",
@@ -8952,7 +9227,8 @@
     ],
     "key_concepts": "IQR=Q3-Q1；Q1=下半部中位數，Q3=上半部中位數",
     "ai_hint": "排序後{3,4,5,9,10,18,19,28}。下半{3,4,5,9}→Q1=4.5；上半{10,18,19,28}→Q3=18.5。IQR=18.5-4.5=14。選B。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "描述統計"
   },
   {
     "id": "NCCU-111-05",
@@ -8984,7 +9260,8 @@
     "ai_hint": "Prevalence=有疾病總人數/全部人數=1000/10000=10%。不管X是陽性還是陰性，只看有無疾病。",
     "formula_used": [
       "Prevalence = 有疾病的人數/總人數"
-    ]
+    ],
+    "primary_concept": "卡方檢定"
   },
   {
     "id": "NCCU-111-06",
@@ -9017,7 +9294,8 @@
     "formula_used": [
       "Specificity = TN/(TN+FP) = 真陰性/(真陰性+偽陽性)",
       "= 8500/(8500+500) = 8500/9000 ≈ 94.4%"
-    ]
+    ],
+    "primary_concept": "假設檢定"
   },
   {
     "id": "NCCU-111-14",
@@ -9052,7 +9330,8 @@
       "z=x/5+2→x=5z-10",
       "代入：ŷ=10+5(5z-10)=10+25z-50=-40+25z",
       "新截距=-40"
-    ]
+    ],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NCCU-111-15",
@@ -9079,7 +9358,8 @@
     ],
     "key_concepts": "x→z=x/5+2，相當於x縮小5倍，斜率放大5倍：原斜率5×5=25",
     "ai_hint": "z=x/5+2，反解x=5z-10。ŷ=10+5(5z-10)=-40+25z。斜率=25，選D。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NCCU-111-16",
@@ -9113,7 +9393,8 @@
     "formula_used": [
       "sp² = [(n₁-1)s₁² + (n₂-1)s₂²] / (n₁+n₂-2)",
       "= [(9×25) + (9×4)] / 18 = [225+36]/18 = 261/18 ≈ 14.5"
-    ]
+    ],
+    "primary_concept": "t檢定"
   },
   {
     "id": "NCCU-111-17",
@@ -9148,7 +9429,8 @@
       "= (4-9) / √(14.5×(1/10+1/10))",
       "= -5 / √(14.5×0.2)",
       "= -5 / √2.9 ≈ -5/1.703 ≈ -2.94"
-    ]
+    ],
+    "primary_concept": "t檢定"
   },
   {
     "id": "NCCU-111-18",
@@ -9174,7 +9456,8 @@
     ],
     "key_concepts": "獨立樣本t的df=n₁+n₂-2",
     "ai_hint": "df=10+10-2=18。選C。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "t檢定"
   },
   {
     "id": "NCCU-111-22",
@@ -9205,7 +9488,8 @@
     "ai_hint": "候選人支持度不影響計算，用最保守的p=0.5。n=(1.96/0.02)²×0.25=2401，選最接近的2500。",
     "formula_used": [
       "n ≥ (1.96/0.02)² × 0.25 ≈ 2401"
-    ]
+    ],
+    "primary_concept": "樣本數估計"
   },
   {
     "id": "NCCU-111-23",
@@ -9238,7 +9522,8 @@
     "formula_used": [
       "SE = √(p(1-p)/n) = √(0.25/2500) = √0.0001 = 0.01",
       "99%CI = p ± 2.576×SE = 0.5 ± 2.576×0.01 = 0.5 ± 0.026 ≈ 47%-53%"
-    ]
+    ],
+    "primary_concept": "估計與信賴區間"
   },
   {
     "id": "NCCU-111-24",
@@ -9268,7 +9553,8 @@
     "ai_hint": "常態的封閉性：獨立常態分配的任意線性組合仍是常態。D=X-Y~N(μx-μy, σx²+σy²)=N(-3,65)。",
     "formula_used": [
       "若X~N(μx,σx²)且Y~N(μy,σy²)，且X,Y獨立，則D=X-Y~N(μx-μy, σx²+σy²)"
-    ]
+    ],
+    "primary_concept": "機率分配"
   },
   {
     "id": "NCCU-111-25",
@@ -9294,7 +9580,8 @@
     ],
     "key_concepts": "E(X-Y)=E(X)-E(Y)；期望值的線性性質",
     "ai_hint": "E(D)=237-240=-3。選B。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "描述統計"
   },
   {
     "id": "NCCU-111-26",
@@ -9323,7 +9610,8 @@
     "ai_hint": "重要：Var(X-Y)=Var(X)+Var(Y)（獨立時），不是相減！√(49+16)=√65≈8.06，選C。",
     "formula_used": [
       "Var(X-Y)=Var(X)+Var(Y)（獨立）=49+16=65；SD=√65≈8.06"
-    ]
+    ],
+    "primary_concept": "描述統計"
   },
   {
     "id": "NCCU-111-27",
@@ -9354,7 +9642,8 @@
     "formula_used": [
       "5種情境兩兩配對比較次數 = C(5,2) = 10",
       "Bonferroni：每次使用α/比較次數 = α/10"
-    ]
+    ],
+    "primary_concept": "t檢定"
   },
   {
     "id": "NCCU-111-28",
@@ -9383,7 +9672,8 @@
     "ai_hint": "E(X)=np=400×0.01=4。二項分配的期望值公式。",
     "formula_used": [
       "X~B(n,p)：E(X)=np=400×0.01=4"
-    ]
+    ],
+    "primary_concept": "機率分配"
   },
   {
     "id": "NCCU-111-29",
@@ -9411,7 +9701,8 @@
     "ai_hint": "Var=np(1-p)=400×0.01×0.99=3.96≈4。選B。",
     "formula_used": [
       "Var(X)=np(1-p)=400×0.01×0.99=3.96≈4"
-    ]
+    ],
+    "primary_concept": "機率分配"
   },
   {
     "id": "NCCU-111-30",
@@ -9445,7 +9736,8 @@
       "X~B(400,0.01)，E(X)=4，Var=4，SD=2",
       "常態近似：X~N(4,4)",
       "P(X≤6)=P(Z≤(6-4)/2)=P(Z≤1)≈84%？或更精確計算"
-    ]
+    ],
+    "primary_concept": "機率分配"
   },
   {
     "id": "NCCU-111-31",
@@ -9482,7 +9774,8 @@
       "期望比例2:2:2:1:1，總份數=8",
       "E_紅=E_綠=E_橘=2/8×800=200；E_紫=E_透=1/8×800=100",
       "χ²=Σ(O-E)²/E"
-    ]
+    ],
+    "primary_concept": "卡方檢定"
   },
   {
     "id": "NCCU-111-32",
@@ -9508,7 +9801,8 @@
     ],
     "key_concepts": "卡方適合度df=k-1（k為類別數）",
     "ai_hint": "5種顏色→df=5-1=4。選B。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "卡方檢定"
   },
   {
     "id": "NCCU-112-01",
@@ -9536,7 +9830,8 @@
     ],
     "key_concepts": "固定n次試驗、每次獨立、每次成功機率相同→二項分配",
     "ai_hint": "2枚銅幣投擲→n=2固定，p=0.5→B(2,0.5)。伯努利是n=1的特例。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "機率分配"
   },
   {
     "id": "NCCU-112-02",
@@ -9567,7 +9862,8 @@
     "ai_hint": "不放回：第一次取白=5/8；第二次在剩7球（4白3黃）中取白=4/7。P=5/8×4/7=20/56=5/14。",
     "formula_used": [
       "P(W₁∩W₂)=P(W₁)×P(W₂|W₁)=5/8×4/7=20/56=5/14"
-    ]
+    ],
+    "primary_concept": "條件機率與貝氏"
   },
   {
     "id": "NCCU-112-03",
@@ -9597,7 +9893,8 @@
     ],
     "key_concepts": "Poisson分配：計數每單位時間/空間內的事件次數，是離散分配",
     "ai_hint": "Poisson是離散的（計數分配），不適用於連續變項。常態、F、連續均等分配都是連續的。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "機率分配"
   },
   {
     "id": "NCCU-112-04",
@@ -9627,7 +9924,8 @@
     ],
     "key_concepts": "PDF可以>1！機率密度≠機率；∫f(x)dx=1（面積=1）；但密度值本身可超過1",
     "ai_hint": "A是錯的！密度函數值（y軸）可以大於1，因為「機率」是面積（密度×寬度），不是高度。例如Uniform(0,0.5)的密度=2。只要總面積=1即可。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "條件機率與貝氏"
   },
   {
     "id": "NCCU-112-05",
@@ -9658,7 +9956,8 @@
     ],
     "key_concepts": "抽樣分配特性：E(x̄)=μ（不偏）、SE=σ/√n（非σ）、n大時趨近常態（CLT）；CLT正是描述抽樣分配的定理",
     "ai_hint": "A錯：抽樣分配的標準差是SE=σ/√n，不是母群標準差σ。D錯：CLT描述的正是抽樣分配的特性，不是「並非」。若單選答D；若複選答AD。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "中央極限定理"
   },
   {
     "id": "NCCU-112-08",
@@ -9689,7 +9988,8 @@
     ],
     "key_concepts": "R²=r²；r不受標準化影響；標準化後兩個方向的β都=r；R²是對稱的（X預測Y和Y預測X的R²相同）",
     "ai_hint": "只有A是對的。R²=0.64→r=0.8。相關係數與標準化無關（C錯）。R²是對稱的（D錯）。標準化後兩條迴歸線斜率都=r（B錯）。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NCCU-112-09",
@@ -9721,7 +10021,8 @@
     "formula_used": [
       "SEE = sy×√(1-R²) = 10×√(1-0.36) = 10×√0.64 = 10×0.8 = 8",
       "95%區間 ≈ 100 ± 2×8 = 100 ± 16 = [84, 116]"
-    ]
+    ],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NCCU-112-10",
@@ -9755,7 +10056,8 @@
     ],
     "key_concepts": "虛擬變項迴歸：截距=基準組均值；斜率=兩組均值差；第二組均值=截距+斜率=2+(-3)=-1",
     "ai_hint": "X=0（第一組）→Ŷ=2（截距）；X=1（第二組）→Ŷ=2-3=-1。B正確：第二組均值=-1。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NCCU-113-01",
@@ -9783,7 +10085,8 @@
     ],
     "key_concepts": "Poisson：單位時間/空間內的事件次數；適用於稀有事件的計數",
     "ai_hint": "Poisson的應用場景：每小時的電話數、每分鐘的交通事故數。關鍵詞「單位時間內的頻率」→Poisson。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "條件機率與貝氏"
   },
   {
     "id": "NCCU-113-02",
@@ -9816,7 +10119,8 @@
     "ai_hint": "偶次方矩：2次=variance，4次=kurtosis；奇次方矩：3次=skewness（帶方向性）。",
     "formula_used": [
       "偏態=Σ(xᵢ-x̄)³/(N·σ³)；三次方矩"
-    ]
+    ],
+    "primary_concept": "描述統計"
   },
   {
     "id": "NCCU-113-03",
@@ -9844,7 +10148,8 @@
     ],
     "key_concepts": "一致性（Consistency）：n→∞時，估計量以機率1趨近真實參數；即機率收斂",
     "ai_hint": "這是一致性的嚴格數學定義。Pr(|θ̂-θ|>ε)→0等價於Pr(|θ̂-θ|<ε)→1，即estimator依機率收斂到θ。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "估計與信賴區間"
   },
   {
     "id": "NCCU-113-04",
@@ -9875,7 +10180,8 @@
     ],
     "key_concepts": "聚落抽樣：同群體內成員相似→群體內相關（ICC）→違反獨立性；需用多層模型分析",
     "ai_hint": "聚落抽樣最容易違反獨立性：同一班級的學生、同一社區的居民，彼此相似（非獨立）。ICC（組內相關係數）就是描述這種相關程度的。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "抽樣與設計"
   },
   {
     "id": "NCCU-113-14",
@@ -9912,7 +10218,8 @@
       "F = [R²/p] / [(1-R²)/(N-p-1)]",
       "N=100，p=3，R²=0.30",
       "F = (0.30/3) / (0.70/96) = 0.10/0.007292 ≈ 13.7"
-    ]
+    ],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NCCU-113-15",
@@ -9938,7 +10245,8 @@
     ],
     "key_concepts": "多元迴歸F：df1=p，df2=N-p-1",
     "ai_hint": "df_reg=p=3；df_error=N-p-1=100-4=96。F(3,96)。選A。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NCCU-113-16",
@@ -9975,7 +10283,8 @@
       "= √[0.25/300 + 0.21/600]",
       "= √[0.000833 + 0.00035]",
       "= √0.001183 ≈ 0.0344"
-    ]
+    ],
+    "primary_concept": "估計與信賴區間"
   },
   {
     "id": "NCCU-114-01",
@@ -10005,7 +10314,8 @@
     "ai_hint": "加常數a：不影響Var（只移動位置）。乘以b：Var乘以b²（因為Var=E[(X-μ)²]，bX的偏差是b乘以原偏差）。",
     "formula_used": [
       "Var(a+bX)=b²Var(X)"
-    ]
+    ],
+    "primary_concept": "描述統計"
   },
   {
     "id": "NCCU-114-02",
@@ -10035,7 +10345,8 @@
     ],
     "key_concepts": "穩健（robust）統計量：中位數、IQR、百分位數；對極端值敏感：均值、SD、全距",
     "ai_hint": "IQR只用Q1和Q3（第25和75百分位），極端值不影響這兩個四分位點。全距最容易受影響（直接依賴最大和最小值）。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NCCU-114-03",
@@ -10065,7 +10376,8 @@
     ],
     "key_concepts": "二項分配四個條件：(1)固定n (2)獨立 (3)每次成功機率相同=π (4)只有兩種結果",
     "ai_hint": "B是錯的！二項分配要求每次成功機率必須固定且相同（=π）。如果不同，就不是二項分配了。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "機率分配"
   },
   {
     "id": "NCCU-114-04",
@@ -10093,7 +10405,8 @@
     ],
     "key_concepts": "分層抽樣：確保各重要群體（層）在樣本中有適當的代表性",
     "ai_hint": "分層抽樣的優勢：確保各子群體（如各年齡層、各性別）在樣本中的比例與母群相同，代表性最強。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "抽樣與設計"
   },
   {
     "id": "NCCU-114-05",
@@ -10121,7 +10434,8 @@
     ],
     "key_concepts": "Kurtosis=四次方矩=尾端厚度；Skewness=三次方矩=不對稱程度",
     "ai_hint": "尾端（tail）厚度→Kurtosis（峰度）。Skewness衡量不對稱；Variance衡量整體離散。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "描述統計"
   },
   {
     "id": "NCCU-114-07",
@@ -10149,7 +10463,8 @@
     ],
     "key_concepts": "k個類別→k-1個虛擬變項（dummy variables）；k個虛擬變項會造成完全共線性",
     "ai_hint": "3類別→需要2個虛擬變項（k-1個）。如果設3個（每類一個），會造成完全多元共線性（三者之和=1，線性相依）。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NCCU-114-08",
@@ -10177,7 +10492,8 @@
     ],
     "key_concepts": "虛擬變項迴歸：截距=參照組均值；其他係數=各組均值-參照組均值",
     "ai_hint": "參照組C→D₁=D₂=0→Ŷ=截距=6（C的均值）。A的係數=10-6=4，B的係數=4-6=-2。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NCCU-114-09",
@@ -10204,7 +10520,8 @@
     ],
     "key_concepts": "df_residual=N-p-1（p=預測變項數）；3類別→p=2→df=97",
     "ai_hint": "p=2（兩個虛擬變項），df_error=N-p-1=100-3=97。選C。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "迴歸分析"
   },
   {
     "id": "NCCU-114-13",
@@ -10234,7 +10551,8 @@
     "ai_hint": "P(-1.5<Z<1.5)=2×Φ(1.5)-1=2×0.9332-1=0.8664≈87%，最接近選項C(85%)。±1.5σ約覆蓋87%。",
     "formula_used": [
       "P(-1.5<Z<1.5)=P(Z<1.5)-P(Z<-1.5)=0.9332-0.0668=0.8664≈87%"
-    ]
+    ],
+    "primary_concept": "機率分配"
   },
   {
     "id": "NCCU-114-14",
@@ -10263,7 +10581,8 @@
     ],
     "key_concepts": "真實差=0.5≤1，H₀成立；但研究者拒絕H₀→錯誤拒絕→Type I error",
     "ai_hint": "真實μA-μB=0.5≤1，所以H₀（差值≤1）是真的。但研究者拒絕了H₀→錯誤拒絕→Type I error。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "假設檢定"
   },
   {
     "id": "NCCU-114-17",
@@ -10293,7 +10612,8 @@
     ],
     "key_concepts": "t(df→∞)→N(0,1)；χ²(df→∞)→N(df,2df)→標準化後趨近常態；兩者都服從CLT",
     "ai_hint": "t和χ²都是從常態分配衍生出來的，df越大越趨近常態（CLT的效果）。t(∞)=N(0,1)；χ²可視為獨立正態平方的和，大df時趨近常態。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "卡方檢定"
   },
   {
     "id": "NCCU-114-20",
@@ -10326,7 +10646,8 @@
     ],
     "key_concepts": "隨機分派=提高內效度=排除混淆變項；不同於隨機抽樣（提高外效度）",
     "ai_hint": "隨機分派（random assignment）：實驗中用於控制混淆因子，提升內效度。隨機抽樣（random sampling）：用於確保樣本代表母群，提升外效度。兩者目的不同！",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "中央極限定理"
   },
   {
     "id": "NCCU-114-21",
@@ -10355,7 +10676,8 @@
     ],
     "key_concepts": "參數→無母數對應：t→Wilcoxon rank-sum；ANOVA→Kruskal-Wallis；配對t→Wilcoxon signed-rank",
     "ai_hint": "記住無母數等價：獨立樣本t→Wilcoxon rank-sum（Mann-Whitney U）；one-way ANOVA→Kruskal-Wallis；配對t→Wilcoxon signed-rank。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCCU-114-35",
@@ -10385,7 +10707,8 @@
     ],
     "key_concepts": "Efficiency：在所有估計量中MSE最小；MVUE（Minimum Variance Unbiased Estimator）是不偏估計量中的最有效估計量",
     "ai_hint": "MSE最小→有效性（Efficiency）。注意與不偏性區別：不偏性要求E(θ̂)=θ；有效性要求MSE最小（可以有偏但MSE仍最小）。",
-    "formula_used": []
+    "formula_used": [],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCCU-114-36",
@@ -10426,7 +10749,8 @@
     "ai_hint": "若題目給的變異數是有偏的（除以n）：SSW=Σnⱼsⱼ²=10×20+10×15+10×20=550。若是不偏的（除以n-1）：SSW=Σ(nⱼ-1)sⱼ²=495。政大答案D=550表示使用有偏版本。",
     "formula_used": [
       "SSW = Σⱼ(nⱼ-1)sⱼ² = (9×20)+(9×15)+(9×20) = 180+135+180 = 495"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCCU-114-37",
@@ -10460,7 +10784,8 @@
     "formula_used": [
       "總平均x̄=(10+12+8)/3=10",
       "SSB=Σnⱼ(x̄ⱼ-x̄)²=10[(10-10)²+(12-10)²+(8-10)²]=10[0+4+4]=80"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   },
   {
     "id": "NCCU-114-38",
@@ -10492,6 +10817,7 @@
     "ai_hint": "只比較a1和a2的差異→c=(1,-1,0)。a3（安慰劑）不參與這個比較，設為0。Σ=1-1+0=0 ✓。",
     "formula_used": [
       "對比H₀:L=c₁μ₁+c₂μ₂+c₃μ₃=0，Σcⱼ=0"
-    ]
+    ],
+    "primary_concept": "ANOVA"
   }
 ]
