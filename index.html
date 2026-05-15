@@ -1805,7 +1805,12 @@ function submitAnswer() {
   if (selectedOpt === null || answered) return;
   answered = true;
   const keys = ['A','B','C','D','E','F'];
-  const correctAns = (currentQ.answer || '').toUpperCase().trim();
+  const numKeys = ['1','2','3','4','5','6'];
+  let correctAns = (currentQ.answer || '').toUpperCase().trim();
+  // 將數字答案 (1/2/3/4) 轉為字母 (A/B/C/D)
+  if (numKeys.includes(correctAns)) {
+    correctAns = keys[numKeys.indexOf(correctAns)];
+  }
   const chosenKey = keys[selectedOpt];
   const isCorrect = correctAns && chosenKey === correctAns;
 
@@ -2993,8 +2998,13 @@ function renderReviewQuestion() {
   const q = mockQueue[mockReviewIdx];
   const qtype = getMockQType(q);
   const keys = ['A','B','C','D','E','F'];
+  const numKeys = ['1','2','3','4','5','6'];
   const userAns = mockAnswers[q.id];
-  const correctAns = (q.answer || '').trim();
+  let correctAns = (q.answer || '').trim();
+  // 將數字答案 (1/2/3/4) 轉為字母 (A/B/C/D)
+  if (numKeys.includes(correctAns)) {
+    correctAns = keys[numKeys.indexOf(correctAns)];
+  }
   const selfScore = mockSelfScores[q.id];
 
   // Format user answer for display
