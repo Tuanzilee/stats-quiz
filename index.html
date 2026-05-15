@@ -1725,7 +1725,10 @@ function showQuestion() {
 
     <div class="action-row" id="action-row">
       ${isMultiChoice
-        ? `<button class="btn btn-primary" id="submit-btn" onclick="submitAnswer()" disabled style="opacity:0.5">確認答案</button>`
+        ? `<div style="display:flex;flex-direction:column;gap:6px;width:100%">
+             <button class="btn btn-primary" id="submit-btn" onclick="submitAnswer()" disabled style="opacity:0.5">確認答案</button>
+             <button class="btn" style="background:var(--purple-bg);border:1px solid rgba(167,139,250,0.3);color:var(--purple);font-size:13px;font-weight:600" onclick="openStepAIChat('${currentQ.id}')">💬 AI 逐步引導</button>
+           </div>`
         : `<div style="display:flex;flex-direction:column;gap:6px;width:100%">
              <button class="btn btn-primary" onclick="revealAnswer()">查看答案</button>
              <button class="btn" style="background:var(--purple-bg);border:1px solid rgba(167,139,250,0.3);color:var(--purple);font-size:13px;font-weight:600" onclick="openStepAIChat('${currentQ.id}')">💬 AI 逐步引導</button>
@@ -1828,7 +1831,6 @@ function submitAnswer() {
   document.getElementById('solution-panel').classList.add('show');
   document.getElementById('action-row').innerHTML = `
     <button class="btn btn-outline" onclick="prevQuestion()" ${quizIdx===0?'disabled style="opacity:0.4"':''}>← 上一題</button>
-    <button class="btn" style="background:var(--purple-bg);border:1px solid rgba(167,139,250,0.3);color:var(--purple);font-size:13px;font-weight:600;flex:1" onclick="openStepAIChat('${currentQ.id}')">💬</button>
     <button class="btn btn-primary" onclick="nextQuestion()">${quizIdx===quizQueue.length-1?'完成':'下一題 →'}</button>
   `;
 
@@ -1847,7 +1849,6 @@ function revealAnswer() {
   rev.innerHTML = `<div class="reveal-ans">✦ 答案：<strong style="color:var(--green)">${ans}</strong></div>`;
   document.getElementById('action-row').innerHTML = `
     <div style="display:flex;flex-direction:column;gap:6px;width:100%">
-      <button class="btn" style="background:var(--purple-bg);border:1px solid rgba(167,139,250,0.3);color:var(--purple);font-size:13px;font-weight:600" onclick="openStepAIChat('${currentQ.id}')">💬 AI 逐步引導</button>
       <button class="btn btn-primary" onclick="nextQuestion()">${quizIdx===quizQueue.length-1?'完成':'下一題 →'}</button>
     </div>
   `;
