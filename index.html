@@ -888,35 +888,7 @@ html, body {
 .reveal-result.wrong { color: var(--red); }
 .reveal-ans { font-size: 12px; color: var(--muted); }
 
-/* ── EDIT / CORRECTIONS (移植自普心) ── */
-.q-edit-btn {
-  margin-left: auto;
-  background: var(--surface);
-  border: 1px solid var(--border2);
-  color: var(--muted);
-  width: 28px; height: 28px;
-  border-radius: 6px;
-  font-size: 14px;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.12s;
-  padding: 0;
-}
-.q-edit-btn:hover, .q-edit-btn:active {
-  background: var(--blue-glow);
-  border-color: var(--blue);
-  color: var(--blue-light);
-}
-.q-corrected-badge {
-  background: rgba(255,180,0,0.12);
-  border: 1px solid rgba(255,180,0,0.4);
-  color: #ffc857;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-}
+/* ── EDIT FIELD (shared with #apikey-input) ── */
 .edit-field {
   width: 100%;
   padding: 10px;
@@ -929,77 +901,6 @@ html, body {
   box-sizing: border-box;
 }
 .edit-field:focus { outline: none; border-color: var(--blue); }
-.corrections-list {
-  max-height: 50vh;
-  overflow-y: auto;
-  background: var(--surface);
-  border-radius: 8px;
-  padding: 10px;
-  font-family: 'Space Mono', monospace;
-  font-size: 11px;
-  line-height: 1.7;
-}
-.corr-entry { margin-bottom: 10px; }
-.corr-entry-id { color: var(--blue-light); font-weight: 700; }
-.corr-entry-line { padding-left: 10px; color: var(--text); }
-.edit-advanced {
-  margin-top: 4px;
-  border-top: 1px solid var(--border);
-  padding-top: 12px;
-}
-.edit-advanced-toggle {
-  font-size: 12px;
-  color: var(--muted);
-  cursor: pointer;
-  padding: 6px 0;
-  user-select: none;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.edit-advanced-toggle:hover { color: var(--blue-light); }
-.edit-advanced-toggle::before {
-  content: '▶';
-  font-size: 9px;
-  transition: transform 0.15s;
-}
-.edit-advanced.open .edit-advanced-toggle::before { transform: rotate(90deg); }
-.edit-advanced-body { display: none; padding-top: 8px; }
-.edit-advanced.open .edit-advanced-body { display: block; }
-.personal-note-box {
-  background: rgba(80,160,255,0.06);
-  border-left: 3px solid var(--blue);
-  padding: 10px 12px;
-  border-radius: 4px;
-  margin: 10px 0;
-  font-size: 13px;
-  line-height: 1.7;
-  color: var(--text);
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-.personal-note-label {
-  font-size: 10px;
-  color: var(--blue-light);
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  margin-bottom: 4px;
-}
-
-/* Export btn in header */
-.export-btn {
-  font-size: 11px;
-  padding: 4px 10px;
-  border-radius: 6px;
-  border: 1px solid var(--border2);
-  background: var(--surface);
-  color: var(--muted);
-  cursor: pointer;
-  font-family: inherit;
-  transition: all 0.15s;
-}
-.export-btn:active { background: var(--blue-glow); color: var(--blue-light); border-color: var(--blue); }
 
 /* Skeleton */
 .skeleton {
@@ -1119,7 +1020,6 @@ MathJax = {
     <div class="header-title">心統刷題</div>
     <div class="header-sub" id="header-sub">載入中…</div>
     <button class="formula-btn" onclick="openFormulaPanel()" style="margin-left:auto">📐</button>
-    <button class="export-btn" onclick="exportJSON()" title="匯出題庫">⬇ 匯出</button>
     <div class="header-btn" id="filter-btn" onclick="openFilter()" title="篩選">⚙</div>
   </div>
 
@@ -1172,15 +1072,6 @@ MathJax = {
           <div class="label" style="color:var(--purple)">模考練習</div>
           <div class="sub" id="mock-history-sub">限時作答，交卷後逐題檢討</div>
         </div>
-      </div>
-    </div>
-
-    <div class="home-section" style="padding-top:0">
-      <div class="section-label">勘誤管理</div>
-      <div class="quick-card" onclick="openCorrectionsModal()" style="grid-column:span 2">
-        <div class="icon">✏</div>
-        <div class="label">勘誤清單</div>
-        <div class="sub" id="corrections-count">尚無勘誤</div>
       </div>
     </div>
 
@@ -1431,8 +1322,9 @@ const RECORDS_KEY = 'quiz_records_v1';
 // ─── INIT ────────────────────────────────────────────────────────────────────
 async function init() {
   loadRecords();
-  loadCorrections();
-  applyCorrectionsToQuestions();
+  // 一次性清除 2026-05-16 移除的 in-app 勘誤 / 個人筆記殘留
+  localStorage.removeItem('stat_corrections_v1');
+  localStorage.removeItem('stat_notes_v1');
   try {
     const res = await fetch('./題庫.json');
     if (!res.ok) throw new Error('HTTP ' + res.status);
@@ -1501,9 +1393,6 @@ function renderHome() {
   document.getElementById('stat-wrong').textContent = wrong;
   document.getElementById('wrong-count').textContent = wrong + ' 題待複習';
   document.getElementById('unsure-count').textContent = unsure + ' 題';
-  const cc = correctionsCount();
-  const ccEl = document.getElementById('corrections-count');
-  if (ccEl) ccEl.textContent = cc === 0 ? '尚無勘誤' : `${cc} 筆 — 點此匯出`;
 
   // Top concepts
   const conceptCounts = {};
@@ -1713,8 +1602,6 @@ function showQuestion() {
       <span class="q-badge" style="font-family:'Space Mono',monospace;font-size:11px;color:var(--muted)">${currentQ.id}</span>
       <span class="q-badge">${currentQ.type}</span>
       ${currentQ.difficulty ? `<span class="q-badge" style="color:${currentQ.difficulty==='hard'?'var(--red)':currentQ.difficulty==='easy'?'var(--green)':'var(--yellow)'}">${{easy:'簡單',medium:'中等',hard:'困難'}[currentQ.difficulty]}</span>` : ''}
-      ${isCorrected(currentQ.id) ? `<span class="q-corrected-badge">✎ 已勘誤</span>` : ''}
-      <button class="q-edit-btn" onclick="openEditPanel()" title="編輯勘誤">✏</button>
     </div>
 
     ${contextHTML}
@@ -1764,8 +1651,6 @@ function showQuestion() {
         <div class="mark-btn wrong-btn ${status==='wrong'?'active':''}" onclick="markQ('wrong',this)">✗ 不懂</div>
       </div>
     </div>
-
-    ${renderNoteSection()}
 
     <div class="action-row" style="margin-top:4px">
       <button class="btn btn-ghost" onclick="prevQuestion()" ${quizIdx===0?'disabled style="opacity:0.4"':''}>← 上一題</button>
@@ -2056,407 +1941,6 @@ function buildContext(q) {
     <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;color:var(--blue);margin-bottom:8px;text-transform:uppercase">📎 題組情境</div>
     ${parts.join('')}
   </div>`;
-}
-
-// ─── CORRECTIONS & NOTES (移植自普心) ────────────────────────────────────────
-const CORRECTIONS_KEY = 'stat_corrections_v1';
-const NOTES_KEY = 'stat_notes_v1';
-
-// 心統欄位對應（可編輯的欄位）
-const STAT_FIELDS = {
-  answer:         '答案',
-  question:       '題目',
-  solution_steps: '解題步驟',
-  key_concepts:   '核心概念',
-  ai_hint:        'AI 提示',
-  answer_note:    '備註'
-};
-
-let corrections = {};
-let personalNotes = {};
-
-function loadCorrections() {
-  try { corrections = JSON.parse(localStorage.getItem(CORRECTIONS_KEY) || '{}'); }
-  catch(e) { corrections = {}; }
-  try { personalNotes = JSON.parse(localStorage.getItem(NOTES_KEY) || '{}'); }
-  catch(e) { personalNotes = {}; }
-}
-function saveCorrections() {
-  localStorage.setItem(CORRECTIONS_KEY, JSON.stringify(corrections));
-}
-function savePersonalNotes() {
-  localStorage.setItem(NOTES_KEY, JSON.stringify(personalNotes));
-}
-function getPersonalNote(id) { return personalNotes[id] || ''; }
-// 相容舊版備註 key
-function getNoteForQ(id) { return personalNotes[id] || ''; }
-
-function applyCorrectionsToQuestions() {
-  let dirty = false;
-  for (const id of Object.keys(corrections)) {
-    const q = questions.find(x => x.id === id);
-    if (!q) { delete corrections[id]; dirty = true; continue; }
-    for (const field of Object.keys(corrections[id])) {
-      if (field.startsWith('_')) continue;
-      const newVal = corrections[id][field];
-      // 若 repo 端已更新為同值，自動清除
-      const curVal = field === 'solution_steps'
-        ? JSON.stringify(q[field])
-        : q[field];
-      const storedVal = field === 'solution_steps'
-        ? JSON.stringify(newVal)
-        : newVal;
-      if (storedVal === (field === 'solution_steps' ? JSON.stringify(q._original?.[field] ?? q[field]) : (q._original?.[field] ?? q[field]))) {
-        // 不自動清除 solution_steps 因為序列化比較複雜，略過
-      }
-      if (!q._original) q._original = {};
-      if (!(field in q._original)) q._original[field] = q[field];
-      q[field] = newVal;
-    }
-    const realFields = Object.keys(corrections[id]).filter(k => !k.startsWith('_'));
-    if (realFields.length === 0) { delete corrections[id]; dirty = true; }
-  }
-  if (dirty) saveCorrections();
-}
-
-function isCorrected(qid) {
-  return corrections[qid] && Object.keys(corrections[qid]).some(k => !k.startsWith('_'));
-}
-
-function correctionsCount() {
-  return Object.keys(corrections).filter(id =>
-    Object.keys(corrections[id]).some(k => !k.startsWith('_'))
-  ).length;
-}
-
-let _editAnswer = null;
-
-function openEditPanel() {
-  if (!currentQ) return;
-  const isMultiChoice = currentQ.options && currentQ.options.length > 0;
-  const orig = currentQ._original || {};
-  _editAnswer = currentQ.answer;
-
-  const stepsVal = Array.isArray(currentQ.solution_steps)
-    ? currentQ.solution_steps.join('\n')
-    : (currentQ.solution_steps || '');
-
-  const html = `
-    <div class="modal-bg show" id="edit-modal" onclick="closeEditPanel(event)">
-      <div class="modal" onclick="event.stopPropagation()">
-        <div class="modal-handle"></div>
-        <div class="modal-title">編輯 — ${currentQ.id}</div>
-        <div style="font-size:11px;color:var(--muted);margin-bottom:14px;line-height:1.6">
-          <strong style="color:var(--blue-light)">勘誤</strong>（答案/解析等）會進匯出清單以便同步進 repo；
-          <strong style="color:var(--blue-light)">個人備註</strong>只存於本機，不會匯出。
-        </div>
-
-        ${isMultiChoice ? `
-          <div class="filter-section">
-            <div class="filter-section-label">答案${orig.answer !== undefined ? ` (原: ${orig.answer})` : ''}</div>
-            <div class="filter-chips" id="edit-answer-chips">
-              ${'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.slice(0, currentQ.options.length).split('').map(L =>
-                `<div class="filter-chip ${currentQ.answer === L ? 'active' : ''}" onclick="pickEditAnswer('${L}',this)">${L}</div>`
-              ).join('')}
-            </div>
-          </div>
-        ` : `
-          <div class="filter-section">
-            <div class="filter-section-label">答案${orig.answer !== undefined ? ` (原: ${orig.answer})` : ''}</div>
-            <input id="edit-answer-text" class="edit-field" value="${esc(currentQ.answer||'')}" placeholder="如 A 或 ABD 或 T/F">
-          </div>
-        `}
-
-        <div class="filter-section">
-          <div class="filter-section-label">備註${orig.answer_note !== undefined ? ' (已修改)' : ''}</div>
-          <textarea id="edit-note" rows="2" class="edit-field" style="resize:vertical" placeholder="例：答案來源、勘誤依據…">${esc2(currentQ.answer_note||'')}</textarea>
-        </div>
-
-        <div class="edit-advanced" id="edit-advanced">
-          <div class="edit-advanced-toggle" onclick="toggleEditAdvanced()">進階編輯（題目 / 解析 / 提示 / 個人備註）</div>
-          <div class="edit-advanced-body">
-            <div class="filter-section">
-              <div class="filter-section-label">題目${orig.question !== undefined ? ' (已修改)' : ''}</div>
-              <textarea id="edit-question" rows="3" class="edit-field" style="resize:vertical;font-size:12px;line-height:1.6">${esc2(currentQ.question||'')}</textarea>
-            </div>
-            <div class="filter-section">
-              <div class="filter-section-label">解題步驟（每行一步）${orig.solution_steps !== undefined ? ' (已修改)' : ''}</div>
-              <textarea id="edit-steps" rows="5" class="edit-field" style="resize:vertical;font-size:12px;line-height:1.6">${esc2(stepsVal)}</textarea>
-            </div>
-            <div class="filter-section">
-              <div class="filter-section-label">核心概念${orig.key_concepts !== undefined ? ' (已修改)' : ''}</div>
-              <textarea id="edit-key" rows="2" class="edit-field" style="resize:vertical;font-size:12px;line-height:1.6">${esc2(currentQ.key_concepts||'')}</textarea>
-            </div>
-            <div class="filter-section">
-              <div class="filter-section-label">AI 提示${orig.ai_hint !== undefined ? ' (已修改)' : ''}</div>
-              <textarea id="edit-hint" rows="3" class="edit-field" style="resize:vertical;font-size:12px;line-height:1.6">${esc2(currentQ.ai_hint||'')}</textarea>
-            </div>
-            <div class="filter-section">
-              <div class="filter-section-label" style="color:var(--blue-light)">個人備註（不匯出，只存本機）</div>
-              <textarea id="edit-personal" rows="3" class="edit-field" style="resize:vertical;font-size:12px;line-height:1.6" placeholder="記憶口訣、自己的思路、不懂的地方…">${esc2(getPersonalNote(currentQ.id))}</textarea>
-            </div>
-          </div>
-        </div>
-
-        <div class="action-row" style="flex-wrap:wrap">
-          ${isCorrected(currentQ.id) ? `<button class="btn btn-ghost" onclick="revertEdit()" style="color:var(--red);flex:1 1 100%;margin-bottom:6px">↶ 還原原始版本（保留個人備註）</button>` : ''}
-          <button class="btn btn-outline" onclick="closeEditPanel()">取消</button>
-          <button class="btn btn-primary" onclick="saveEdit()">儲存</button>
-        </div>
-      </div>
-    </div>
-  `;
-  document.body.insertAdjacentHTML('beforeend', html);
-  // 預設展開進階編輯
-  document.getElementById('edit-advanced').classList.add('open');
-}
-
-function toggleEditAdvanced() {
-  document.getElementById('edit-advanced').classList.toggle('open');
-}
-
-function pickEditAnswer(letter, el) {
-  _editAnswer = letter;
-  document.querySelectorAll('#edit-answer-chips .filter-chip').forEach(x => x.classList.remove('active'));
-  el.classList.add('active');
-}
-
-function saveEdit() {
-  if (!currentQ) return;
-  const isMultiChoice = currentQ.options && currentQ.options.length > 0;
-
-  if (!currentQ._original) currentQ._original = {};
-  if (!corrections[currentQ.id]) corrections[currentQ.id] = {};
-
-  function setField(field, val) {
-    const cur = field === 'solution_steps'
-      ? JSON.stringify(currentQ[field])
-      : currentQ[field];
-    const nv = field === 'solution_steps' ? JSON.stringify(val) : val;
-    if (nv === cur) return;
-    if (!(field in currentQ._original)) currentQ._original[field] = currentQ[field];
-    currentQ[field] = val;
-    corrections[currentQ.id][field] = val;
-  }
-
-  // 答案
-  if (isMultiChoice) {
-    if (_editAnswer && _editAnswer !== currentQ.answer) setField('answer', _editAnswer);
-  } else {
-    const newAns = (document.getElementById('edit-answer-text')?.value || '').trim();
-    if (newAns !== (currentQ.answer || '').trim()) setField('answer', newAns);
-  }
-
-  // 備註
-  const newNote = (document.getElementById('edit-note')?.value || '').trim();
-  if (newNote !== (currentQ.answer_note || '').trim()) setField('answer_note', newNote);
-
-  // 進階欄位
-  const newQ = (document.getElementById('edit-question')?.value || '').trim();
-  if (newQ !== (currentQ.question || '').trim()) setField('question', newQ);
-
-  const stepsRaw = document.getElementById('edit-steps')?.value || '';
-  const newSteps = stepsRaw.split('\n').map(s=>s.trim()).filter(s=>s);
-  const oldSteps = JSON.stringify(Array.isArray(currentQ.solution_steps) ? currentQ.solution_steps : []);
-  if (JSON.stringify(newSteps) !== oldSteps) setField('solution_steps', newSteps);
-
-  const newKey = (document.getElementById('edit-key')?.value || '').trim();
-  if (newKey !== (currentQ.key_concepts || '').trim()) setField('key_concepts', newKey);
-
-  const newHint = (document.getElementById('edit-hint')?.value || '').trim();
-  if (newHint !== (currentQ.ai_hint || '').trim()) setField('ai_hint', newHint);
-
-  // 個人備註（獨立 namespace）
-  const newPersonal = (document.getElementById('edit-personal')?.value || '').trim();
-  if (newPersonal) { personalNotes[currentQ.id] = newPersonal; }
-  else { delete personalNotes[currentQ.id]; }
-  savePersonalNotes();
-
-  // 整理空 entry
-  const realFields = Object.keys(corrections[currentQ.id]).filter(k => !k.startsWith('_'));
-  if (realFields.length === 0) {
-    delete corrections[currentQ.id];
-  } else {
-    corrections[currentQ.id]._ts = Date.now();
-  }
-  saveCorrections();
-  _editAnswer = null;
-  closeEditPanel();
-  showQuestion();
-  renderHome();
-}
-
-function revertEdit() {
-  if (!confirm('確定還原為原始版本？此題的勘誤會被移除。')) return;
-  if (currentQ._original) {
-    for (const k of Object.keys(currentQ._original)) currentQ[k] = currentQ._original[k];
-    delete currentQ._original;
-  }
-  delete corrections[currentQ.id];
-  saveCorrections();
-  _editAnswer = null;
-  closeEditPanel();
-  showQuestion();
-}
-
-function closeEditPanel(e) {
-  if (e && e.target !== document.getElementById('edit-modal')) return;
-  const m = document.getElementById('edit-modal');
-  if (m) m.remove();
-}
-
-function openCorrectionsModal() {
-  const ids = Object.keys(corrections).filter(id =>
-    Object.keys(corrections[id]).some(k => !k.startsWith('_'))
-  );
-  const qmap = Object.fromEntries(questions.map(q => [q.id, q]));
-  const items = ids.map(id => {
-    const q = qmap[id];
-    if (!q) return null;
-    const corr = corrections[id];
-    const orig = q._original || {};
-    const lines = [];
-    for (const f of Object.keys(STAT_FIELDS)) {
-      if (!(f in corr)) continue;
-      const label = STAT_FIELDS[f];
-      const o = orig[f];
-      const n = corr[f];
-      if (f === 'solution_steps') {
-        lines.push(`${label}: (已修改)`);
-      } else if (f === 'answer_note' || f === 'key_concepts' || f === 'ai_hint' || f === 'question') {
-        const np = String(n).length > 30 ? String(n).slice(0,30)+'…' : String(n);
-        lines.push(`${label}: ${n ? `「${np}」` : '(清空)'}`);
-      } else {
-        lines.push(`${label}: ${o !== undefined ? o : '(空)'} → ${n}`);
-      }
-    }
-    return { id, lines };
-  }).filter(Boolean);
-
-  const html = `
-    <div class="modal-bg show" id="corrections-modal" onclick="closeCorrectionsModal(event)">
-      <div class="modal" onclick="event.stopPropagation()">
-        <div class="modal-handle"></div>
-        <div class="modal-title">勘誤管理 (${items.length} 筆)</div>
-        ${items.length === 0 ? `
-          <div class="empty" style="padding:32px 0;text-align:center;color:var(--muted);font-size:13px">
-            還沒有任何勘誤<br><br>
-            <span style="font-size:11px;color:var(--dim)">在刷題畫面點右上角 ✏ 開始編輯</span>
-          </div>
-          <div class="action-row"><button class="btn btn-outline" onclick="closeCorrectionsModal()">關閉</button></div>
-        ` : `
-          <div style="font-size:11px;color:var(--muted);margin-bottom:12px;line-height:1.6">
-            修改即時生效（存於本機）。點「複製清單」貼給 Claude 同步進 repo，同步後點清空。
-          </div>
-          <div class="corrections-list">
-            ${items.map(it => `
-              <div class="corr-entry">
-                <div class="corr-entry-id">${it.id}</div>
-                ${it.lines.map(ln => `<div class="corr-entry-line">${ln}</div>`).join('')}
-              </div>
-            `).join('')}
-          </div>
-          <div style="height:14px"></div>
-          <div class="action-row" style="flex-wrap:wrap;gap:6px">
-            <button class="btn btn-ghost" onclick="clearAllCorrections()" style="color:var(--red);flex:1 1 100%;margin-bottom:4px">🗑 清空全部</button>
-            <button class="btn btn-outline" onclick="closeCorrectionsModal()">關閉</button>
-            <button class="btn btn-primary" onclick="copyCorrectionsList()">📋 複製清單</button>
-          </div>
-        `}
-      </div>
-    </div>
-  `;
-  document.body.insertAdjacentHTML('beforeend', html);
-}
-
-function closeCorrectionsModal(e) {
-  if (e && e.target !== document.getElementById('corrections-modal')) return;
-  const m = document.getElementById('corrections-modal');
-  if (m) m.remove();
-}
-
-function copyCorrectionsList() {
-  const ids = Object.keys(corrections).filter(id =>
-    Object.keys(corrections[id]).some(k => !k.startsWith('_'))
-  );
-  const qmap = Object.fromEntries(questions.map(q => [q.id, q]));
-  const today = new Date().toISOString().slice(0,10);
-  const lines = [`# 心統題庫勘誤清單 (${ids.length} 筆) — ${today}`, ''];
-  for (const id of ids) {
-    const q = qmap[id];
-    if (!q) continue;
-    const corr = corrections[id];
-    const orig = q._original || {};
-    const fragments = [];
-    for (const f of Object.keys(STAT_FIELDS)) {
-      if (!(f in corr)) continue;
-      if (f === 'solution_steps') {
-        fragments.push(`solution_steps: (已修改，見 app)`);
-      } else if (f === 'answer') {
-        fragments.push(`answer: ${orig[f]||'(空)'} → ${corr[f]}`);
-      } else {
-        const val = String(corr[f]);
-        const short = val.length > 40 ? val.slice(0,40)+'…' : val;
-        fragments.push(`${f}: ${val ? `「${short}」` : '(清空)'}`);
-      }
-    }
-    if (fragments.length > 0) lines.push(`${id}  ${fragments.join('; ')}`);
-  }
-  const text = lines.join('\n');
-  function fallbackCopy() {
-    const ta = document.createElement('textarea');
-    ta.value = text; ta.style.cssText = 'position:fixed;top:-9999px';
-    document.body.appendChild(ta); ta.select();
-    try { document.execCommand('copy'); } catch(e) {}
-    ta.remove();
-  }
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(text).then(
-      () => alert(`已複製 ${ids.length} 筆勘誤到剪貼簿`),
-      () => { fallbackCopy(); alert(`已複製 ${ids.length} 筆`); }
-    );
-  } else { fallbackCopy(); alert(`已複製 ${ids.length} 筆`); }
-}
-
-function clearAllCorrections() {
-  const n = correctionsCount();
-  if (!confirm(`確定清空全部 ${n} 筆勘誤？\n所有題目會還原為原始版本。\n通常在已同步進 repo 後才這樣做。`)) return;
-  for (const q of questions) {
-    if (q._original) {
-      for (const k of Object.keys(q._original)) q[k] = q._original[k];
-      delete q._original;
-    }
-  }
-  corrections = {};
-  saveCorrections();
-  closeCorrectionsModal();
-  renderHome();
-}
-
-function renderNoteSection() {
-  const note = getPersonalNote(currentQ.id);
-  if (!note) return '';
-  return `<div>
-    <div class="personal-note-label">📝 我的備註</div>
-    <div class="personal-note-box">${esc2(note)}</div>
-  </div>`;
-}
-
-// ─── EXPORT ──────────────────────────────────────────────────────────────────
-function exportJSON() {
-  // 排除 _original 欄位（內部追蹤用，不應進 repo）
-  const clean = questions.map(q => {
-    const { _original, ...rest } = q;
-    return rest;
-  });
-  const json = JSON.stringify(clean, null, 2);
-  const blob = new Blob([json], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = '題庫.json';
-  a.click();
-  URL.revokeObjectURL(url);
 }
 
 // ─── UTILS ───────────────────────────────────────────────────────────────────

@@ -1,173 +1,145 @@
 # 心統刷題系統 SOP
 
-## 一、首次部署
-
-### 1. 下載系統
-- 從 Claude 下載 `心統刷題系統.zip`
-- 解壓縮，得到「刷題系統」資料夾
-- 確認資料夾內有這 5 個檔案：
-  ```
-  index.html
-  題庫.json
-  manifest.json
-  sw.js
-  README.md
-  ```
-
-### 2. 本機測試（Mac）
-```bash
-cd ~/Desktop/刷題系統
-python3 -m http.server 8080
-```
-打開瀏覽器輸入 `http://localhost:8080`，確認畫面正常。
-
-### 3. 建立 GitHub Repo
-1. 打開 [github.com](https://github.com)，登入
-2. 右上角 **+** → **New repository**
-3. Repository name 填：`stats-quiz`
-4. 選 **Public**
-5. 按 **Create repository**
-
-### 4. 上傳檔案
-1. 點頁面中的 **uploading an existing file**
-2. 把「刷題系統」資料夾內的**全部 5 個檔案**拖進去
-   （拖檔案，不是拖資料夾）
-3. 按 **Commit changes**
-
-### 5. 開啟 GitHub Pages
-1. 點 repo 上方的 **Settings**
-2. 左側找 **Pages**
-3. Source 選 **Deploy from a branch**
-4. Branch 選 **main**，資料夾選 **/ (root)**
-5. 按 **Save**
-
-### 6. 等待部署
-等 1-2 分鐘，網址為：
-```
-https://tuanzilee.github.io/stats-quiz
-```
-
-### 7. iPad 加到主畫面（PWA）
-1. Safari 打開上面的網址
-2. 點底部**分享**按鈕（方框加箭頭）
-3. 選**加入主畫面**
-4. 按**新增**
+> 線上版:**https://tuanzilee.github.io/stats-quiz/**
+> 工程化 Repo:`~/Desktop/stats/`
+> 工程化說明(給 Claude 看):見同目錄 `CLAUDE.md`
 
 ---
 
-## 二、日常使用
+## 一、日常使用
 
 ### Mac 本機刷題
+
 ```bash
-cd ~/Desktop/刷題系統
+cd ~/Desktop/stats
 python3 -m http.server 8080
 ```
-打開 `http://localhost:8080`
+
+打開瀏覽器:`http://localhost:8080`
+
+> ⚠ 不能直接點兩下 `index.html` 開啟(`fetch('./題庫.json')` 在 `file://` 會失敗)
 
 ### iPad / 手機刷題
-直接打開主畫面的 App，或瀏覽器輸入：
+
+直接打開主畫面 App,或 Safari 進:
 ```
 https://tuanzilee.github.io/stats-quiz
 ```
 
----
+### 加入 iPad 主畫面(PWA)
 
-## 三、勘誤與補題流程
-
-> 不管什麼更新，最後都只需要在 GitHub 換一個 `題庫.json`，`index.html` 幾乎不需要動。
-
-### 情況 A：發現題目有錯誤（勘誤）
-
-**你做的事：** 直接告訴 Claude，格式如下：
-```
-NTU-108-03 答案錯了，應該是 B 不是 C
-SCU-109-15 第3個解題步驟說錯了，正確應該是...
-NCCU-111-12 解題步驟漏掉了公式
-```
-
-**Claude 做的事：** 修正後回傳新的 `題庫.json`
-
-**你做的事（更新 GitHub）：**
-1. 打開 GitHub repo
-2. 點 `題庫.json`
-3. 右上角點**鉛筆圖示**（Edit this file）
-4. 點右上角 **...** → **Upload file** 或直接拖曳新檔案覆蓋
-5. 按 **Commit changes**
-6. 等 1-2 分鐘，Mac 和 iPad 自動更新
-
-### 情況 B：補充缺漏題目
-
-**你做的事：**
-1. 把考卷截圖傳給 Claude
-2. 說明學校和年份：「這是政大 113 年第 5-10 題」
-
-**Claude 做的事：** 把題目轉成 JSON 加進題庫，回傳新的 `題庫.json`
-
-**你做的事：** 同情況 A，覆蓋 GitHub 上的 `題庫.json`
-
-### 目前各校題庫完整度
-
-| 學校 | 現有題數 | 缺漏 | 優先度 |
-|------|---------|------|--------|
-| 東吳 | 56 題 | 無 | ✅ 完整 |
-| 台大 | 46 題 | 約 12 題 | 🟡 小缺漏 |
-| 台綜成大 | 43 題 | 約 10 題 | 🟡 小缺漏 |
-| 政大 | 97 題 | 約 98 題 | 🔴 嚴重缺漏 |
-
-**補題優先順序（政大）：**
-- 113 年缺 32 題 ← 最優先
-- 114 年缺 23 題
-- 111 年缺 18 題
-- 112 年缺 17 題
-- 109 年缺 8 題
+1. Safari 打開上面的網址
+2. 點底部**分享**按鈕(方框加箭頭)
+3. 選**加入主畫面** → **新增**
 
 ---
 
-## 四、題庫更新後如何刷新
+## 二、勘誤 / 補題流程(2026-05-16 起改用工程化流程)
+
+### 流程總覽
+
+```
+看到題目錯 / 想補題
+   ↓
+打開 claude.ai (網頁版),貼題目截圖 + 描述「哪題哪欄錯」
+   ↓
+讓 Claude 生出 prompt(會包含:題目 id、要改的欄位、新值、依據)
+   ↓
+把 prompt 丟給本機的 Claude Code(在 ~/Desktop/stats 目錄)
+   ↓
+Claude Code 改 題庫.json + bump sw.js + commit + push
+   ↓
+等 1-2 分鐘 GitHub Pages 部署
+   ↓
+強制重整(下方第三節)→ 拿到新版
+```
+
+### 為什麼改用這流程
+
+- **直接改源頭**:題目資料只在 `題庫.json`,改它就好,不必經過 app 內的勘誤面板再匯出再貼進來
+- **可追蹤**:每次勘誤都是一個 git commit,有歷史
+- **PWA 一定同步**:sw.js 版本 bump 後,所有裝置強制抓新版
+
+### 對 claude.ai 出 prompt 的範例
+
+> 截圖一張 NTU 108 的考卷,告訴 Claude:「NTU-108-03 的標準答案是 B,但題庫.json 寫 C,幫我生 prompt 給 Claude Code 改。」
+
+它會回類似:
+
+```
+修正 NTU-108-03 答案
+
+在 ~/Desktop/stats/題庫.json:
+  找到 id="NTU-108-03"
+  把 answer 從 "C" 改成 "B"
+  在 answer_note 補上「來源:標準解答 PDF p.5」
+
+接著 bump sw.js 的 CACHE 版本(stats-quiz-v2026-MM-DD-N)。
+最後 commit「修正 NTU-108-03 答案」並 push。
+```
+
+把這段 paste 進 `cd ~/Desktop/stats` 後啟動的 Claude Code,等它做完。
+
+---
+
+## 三、題庫更新後如何刷新
+
+> 已經 bump 過 sw.js 的情況下,還是要強制重整一次才會立刻生效。
 
 ### Mac
 ```
-Cmd + Shift + R（強制重新整理）
+Cmd + Shift + R(強制重新整理)
 ```
 
-### iPad
-1. 關閉主畫面 App，重新打開
-2. 或在 Safari 清除快取後重新整理
+### iPad PWA
+1. 關閉主畫面 App,**完全結束**(背景滑掉),重新打開
+2. 或 Safari 清除快取後重新整理
 
 ---
 
-## 五、答題紀錄說明
+## 四、答題紀錄說明
 
-- 答題紀錄存在**瀏覽器 localStorage**
-- 清除瀏覽器快取會消失
-- Mac 和 iPad 的紀錄是**分開的**，無法同步
-- 建議主要在一個裝置上刷題
+- 答題紀錄、模考歷史、AI 對話用的 API key,都存在**該裝置的 localStorage**
+- 清除瀏覽器快取 / 重新安裝 PWA 會消失
+- Mac 跟 iPad 的紀錄**不互通**(沒做帳號同步)
+- 建議主要在一台裝置上刷題
 
 ---
 
-## 六、題目 ID 規則
+## 五、題目 ID 規則
 
 | 學校 | 前綴 | 範例 |
-|------|------|------|
+|---|---|---|
 | 台大 | NTU | NTU-108-01 |
 | 台綜成大 | NCKU | NCKU-107-03 |
 | 東吳 | SCU | SCU-109-05 |
 | 政大 | NCCU | NCCU-111-12 |
 
-格式：`學校-年份-題號`
+格式:`學校-年份-題號`
+
+---
+
+## 六、AI hint 功能(刷題時)
+
+主程式內保留兩個 AI 對話入口,需先填 Anthropic API Key:
+
+- **💬 AI 逐步引導**(答題前可點):分階段提示思路,不直接給答案
+- **錯題討論**(答錯後出現):跟 AI 討論為什麼錯、怎麼想
+
+API key 第一次點到時會跳框輸入,存在本機 localStorage(`anthropic_api_key`),不會外傳。換裝置要重填。
 
 ---
 
 ## 七、常見問題
 
-**Q：打開網頁顯示「載入失敗」**
-A：確認有用 `python3 -m http.server 8080` 啟動，不能直接點兩下 index.html 開啟
+**Q:打開網頁顯示「載入失敗」**
+A:確認用 `python3 -m http.server 8080` 啟動,不能直接點兩下 `index.html`
 
-**Q：GitHub Pages 網址打不開**
-A：等多幾分鐘，或到 Settings → Pages 確認有顯示網址
+**Q:GitHub Pages 網址打不開**
+A:等多幾分鐘,或到 repo Settings → Pages 確認部署狀態
 
-**Q：題庫更新後沒有變化**
-A：強制重新整理：Mac 按 `Cmd + Shift + R`，iPad 清除 Safari 快取
+**Q:題庫更新後沒變化**
+A:八成是 PWA 快取問題。檢查 commit 有沒有同時 bump `sw.js` 的 CACHE 版本;有的話強制重整(第三節)
 
-**Q：iPad 加到主畫面後題庫沒更新**
-A：需要關閉 App 重新打開，或在 Safari 先重新整理再加入主畫面
+**Q:Claude Code 改完 push 了,但網頁還是舊版**
+A:同上,先強制重整;iPad 上把 PWA App 完全結束再開
