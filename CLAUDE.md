@@ -16,7 +16,6 @@ stats/
 ├── 題庫.json               ← 326 題,runtime fetch 載入(不 inline)
 ├── sw.js                   ← Service Worker,PWA 離線快取
 ├── manifest.json           ← PWA 設定
-├── toolbox.html            ← 心統公式工具書(獨立頁,不影響主程式)
 ├── README.md
 ├── 心統刷題系統_SOP.md     ← 使用者 SOP(操作 / 部署 / 刷新)
 └── CLAUDE.md               ← 本檔
@@ -91,7 +90,7 @@ const CACHE = 'stats-quiz-v2026-05-16-1';
 | 模考系統(分校年抽題、計時、自評) | `startMockExam` / `submitExam` / `renderMockReport` | `mock_history` |
 | **AI hint(練習時跟 AI 討論觀念,核心功能)** | `openStepAIChat`(逐步引導) / `openWrongAIChat`(錯題討論) / `callCalcAI` / `promptApiKey` / `saveApiKey` | `anthropic_api_key` |
 | 手寫板(計算過程記下) | `hwInit` / `hwSave` / `hwPointerDown` 等 | (內嵌在答題紀錄裡) |
-| 公式工具書(獨立頁) | `openFormulaPanel` / `switchFormulaTab` | — |
+| 公式速查 panel(右側滑入,inline 在 index.html) | `openFormulaPanel` / `switchFormulaTab` | — |
 
 ## 已砍的子系統(2026-05-16)
 
@@ -100,6 +99,7 @@ const CACHE = 'stats-quiz-v2026-05-16-1';
 | in-app 勘誤管理(編輯題目、產勘誤清單) | 勘誤該直接改源頭 `題庫.json`,不該在 client 端臨時改 | `stat_corrections_v1`(已在 init 一次性 `removeItem`) |
 | 個人筆記(每題本地註記) | 跟 in-app 勘誤共用編輯面板,一起砍 | `stat_notes_v1`(已在 init 一次性 `removeItem`) |
 | header「⬇ 匯出題庫」按鈕 | 沒勘誤系統後等於原檔下載,意義不大 | — |
+| `toolbox.html`(獨立公式工具書頁) | 孤兒檔,index.html 從未連結;內部 side panel(`openFormulaPanel`)已涵蓋同份資料 | — |
 
 → 未來如果想加類似功能,**先想清楚目的**:勘誤是工程流程、不是 app feature。
 
@@ -131,3 +131,10 @@ const CACHE = 'stats-quiz-v2026-05-16-1';
 ### 待勘誤
 
 (尚未盤點;之前的 in-app 勘誤資料未保留)
+
+### Known issues
+
+- **AI bottom sheet 在 iPad 軟鍵盤彈出時可能被擠壓,input bar 可能被遮住**。
+  尚未做 `visualViewport.addEventListener('resize')` 補償。
+  Workaround:拖 drag handle 把 sheet 往上拉到 90vh,input bar 會浮到鍵盤上方。
+  等實際用起來有痛點再處理。

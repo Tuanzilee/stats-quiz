@@ -685,11 +685,13 @@ html, body {
 .concept-review-btn:hover { border-color:var(--purple); color:var(--purple); }
 
 /* Chat review overlay */
-.chat-overlay { position:fixed; inset:0; background:var(--bg); z-index:200; display:flex; flex-direction:column; max-width:680px; margin:0 auto; }
-.chat-topbar { display:flex; align-items:center; gap:10px; padding:10px 14px; padding-top:calc(10px + var(--safe-top)); border-bottom:1px solid var(--border); flex-shrink:0; background:var(--bg); }
+.chat-overlay { position:fixed; bottom:0; left:0; right:0; height:var(--sheet-height,60vh); background:var(--bg); z-index:200; display:flex; flex-direction:column; max-width:680px; margin:0 auto; border-radius:16px 16px 0 0; box-shadow:0 -4px 20px rgba(0,0,0,0.3); }
+.chat-drag-handle { display:flex; justify-content:center; align-items:center; height:18px; padding-top:6px; cursor:row-resize; touch-action:none; flex-shrink:0; }
+.chat-drag-handle::before { content:''; display:block; width:40px; height:4px; border-radius:2px; background:var(--border2); }
+.chat-topbar { display:flex; align-items:center; gap:10px; padding:8px 14px 10px; border-bottom:1px solid var(--border); flex-shrink:0; background:var(--bg); }
 .chat-topbar-title { font-size:14px; font-weight:700; color:var(--purple); flex:1; }
 .chat-topbar-sub { font-size:11px; color:var(--muted); }
-.chat-messages { flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:14px 16px; display:flex; flex-direction:column; gap:12px; }
+.chat-messages { flex:1; overflow-y:auto; overscroll-behavior:contain; -webkit-overflow-scrolling:touch; padding:14px 16px; display:flex; flex-direction:column; gap:12px; }
 .chat-msg { display:flex; flex-direction:column; gap:4px; }
 .chat-msg.user { align-items:flex-end; }
 .chat-msg.ai { align-items:flex-start; }
@@ -2001,8 +2003,10 @@ function openConceptReview(concept) {
   overlay.className = 'chat-overlay';
   overlay.id = 'chat-overlay';
   overlay.innerHTML = `
+    <div class="chat-drag-handle" onpointerdown="chatSheetDragStart(event)" onpointermove="chatSheetDragMove(event)" onpointerup="chatSheetDragEnd(event)" onpointercancel="chatSheetDragEnd(event)"></div>
     <div class="chat-topbar">
       <button class="header-btn" onclick="closeChatOverlay()" style="flex-shrink:0">←</button>
+      <button class="formula-btn" onclick="openFormulaPanel()" style="flex-shrink:0">📐</button>
       <div class="chat-topbar-title">📖 ${concept}</div>
       <button class="btn btn-ghost" onclick="promptApiKey(null)" style="font-size:11px;color:var(--muted);padding:4px 8px">⚙ Key</button>
       <button class="btn btn-outline" onclick="startConceptQuiz('${esc(concept)}');closeChatOverlay()" style="font-size:12px;padding:6px 10px">練習 →</button>
@@ -2206,6 +2210,29 @@ function parseMarkdown(markdown) {
 
 function closeChatOverlay() {
   document.getElementById('chat-overlay')?.remove();
+  document.documentElement.style.removeProperty('--sheet-height');
+}
+
+// Bottom-sheet drag resize
+let _sheetDragY = 0, _sheetDragH = 0;
+function chatSheetDragStart(e) {
+  const overlay = document.getElementById('chat-overlay');
+  if (!overlay) return;
+  _sheetDragY = e.clientY;
+  _sheetDragH = overlay.getBoundingClientRect().height;
+  e.target.setPointerCapture(e.pointerId);
+  e.preventDefault();
+}
+function chatSheetDragMove(e) {
+  if (!e.target.hasPointerCapture(e.pointerId)) return;
+  const delta = _sheetDragY - e.clientY;
+  const minH = 180;
+  const maxH = window.innerHeight * 0.9;
+  const newH = Math.max(minH, Math.min(maxH, _sheetDragH + delta));
+  document.documentElement.style.setProperty('--sheet-height', newH + 'px');
+}
+function chatSheetDragEnd(e) {
+  if (e.target.hasPointerCapture(e.pointerId)) e.target.releasePointerCapture(e.pointerId);
 }
 
 // legacy — keep for cache compat
@@ -2828,8 +2855,10 @@ function openStepAIChat(qid) {
   overlay.className = 'chat-overlay';
   overlay.id = 'chat-overlay';
   overlay.innerHTML = `
+    <div class="chat-drag-handle" onpointerdown="chatSheetDragStart(event)" onpointermove="chatSheetDragMove(event)" onpointerup="chatSheetDragEnd(event)" onpointercancel="chatSheetDragEnd(event)"></div>
     <div class="chat-topbar">
       <button class="header-btn" onclick="closeChatOverlay()" style="flex-shrink:0">←</button>
+      <button class="formula-btn" onclick="openFormulaPanel()" style="flex-shrink:0">📐</button>
       <div class="chat-topbar-title">💬 逐步引導</div>
       <div class="chat-topbar-sub">${q.id}</div>
     </div>
@@ -2860,8 +2889,10 @@ function openWrongAIChat(qid) {
   overlay.className = 'chat-overlay';
   overlay.id = 'chat-overlay';
   overlay.innerHTML = `
+    <div class="chat-drag-handle" onpointerdown="chatSheetDragStart(event)" onpointermove="chatSheetDragMove(event)" onpointerup="chatSheetDragEnd(event)" onpointercancel="chatSheetDragEnd(event)"></div>
     <div class="chat-topbar">
       <button class="header-btn" onclick="closeChatOverlay()" style="flex-shrink:0">←</button>
+      <button class="formula-btn" onclick="openFormulaPanel()" style="flex-shrink:0">📐</button>
       <div class="chat-topbar-title">💬 錯題分析</div>
       <div class="chat-topbar-sub">${q.id}</div>
     </div>
