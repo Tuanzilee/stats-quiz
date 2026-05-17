@@ -62,11 +62,25 @@ stats/
   "concepts":     ["..."],
   "difficulty":   "easy / medium / hard",
   "formula_used": "...",
-  "primary_concept": "..."
+  "primary_concept": "...",
+  "group_id":     "NCKU-111-G-B",          ← 題組 ID;null 表示獨立題
+  "shared_stem":  "情境共用題幹(支援 markdown table)" ← 群組共用情境;null 表示無
 }
 ```
 
 → **改 `index.html` 不會改變題目資料**;題目資料只在 `題庫.json`。
+
+### Schema convention(鎖定)
+
+- **是非題 storage 統一 α 派**(2026-05-17 起):
+  - `type` = `"是非題"`
+  - `options` = `["A. 正確", "B. 錯誤或無法判斷"]`
+  - `answer` = `"A"` or `"B"`
+  - 不要再用 `options=[]` 或 `answer=""`(舊 NTU-113-TF 派已轉換)
+- **題組**(2026-05-17 起):
+  - `group_id` = `"{SOURCE}-{YEAR}-G-{字母}"` 例 `"NCKU-111-G-B"`
+  - `shared_stem` 為整組共用情境(markdown 格式,支援 table)
+  - 同一 `group_id` 的題目 `shared_stem` 內容必須完全一致(冗餘儲存,要勘誤情境需 grep 同組全改)
 
 ## PWA 快取規則(2026-05-16 起)
 
@@ -128,9 +142,34 @@ const CACHE = 'stats-quiz-v2026-05-16-1';
 
 `學校-年份-題號`,例 `NTU-108-01`、`NCKU-114-23`、`SCU-109-05`、`NCCU-111-12`
 
-### 待勘誤
+### 勘誤紀錄
 
-(尚未盤點;之前的 in-app 勘誤資料未保留)
+- **2026-05-17 NCKU-107-08**:answer B → A(原題幹「配對設計」與選項 df 不符,實為獨立樣本 t test;重寫 question / options / solution_steps / ai_hint / concepts / formula_used / primary_concept / key_concepts)
+- **2026-05-17 NCKU-111**:登記 4 個題組
+  - G-A(01-06):COVID 疫苗施打資料
+  - G-B(07-16):170 份問卷分數
+  - G-C(17-25):Moderna 第一/二劑頭暈反應
+  - G-D(29-30):ANOVA 結果表
+- **2026-05-17 NCKU-111-29**:ANOVA 數據表移到 `shared_stem`(question 內不再重複)
+- **2026-05-17 NTU-113-TF-01..06, 10**:統一是非題 α 派格式(`options=['A. 正確','B. 錯誤或無法判斷']`;answer 從 solution_steps 推得 B/A/B/A/B/A/A)
+
+### 待勘誤候選(需原卷對照)
+
+| ID | 命中啟發式 | 備註 |
+|---|---|---|
+| NCKU-107-20 | solution_steps 寫「答案推測:B(待確認)」 | 需原卷 verify |
+| NCKU-107-21 | solution_steps 寫「答案推測:D(待確認)」 | 需原卷 verify |
+| NCKU-107-24 | solution_steps 寫「答案推測:B(待確認)」 | 需原卷 verify |
+| NCKU-108-19 | solution_steps「答:D(待確認)」+ hint「需確認答案」(巢狀設計 df 不確定) | 需原卷 verify |
+| NCKU-113-13 | ai_hint hedging:「若題目答案為 D,可能涉及特定計算細節」 | 軟候選 |
+| NCKU-113-19 | ai_hint hedging:「題目脈絡可能將 E 視為需要確認的選項」 | 軟候選 |
+
+### Phase 2 待辦
+
+- **抽題綁定**:隨機抽到題組中一題,是否強制整組連著出?
+- **模考題組行為**:模考設定要不要加「題組綁在一起出」開關?
+- **錯題本連帶情境**:目前 `buildContext` 已 inline 顯示前題鏈 + shared_stem,但要不要連帶整組?
+- 待勘誤候選(上表)拿到原卷時 verify 一輪
 
 ### Known issues
 

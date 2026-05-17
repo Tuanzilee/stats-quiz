@@ -715,6 +715,15 @@ html, body {
 .chat-typing span:nth-child(2){animation-delay:.2s}
 .chat-typing span:nth-child(3){animation-delay:.4s}
 
+/* Shared stem (group-level common context) */
+.shared-stem { background:var(--surface2); border:1px solid var(--border2); border-left:3px solid var(--purple); border-radius:var(--radius); padding:12px 14px; margin-bottom:12px; font-size:13px; line-height:1.7; color:var(--text); }
+.shared-stem-label { font-size:10px; font-weight:700; letter-spacing:0.1em; color:var(--purple); text-transform:uppercase; margin-bottom:8px; }
+.shared-stem table { border-collapse:collapse; margin:8px 0; font-size:12px; width:100%; }
+.shared-stem th, .shared-stem td { border:1px solid var(--border); padding:4px 8px; text-align:left; }
+.shared-stem th { background:var(--surface); font-weight:700; color:var(--muted); }
+.shared-stem p { margin:0 0 6px; }
+.shared-stem p:last-child { margin-bottom:0; }
+
 /* Split layout for open questions on iPad */
 .exam-split { display:flex; flex:1; overflow:hidden; }
 .exam-split-left { flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:14px 16px; border-right:1px solid var(--border); }
@@ -1847,14 +1856,49 @@ function applyFilters() {
 }
 
 // ─── CONTEXT (承上題) ────────────────────────────────────────────────────────
+function renderSharedStemMarkdown(md) {
+  const lines = (md || '').split('\n');
+  const out = [];
+  let i = 0;
+  while (i < lines.length) {
+    const l = lines[i];
+    // markdown table: header row + separator row + data rows
+    if (/^\s*\|.*\|\s*$/.test(l) && i + 1 < lines.length && /^\s*\|[\s\-:|]+\|\s*$/.test(lines[i + 1])) {
+      const split = s => s.trim().replace(/^\||\|$/g, '').split('|').map(c => c.trim());
+      const header = split(l);
+      const rows = [];
+      i += 2;
+      while (i < lines.length && /^\s*\|.*\|\s*$/.test(lines[i])) {
+        rows.push(split(lines[i]));
+        i++;
+      }
+      out.push(`<table><thead><tr>${header.map(h => `<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.map(r => `<tr>${r.map(c => `<td>${c || '&nbsp;'}</td>`).join('')}</tr>`).join('')}</tbody></table>`);
+      continue;
+    }
+    if (l.trim()) out.push(`<p>${l}</p>`);
+    i++;
+  }
+  return out.join('');
+}
+
 function buildContext(q) {
-  // 直接顯示 context 欄位（題組補充資料）
+  const parts = [];
+
+  // 1. shared_stem (group-level common stem)
+  if (q.shared_stem) {
+    parts.push(`<div class="shared-stem">
+      <div class="shared-stem-label">📋 題組情境</div>
+      ${renderSharedStemMarkdown(q.shared_stem)}
+    </div>`);
+  }
+
+  // 2. context 欄位（題組補充資料，自由文字）
   if (q.context) {
-    return `<div class="context-block" style="background:var(--surface);border:1px solid var(--border2);border-left:3px solid var(--purple);border-radius:var(--radius);padding:10px 13px;margin-bottom:12px;font-size:13px;line-height:1.7;color:var(--text);white-space:pre-wrap">${q.context}</div>`;
+    parts.push(`<div class="context-block" style="background:var(--surface);border:1px solid var(--border2);border-left:3px solid var(--purple);border-radius:var(--radius);padding:10px 13px;margin-bottom:12px;font-size:13px;line-height:1.7;color:var(--text);white-space:pre-wrap">${q.context}</div>`);
   }
 
   const isFollowUp = (text) => /^[（(]?(承上題|承上|續上題|續上|接續上題|承第\d+題|接續第\d+題|承前題|如上題|依上題|接上題)/.test(text);
-  if (!isFollowUp(q.question)) return '';
+  if (!isFollowUp(q.question)) return parts.join('');
 
   // 遞迴往前追溯，收集整個題組鏈
   function getPrevQ(curQ) {
@@ -1914,9 +1958,9 @@ function buildContext(q) {
   }
 
   const chain = buildChain(q); // 從最早的題到最近的前題
-  if (chain.length === 0) return '';
+  if (chain.length === 0) return parts.join('');
 
-  const parts = chain.map((pq, i) => {
+  const chainParts = chain.map((pq, i) => {
     if (i === 0) {
       // 第一題（原始情境）完整顯示
       return `<div style="margin-bottom:${chain.length>1?'10px':'0'}">
@@ -1932,7 +1976,7 @@ function buildContext(q) {
     }
   });
 
-  return `<div style="
+  parts.push(`<div style="
     background:var(--surface2);
     border:1px solid var(--border2);
     border-left:3px solid var(--blue);
@@ -1941,8 +1985,9 @@ function buildContext(q) {
     margin-bottom:4px;
   ">
     <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;color:var(--blue);margin-bottom:8px;text-transform:uppercase">📎 題組情境</div>
-    ${parts.join('')}
-  </div>`;
+    ${chainParts.join('')}
+  </div>`);
+  return parts.join('');
 }
 
 // ─── UTILS ───────────────────────────────────────────────────────────────────
