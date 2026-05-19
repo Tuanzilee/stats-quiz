@@ -2275,23 +2275,11 @@ async function startConceptChat(concept, apiKey) {
   chatHistory[concept] = [{ role: 'user', content: firstMsg }];
 
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 1000,
-        system: systemPrompt,
-        messages: chatHistory[concept]
-      })
-    });
-    const data = await res.json();
-    if (data.error) throw new Error(data.error.message);
+    const data = await callAnthropicWithRetry(
+      { model: 'claude-haiku-4-5-20251001', max_tokens: 1000, system: systemPrompt, messages: chatHistory[concept] },
+      apiKey,
+      (n, t) => appendTyping(`⏳ Anthropic 忙碌，重試中 (${n}/${t})`)
+    );
     const text = data.content?.[0]?.text || '生成失敗';
     removeTyping();
     chatHistory[concept].push({ role: 'assistant', content: text });
@@ -2299,7 +2287,7 @@ async function startConceptChat(concept, apiKey) {
     appendAiMessage(text);
   } catch(e) {
     removeTyping();
-    appendAiMessage(`⚠ ${e.message || '無法連線，請確認 API Key 與網路'}`);
+    appendAiMessage(friendlyAIError(e));
   }
 }
 
@@ -2323,31 +2311,18 @@ async function sendChatMessage(concept) {
     const systemPrompt = `你是心理統計學考前複習老師，專門幫學生用最白話的方式準備考試。
 學生現在在複習「${concept}」。回答風格：口語、簡短、直接，多用條列，公式用純文字寫出。
 注意：不要使用 # * ** 等 markdown 符號，直接用純文字。標題用「【】」包起來。`;
-
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': key,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 800,
-        system: systemPrompt,
-        messages: chatHistory[concept]
-      })
-    });
-    const data = await res.json();
-    if (data.error) throw new Error(data.error.message);
+    const data = await callAnthropicWithRetry(
+      { model: 'claude-haiku-4-5-20251001', max_tokens: 800, system: systemPrompt, messages: chatHistory[concept] },
+      key,
+      (n, t) => appendTyping(`⏳ Anthropic 忙碌，重試中 (${n}/${t})`)
+    );
     const reply = data.content?.[0]?.text || '無回應';
     removeTyping();
     chatHistory[concept].push({ role: 'assistant', content: reply });
     appendAiMessage(reply);
   } catch(e) {
     removeTyping();
-    appendAiMessage(`⚠ ${e.message || '連線失敗'}`);
+    appendAiMessage(friendlyAIError(e));
   }
 }
 
@@ -2379,13 +2354,17 @@ function appendAiMessage(markdown) {
   msgs.scrollTop = msgs.scrollHeight;
 }
 
-function appendTyping() {
+function appendTyping(hintText) {
   const msgs = document.getElementById('chat-messages');
   if (!msgs) return;
+  // idempotent: 自己移除舊的, caller 不用先 removeTyping
+  document.getElementById('chat-typing')?.remove();
   const div = document.createElement('div');
   div.className = 'chat-msg ai';
   div.id = 'chat-typing';
-  div.innerHTML = `<div class="chat-bubble"><div class="chat-typing"><span></span><span></span><span></span></div></div>`;
+  div.innerHTML = hintText
+    ? `<div class="chat-bubble" style="font-size:12px;color:var(--yellow);font-style:italic">${hintText}</div>`
+    : `<div class="chat-bubble"><div class="chat-typing"><span></span><span></span><span></span></div></div>`;
   msgs.appendChild(div);
   msgs.scrollTop = msgs.scrollHeight;
 }
@@ -3189,27 +3168,66 @@ function buildWrongSystemPrompt(q) {
 - 一次只問一件事`;
 }
 
+// AI call with retry on overloaded_error (up to 3 retries, 2s/4s/8s delays)
+async function callAnthropicWithRetry(payload, apiKey, onRetry) {
+  const DELAYS = [2000, 4000, 8000];
+  let lastErr = null;
+  for (let attempt = 1; attempt <= 4; attempt++) {
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': apiKey,
+          'anthropic-version': '2023-06-01',
+          'anthropic-dangerous-direct-browser-access': 'true'
+        },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (data.error) {
+        const err = new Error(data.error.message || 'unknown error');
+        err.errorType = data.error.type;
+        if (data.error.type !== 'overloaded_error') throw err;  // 非 overloaded 不 retry
+        lastErr = err;
+      } else {
+        return data;
+      }
+    } catch (e) {
+      // fetch reject (network error 通常是 TypeError) → tag for friendlyAIError
+      if (!e.errorType && e instanceof TypeError) e.errorType = 'network_error';
+      if (e.errorType !== 'overloaded_error') throw e;
+      lastErr = e;
+    }
+    // 還有 retry 額度 → 等待後再試
+    if (attempt < 4) {
+      if (onRetry) onRetry(attempt, 3);  // 通知 caller: 1/3, 2/3, 3/3
+      await new Promise(r => setTimeout(r, DELAYS[attempt - 1]));
+    }
+  }
+  throw lastErr;
+}
+
+// Map error → friendly Chinese message (or fall back to English for dev cases)
+function friendlyAIError(err) {
+  const t = err && err.errorType;
+  if (t === 'overloaded_error')     return '⏰ Anthropic 伺服器忙碌，通常 30 秒內會恢復，請重新點 [💬 AI 逐步引導]';
+  if (t === 'rate_limit_error')     return '⚡ 請求太頻繁，等 30 秒再試';
+  if (t === 'authentication_error') return '🔑 API Key 失效或未設，點上方 ⚙ Key 重設';
+  if (t === 'network_error')        return '📡 網路連線失敗，請檢查網路後重試';
+  // invalid_request_error / api_error / 其他 → 英文原文 (給開發者看)
+  return `⚠ ${(err && err.message) || '連線失敗'}`;
+}
+
 async function callCalcAI(systemPrompt, messages, qid) {
   const key = getApiKey();
   if (!key) return;
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': key,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 600,
-        system: systemPrompt,
-        messages
-      })
-    });
-    const data = await res.json();
-    if (data.error) throw new Error(data.error.message);
+    const data = await callAnthropicWithRetry(
+      { model: 'claude-haiku-4-5-20251001', max_tokens: 600, system: systemPrompt, messages },
+      key,
+      (n, t) => appendTyping(`⏳ Anthropic 忙碌，重試中 (${n}/${t})`)
+    );
     const reply = data.content?.[0]?.text || '無回應';
     removeTyping();
     if (!chatHistory[qid]) chatHistory[qid] = [];
@@ -3217,7 +3235,7 @@ async function callCalcAI(systemPrompt, messages, qid) {
     appendAiMessage(reply);
   } catch(e) {
     removeTyping();
-    appendAiMessage(`⚠ ${e.message || '連線失敗'}`);
+    appendAiMessage(friendlyAIError(e));
   }
 }
 
