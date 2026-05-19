@@ -82,6 +82,18 @@ stats/
   - `shared_stem` 為整組共用情境(markdown 格式,支援 table)
   - 同一 `group_id` 的題目 `shared_stem` 內容必須完全一致(冗餘儲存,要勘誤情境需 grep 同組全改)
 
+### 抽題排序(2026-05-19 起)
+
+`startQuiz('all')` 和 `startConceptQuiz` 採分層抽題:
+- tier 0:沒做過(`!records[qid]`)
+- tier 1:不懂(`status='wrong'`)
+- tier 2:不確定(`status='unsure'`)
+- tier 3:懂了(`status='correct'`)
+
+低 tier 先出,同 tier 內 random。`startQuiz('wrong')` / `startQuiz('unsure')` / `startMockExam` 維持純 random(避免破壞「複習已標記」「模考公平試」的精神)。
+
+實作:`sortByPriority(pool)` helper(index.html ~line 1544)。
+
 ## PWA 快取規則(2026-05-16 起)
 
 `sw.js` 第 1 行的 `CACHE` 常數控制版本:
@@ -100,7 +112,7 @@ const CACHE = 'stats-quiz-v2026-05-16-1';
 
 | 子系統 | 主要 function | localStorage key |
 |---|---|---|
-| 答題紀錄(對/錯/不確定標記) | `loadRecords` / `saveRecords` / `markQ` | `quiz_records_v1` |
+| 答題紀錄(對/錯/不確定標記;練習 + 考點頁刷題會依此分層抽題) | `loadRecords` / `saveRecords` / `markQ` / `sortByPriority` | `quiz_records_v1` |
 | 模考系統(分校年抽題、計時、自評) | `startMockExam` / `submitExam` / `renderMockReport` | `mock_history` |
 | **AI hint(練習時跟 AI 討論觀念,核心功能)** | `openStepAIChat`(逐步引導) / `openWrongAIChat`(錯題討論) / `callCalcAI` / `promptApiKey` / `saveApiKey` | `anthropic_api_key` |
 | 手寫板(計算過程記下) | `hwInit` / `hwSave` / `hwPointerDown` 等 | (內嵌在答題紀錄裡) |

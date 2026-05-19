@@ -1541,6 +1541,21 @@ function renderConcepts() {
 }
 
 // ─── QUIZ ENGINE ─────────────────────────────────────────────────────────────
+// 分層排序：沒做過 > 不懂(wrong) > 不確定(unsure) > 懂了(correct)；同 tier 內 random
+function sortByPriority(pool) {
+  const tier = q => {
+    const s = records[q.id]?.status;
+    if (!s) return 0;
+    if (s === 'wrong') return 1;
+    if (s === 'unsure') return 2;
+    return 3;
+  };
+  return [...pool]
+    .map(q => ({ q, r: Math.random(), t: tier(q) }))
+    .sort((a, b) => a.t - b.t || a.r - b.r)
+    .map(x => x.q);
+}
+
 function startQuiz(mode) {
   let pool;
   if (mode === 'all') {
@@ -1554,8 +1569,10 @@ function startQuiz(mode) {
     alert(mode === 'wrong' ? '目前沒有答錯的題目！' : mode === 'unsure' ? '目前沒有標記不確定的題目！' : '沒有符合條件的題目');
     return;
   }
-  // Shuffle
-  quizQueue = [...pool].sort(() => Math.random() - 0.5);
+  // 'all' → 分層排序；'wrong'/'unsure' → 池內同質, 維持 random
+  quizQueue = mode === 'all'
+    ? sortByPriority(pool)
+    : [...pool].sort(() => Math.random() - 0.5);
   quizIdx = 0;
   goPage('page-quiz');
   showQuestion();
@@ -1564,7 +1581,7 @@ function startQuiz(mode) {
 function startConceptQuiz(concept) {
   const pool = questions.filter(q => q.primary_concept === concept);
   if (pool.length === 0) return;
-  quizQueue = [...pool].sort(() => Math.random() - 0.5);
+  quizQueue = sortByPriority(pool);
   quizIdx = 0;
   goPage('page-quiz');
   showQuestion();
@@ -1732,10 +1749,7 @@ function submitAnswer() {
 
   // Show solution
   document.getElementById('solution-panel').classList.add('show');
-  document.getElementById('action-row').innerHTML = `
-    <button class="btn btn-outline" onclick="prevQuestion()" ${quizIdx===0?'disabled style="opacity:0.4"':''}>← 上一題</button>
-    <button class="btn btn-primary" onclick="nextQuestion()">${quizIdx===quizQueue.length-1?'完成':'下一題 →'}</button>
-  `;
+  document.getElementById('action-row').innerHTML = '';  // 留給 bottom .action-row 顯示 nav
 
   // Auto-mark
   if (!records[currentQ.id]) {
@@ -1750,11 +1764,7 @@ function revealAnswer() {
   const ans = currentQ.answer || '（詳見解析）';
   rev.className = 'reveal-section correct-reveal';
   rev.innerHTML = `<div class="reveal-ans">✦ 答案：<strong style="color:var(--green)">${ans}</strong></div>`;
-  document.getElementById('action-row').innerHTML = `
-    <div style="display:flex;flex-direction:column;gap:6px;width:100%">
-      <button class="btn btn-primary" onclick="nextQuestion()">${quizIdx===quizQueue.length-1?'完成':'下一題 →'}</button>
-    </div>
-  `;
+  document.getElementById('action-row').innerHTML = '';  // 留給 bottom .action-row 顯示 nav
 }
 
 function renderSteps() {
@@ -2748,7 +2758,7 @@ function renderMockReport() {
       <div style="display:flex;flex-direction:column;gap:5px;flex-shrink:0">
         ${isOpenType ? `<button class="wrong-q-add-btn" style="border-color:var(--purple);color:var(--purple)" onclick="openWrongAIChat('${q.id}')">💬 AI 一起看</button>` : ''}
         <button class="wrong-q-add-btn ${isUnsure?'added':''}" id="add-btn-${q.id}" onclick="addToUnsure('${q.id}',this)">
-          ${isUnsure ? '✓ 已加入' : '+ 不懂'}
+          ${isUnsure ? '✓ 已加入' : '+ 不確定'}
         </button>
       </div>
     </div>`;
@@ -2794,7 +2804,7 @@ function renderMockReport() {
     ${wrongList}
 
     <div class="report-actions">
-      ${wrongIds.length > 0 ? `<button class="btn btn-outline" onclick="addAllWrongToUnsure()" style="font-size:13px">一鍵加入全部錯題到「不懂」複習佇列</button>` : ''}
+      ${wrongIds.length > 0 ? `<button class="btn btn-outline" onclick="addAllWrongToUnsure()" style="font-size:13px">一鍵加入全部錯題到「不確定」複習佇列</button>` : ''}
       <button class="btn btn-primary" onclick="exitMockExam()" style="margin-top:4px">回到主頁</button>
     </div>
     <div style="height:24px"></div>
