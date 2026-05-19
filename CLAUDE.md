@@ -176,12 +176,12 @@ const CACHE = 'stats-quiz-v2026-05-16-1';
 - **2026-05-19 SCU-113-02**:answer B → C(原卷題意混亂,「以下何者錯誤」實有 A/B/D 三個錯選項,C 為唯一正確;照老師答案改 C,question 維持原卷,ai_hint 加警語說明題意應為「何者正確」;formula_used 補入平均/中位數/眾數三公式)
 - **2026-05-19 NCKU-107-24**:answer 從空字串 → B(原 solution_steps 已分析出 B 正確,只是末行「答案推測:B(待確認)」未斷言;老師確認後落定;ai_hint 原本已無 hedging,不動)
 - **2026-05-19 NCKU-107-21**:answer 從空字串 → D(原 solution_steps 已分析出 D 正確,只是末行「答案推測:D(待確認)」未斷言;老師確認後落定;ai_hint 原本已無 hedging,不動)
+- **2026-05-19 NCKU-107-20**:answer 從空字串 → B(交互作用直接表述,D 為 over-interpretation;原 solution_steps 已分析出 B 正確,只是末行「答案推測:B(待確認)」未斷言;老師確認後落定;ai_hint 原本已無 hedging,不動)
 
 ### 待勘誤候選(需原卷對照)
 
 | ID | 命中啟發式 | 備註 |
 |---|---|---|
-| NCKU-107-20 | solution_steps 寫「答案推測:B(待確認)」 | 需原卷 verify |
 | NCKU-108-19 | solution_steps「答:D(待確認)」+ hint「需確認答案」(巢狀設計 df 不確定) | 需原卷 verify |
 | NCKU-113-13 | ai_hint hedging:「若題目答案為 D,可能涉及特定計算細節」 | 軟候選 |
 | NCKU-113-19 | ai_hint hedging:「題目脈絡可能將 E 視為需要確認的選項」 | 軟候選 |
