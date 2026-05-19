@@ -724,6 +724,20 @@ html, body {
 .shared-stem p { margin:0 0 6px; }
 .shared-stem p:last-child { margin-bottom:0; }
 
+/* Notes block (個人筆記) */
+.notes-block { background:var(--surface2); border:1px solid var(--border2); border-left:3px solid var(--green); border-radius:var(--radius); padding:12px 14px; margin-top:12px; margin-bottom:12px; }
+.notes-block-header { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+.notes-block-label { font-size:10px; font-weight:700; letter-spacing:0.1em; color:var(--green); text-transform:uppercase; flex:1; }
+.notes-add-btn { font-size:11px; padding:4px 10px; border-radius:6px; border:1px solid var(--green); background:transparent; color:var(--green); cursor:pointer; }
+.note-item { display:flex; gap:8px; padding:8px 0; border-top:1px solid var(--border); font-size:13px; line-height:1.6; }
+.note-item:first-child { border-top:none; }
+.note-item-text { flex:1; white-space:pre-wrap; color:var(--text); }
+.note-item-ts { font-size:10px; color:var(--muted); margin-bottom:4px; font-family:'Space Mono',monospace; }
+.note-item-actions { display:flex; flex-direction:column; gap:4px; flex-shrink:0; }
+.note-action-btn { width:24px; height:24px; border-radius:4px; border:1px solid var(--border2); background:var(--surface); color:var(--muted); font-size:11px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+.notes-editor { width:100%; background:var(--surface); border:1px solid var(--border2); border-radius:6px; padding:8px 10px; color:var(--text); font-size:13px; line-height:1.5; resize:vertical; min-height:60px; font-family:'Noto Sans TC',sans-serif; margin-top:8px; }
+.notes-editor-actions { display:flex; gap:6px; justify-content:flex-end; margin-top:6px; }
+
 /* Split layout for open questions on iPad */
 .exam-split { display:flex; flex:1; overflow:hidden; }
 .exam-split-left { flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:14px 16px; border-right:1px solid var(--border); }
@@ -1329,10 +1343,13 @@ let conceptFilter = '';
 let browseSearchQ = '';
 
 const RECORDS_KEY = 'quiz_records_v1';
+const NOTES_KEY = 'user_notes_v1';
+let userNotes = {};   // { qid: [{id, ts, text}, ...] }
 
 // ─── INIT ────────────────────────────────────────────────────────────────────
 async function init() {
   loadRecords();
+  loadNotes();
   // 一次性清除 2026-05-16 移除的 in-app 勘誤 / 個人筆記殘留
   localStorage.removeItem('stat_corrections_v1');
   localStorage.removeItem('stat_notes_v1');
@@ -1367,6 +1384,154 @@ function saveRecords() {
   localStorage.setItem(RECORDS_KEY, JSON.stringify(records));
 }
 function getStatus(id) { return records[id]?.status || 'unmarked'; }
+
+// ─── NOTES (user_notes_v1) ───────────────────────────────────────────────────
+function loadNotes() {
+  try { userNotes = JSON.parse(localStorage.getItem(NOTES_KEY) || '{}'); }
+  catch(e) { userNotes = {}; }
+}
+function saveNotes() {
+  localStorage.setItem(NOTES_KEY, JSON.stringify(userNotes));
+}
+function getNotes(qid) {
+  return userNotes[qid] || [];
+}
+function addNote(qid, text) {
+  const t = (text || '').trim();
+  if (!t) return null;
+  if (!userNotes[qid]) userNotes[qid] = [];
+  const note = { id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), ts: Date.now(), text: t };
+  userNotes[qid].push(note);
+  saveNotes();
+  return note;
+}
+function updateNote(qid, noteId, text) {
+  const t = (text || '').trim();
+  if (!t) return deleteNote(qid, noteId);
+  const arr = userNotes[qid] || [];
+  const n = arr.find(x => x.id === noteId);
+  if (n) { n.text = t; n.ts = Date.now(); saveNotes(); }
+}
+function deleteNote(qid, noteId) {
+  if (!userNotes[qid]) return;
+  userNotes[qid] = userNotes[qid].filter(x => x.id !== noteId);
+  if (userNotes[qid].length === 0) delete userNotes[qid];
+  saveNotes();
+}
+
+function escHtml(s) {
+  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function renderNotesBlock(qid) {
+  const notes = getNotes(qid).slice().sort((a, b) => b.ts - a.ts);
+  const items = notes.map(n => {
+    const d = new Date(n.ts);
+    const ts = `${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+    return `<div class="note-item" id="note-${n.id}">
+      <div style="flex:1">
+        <div class="note-item-ts">${ts}</div>
+        <div class="note-item-text">${escHtml(n.text)}</div>
+      </div>
+      <div class="note-item-actions">
+        <button class="note-action-btn" onclick="startEditNote('${qid}','${n.id}')" title="編輯">✏</button>
+        <button class="note-action-btn" onclick="confirmDeleteNote('${qid}','${n.id}')" title="刪除">🗑</button>
+      </div>
+    </div>`;
+  }).join('');
+  return `<div class="notes-block" id="notes-block-${qid}">
+    <div class="notes-block-header">
+      <div class="notes-block-label">📝 我的筆記${notes.length > 0 ? ` (${notes.length})` : ''}</div>
+      <button class="notes-add-btn" onclick="startAddNote('${qid}')">+ 新增</button>
+    </div>
+    <div id="notes-list-${qid}">${items || '<div style="font-size:12px;color:var(--dim);padding:4px 0">尚無筆記</div>'}</div>
+    <div id="notes-editor-wrap-${qid}"></div>
+  </div>`;
+}
+
+function startAddNote(qid) {
+  const wrap = document.getElementById('notes-editor-wrap-' + qid);
+  if (!wrap) return;
+  wrap.innerHTML = `
+    <textarea class="notes-editor" id="notes-editor-${qid}" placeholder="我從這題學到 / 我容易錯的點..."></textarea>
+    <div class="notes-editor-actions">
+      <button class="btn btn-ghost" onclick="cancelEditNote('${qid}')" style="font-size:12px">取消</button>
+      <button class="btn btn-primary" onclick="saveNewNote('${qid}')" style="font-size:12px">儲存</button>
+    </div>`;
+  document.getElementById('notes-editor-' + qid).focus();
+}
+function saveNewNote(qid) {
+  const ta = document.getElementById('notes-editor-' + qid);
+  if (!ta) return;
+  addNote(qid, ta.value);
+  rerenderNotesBlock(qid);
+}
+function startEditNote(qid, noteId) {
+  const arr = getNotes(qid);
+  const n = arr.find(x => x.id === noteId);
+  if (!n) return;
+  const wrap = document.getElementById('notes-editor-wrap-' + qid);
+  if (!wrap) return;
+  wrap.innerHTML = `
+    <textarea class="notes-editor" id="notes-editor-${qid}">${escHtml(n.text)}</textarea>
+    <div class="notes-editor-actions">
+      <button class="btn btn-ghost" onclick="cancelEditNote('${qid}')" style="font-size:12px">取消</button>
+      <button class="btn btn-primary" onclick="saveEditedNote('${qid}','${noteId}')" style="font-size:12px">儲存</button>
+    </div>`;
+  document.getElementById('notes-editor-' + qid).focus();
+}
+function saveEditedNote(qid, noteId) {
+  const ta = document.getElementById('notes-editor-' + qid);
+  if (!ta) return;
+  updateNote(qid, noteId, ta.value);
+  rerenderNotesBlock(qid);
+}
+function confirmDeleteNote(qid, noteId) {
+  if (!confirm('刪除這則筆記?')) return;
+  deleteNote(qid, noteId);
+  rerenderNotesBlock(qid);
+}
+function cancelEditNote(qid) {
+  const wrap = document.getElementById('notes-editor-wrap-' + qid);
+  if (wrap) wrap.innerHTML = '';
+}
+function rerenderNotesBlock(qid) {
+  const old = document.getElementById('notes-block-' + qid);
+  if (!old) return;
+  const tmp = document.createElement('div');
+  tmp.innerHTML = renderNotesBlock(qid);
+  old.replaceWith(tmp.firstElementChild);
+}
+
+// AI sheet 內加筆記(inline,避免 sheet+modal 套娃)
+function openAddNoteFromChat(qid) {
+  if (document.getElementById('chat-note-editor-wrap')) {
+    document.getElementById('chat-note-editor').focus();
+    return;
+  }
+  const wrap = document.createElement('div');
+  wrap.id = 'chat-note-editor-wrap';
+  wrap.style.cssText = 'padding:10px 14px;border-top:1px solid var(--border);background:var(--surface);';
+  wrap.innerHTML = `
+    <div style="font-size:10px;font-weight:700;color:var(--green);margin-bottom:6px;letter-spacing:0.1em">📝 記筆記 — ${qid}</div>
+    <textarea class="notes-editor" id="chat-note-editor" placeholder="我從這題學到 / 我容易錯的點..." style="margin-top:0"></textarea>
+    <div class="notes-editor-actions">
+      <button class="btn btn-ghost" onclick="closeChatNoteEditor()" style="font-size:12px">取消</button>
+      <button class="btn btn-primary" onclick="saveChatNote('${qid}')" style="font-size:12px">儲存</button>
+    </div>`;
+  const inputBar = document.querySelector('.chat-input-bar');
+  if (inputBar) inputBar.parentNode.insertBefore(wrap, inputBar);
+  document.getElementById('chat-note-editor').focus();
+}
+function saveChatNote(qid) {
+  const ta = document.getElementById('chat-note-editor');
+  if (!ta) return;
+  addNote(qid, ta.value);
+  closeChatNoteEditor();
+}
+function closeChatNoteEditor() {
+  document.getElementById('chat-note-editor-wrap')?.remove();
+}
 
 function updateHeaderSub() {
   const done = Object.keys(records).length;
@@ -1639,6 +1804,8 @@ function showQuestion() {
     ${isMultiChoice ? renderOptions() : renderFreeAnswer()}
 
     <div id="reveal-section" class="reveal-section"></div>
+
+    ${renderNotesBlock(currentQ.id)}
 
     <div class="action-row" id="action-row">
       ${isMultiChoice
@@ -2674,6 +2841,8 @@ function renderReviewQuestion() {
         <div class="review-ans-val" style="font-size:13px">${q.key_concepts}</div>
       </div>` : ''}
 
+    ${renderNotesBlock(q.id)}
+
     <div class="review-solution">
       <div class="review-ans-label" style="margin-bottom:8px">解析</div>
       <div class="steps">${stepsHTML}</div>
@@ -2914,6 +3083,7 @@ function openStepAIChat(qid) {
     <div class="chat-topbar">
       <button class="header-btn" onclick="closeChatOverlay()" style="flex-shrink:0">←</button>
       <button class="formula-btn" onclick="openFormulaPanel()" style="flex-shrink:0">📐</button>
+      <button class="formula-btn" onclick="openAddNoteFromChat('${esc(q.id)}')" style="flex-shrink:0">📝</button>
       <div class="chat-topbar-title">💬 逐步引導</div>
       <div class="chat-topbar-sub">${q.id}</div>
     </div>
@@ -2948,6 +3118,7 @@ function openWrongAIChat(qid) {
     <div class="chat-topbar">
       <button class="header-btn" onclick="closeChatOverlay()" style="flex-shrink:0">←</button>
       <button class="formula-btn" onclick="openFormulaPanel()" style="flex-shrink:0">📐</button>
+      <button class="formula-btn" onclick="openAddNoteFromChat('${esc(q.id)}')" style="flex-shrink:0">📝</button>
       <div class="chat-topbar-title">💬 錯題分析</div>
       <div class="chat-topbar-sub">${q.id}</div>
     </div>

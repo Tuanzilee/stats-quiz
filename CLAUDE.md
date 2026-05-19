@@ -82,6 +82,13 @@ stats/
   - `shared_stem` 為整組共用情境(markdown 格式,支援 table)
   - 同一 `group_id` 的題目 `shared_stem` 內容必須完全一致(冗餘儲存,要勘誤情境需 grep 同組全改)
 
+- **個人筆記**(2026-05-19 起):
+  - localStorage key `user_notes_v1`(避開已清的 `stat_notes_v1`)
+  - schema:`{ qid: [{id, ts, text}, ...] }`
+  - **手動精華**,不自動存 AI 對話 raw,也不自動存練習填答 textarea raw
+  - 顯示位置:練習(quiz)+ 模考檢討(review)題目下方;**模考作答中、browse 列表、考點頁 AI review** 不顯示
+  - `updateNote` 會把 `ts` 更新成最後編輯時間(影響排序)
+
 ### 抽題排序(2026-05-19 起)
 
 `startQuiz('all')` 和 `startConceptQuiz` 採分層抽題:
@@ -115,8 +122,9 @@ const CACHE = 'stats-quiz-v2026-05-16-1';
 | 答題紀錄(對/錯/不確定標記;練習 + 考點頁刷題會依此分層抽題) | `loadRecords` / `saveRecords` / `markQ` / `sortByPriority` | `quiz_records_v1` |
 | 模考系統(分校年抽題、計時、自評) | `startMockExam` / `submitExam` / `renderMockReport` | `mock_history` |
 | **AI hint(練習時跟 AI 討論觀念,核心功能)** | `openStepAIChat`(逐步引導) / `openWrongAIChat`(錯題討論) / `callCalcAI` / `promptApiKey` / `saveApiKey` | `anthropic_api_key` |
-| 手寫板(計算過程記下) | `hwInit` / `hwSave` / `hwPointerDown` 等 | (內嵌在答題紀錄裡) |
+| 手寫板(模考時 Apple Pencil 計算) | `hwInit` / `hwSave` / `hwPointerDown` 等 | 僅 in-memory(`mockNotes[qid]`,跟申論 textarea 共用 key,session 結束消失) |
 | 公式速查 panel(右側滑入,inline 在 index.html) | `openFormulaPanel` / `switchFormulaTab` | — |
+| 個人筆記(手動精華,per 題多筆) | `loadNotes` / `saveNotes` / `addNote` / `updateNote` / `deleteNote` / `getNotes` / `renderNotesBlock` | `user_notes_v1` |
 
 ## 已砍的子系統(2026-05-16)
 
@@ -184,6 +192,12 @@ const CACHE = 'stats-quiz-v2026-05-16-1';
 - **模考題組行為**:模考設定要不要加「題組綁在一起出」開關?
 - **錯題本連帶情境**:目前 `buildContext` 已 inline 顯示前題鏈 + shared_stem,但要不要連帶整組?
 - 待勘誤候選(上表)拿到原卷時 verify 一輪
+- **填答持久化**(獨立議題,跟筆記系統脫鉤):
+  - 練習 mode textarea 內容是否存 localStorage(觸發時機?per-題覆寫?)
+  - 模考 `mockNotes` 是否寫進 `mock_history`(逐題 array,連同 mockAnswers)
+  - **bug**:手寫板 dataURL 跟申論 textarea 文字共用 `mockNotes[qid]` key(line 3281 vs 2521),同題只能存一個;畫了又打字就會互蓋
+  - `mock_history` 連帶完整作答後的 localStorage quota 風險評估
+- **個人筆記 Phase B**:home 入口 / 跨題搜尋 / 匯出(.md or .json) / AI 摘要全部筆記
 
 ### Known issues
 
