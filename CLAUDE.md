@@ -174,6 +174,7 @@ const CACHE = 'stats-quiz-v2026-05-16-1';
 - **2026-05-17 NTU-113-TF-01..06, 10**:統一是非題 α 派格式(`options=['A. 正確','B. 錯誤或無法判斷']`;answer 從 solution_steps 推得 B/A/B/A/B/A/A)
 - **2026-05-19 NCCU-111-03**:answer C → A(變異數計算 548/7≈78.3 最接近 (A)78,原 solution_steps 已寫出此結論但又自我懷疑「但答案說 C(82)」「需確認」;重寫 solution_steps + ai_hint 移除矛盾。Tier 1 待勘誤候選,前次 #11 偵察 keyword 範圍未含 NCCU)
 - **2026-05-19 SCU-113-02**:answer B → C(原卷題意混亂,「以下何者錯誤」實有 A/B/D 三個錯選項,C 為唯一正確;照老師答案改 C,question 維持原卷,ai_hint 加警語說明題意應為「何者正確」;formula_used 補入平均/中位數/眾數三公式)
+- **2026-05-19 NCKU-107-24**:answer 從空字串 → B(原 solution_steps 已分析出 B 正確,只是末行「答案推測:B(待確認)」未斷言;老師確認後落定;ai_hint 原本已無 hedging,不動)
 
 ### 待勘誤候選(需原卷對照)
 
@@ -181,7 +182,6 @@ const CACHE = 'stats-quiz-v2026-05-16-1';
 |---|---|---|
 | NCKU-107-20 | solution_steps 寫「答案推測:B(待確認)」 | 需原卷 verify |
 | NCKU-107-21 | solution_steps 寫「答案推測:D(待確認)」 | 需原卷 verify |
-| NCKU-107-24 | solution_steps 寫「答案推測:B(待確認)」 | 需原卷 verify |
 | NCKU-108-19 | solution_steps「答:D(待確認)」+ hint「需確認答案」(巢狀設計 df 不確定) | 需原卷 verify |
 | NCKU-113-13 | ai_hint hedging:「若題目答案為 D,可能涉及特定計算細節」 | 軟候選 |
 | NCKU-113-19 | ai_hint hedging:「題目脈絡可能將 E 視為需要確認的選項」 | 軟候選 |
