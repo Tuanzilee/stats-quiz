@@ -164,6 +164,7 @@ const CACHE = 'stats-quiz-v2026-05-16-1';
   - G-D(29-30):ANOVA 結果表
 - **2026-05-17 NCKU-111-29**:ANOVA 數據表移到 `shared_stem`(question 內不再重複)
 - **2026-05-17 NTU-113-TF-01..06, 10**:統一是非題 α 派格式(`options=['A. 正確','B. 錯誤或無法判斷']`;answer 從 solution_steps 推得 B/A/B/A/B/A/A)
+- **2026-05-19 NCCU-111-03**:answer C → A(變異數計算 548/7≈78.3 最接近 (A)78,原 solution_steps 已寫出此結論但又自我懷疑「但答案說 C(82)」「需確認」;重寫 solution_steps + ai_hint 移除矛盾。Tier 1 待勘誤候選,前次 #11 偵察 keyword 範圍未含 NCCU)
 
 ### 待勘誤候選(需原卷對照)
 
