@@ -809,6 +809,8 @@ html, body {
 .acc-header:hover { background:var(--surface); }
 .acc-body { display:none; padding:0 0 12px; }
 .acc[aria-expanded="true"] .acc-body { display:block; }
+.qref { color:var(--purple); text-decoration:underline; cursor:pointer; font-family:ui-monospace,'SF Mono',Menlo,monospace; font-size:0.92em; padding:0 2px; }
+.qref:hover, .qref:active { background:var(--surface); border-radius:3px; }
 @media (prefers-reduced-motion: reduce) { .s9-pill, .acc-header::after { transition:none; } }
 
 /* Calc-only mode badge */
@@ -3695,9 +3697,24 @@ function renderFormulaTab(sid) {
   if (sid === 's9') initS9Accordion(bodyEl);
 }
 
+function wireQuestionRefs(rootEl) {
+  if (!Array.isArray(questions)) return;
+  const validIds = new Set(questions.map(q => q.id));
+  const re = /\b(NCKU|NCCU|SCU|NTU)-\d{3}-(?:TF-)?\d{2}[a-z]?\b/g;
+  rootEl.querySelectorAll('.acc-body').forEach(body => {
+    if (body.dataset.wired === '1') return;  // 防呆: 已 wire 過跳過
+    body.innerHTML = body.innerHTML.replace(re, (match) => {
+      if (!validIds.has(match)) return match;
+      return `<a class="qref" onclick="closeFormulaPanel(); openQuestion('${match}'); return false;">${match}</a>`;
+    });
+    body.dataset.wired = '1';
+  });
+}
+
 function initS9Accordion(rootEl) {
   const section = rootEl.querySelector('[data-section="s9"]');
   if (!section) return;
+  wireQuestionRefs(rootEl);  // wire 題目 ID → 可點 link (在 accordion 邏輯前)
   const pills = section.querySelectorAll('.s9-pill');
   const accs = section.querySelectorAll('.acc');
   const pillRow = section.querySelector('.s9-pills');
