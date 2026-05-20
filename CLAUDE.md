@@ -181,12 +181,13 @@ const CACHE = 'stats-quiz-v2026-05-16-1';
 - **2026-05-19 NCKU-108-19**:answer D → A(**邏輯全反**;老師確認 (A) 為錯 — 教師為固定因子(fixed factor)非隨機因子,因為補習班只有 4 位老師,這就是全部師資,沒有「從更大母群抽樣」設計;原 solution_steps 把 A 標正確、D 標錯,邏輯全反;solution_steps / ai_hint / key_concepts / formula_used 全重寫;清掉「(待確認)」hedging)
 - **2026-05-19 NCKU-112-01**:answer D → B(題幹「來自哪些學校」phrasing 模糊,可解讀為學校類別(nominal,用眾數→C)或聚合成各校人數(數值,可算母數→B / 用直方圖→D);老師詳解採「各校人數=數值」解讀;solution_steps 重寫為中立 4 選項分析 + 結論;ai_hint 寫雙解讀警語 + 考試策略;key_concepts 對齊新立場;不在原 Tier 1 待勘誤候選表內,老師另外指出)
 - **2026-05-20 NCKU-113-13**:answer D → C(**翻面**;老師詳解 2×3 Two-way ANOVA(a=2, b=3, r=10, N=60, df_error=54);t 檢定限 2 組,不適 multi-level → (C) 為唯一錯;原 solution_steps 12 步 confused reasoning 最後答 D,跟老師相反;solution_steps / ai_hint / key_concepts 全重寫)
+- **2026-05-20 NCKU-113-19**:answer E → D(**翻面**;老師詳解:變異數不同質**不必然**轉無母數,若母體常態仍可用 Welch's t-test adjustment;D 字面「可以」暗示「變異數不同質 → 改用無母數」conditional 邏輯錯;原 solution_steps 把 D 標對、E 答(自我懷疑「E 是正確的, 不是錯的」);solution_steps / ai_hint / key_concepts 全重寫;✅ Phase 1 #11 待勘誤候選表全部清零)
 
 ### 待勘誤候選(需原卷對照)
 
 | ID | 命中啟發式 | 備註 |
 |---|---|---|
-| NCKU-113-19 | ai_hint hedging:「題目脈絡可能將 E 視為需要確認的選項」 | 軟候選 |
+_(2026-05-20 全部清零 ✅)_
 
 ### Phase 2 待辦
 
