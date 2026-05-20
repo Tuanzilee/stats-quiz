@@ -123,7 +123,7 @@ const CACHE = 'stats-quiz-v2026-05-16-1';
 | 模考系統(分校年抽題、計時、自評) | `startMockExam` / `submitExam` / `renderMockReport` | `mock_history` |
 | **AI hint(練習時跟 AI 討論觀念,核心功能;overloaded 自動 retry 3 次 2s/4s/8s,失敗顯示中文 friendly error)** | `openStepAIChat`(逐步引導) / `openWrongAIChat`(錯題討論) / `callCalcAI` / `callAnthropicWithRetry` / `friendlyAIError` / `promptApiKey` / `saveApiKey` | `anthropic_api_key` |
 | 手寫板(模考時 Apple Pencil 計算) | `hwInit` / `hwSave` / `hwPointerDown` 等 | 僅 in-memory(`mockNotes[qid]`,跟申論 textarea 共用 key,session 結束消失) |
-| 公式速查 panel(右側滑入,inline 在 index.html) | `openFormulaPanel` / `switchFormulaTab` | — |
+| 公式速查 panel(右側滑入,inline 在 index.html;9 個 tab: 描述統計 / 機率分配 / 信賴區間 / 假設檢定 / 相關迴歸 / ANOVA / 效果量 / 快速查閱 / **申論題框架**) | `openFormulaPanel` / `switchFormulaTab` | — |
 | 個人筆記(手動精華,per 題多筆) | `loadNotes` / `saveNotes` / `addNote` / `updateNote` / `deleteNote` / `getNotes` / `renderNotesBlock` | `user_notes_v1` |
 
 ## 已砍的子系統(2026-05-16)
