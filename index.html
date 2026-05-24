@@ -2094,7 +2094,7 @@ function buildContext(q) {
     parts.push(`<div class="context-block" style="background:var(--surface);border:1px solid var(--border2);border-left:3px solid var(--purple);border-radius:var(--radius);padding:10px 13px;margin-bottom:12px;font-size:13px;line-height:1.7;color:var(--text);white-space:pre-wrap">${q.context}</div>`);
   }
 
-  const isFollowUp = (text) => /^[（(]?(承上題|承上|續上題|續上|接續上題|承第\d+題|接續第\d+題|承前題|如上題|依上題|接上題)/.test(text);
+  const isFollowUp = (text) => /^[（(]?(承上題|承上|續上題|續上|同上題|接續上題|承第\d+題|接續第\d+題|續第\d+題|承前題|如上題|依上題|接上題)/.test(text);
   if (!isFollowUp(q.question)) return parts.join('');
 
   // 遞迴往前追溯，收集整個題組鏈
@@ -2116,9 +2116,9 @@ function buildContext(q) {
     }
 
     // 策略二：純數字格式
-    const refMatch = curQ.question.match(/承第(\d+)題|接續第(\d+)題/);
+    const refMatch = curQ.question.match(/承第(\d+)題|接續第(\d+)題|續第(\d+)題/);
     if (refMatch) {
-      const refNum = refMatch[1] || refMatch[2];
+      const refNum = refMatch[1] || refMatch[2] || refMatch[3];
       const numMatch = curQ.id.match(/^(.+?-)(\d+)$/);
       if (numMatch) {
         const padded = String(refNum).padStart(numMatch[2].length, '0');
