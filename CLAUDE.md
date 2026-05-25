@@ -184,6 +184,11 @@ const CACHE = 'stats-quiz-v2026-05-16-1';
 - **2026-05-20 NCKU-113-19**:answer E → D(**翻面**;老師詳解:變異數不同質**不必然**轉無母數,若母體常態仍可用 Welch's t-test adjustment;D 字面「可以」暗示「變異數不同質 → 改用無母數」conditional 邏輯錯;原 solution_steps 把 D 標對、E 答(自我懷疑「E 是正確的, 不是錯的」);solution_steps / ai_hint / key_concepts 全重寫;✅ Phase 1 #11 待勘誤候選表全部清零)
 - **2026-05-20 NCCU-108-21**:answer D → A(**翻面**;老師詳解 W = X+Y where X,Y ~ Uniform(0,100) → Triangle(0,200), E(W)=100;(B)(C)(D) 皆錯,(A) 寬鬆視為對(Triangle 對稱鐘形 ≈ 常態,同 SCU-109-03 取分邏輯);原 solution_steps 13 步 confused reasoning 最後選 D,跟老師相反;solution_steps / ai_hint / key_concepts / formula_used 全重寫;**不在 Tier 1 候選表**,老師另指)
 - **2026-05-21 NCCU-112-05**:answer "AD" → "A"(原為單選題卻填雙答 "AD",schema 違規;老師確認 (A) SE=σ/√n vs σ 是硬錯誤,(D) 「CLT 並非特性」字面負面 meta-claim 採寬鬆解讀視為是特性;solution_steps / ai_hint / key_concepts / formula_used 對齊;concepts 加「不偏性」)
+- **2026-05-25 複選題系統性 audit + batch 勘誤(10 題)**:
+  - 全題庫掃出 8 題已正確標 type=複選題(NCKU-111-26/27/28/29/30、NTU-113-MC-22/23/25),schema 已逐選項分析,本批次補:① `solution_steps[0]` prepend「【複選題:正解 = ABD】」顯式標頭;② `ai_hint` prepend「【複選題,每個選項都要獨立判斷,不是擇一】」meta-hint。
+  - **NTU-113-MC-11**:type 「單選題」→「計算題」,answer "" → "0.582"(原本無 options 是 Bayes 計算題,被誤標單選空答案;solution 已算出 P(旁聽|考上)≈58.2%)
+  - **NTU-113-MC-17**:answer "A" → "C"(**獨立 correctness bug**:原 answer 標 A=34,但 solution_steps 跟 ai_hint 都算出 N = df_error + ab = 24+8 = 32 = 選項C;對齊 solution 改 C;ai_hint 補勘誤註記)
+  - 複選題 UI 支援不在本次 scope(stats 走單選 radio,複選題僅資料正確,user 作答顯示「部分對」由 grading 自行判斷)
 
 ### 待勘誤候選(需原卷對照)
 
