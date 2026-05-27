@@ -184,6 +184,18 @@ const CACHE = 'stats-quiz-v2026-05-16-1';
 - **2026-05-20 NCKU-113-19**:answer E → D(**翻面**;老師詳解:變異數不同質**不必然**轉無母數,若母體常態仍可用 Welch's t-test adjustment;D 字面「可以」暗示「變異數不同質 → 改用無母數」conditional 邏輯錯;原 solution_steps 把 D 標對、E 答(自我懷疑「E 是正確的, 不是錯的」);solution_steps / ai_hint / key_concepts 全重寫;✅ Phase 1 #11 待勘誤候選表全部清零)
 - **2026-05-20 NCCU-108-21**:answer D → A(**翻面**;老師詳解 W = X+Y where X,Y ~ Uniform(0,100) → Triangle(0,200), E(W)=100;(B)(C)(D) 皆錯,(A) 寬鬆視為對(Triangle 對稱鐘形 ≈ 常態,同 SCU-109-03 取分邏輯);原 solution_steps 13 步 confused reasoning 最後選 D,跟老師相反;solution_steps / ai_hint / key_concepts / formula_used 全重寫;**不在 Tier 1 候選表**,老師另指)
 - **2026-05-21 NCCU-112-05**:answer "AD" → "A"(原為單選題卻填雙答 "AD",schema 違規;老師確認 (A) SE=σ/√n vs σ 是硬錯誤,(D) 「CLT 並非特性」字面負面 meta-claim 採寬鬆解讀視為是特性;solution_steps / ai_hint / key_concepts / formula_used 對齊;concepts 加「不偏性」)
+- **2026-05-27 NCKU-114 重整(20 小題,單一勘誤 entry)**:
+  - **問題**:原 NCKU-114-01..05 把 5 大題每題的 4 小題壓縮塞進同一個 `question` 欄位,題幹過度簡化導致 user 看不出老師要問什麼。
+  - **動作**:刪除舊 5 entry,新建 20 entry (`NCKU-114-01..20`),按 5 大題分 5 個 `group_id`(`NCKU-114-G-A` ~ `G-E`),`shared_stem` 放各大題情境(描述統計值 / 迴歸模型 / 1000 假設 / 12 位同學設計 / 3 組數據 + df 表)。
+  - **還原的關鍵措辭**(原本壓縮失真):
+    - 大題一 #2:中位數計算 hint(101 筆 = 第 51 筆;100 筆 = 第 50, 51 筆平均)
+    - 大題二 #3, #4:殘差常態分布假設、95% 預測區間寬度約束公式
+    - 大題三 #3:**新增 NPV 對稱小題**(舊版漏收;原卷 2/3 是 PPV/NPV 雙線,舊 entry 把 (2)(3) 誤合為「PPV + 增加方式」)
+    - 大題四 #1, #2, #4:標準差 √6 / √3、配對與獨立的設計選擇
+    - 大題五 #4:df 表 + 「可參考下表」
+  - **`answer_confidence`**:18 題 high、2 題 medium(NCKU-114-02 中位數方向、NCKU-114-11 NPV 降低方式 — 後者題幹要求「降低不顯著中無效果比率」邏輯上不對稱於 PPV 提升,solution 已點出 trade-off)
+  - **舊 ID 孤兒**:既有 mock_history / quiz_records 中 `NCKU-114-01..05` 的紀錄變孤兒(qid 對到新題但語意改變),user 確認可接受(線上量小)
+  - sw.js `v2026-05-27-1` → `v2026-05-27-2`
 - **2026-05-25 複選題系統性 audit + batch 勘誤(10 題)**:
   - 全題庫掃出 8 題已正確標 type=複選題(NCKU-111-26/27/28/29/30、NTU-113-MC-22/23/25),schema 已逐選項分析,本批次補:① `solution_steps[0]` prepend「【複選題:正解 = ABD】」顯式標頭;② `ai_hint` prepend「【複選題,每個選項都要獨立判斷,不是擇一】」meta-hint。
   - **NTU-113-MC-11**:type 「單選題」→「計算題」,answer "" → "0.582"(原本無 options 是 Bayes 計算題,被誤標單選空答案;solution 已算出 P(旁聽|考上)≈58.2%)
