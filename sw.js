@@ -1,4 +1,4 @@
-const CACHE = 'stats-quiz-v2026-05-27-2';
+const CACHE = 'stats-quiz-v2026-05-28-1';
 const ASSETS = ['./', './index.html', './題庫.json'];
 
 self.addEventListener('install', e => {

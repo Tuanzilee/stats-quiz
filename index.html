@@ -695,7 +695,9 @@ html, body {
 .chat-msg { display:flex; flex-direction:column; gap:4px; }
 .chat-msg.user { align-items:flex-end; }
 .chat-msg.ai { align-items:flex-start; }
-.chat-bubble { max-width:88%; padding:10px 13px; border-radius:12px; font-size:13px; line-height:1.7; }
+.chat-bubble { max-width:88%; padding:10px 13px; border-radius:12px; font-size:13px; line-height:1.7; -webkit-user-select:text; user-select:text; -webkit-touch-callout:default; }
+.chat-copy-btn { align-self:flex-start; margin-top:2px; background:none; border:none; color:var(--muted); font-size:11px; cursor:pointer; padding:2px 4px; }
+.chat-copy-btn:active { color:var(--purple); }
 .chat-msg.user .chat-bubble { background:var(--purple); color:#fff; border-bottom-right-radius:4px; }
 .chat-msg.ai .chat-bubble { background:var(--surface); border:1px solid var(--border); color:var(--text); border-bottom-left-radius:4px; }
 .chat-msg.ai .chat-bubble h3 { font-size:12px; font-weight:700; color:var(--purple); margin:10px 0 4px; letter-spacing:0.03em; }
@@ -2404,9 +2406,29 @@ function appendAiMessage(markdown) {
   if (!msgs) return;
   const div = document.createElement('div');
   div.className = 'chat-msg ai';
-  div.innerHTML = `<div class="chat-bubble">${parseMarkdown(markdown)}</div>`;
+  div.innerHTML = `<div class="chat-bubble">${parseMarkdown(markdown)}</div>
+    <button class="chat-copy-btn" onclick="copyChatMsg(this)">⧉ 複製</button>`;
   msgs.appendChild(div);
   msgs.scrollTop = msgs.scrollHeight;
+}
+function copyChatMsg(btn) {
+  const bubble = btn.parentElement.querySelector('.chat-bubble');
+  const text = bubble ? bubble.innerText : '';
+  const done = () => { btn.textContent = '✓ 已複製'; setTimeout(() => btn.textContent = '⧉ 複製', 1200); };
+  if (navigator.clipboard?.writeText) {
+    navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+  } else { fallbackCopy(text, done); }
+}
+function fallbackCopy(text, done) {
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.contentEditable = true; ta.readOnly = false;
+  ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+  document.body.appendChild(ta);
+  const r = document.createRange(); r.selectNodeContents(ta);
+  const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+  ta.setSelectionRange(0, text.length);
+  try { document.execCommand('copy'); } catch(e) {}
+  document.body.removeChild(ta); done && done();
 }
 
 function appendTyping(hintText) {
