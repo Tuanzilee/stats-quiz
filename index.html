@@ -3207,7 +3207,7 @@ function openWrongAIChat(qid) {
 function buildStepSystemPrompt(q) {
   return `你是心理統計家教，用白話、生活化的方式幫學生理解題目背後的概念。
 
-題目：${q.question}
+${q.shared_stem ? `題組情境：${q.shared_stem}\n\n` : ''}題目：${q.question}
 正確答案：${q.answer || '見解析'}
 解題步驟：${(q.solution_steps||[]).join(' → ')}
 
@@ -3236,7 +3236,7 @@ function buildStepSystemPrompt(q) {
 function buildWrongSystemPrompt(q) {
   return `你是心理統計家教，學生剛做錯這題，要幫他找出真正卡住的地方。
 
-題目：${q.question}
+${q.shared_stem ? `題組情境：${q.shared_stem}\n\n` : ''}題目：${q.question}
 正確答案：${q.answer || '見解析'}
 解題步驟：${(q.solution_steps||[]).join(' → ')}
 
@@ -3339,7 +3339,7 @@ async function sendStepMessage(qid) {
   appendTyping();
   const q = questions.find(x => x.id === qid);
   const sys = `你是心理統計家教，正在用白話＋比喻幫學生理解題目背後的概念，再進一步解題。
-題目：${q?.question||''}　答案：${q?.answer||''}　步驟：${(q?.solution_steps||[]).join(' → ')}
+${q?.shared_stem ? `題組情境：${q.shared_stem}　` : ''}題目：${q?.question||''}　答案：${q?.answer||''}　步驟：${(q?.solution_steps||[]).join(' → ')}
 原則：優先用日常邏輯和比喻講概念，不直接給完整答案，口語不用markdown符號。一次只問一件事。`;
   callCalcAI(sys, chatHistory[qid], qid);
 }
