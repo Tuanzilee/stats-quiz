@@ -3544,7 +3544,7 @@
     "source": "台綜（成大）",
     "year": 111,
     "type": "複選題",
-    "question": "某英語教學老師針對學習者聽力發展一套新式教學法，經過三個月實驗教學後，學生聽力測驗分數分布如直方圖（雙峰分布）。若已知過往難度相近的聽力測驗平均值為50分、標準差為15分，且為常態分布，則以下敘述何者正確？",
+    "question": "則以下敘述何者正確?(複選)",
     "answer": "AB",
     "options": [
       "A. 學生對於新式教學的反應可能有兩種。",
@@ -3571,15 +3571,14 @@
     "ai_hint": "【複選題,每個選項都要獨立判斷,不是擇一】雙峰分布→AB正確。C錯：沒有對照組不能用獨立t。D錯：連續分數不用卡方，應用單樣本t。答AB。",
     "formula_used": [],
     "primary_concept": "卡方檢定",
-    "group_id": null,
-    "shared_stem": null
+    "shared_stem": "某英語教學老師針對學習者聽力發展一套新式教學法，經過三個月實驗教學後，學生聽力測驗分數分布如下圖:\n\n![聽力測驗分數分布](assets/figures/NCKU-111-26-histogram.png)\n\n若已知過往難度相近的聽力測驗平均值為 50 分、標準差為 15 分，且為常態分佈。"
   },
   {
     "id": "NCKU-111-27",
     "source": "台綜（成大）",
     "year": 111,
     "type": "複選題",
-    "question": "下列數值為變異數分析結果（組間SS=42.50, df=3, MS=14.17, F=3.31, P值=0.02, 臨界值=2.72；組內SS=324.99, df=76, MS=4.28；總和SS=367.49, df=79），以下敘述何者正確？",
+    "question": "以下敘述何者正確?(複選)",
     "answer": "BD",
     "options": [
       "A. 這些數值來自單一獨變項（independent variable）且為重複試驗（repeated measures）設計實驗的分析結果。",
@@ -3613,15 +3612,14 @@
       "df_within = N - k = 76"
     ],
     "primary_concept": "ANOVA",
-    "group_id": null,
-    "shared_stem": null
+    "shared_stem": "下列為一變異數分析結果:\n\n![變異數分析表](assets/figures/NCKU-111-27-anova.png)"
   },
   {
     "id": "NCKU-111-28",
     "source": "台綜（成大）",
     "year": 111,
     "type": "複選題",
-    "question": "下列數值為迴歸分析結果（迴歸SS=3.60, df=2, MS=1.80, F=0.29, 顯著值=0.75；殘差SS=105.58, df=17, MS=6.21；總和SS=109.18, df=19），以下敘述何者正確？",
+    "question": "以下敘述何者正確?(複選)",
     "answer": "BD",
     "options": [
       "A. 此迴歸分析式含2個依變項（dependent variables）。",
@@ -3653,15 +3651,14 @@
       "殘差df = N - k - 1 = 20 - 2 - 1 = 17"
     ],
     "primary_concept": "ANOVA",
-    "group_id": null,
-    "shared_stem": null
+    "shared_stem": "下列為一迴歸分析結果:\n\n![迴歸分析表](assets/figures/NCKU-111-28-regression.png)"
   },
   {
     "id": "NCKU-111-29",
     "source": "台綜（成大）",
     "year": 111,
     "type": "複選題",
-    "question": "下列數值為變異數分析結果，以下敘述何者正確？",
+    "question": "以下敘述何者正確?(複選)",
     "answer": "ACD",
     "options": [
       "A. 這些數值來自2個獨立變項且為混和設計（mixed design）實驗的分析結果。",
@@ -3693,14 +3690,14 @@
     ],
     "primary_concept": "ANOVA",
     "group_id": "NCKU-111-G-D",
-    "shared_stem": "下列數值為變異數分析結果：\n\n| 變源 | SS | 自由度 | MS | F | P-值 | 臨界值 |\n|---|---|---|---|---|---|---|\n| 組間 1 | 0.06 | 1 | 0.06 | 2.13 | 0.15 | 4.15 |\n| 組間 2 | 0.50 | 3 | 0.17 | 6.43 | 0.00 | 2.90 |\n| 交互作用 | 0.60 | a | b | c | d | e |\n| 組內 | 0.83 | 32 | 0.03 |  |  |  |"
+    "shared_stem": "下列為一變異數分析結果 (部分數值以代號 a / b / c / d / e 表示):\n\n![變異數分析表](assets/figures/NCKU-111-29-anova.png)"
   },
   {
     "id": "NCKU-111-30",
     "source": "台綜（成大）",
     "year": 111,
     "type": "複選題",
-    "question": "接續第29題，以下敘述何者正確？",
+    "question": "(接續上題) 以下敘述何者正確?(複選)",
     "answer": "BD",
     "options": [
       "A. 變異數分析結果中代號a的數值為4。",
@@ -3735,7 +3732,7 @@
     ],
     "primary_concept": "ANOVA",
     "group_id": "NCKU-111-G-D",
-    "shared_stem": "下列數值為變異數分析結果：\n\n| 變源 | SS | 自由度 | MS | F | P-值 | 臨界值 |\n|---|---|---|---|---|---|---|\n| 組間 1 | 0.06 | 1 | 0.06 | 2.13 | 0.15 | 4.15 |\n| 組間 2 | 0.50 | 3 | 0.17 | 6.43 | 0.00 | 2.90 |\n| 交互作用 | 0.60 | a | b | c | d | e |\n| 組內 | 0.83 | 32 | 0.03 |  |  |  |"
+    "shared_stem": "下列為一變異數分析結果 (部分數值以代號 a / b / c / d / e 表示):\n\n![變異數分析表](assets/figures/NCKU-111-29-anova.png)"
   },
   {
     "id": "NCKU-112-01",

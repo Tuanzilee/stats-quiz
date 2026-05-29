@@ -184,6 +184,15 @@ const CACHE = 'stats-quiz-v2026-05-16-1';
 - **2026-05-20 NCKU-113-19**:answer E → D(**翻面**;老師詳解:變異數不同質**不必然**轉無母數,若母體常態仍可用 Welch's t-test adjustment;D 字面「可以」暗示「變異數不同質 → 改用無母數」conditional 邏輯錯;原 solution_steps 把 D 標對、E 答(自我懷疑「E 是正確的, 不是錯的」);solution_steps / ai_hint / key_concepts 全重寫;✅ Phase 1 #11 待勘誤候選表全部清零)
 - **2026-05-20 NCCU-108-21**:answer D → A(**翻面**;老師詳解 W = X+Y where X,Y ~ Uniform(0,100) → Triangle(0,200), E(W)=100;(B)(C)(D) 皆錯,(A) 寬鬆視為對(Triangle 對稱鐘形 ≈ 常態,同 SCU-109-03 取分邏輯);原 solution_steps 13 步 confused reasoning 最後選 D,跟老師相反;solution_steps / ai_hint / key_concepts / formula_used 全重寫;**不在 Tier 1 候選表**,老師另指)
 - **2026-05-21 NCCU-112-05**:answer "AD" → "A"(原為單選題卻填雙答 "AD",schema 違規;老師確認 (A) SE=σ/√n vs σ 是硬錯誤,(D) 「CLT 並非特性」字面負面 meta-claim 採寬鬆解讀視為是特性;solution_steps / ai_hint / key_concepts / formula_used 對齊;concepts 加「不偏性」)
+- **2026-05-29 NCKU-111 補圖(26 + 27 + 28 + 29 + 30,單一勘誤 entry)**:
+  - **問題**:NCKU-111-26 ~ 30 共 5 題的圖表 / 直方圖 / ANOVA 表 / 迴歸表都用文字壓縮塞進 question(或舊 markdown table 版),失真且不直觀;前次 NTU-108 重整(e8f9e50)已開通 `renderSharedStemMarkdown` 圖片渲染,本次補套用。
+  - **動作**:每筆只改 `group_id` / `shared_stem` / `question` 三欄(其他 type/options/answer/solution_steps 等完全保留):
+    - 26 / 27 / 28:獨立題不歸組,`shared_stem` 加情境敘述 + `![...](assets/figures/...png)` 引圖
+    - 29 / 30:沿用既有 `group_id: NCKU-111-G-D`,`shared_stem` 換成圖片版(`NCKU-111-29-anova.png` 共用)
+    - 5 題 question 都縮短至 13-20 字(原長文移到 shared_stem 或刪除冗餘)
+  - **typo 修正**:user 原 spec 把 29/30 寫成 `G-A`,實際 `G-A` 已被疫苗組 01..06 占用 → 確認後維持 `G-D`
+  - sw.js `v2026-05-29-1` → `v2026-05-29-2`
+  - 累計勘誤 17 → 18
 - **2026-05-29 NTU-108 重整 + 還原原卷題幹 + 開通 shared_stem 圖片**(單一勘誤 entry):
   - **問題**:NTU-108-03a/3b/4a/4b/5a/5b/6a/6b 用「字母後綴」舊慣例,題幹被壓縮失真;原卷 Q3~Q6 每題 (1)(2) 兩小題、共用情境未抽出。NTU-108-02 被簡化,失去原卷情境。NTU-108-06 含直方圖,但 stem 渲染不支援圖片。
   - **動作**:8 筆 a/b 改 `NTU-108-03..10` 連號 + 套 `group_id`(NTU-108-G-A ~ G-D)+ `shared_stem`(對齊 NCKU-114 schema 2026-05-17 起新標準);NTU-108-02 question 還原為原卷「考生補習 + 條件機率」題;NTU-108-01 不動;舊 a/b 8 筆 type/answer/solution_steps 沿用,只改 id/group_id/shared_stem/question。
