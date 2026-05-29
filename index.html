@@ -725,6 +725,8 @@ html, body {
 .shared-stem th { background:var(--surface); font-weight:700; color:var(--muted); }
 .shared-stem p { margin:0 0 6px; }
 .shared-stem p:last-child { margin-bottom:0; }
+.stem-figure { margin: 10px 0; text-align: center; }
+.stem-figure img { max-width: 100%; height: auto; background: #fff; border-radius: 4px; padding: 6px; }
 
 /* Notes block (個人筆記) */
 .notes-block { background:var(--surface2); border:1px solid var(--border2); border-left:3px solid var(--green); border-radius:var(--radius); padding:12px 14px; margin-top:12px; margin-bottom:12px; }
@@ -2108,6 +2110,12 @@ function renderSharedStemMarkdown(md) {
       }
       out.push(`<table><thead><tr>${header.map(h => `<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.map(r => `<tr>${r.map(c => `<td>${c || '&nbsp;'}</td>`).join('')}</tr>`).join('')}</tbody></table>`);
       continue;
+    }
+    // image: ![alt](path) on its own line
+    const imgM = l.match(/^\s*!\[([^\]]*)\]\(([^)]+)\)\s*$/);
+    if (imgM) {
+      out.push(`<figure class="stem-figure"><img src="${imgM[2]}" alt="${imgM[1]}" loading="lazy"/></figure>`);
+      i++; continue;
     }
     if (l.trim()) out.push(`<p>${l}</p>`);
     i++;
