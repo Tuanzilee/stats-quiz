@@ -184,6 +184,19 @@ const CACHE = 'stats-quiz-v2026-05-16-1';
 - **2026-05-20 NCKU-113-19**:answer E → D(**翻面**;老師詳解:變異數不同質**不必然**轉無母數,若母體常態仍可用 Welch's t-test adjustment;D 字面「可以」暗示「變異數不同質 → 改用無母數」conditional 邏輯錯;原 solution_steps 把 D 標對、E 答(自我懷疑「E 是正確的, 不是錯的」);solution_steps / ai_hint / key_concepts 全重寫;✅ Phase 1 #11 待勘誤候選表全部清零)
 - **2026-05-20 NCCU-108-21**:answer D → A(**翻面**;老師詳解 W = X+Y where X,Y ~ Uniform(0,100) → Triangle(0,200), E(W)=100;(B)(C)(D) 皆錯,(A) 寬鬆視為對(Triangle 對稱鐘形 ≈ 常態,同 SCU-109-03 取分邏輯);原 solution_steps 13 步 confused reasoning 最後選 D,跟老師相反;solution_steps / ai_hint / key_concepts / formula_used 全重寫;**不在 Tier 1 候選表**,老師另指)
 - **2026-05-21 NCCU-112-05**:answer "AD" → "A"(原為單選題卻填雙答 "AD",schema 違規;老師確認 (A) SE=σ/√n vs σ 是硬錯誤,(D) 「CLT 並非特性」字面負面 meta-claim 採寬鬆解讀視為是特性;solution_steps / ai_hint / key_concepts / formula_used 對齊;concepts 加「不偏性」)
+- **2026-05-31 SCU-109 大整理(2 筆勘誤 + schema 一致化)**:
+  - **問題 1 (SCU-109-20 真錯誤,**勘誤帳 +1**)**:既有 question 文字描述「男性效果斜率較大」,answer 標 `'4'` (男性效果較強)。對照原卷互動圖,實際是**女性線斜率較陡** (3.85 → 4.8,Δ ≈ +0.95) 而男性線平緩 (3.2 → 3.4,Δ ≈ +0.2) → 正確 answer 應為 `'3'` (女性效果較強)。重寫 question / options / answer / solution_steps / ai_hint / key_concepts 全部對齊圖事實 + 加 `shared_stem` 引圖。
+  - **問題 2 (SCU-109-04 文字錯誤,**勘誤帳 +1**)**:既有 question 內聯「圖一 (右尾長)」「圖二 (左偏直方圖)」假描述 (沒有圖)。原卷實際有兩張圖,圖一是右偏 curve、圖二是雙峰分布 → 兩個都不算「典型」正偏態。改寫 question 移除假描述、加 `shared_stem` 引兩張圖、重寫 solution_steps / ai_hint / key_concepts 對齊圖事實。
+  - **schema 一致化** (**不入勘誤帳**):
+    - SCU-109-02:還原原卷完整 question + options 文字 (補回「根據上述敘述」「65 歲以上之老人」等被簡化的字)
+    - 套 3 組 group_id + shared_stem:
+      - `SCU-109-G-A` (05~08 員工壓力指數)
+      - `SCU-109-G-B` (13~15 戒菸計畫,含前後測資料圖)
+      - `SCU-109-G-C` (18~19 ANOVA F 值,含摘要表圖)
+    - SCU-109-16 加散點圖
+    - SCU-109-13 / 18 question 移除已搬到 stem 的內聯情境
+  - sw.js `v2026-05-31-1` → `v2026-05-31-2`
+  - 累計勘誤 20 → 22
 - **2026-05-31 NCKU-109 重整(03/04 還原 + 05a..d → 05..08,單一勘誤 entry)**:
   - **問題**:NCKU-109-03/04 原 question 過度簡化(把「滿意度資料表」「列聯表 + 卡方臨界值」直接縮成括弧內小字),失去原卷情境與表格;NCKU-109-05a..d 用「字母後綴」舊慣例(對齊 NCKU-114 重整方向應改為連號 + group_id)。
   - **動作**:NCKU-109-03/04 原地改 question + 加 `shared_stem`(含【第 3 / 4 題】標籤 + 表格圖);NCKU-109-05a..d 重編為 NCKU-109-05..08,套 `group_id: NCKU-109-G-A` + 共用 `shared_stem`(含【第 5 題】標籤 + 描述統計表圖);type/solution_steps/answer/concepts 等其他欄位完全沿用舊 a/b/c/d。
