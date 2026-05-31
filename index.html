@@ -1953,6 +1953,25 @@ function submitAnswer() {
     correctAns = keys[numKeys.indexOf(correctAns)];
   }
   const chosenKey = keys[selectedOpt];
+  const isMulti = currentQ.type === '複選題' || (correctAns && correctAns.length > 1);
+  if (isMulti) {
+    document.querySelectorAll('.option').forEach((el, i) => {
+      if (correctAns.includes(keys[i])) el.classList.add('reveal-correct');
+      el.classList.remove('selected');
+    });
+    const rev = document.getElementById('reveal-section');
+    rev.className = 'reveal-section';
+    rev.innerHTML = `
+      <div class="reveal-result" style="color:var(--purple)">✦ 複選題 — 請對照正解自評</div>
+      <div class="reveal-ans">正解:${correctAns.split('').join('、')}</div>
+      <div style="display:flex;gap:8px;margin-top:10px">
+        <button style="flex:1;padding:10px;background:var(--green-bg);border:1px solid var(--green);color:var(--green);border-radius:var(--radius);cursor:pointer;font-weight:600;font-size:14px" onclick="selfEvalMulti('correct')">✓ 我選對了</button>
+        <button style="flex:1;padding:10px;background:var(--red-bg);border:1px solid var(--red);color:var(--red);border-radius:var(--radius);cursor:pointer;font-weight:600;font-size:14px" onclick="selfEvalMulti('wrong')">✗ 我選錯了</button>
+      </div>`;
+    document.getElementById('solution-panel').classList.add('show');
+    document.getElementById('action-row').innerHTML = '';
+    return;
+  }
   const isCorrect = correctAns && chosenKey === correctAns;
 
   // Color options
@@ -1981,6 +2000,17 @@ function submitAnswer() {
   if (!records[currentQ.id]) {
     markQ(isCorrect ? 'correct' : 'wrong', null, true);
   }
+}
+
+function selfEvalMulti(verdict) {
+  if (!records[currentQ.id]) {
+    markQ(verdict, null, true);
+  }
+  document.querySelectorAll('#reveal-section button').forEach(b => {
+    b.disabled = true;
+    b.style.opacity = '0.5';
+    b.style.cursor = 'default';
+  });
 }
 
 function revealAnswer() {
