@@ -184,6 +184,18 @@ const CACHE = 'stats-quiz-v2026-05-16-1';
 - **2026-05-20 NCKU-113-19**:answer E → D(**翻面**;老師詳解:變異數不同質**不必然**轉無母數,若母體常態仍可用 Welch's t-test adjustment;D 字面「可以」暗示「變異數不同質 → 改用無母數」conditional 邏輯錯;原 solution_steps 把 D 標對、E 答(自我懷疑「E 是正確的, 不是錯的」);solution_steps / ai_hint / key_concepts 全重寫;✅ Phase 1 #11 待勘誤候選表全部清零)
 - **2026-05-20 NCCU-108-21**:answer D → A(**翻面**;老師詳解 W = X+Y where X,Y ~ Uniform(0,100) → Triangle(0,200), E(W)=100;(B)(C)(D) 皆錯,(A) 寬鬆視為對(Triangle 對稱鐘形 ≈ 常態,同 SCU-109-03 取分邏輯);原 solution_steps 13 步 confused reasoning 最後選 D,跟老師相反;solution_steps / ai_hint / key_concepts / formula_used 全重寫;**不在 Tier 1 候選表**,老師另指)
 - **2026-05-21 NCCU-112-05**:answer "AD" → "A"(原為單選題卻填雙答 "AD",schema 違規;老師確認 (A) SE=σ/√n vs σ 是硬錯誤,(D) 「CLT 並非特性」字面負面 meta-claim 採寬鬆解讀視為是特性;solution_steps / ai_hint / key_concepts / formula_used 對齊;concepts 加「不偏性」)
+- **2026-05-31 NCKU-109 重整(03/04 還原 + 05a..d → 05..08,單一勘誤 entry)**:
+  - **問題**:NCKU-109-03/04 原 question 過度簡化(把「滿意度資料表」「列聯表 + 卡方臨界值」直接縮成括弧內小字),失去原卷情境與表格;NCKU-109-05a..d 用「字母後綴」舊慣例(對齊 NCKU-114 重整方向應改為連號 + group_id)。
+  - **動作**:NCKU-109-03/04 原地改 question + 加 `shared_stem`(含【第 3 / 4 題】標籤 + 表格圖);NCKU-109-05a..d 重編為 NCKU-109-05..08,套 `group_id: NCKU-109-G-A` + 共用 `shared_stem`(含【第 5 題】標籤 + 描述統計表圖);type/solution_steps/answer/concepts 等其他欄位完全沿用舊 a/b/c/d。
+  - **孤兒紀錄**:既有 NCKU-109-05a..d 答題紀錄變孤兒(qid 對到新題但語意對齊,內容語意一致)。
+- **2026-05-31 NCKU-114-02 對答案(單一勘誤 entry)**:
+  - **問題**:answer 寫「不變或變小 (...)」,語意游移無法當標準答案。
+  - **動作**:answer 直接斷言「**變小**」+ 完整推導(移除值 8 > 中位數 7.8 → 排序第 52 筆或更後 → 新中位數 = (原第 50 筆 + 7.8) / 2 ≤ 7.8;「不變」只在多人並列時才成立,實務視為變小)。除 answer 外其他欄位完全不動。
+- **2026-05-31 NCKU-114-G-E shared_stem 換 ANOVA 結果表圖**(schema 一致化,**不入勘誤帳**):
+  - 17~20 共用 stem 原為 markdown table 寫死 df 表;改為 `![ANOVA 結果表](assets/figures/NCKU-114-q5-anova-table.png)` 引圖(對齊 NCKU-111-29/30 + NTU-108-Q6 的圖片化方向)。
+- **2026-05-31 大題標籤 prepend**(schema 一致化,**不入勘誤帳**):
+  - NCKU-114-G-A/B/C/D/E 開頭加「【一】~【五】」、NTU-108-G-A/B/C/D 加「【第 3 / 4 / 5 / 6 題】」、NCKU-109-G-A 加「【第 5 題】」(後者由 NCKU-109 重整一起做)
+  - 統一視覺辨識,讓 user 在練習頁立刻看到該大題編號。
 - **2026-05-29 NCKU-111 補圖(26 + 27 + 28 + 29 + 30,單一勘誤 entry)**:
   - **問題**:NCKU-111-26 ~ 30 共 5 題的圖表 / 直方圖 / ANOVA 表 / 迴歸表都用文字壓縮塞進 question(或舊 markdown table 版),失真且不直觀;前次 NTU-108 重整(e8f9e50)已開通 `renderSharedStemMarkdown` 圖片渲染,本次補套用。
   - **動作**:每筆只改 `group_id` / `shared_stem` / `question` 三欄(其他 type/options/answer/solution_steps 等完全保留):
