@@ -184,6 +184,15 @@ const CACHE = 'stats-quiz-v2026-05-16-1';
 - **2026-05-20 NCKU-113-19**:answer E → D(**翻面**;老師詳解:變異數不同質**不必然**轉無母數,若母體常態仍可用 Welch's t-test adjustment;D 字面「可以」暗示「變異數不同質 → 改用無母數」conditional 邏輯錯;原 solution_steps 把 D 標對、E 答(自我懷疑「E 是正確的, 不是錯的」);solution_steps / ai_hint / key_concepts 全重寫;✅ Phase 1 #11 待勘誤候選表全部清零)
 - **2026-05-20 NCCU-108-21**:answer D → A(**翻面**;老師詳解 W = X+Y where X,Y ~ Uniform(0,100) → Triangle(0,200), E(W)=100;(B)(C)(D) 皆錯,(A) 寬鬆視為對(Triangle 對稱鐘形 ≈ 常態,同 SCU-109-03 取分邏輯);原 solution_steps 13 步 confused reasoning 最後選 D,跟老師相反;solution_steps / ai_hint / key_concepts / formula_used 全重寫;**不在 Tier 1 候選表**,老師另指)
 - **2026-05-21 NCCU-112-05**:answer "AD" → "A"(原為單選題卻填雙答 "AD",schema 違規;老師確認 (A) SE=σ/√n vs σ 是硬錯誤,(D) 「CLT 並非特性」字面負面 meta-claim 採寬鬆解讀視為是特性;solution_steps / ai_hint / key_concepts / formula_used 對齊;concepts 加「不偏性」)
+- **2026-05-31 SCU-111 大整理(1 筆勘誤 + schema 一致化)**:
+  - **問題 (SCU-111-10 補錄漏題,**勘誤帳 +1**)**:原卷大題 9 為 2(A)×2(B) 二因子受試者間 ANOVA 計算題 (含原始資料表 + ANOVA 摘要表,空格 40~50 共 11 個小題),舊版題庫漏收。本次新增 `SCU-111-10` entry,含兩張表圖 (`SCU-111-10-raw-data.png` + `SCU-111-10-anova-table.png`) + 完整 9 步 solution (df_A/B/AB = 1、MS_E ≈ 10935.9、F_A ≈ 26.4、F_B ≈ 2.46、F_AB = 4.51 反推 MS_AB ≈ 49320.9)。`answer = ''` 待 user 親算後 batch 修。
+  - **schema 一致化** (**不入勘誤帳**):
+    - SCU-111-01~06 套 `group_id: SCU-111-G-A` + 共用 `shared_stem` (24 個代號清單 a-x,代號對應內效度 / 外效度 / 各類抽樣 / 各類相關 / 各類圖表 / 假設檢定結果 / Type I/II error / power)
+    - SCU-111-02 還原原卷完整 4 段抽樣情境 (越戰徵兵 366 球 / 高中男女比例 3:2 / 12 行政區隨機抽 4 + 街道普查 / 5000 玩偶 k=100 系統抽樣);舊版被簡化成括號內小字。
+    - SCU-111-07 / 08 各自加 shared_stem (對應 ANOVA 表圖)
+    - SCU-111-09 加 shared_stem (2×3 互動效果圖 + 顯著規則 ≥20)
+  - sw.js `v2026-05-31-2` → `v2026-05-31-3`
+  - 累計勘誤 22 → 23
 - **2026-05-31 SCU-109 大整理(2 筆勘誤 + schema 一致化)**:
   - **問題 1 (SCU-109-20 真錯誤,**勘誤帳 +1**)**:既有 question 文字描述「男性效果斜率較大」,answer 標 `'4'` (男性效果較強)。對照原卷互動圖,實際是**女性線斜率較陡** (3.85 → 4.8,Δ ≈ +0.95) 而男性線平緩 (3.2 → 3.4,Δ ≈ +0.2) → 正確 answer 應為 `'3'` (女性效果較強)。重寫 question / options / answer / solution_steps / ai_hint / key_concepts 全部對齊圖事實 + 加 `shared_stem` 引圖。
   - **問題 2 (SCU-109-04 文字錯誤,**勘誤帳 +1**)**:既有 question 內聯「圖一 (右尾長)」「圖二 (左偏直方圖)」假描述 (沒有圖)。原卷實際有兩張圖,圖一是右偏 curve、圖二是雙峰分布 → 兩個都不算「典型」正偏態。改寫 question 移除假描述、加 `shared_stem` 引兩張圖、重寫 solution_steps / ai_hint / key_concepts 對齊圖事實。

@@ -7429,15 +7429,15 @@
     "ai_hint": "內效度：能確定效果是由實驗操弄造成的→靠隨機分派排除混淆變項。外效度：能推論到更廣的母群→靠隨機抽樣確保代表性。",
     "formula_used": [],
     "primary_concept": "抽樣與設計",
-    "group_id": null,
-    "shared_stem": null
+    "group_id": "SCU-111-G-A",
+    "shared_stem": "配合題 (下列大題 1-6，各小題請填入下方合適選項之代號，每小題各 2 分，共 36 分)\n\n代號清單:\na:外效度  b:內效度  c:隨機分派  d:隨機抽樣  e:簡單隨機抽樣  f:分層隨機抽樣\ng:系統抽樣  h:聚落抽樣  i:phi(ψ)相關  j:皮爾森相關 (Pearson's r)\nk:點雙列相關 (Point Biserial Correlation)  l:長條圖  m:直方圖  n:折線圖  o:散佈圖\np:強度  q:方向  r:拒絕虛無假設  s:接受對立假設  t:接受虛無假設\nu:拒絕對立假設  v:第一型錯誤 (type I error)  w:第二型錯誤 (type II error)\nx:統計檢定力 (statistical power)"
   },
   {
     "id": "SCU-111-02",
     "source": "東吳",
     "year": 111,
     "type": "配合題",
-    "question": "請配對抽樣方法：(5)越戰徵兵抽籤（從366個生日球中逐一抽出） (6)依男女比例3:2各自抽樣 (7)從12行政區抽4區再抽街道普查 (8)每隔100個玩偶抽一個（k=100）",
+    "question": "請在下方底線填入合適的抽樣敘述之代號:\n_(5)_:美國 1970 年舉辦的首次越戰徵兵，所有 19 到 25 歲的男性都是這次抽籤的對象，首先負責單位將 1 年 366 個日期 (考慮閏年) 分別放進一模一樣的塑膠球內，再放進箱子裡。然後公開一個個抽出。最先被抽到的日期，生日為那一天的人最先被徵召，然後就是在第 2 個抽到的日期出生的人，以此類推;\n_(6)_:某高中共有 2000 位學生，欲從中抽取 120 位學生作為樣本，假設有 1200 位男生，800 位女生。按男女的比列 3:2 來選取。在男生部分抽取 120×0.6=72 位，女生部分抽取 120×0.4=48 位，此 120 人便構成我們要的樣本。\n_(7)_:假設某公司想調查台北市市民每月消費在甲產品的支出，計畫在所有 12 個行政區中隨機抽出 4 個行政區，然後再從被抽出的行政區中隨機抽出一條路 (街) (如遇街道跨區時，則僅調查屬於該區的住戶)，然後普查該條路 (街) 的所有住戶。\n_(8)_:某製造玩偶的工廠，計畫生產 5000 個玩偶，想從中抽取 50 個樣本，以了解不良品的比例。他們採用的抽樣方式為依 5000 個玩偶生產的順序，做為假想的編號，其次決定抽樣區間 k，k=5000/50=100，然後從 1 至 100 中隨機抽取一數，做為起始點，如抽出 35，最後只要每生產第 100 個玩偶，便將該玩偶抽出，即生產順序為 35,135,235,335,…,4935 的玩偶，就被抽出做為樣本。",
     "answer": "e,f,h,g",
     "options": [],
     "concepts": [
@@ -7457,8 +7457,8 @@
     "ai_hint": "系統抽樣關鍵：k=N/n（抽樣間距），從1到k隨機選起點，之後每隔k個抽一個。聚落抽樣：先抽群體（行政區），再普查群體內所有人。",
     "formula_used": [],
     "primary_concept": "抽樣與設計",
-    "group_id": null,
-    "shared_stem": null
+    "group_id": "SCU-111-G-A",
+    "shared_stem": "配合題 (下列大題 1-6，各小題請填入下方合適選項之代號，每小題各 2 分，共 36 分)\n\n代號清單:\na:外效度  b:內效度  c:隨機分派  d:隨機抽樣  e:簡單隨機抽樣  f:分層隨機抽樣\ng:系統抽樣  h:聚落抽樣  i:phi(ψ)相關  j:皮爾森相關 (Pearson's r)\nk:點雙列相關 (Point Biserial Correlation)  l:長條圖  m:直方圖  n:折線圖  o:散佈圖\np:強度  q:方向  r:拒絕虛無假設  s:接受對立假設  t:接受虛無假設\nu:拒絕對立假設  v:第一型錯誤 (type I error)  w:第二型錯誤 (type II error)\nx:統計檢定力 (statistical power)"
   },
   {
     "id": "SCU-111-03",
@@ -7484,8 +7484,8 @@
     "ai_hint": "記憶方式：都是連續→Pearson；一個是二元→點雙列；兩個都是二元→phi（φ）。",
     "formula_used": [],
     "primary_concept": "相關",
-    "group_id": null,
-    "shared_stem": null
+    "group_id": "SCU-111-G-A",
+    "shared_stem": "配合題 (下列大題 1-6，各小題請填入下方合適選項之代號，每小題各 2 分，共 36 分)\n\n代號清單:\na:外效度  b:內效度  c:隨機分派  d:隨機抽樣  e:簡單隨機抽樣  f:分層隨機抽樣\ng:系統抽樣  h:聚落抽樣  i:phi(ψ)相關  j:皮爾森相關 (Pearson's r)\nk:點雙列相關 (Point Biserial Correlation)  l:長條圖  m:直方圖  n:折線圖  o:散佈圖\np:強度  q:方向  r:拒絕虛無假設  s:接受對立假設  t:接受虛無假設\nu:拒絕對立假設  v:第一型錯誤 (type I error)  w:第二型錯誤 (type II error)\nx:統計檢定力 (statistical power)"
   },
   {
     "id": "SCU-111-04",
@@ -7514,8 +7514,8 @@
     "ai_hint": "(13)成績是連續資料→直方圖（not 長條圖）。(14)時間趨勢→折線圖。(15)交互作用圖通常也是折線圖，但依題目選項選散佈圖。",
     "formula_used": [],
     "primary_concept": "資料視覺化",
-    "group_id": null,
-    "shared_stem": null
+    "group_id": "SCU-111-G-A",
+    "shared_stem": "配合題 (下列大題 1-6，各小題請填入下方合適選項之代號，每小題各 2 分，共 36 分)\n\n代號清單:\na:外效度  b:內效度  c:隨機分派  d:隨機抽樣  e:簡單隨機抽樣  f:分層隨機抽樣\ng:系統抽樣  h:聚落抽樣  i:phi(ψ)相關  j:皮爾森相關 (Pearson's r)\nk:點雙列相關 (Point Biserial Correlation)  l:長條圖  m:直方圖  n:折線圖  o:散佈圖\np:強度  q:方向  r:拒絕虛無假設  s:接受對立假設  t:接受虛無假設\nu:拒絕對立假設  v:第一型錯誤 (type I error)  w:第二型錯誤 (type II error)\nx:統計檢定力 (statistical power)"
   },
   {
     "id": "SCU-111-05",
@@ -7541,8 +7541,8 @@
     "ai_hint": "p=0.03<α=0.05，所以拒絕虛無假設（r）。記住：p值越小，越有證據反對H0。",
     "formula_used": [],
     "primary_concept": "假設檢定",
-    "group_id": null,
-    "shared_stem": null
+    "group_id": "SCU-111-G-A",
+    "shared_stem": "配合題 (下列大題 1-6，各小題請填入下方合適選項之代號，每小題各 2 分，共 36 分)\n\n代號清單:\na:外效度  b:內效度  c:隨機分派  d:隨機抽樣  e:簡單隨機抽樣  f:分層隨機抽樣\ng:系統抽樣  h:聚落抽樣  i:phi(ψ)相關  j:皮爾森相關 (Pearson's r)\nk:點雙列相關 (Point Biserial Correlation)  l:長條圖  m:直方圖  n:折線圖  o:散佈圖\np:強度  q:方向  r:拒絕虛無假設  s:接受對立假設  t:接受虛無假設\nu:拒絕對立假設  v:第一型錯誤 (type I error)  w:第二型錯誤 (type II error)\nx:統計檢定力 (statistical power)"
   },
   {
     "id": "SCU-111-06",
@@ -7570,8 +7570,8 @@
     "ai_hint": "降低α=更保守=更難拒絕H0=Type I error減少，但同時Type II error增加（更容易漏掉真實效果）。",
     "formula_used": [],
     "primary_concept": "假設檢定",
-    "group_id": null,
-    "shared_stem": null
+    "group_id": "SCU-111-G-A",
+    "shared_stem": "配合題 (下列大題 1-6，各小題請填入下方合適選項之代號，每小題各 2 分，共 36 分)\n\n代號清單:\na:外效度  b:內效度  c:隨機分派  d:隨機抽樣  e:簡單隨機抽樣  f:分層隨機抽樣\ng:系統抽樣  h:聚落抽樣  i:phi(ψ)相關  j:皮爾森相關 (Pearson's r)\nk:點雙列相關 (Point Biserial Correlation)  l:長條圖  m:直方圖  n:折線圖  o:散佈圖\np:強度  q:方向  r:拒絕虛無假設  s:接受對立假設  t:接受虛無假設\nu:拒絕對立假設  v:第一型錯誤 (type I error)  w:第二型錯誤 (type II error)\nx:統計檢定力 (statistical power)"
   },
   {
     "id": "SCU-111-07",
@@ -7608,8 +7608,7 @@
       "F = MSB/MSW"
     ],
     "primary_concept": "ANOVA",
-    "group_id": null,
-    "shared_stem": null
+    "shared_stem": "組合題 I (每小題 2 分，共 28 分) 請依據各種情境，在下列變異數分析表空格填入合適之內容。\n/ 表示除號，請填入相對應的分子 (代號如 SSB 或數字) 與分母 (代號 SSB 或數字)。\n\n情境 1:單因子變異數分析，3 個水準 (levels)，每個水準下各 5 個觀察值。\n\n![單因子 ANOVA 表](assets/figures/SCU-111-07-anova-table.png)"
   },
   {
     "id": "SCU-111-08",
@@ -7644,8 +7643,7 @@
       "df_Total = abn-1 = 72-1 = 71"
     ],
     "primary_concept": "ANOVA",
-    "group_id": null,
-    "shared_stem": null
+    "shared_stem": "情境 2:雙因子變異數分析，A 因子有 2 個水準，B 因子有 3 個水準，每組各 12 個觀察值。\n\n![雙因子 ANOVA df 表](assets/figures/SCU-111-08-anova-table.png)"
   },
   {
     "id": "SCU-111-09",
@@ -7676,8 +7674,43 @@
     "ai_hint": "兩線交叉=顯著交互作用，表示A的效果在不同B水準下方向相反。主要效果看邊際平均（各水準的平均）。",
     "formula_used": [],
     "primary_concept": "ANOVA",
-    "group_id": null,
-    "shared_stem": null
+    "shared_stem": "組合題 II (各小題每題 2 分，共 14 分):\n假設無論是主要效果或是交互作用效果，只要該效果的一個情境的數值差異 ≥ 20 即達到統計上之顯著 (significant)。請判斷以下有關結果圖之敘述是否正確，正確請打 O，錯誤請打 X。\n\n![2×3 互動效果圖](assets/figures/SCU-111-09-interaction-plot.png)"
+  },
+  {
+    "id": "SCU-111-10",
+    "source": "東吳",
+    "year": 111,
+    "type": "計算題",
+    "question": "請完成 ANOVA 摘要表的空格:SS_AB(40)、df_A(41)、df_B(42)、df_AB(43)、df_Residuals(44)、MS_A(45)、MS_B(46)、MS_AB(47)、MS_Residuals(48)、F_A(49)、F_B(50)。",
+    "answer": "",
+    "options": [],
+    "concepts": [
+      "二因子變異數分析",
+      "ANOVA 摘要表",
+      "MS 計算",
+      "F 值計算"
+    ],
+    "difficulty": "hard",
+    "solution_steps": [
+      "df_A = 2-1 = 1，df_B = 2-1 = 1，df_AB = 1×1 = 1",
+      "總樣本 n = 2×2×10 = 40，df_Residuals = 40-4 = 36，df_Total = 39",
+      "MS_A = SS_A / df_A = 288660.1 / 1 = 288660.1",
+      "MS_B = SS_B / df_B = 26936.1 / 1 = 26936.1",
+      "MS_Residuals = SS_Residuals / df_Residuals = 393691.8 / 36 ≈ 10935.9",
+      "F_A = MS_A / MS_Residuals = 288660.1 / 10935.9 ≈ 26.4",
+      "F_B = MS_B / MS_Residuals = 26936.1 / 10935.9 ≈ 2.46",
+      "由 F_AB = 4.51 反推:MS_AB = F_AB × MS_Residuals = 4.51 × 10935.9 ≈ 49320.9",
+      "SS_AB = MS_AB × df_AB = 49320.9 × 1 ≈ 49320.9"
+    ],
+    "key_concepts": "二因子受試者間設計:df_A×B = (a-1)(b-1);F = MS_effect / MS_error;當 F 值已給可反推 MS 與 SS。",
+    "ai_hint": "先算 df (機械式)，再用 SS/df = MS。F_AB 已給 (4.51)，可反推 MS_AB = F_AB × MS_E，再 × df_AB = SS_AB。",
+    "formula_used": [
+      "MS = SS / df",
+      "F = MS_effect / MS_error",
+      "df_A×B = (a-1)(b-1)"
+    ],
+    "primary_concept": "二因子變異數分析",
+    "shared_stem": "計算題 (各小題每題 2 分，共 22 分):\n\n此為 2(A)×2(B) 二因子受試者間實驗設計，下表為此設計所得之數據，每組各有 10 個樣本，請依此數據完成下列 ANOVA table 之填寫。(數值取到小數點下第一位)\n\n原始資料表:\n![原始資料表](assets/figures/SCU-111-10-raw-data.png)\n\nANOVA 摘要表 (部分數值已填，空格 40-50 請計算填入):\n![ANOVA 摘要表](assets/figures/SCU-111-10-anova-table.png)"
   },
   {
     "id": "SCU-112-01",
