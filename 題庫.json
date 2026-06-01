@@ -182,7 +182,7 @@
     "key_concepts": "結合統計推論與實際知識；學測設計讓前1%為基準，造成低分段人數聚集",
     "ai_hint": "這題考你對學測制度的理解。實際上各級距人數差很多 → 必定拒絕H0。圖要畫兩個：一個反映現實（拒絕），一個反映均等（未拒絕）。",
     "formula_used": [],
-    "primary_concept": "迴歸分析",
+    "primary_concept": "卡方檢定",
     "group_id": "NTU-108-G-B",
     "shared_stem": "【第 4 題】\n\n根據大考中心，學測級分的算法乃以該科成績前百分之一考生的平均原始得分除以 15 作為級距 I，然後分數介於 n*I (不含) 與 (n+1)*I (含) 的級分為 n+1 (n=0, 1, ..., 13)，分數大於 14*I 者之級分為 15。"
   },
@@ -365,7 +365,7 @@
       "F(m,n) = [χ²(m)/m] / [χ²(n)/n]",
       "t²(n) = F(1,n)"
     ],
-    "primary_concept": "卡方檢定",
+    "primary_concept": "機率分配",
     "group_id": null,
     "shared_stem": null
   },
@@ -1549,7 +1549,7 @@
       "(d) Z = (X-μ)/σ，X~N(μ,σ²)",
       "(e) t(n) = Z/√(χ²(n)/n)"
     ],
-    "primary_concept": "卡方檢定",
+    "primary_concept": "機率分配",
     "group_id": null,
     "shared_stem": null
   },
@@ -2546,7 +2546,7 @@
       "F(m,n) = [χ²(m)/m] / [χ²(n)/n]",
       "t²(n) = F(1,n)"
     ],
-    "primary_concept": "卡方檢定",
+    "primary_concept": "機率分配",
     "group_id": null,
     "shared_stem": null
   },
@@ -3126,7 +3126,7 @@
     "formula_used": [
       "95% CI = x̄ ± 1.96 × (σ/√n)"
     ],
-    "primary_concept": "機率分配",
+    "primary_concept": "估計與信賴區間",
     "group_id": "NCKU-111-G-B",
     "shared_stem": "某衛生局想了解一般民眾對於 COVID-19 疫苗注射副作用的擔心程度而設計了一份總分為 0-30 分的問卷，並隨機徵詢 170 位 20-80 歲民眾的意見。剔除 10 位答題不完整的受訪者資料後，得到問卷分數平均值為 10 分、中位數（median）為 12 分、標準差為 5 分。請判斷以下描述的正確性："
   },
@@ -3986,7 +3986,7 @@
     "key_concepts": "複選題資料：每人可選多項，總次數≠樣本數；次數分配可呈現人次但比率意義不明",
     "ai_hint": "複選資料可用名義量尺處理、眾數找最多人選的選項、卡方檢定。次數分配表在複選中若要計算「比率」會有問題（分母不明確）。答D。",
     "formula_used": [],
-    "primary_concept": "卡方檢定",
+    "primary_concept": "測量",
     "group_id": null,
     "shared_stem": null
   },
@@ -4323,7 +4323,7 @@
     "formula_used": [
       "F(1,df) = t²(df)"
     ],
-    "primary_concept": "迴歸分析",
+    "primary_concept": "t檢定",
     "group_id": null,
     "shared_stem": null
   },
@@ -5047,7 +5047,7 @@
       "t²(df) = F(1,df)",
       "z² = χ²(1)（僅df=1時成立）"
     ],
-    "primary_concept": "卡方檢定",
+    "primary_concept": "機率分配",
     "group_id": null,
     "shared_stem": null
   },
@@ -6240,7 +6240,7 @@
       "正偏態：mean > median > mode",
       "Var(X/3) = Var(X)/9，SD(X/3) = SD(X)/3"
     ],
-    "primary_concept": "機率分配",
+    "primary_concept": "描述統計",
     "group_id": null,
     "shared_stem": null
   },
@@ -6381,7 +6381,7 @@
     "key_concepts": "兩個類別變項的關聯→卡方獨立性檢定；ANOVA用於連續DV",
     "ai_hint": "D錯：顏色（類別）和性別（類別）的關係→卡方獨立性檢定，不是ANOVA。ANOVA需要連續的依變項。",
     "formula_used": [],
-    "primary_concept": "ANOVA",
+    "primary_concept": "卡方檢定",
     "group_id": null,
     "shared_stem": null
   },
@@ -7158,7 +7158,7 @@
     "formula_used": [
       "配對t：t = D̄/(sD/√n)，df=n-1=14"
     ],
-    "primary_concept": "卡方檢定",
+    "primary_concept": "相依樣本t檢定",
     "group_id": "SCU-109-G-B",
     "shared_stem": "某研究者進行一戒菸計畫效果的評估，共有 15 名受試者參與該計畫，以下資料為該 15 名受試者在參加三週戒菸計畫前後測每週所抽的菸量變化 (根/週):\n\n![15 名受試者前後測資料](assets/figures/SCU-109-13-pretest-posttest.png)"
   },
@@ -7265,7 +7265,7 @@
     "key_concepts": "正相關：X↑Y↑或X↓Y↓；負相關：X↑Y↓或X↓Y↑；r範圍[-1,1]",
     "ai_hint": "依題目圖示，散點圖應顯示負相關（左上到右下），說它是正相關是錯的。(2)正確：X低Y也低=同方向=正相關。",
     "formula_used": [],
-    "primary_concept": "迴歸分析",
+    "primary_concept": "相關",
     "shared_stem": "![散點圖](assets/figures/SCU-109-16-scatterplot.png)"
   },
   {
@@ -9208,7 +9208,7 @@
     "key_concepts": "兩次序變項→Spearman's ρ；兩連續→Pearson r；兩類別→phi/Cramer's V；卡方是檢定非相關指標",
     "ai_hint": "次序資料→Spearman（用排名計算）。Kendall's τ也適用但選項沒有。",
     "formula_used": [],
-    "primary_concept": "卡方檢定",
+    "primary_concept": "相關",
     "group_id": null,
     "shared_stem": null
   },
@@ -9329,7 +9329,7 @@
     "formula_used": [
       "χ² = (n-1)s²/σ² ~ χ²(n-1)"
     ],
-    "primary_concept": "卡方檢定",
+    "primary_concept": "描述統計",
     "group_id": null,
     "shared_stem": null
   },
@@ -9578,7 +9578,7 @@
     "key_concepts": "選擇vs偏好（名義資料）→比例檢定（z、卡方、Fisher's exact）；不能用t檢定（需連續資料）",
     "ai_hint": "資料是「選A或選B」的名義資料，不是連續數值，所以t檢定不合適。應用比例相關的檢定（z比例檢定、卡方適合度、Fisher's exact）。",
     "formula_used": [],
-    "primary_concept": "卡方檢定",
+    "primary_concept": "假設檢定",
     "group_id": null,
     "shared_stem": null
   },
@@ -9805,7 +9805,7 @@
     "formula_used": [
       "r = Cov(X,Y)/(σx·σy)"
     ],
-    "primary_concept": "迴歸分析",
+    "primary_concept": "相關",
     "group_id": null,
     "shared_stem": null
   },
@@ -9834,7 +9834,7 @@
     "key_concepts": "兩個次序變項→Spearman's ρ",
     "ai_hint": "與108年16題相同。次序→Spearman。",
     "formula_used": [],
-    "primary_concept": "卡方檢定",
+    "primary_concept": "相關",
     "group_id": null,
     "shared_stem": null
   },
@@ -10049,7 +10049,7 @@
     "key_concepts": "F=[χ²(m)/m]/[χ²(n)/n]；χ²(k)=ΣZᵢ²；F不是Z的加總，是χ²/df的比值",
     "ai_hint": "C錯：F分配是兩個卡方（除以各自df）的比值。卡方是Z²的加總，不是Z的加總。要區分：χ²=ΣZ²（平方和），F=比值。",
     "formula_used": [],
-    "primary_concept": "卡方檢定",
+    "primary_concept": "機率分配",
     "group_id": null,
     "shared_stem": null
   },
@@ -10719,7 +10719,7 @@
       "5種情境兩兩配對比較次數 = C(5,2) = 10",
       "Bonferroni：每次使用α/比較次數 = α/10"
     ],
-    "primary_concept": "t檢定",
+    "primary_concept": "ANOVA",
     "group_id": null,
     "shared_stem": null
   },
@@ -11755,7 +11755,7 @@
     "key_concepts": "t(df→∞)→N(0,1)；χ²(df→∞)→N(df,2df)→標準化後趨近常態；兩者都服從CLT",
     "ai_hint": "t和χ²都是從常態分配衍生出來的，df越大越趨近常態（CLT的效果）。t(∞)=N(0,1)；χ²可視為獨立正態平方的和，大df時趨近常態。",
     "formula_used": [],
-    "primary_concept": "卡方檢定",
+    "primary_concept": "機率分配",
     "group_id": null,
     "shared_stem": null
   },
@@ -11791,7 +11791,7 @@
     "key_concepts": "隨機分派=提高內效度=排除混淆變項；不同於隨機抽樣（提高外效度）",
     "ai_hint": "隨機分派（random assignment）：實驗中用於控制混淆因子，提升內效度。隨機抽樣（random sampling）：用於確保樣本代表母群，提升外效度。兩者目的不同！",
     "formula_used": [],
-    "primary_concept": "中央極限定理",
+    "primary_concept": "研究設計",
     "group_id": null,
     "shared_stem": null
   },
@@ -11856,7 +11856,7 @@
     "key_concepts": "Efficiency：在所有估計量中MSE最小；MVUE（Minimum Variance Unbiased Estimator）是不偏估計量中的最有效估計量",
     "ai_hint": "MSE最小→有效性（Efficiency）。注意與不偏性區別：不偏性要求E(θ̂)=θ；有效性要求MSE最小（可以有偏但MSE仍最小）。",
     "formula_used": [],
-    "primary_concept": "ANOVA",
+    "primary_concept": "估計與信賴區間",
     "group_id": null,
     "shared_stem": null
   },
