@@ -1838,11 +1838,13 @@ function sortByPriority(pool) {
     if (s === 'unsure') return 2;
     return 3;
   };
-  // 排序鍵: (conceptRank asc) → (tier asc, 未做 → 答錯 → 不確定 → 已答對) → (random)
-  // conceptRank 由 CONCEPT_PRIORITY 決定, 1=描述統計最先, 14=效果量最後, 99=未對到
+  // 同概念內難度先排 easy(0) → medium(1) → hard(2); 沒標 difficulty 視為 medium
+  const diffRank = q => ({easy:0, medium:1, hard:2}[q.difficulty] ?? 1);
+  // 排序鍵: (conceptRank asc) → (tier asc) → (difficulty asc) → (random)
+  // random 必須在最後一層, 不然 difficulty 不會作用
   return [...pool]
-    .map(q => ({ q, r: Math.random(), t: tier(q), c: conceptRank(q) }))
-    .sort((a, b) => a.c - b.c || a.t - b.t || a.r - b.r)
+    .map(q => ({ q, r: Math.random(), t: tier(q), c: conceptRank(q), d: diffRank(q) }))
+    .sort((a, b) => a.c - b.c || a.t - b.t || a.d - b.d || a.r - b.r)
     .map(x => x.q);
 }
 
