@@ -89,7 +89,7 @@
       "n ≥ (z_{α/2})² · p(1-p) / E²",
       "保守估計：p=0.5時 n ≥ (z_{α/2})² · 0.25 / E²"
     ],
-    "primary_concept": "樣本數估計",
+    "primary_concept": "估計與信賴區間",
     "group_id": "NTU-108-G-A",
     "shared_stem": "【第 3 題】\n\n有關某候選人支持率的民意調查，要求在 90% 信心水準下將抽樣誤差控制在正負 3 個百分點。"
   },
@@ -120,7 +120,7 @@
       "n ≥ (z_{α/2})² · p(1-p) / E²",
       "p(1-p)在p∈[0.15,0.3]的最大值"
     ],
-    "primary_concept": "樣本數估計",
+    "primary_concept": "估計與信賴區間",
     "group_id": "NTU-108-G-A",
     "shared_stem": "【第 3 題】\n\n有關某候選人支持率的民意調查，要求在 90% 信心水準下將抽樣誤差控制在正負 3 個百分點。"
   },
@@ -151,7 +151,7 @@
       "χ² = Σ(O_i - E_i)² / E_i",
       "df = k-1（k為類別數）"
     ],
-    "primary_concept": "卡方適合度檢定 (chi-square goodness-of-fit test)",
+    "primary_concept": "卡方與類別資料",
     "group_id": "NTU-108-G-B",
     "shared_stem": "【第 4 題】\n\n根據大考中心，學測級分的算法乃以該科成績前百分之一考生的平均原始得分除以 15 作為級距 I，然後分數介於 n×I (不含) 與 (n+1)×I (含) 的級分為 n+1 (n=0, 1, …, 13)，分數大於 14×I 者之級分為 15。"
   },
@@ -181,7 +181,7 @@
     "key_concepts": "結合統計推論與實際知識；學測設計讓前1%為基準，造成低分段人數聚集",
     "ai_hint": "這題考你對學測制度的理解。實際上各級距人數差很多 → 必定拒絕H0。圖要畫兩個：一個反映現實（拒絕），一個反映均等（未拒絕）。",
     "formula_used": [],
-    "primary_concept": "卡方適合度檢定的應用與分配判讀 (goodness-of-fit interpretation)",
+    "primary_concept": "卡方與類別資料",
     "group_id": "NTU-108-G-B",
     "shared_stem": "【第 4 題】\n\n根據大考中心，學測級分的算法乃以該科成績前百分之一考生的平均原始得分除以 15 作為級距 I，然後分數介於 n×I (不含) 與 (n+1)×I (含) 的級分為 n+1 (n=0, 1, …, 13)，分數大於 14×I 者之級分為 15。"
   },
@@ -288,7 +288,7 @@
       "x̄ ~ N(μ, σ²/n)（當n夠大或母群為常態時）",
       "中央極限定理：n→∞時，x̄的分配趨近常態"
     ],
-    "primary_concept": "中央極限定理",
+    "primary_concept": "中央極限定理與抽樣分配",
     "group_id": "NTU-108-G-D",
     "shared_stem": "【第 6 題】\n\n下面為從同一母群抽出之樣本 (樣本數=15) 的兩組 (各三個) 直方圖。設想你重複此 (樣本數為 15 的) 抽樣方式至 10000 次，故可得 10000 筆樣本平均數。\n\n第一列 (右偏分配):\n![NTU-108 Q6 第一列](assets/figures/NTU-108-q6-row1.png)\n\n第二列 (近常態鐘形):\n![NTU-108 Q6 第二列](assets/figures/NTU-108-q6-row2.png)"
   },
@@ -321,7 +321,7 @@
     "formula_used": [
       "中央極限定理（n越大越趨近常態）"
     ],
-    "primary_concept": "中央極限定理",
+    "primary_concept": "中央極限定理與抽樣分配",
     "group_id": "NTU-108-G-D",
     "shared_stem": "【第 6 題】\n\n下面為從同一母群抽出之樣本 (樣本數=15) 的兩組 (各三個) 直方圖。設想你重複此 (樣本數為 15 的) 抽樣方式至 10000 次，故可得 10000 筆樣本平均數。\n\n第一列 (右偏分配):\n![NTU-108 Q6 第一列](assets/figures/NTU-108-q6-row1.png)\n\n第二列 (近常態鐘形):\n![NTU-108 Q6 第二列](assets/figures/NTU-108-q6-row2.png)"
   },
@@ -517,7 +517,7 @@
       "當n夠大：x̄ ~ N(μ, σ²/n)，不論母群分配",
       "標準化：Z = (x̄ - μ) / (σ/√n) ~ N(0,1)"
     ],
-    "primary_concept": "中央極限定理",
+    "primary_concept": "中央極限定理與抽樣分配",
     "group_id": null,
     "shared_stem": null
   },
@@ -629,7 +629,7 @@
       "CLT：√n(x̄-μ)/σ →ᵈ N(0,1) 當 n→∞",
       "大數法則：x̄ →ᵖ μ 當 n→∞"
     ],
-    "primary_concept": "中央極限定理",
+    "primary_concept": "中央極限定理與抽樣分配",
     "group_id": null,
     "shared_stem": null
   },
@@ -972,7 +972,7 @@
       "x̄ ~ N(μ, σ²/n)（n夠大時，CLT）",
       "SE = σ/√n = s/√n（標準誤）"
     ],
-    "primary_concept": "中央極限定理",
+    "primary_concept": "中央極限定理與抽樣分配",
     "group_id": null,
     "shared_stem": null
   },
@@ -1309,7 +1309,7 @@
       "Σ(Xi-x̄)²/σ² ~ χ²(n-1)",
       "(n-1)s²/σ² ~ χ²(n-1)"
     ],
-    "primary_concept": "卡方檢定",
+    "primary_concept": "卡方與類別資料",
     "group_id": null,
     "shared_stem": null
   },
@@ -2144,7 +2144,7 @@
       "H0：4位參選人支持人數相等（各25人）",
       "df = k-1 = 4-1 = 3"
     ],
-    "primary_concept": "卡方檢定",
+    "primary_concept": "卡方與類別資料",
     "shared_stem": "以下為某民調公司調查3個鄉鎮對市長參選人的支持人數資料：\n心證鄉：A=2, B=10, C=8, D=5\n部人鎮：A=15, B=12, C=6, D=7\n逐一鄉：A=8, B=13, C=6, D=8\n\n![](assets/figures/NCKU-107-14-poll-table.png)",
     "group_id": "NCKU-107-G-A"
   },
@@ -2187,7 +2187,7 @@
       "r=3（鄉鎮數），c=4（參選人數）",
       "df = (3-1)(4-1) = 2×3 = 6"
     ],
-    "primary_concept": "卡方檢定",
+    "primary_concept": "卡方與類別資料",
     "group_id": "NCKU-107-G-A",
     "shared_stem": "以下為某民調公司調查3個鄉鎮對市長參選人的支持人數資料：\n心證鄉：A=2, B=10, C=8, D=5\n部人鎮：A=15, B=12, C=6, D=7\n逐一鄉：A=8, B=13, C=6, D=8\n\n![](assets/figures/NCKU-107-14-poll-table.png)"
   },
@@ -2333,7 +2333,7 @@
     "key_concepts": "CLT：任何母群，n夠大時x̄~N(μ,σ²/n)；Var(x̄)=σ²/n是關鍵結論",
     "ai_hint": "CLT的核心：x̄的分配有兩個性質(1)平均=μ (2)變異數=σ²/n。A正確。注意CLT不要求母群常態，也不說個別分數趨近常態。",
     "formula_used": [],
-    "primary_concept": "中央極限定理",
+    "primary_concept": "中央極限定理與抽樣分配",
     "group_id": null,
     "shared_stem": null
   },
@@ -2482,7 +2482,7 @@
     "key_concepts": "Q-Q plot是最標準的常態性圖形檢驗；正式統計檢定可用Shapiro-Wilk",
     "ai_hint": "四種方法都可以用來判斷常態性，答E。Q-Q plot是最直接的，若點落在對角線上則常態。",
     "formula_used": [],
-    "primary_concept": "資料視覺化",
+    "primary_concept": "描述統計",
     "group_id": null,
     "shared_stem": null
   },
@@ -2667,7 +2667,7 @@
     "key_concepts": "顯著性需計算z/χ²統計量和p值；59/100在α=0.05下未必顯著",
     "ai_hint": "C錯！z=(59-50)/5=1.8，雙尾p≈0.072>0.05，在α=0.05下不顯著，不能說硬幣被動手腳。顯著性是算出來的，不是感覺的。",
     "formula_used": [],
-    "primary_concept": "卡方檢定",
+    "primary_concept": "卡方與類別資料",
     "group_id": null,
     "shared_stem": null
   },
@@ -2738,7 +2738,7 @@
     "formula_used": [
       "SS_total = SS_between + SS_subjects + SS_error（重複量數ANOVA）"
     ],
-    "primary_concept": "抽樣與設計",
+    "primary_concept": "抽樣與研究設計",
     "group_id": null,
     "shared_stem": null
   },
@@ -2848,7 +2848,7 @@
       "φ = √(χ²/n)（效果量）",
       "df = (r-1)(c-1) = 1"
     ],
-    "primary_concept": "卡方檢定",
+    "primary_concept": "卡方與類別資料",
     "shared_stem": "【第 4 題】\n\n卡方臨界值:χ²₀₅(1)=3.84、χ²₀₅(2)=5.99、χ²₀₅(3)=7.82、χ²₀₅(4)=9.49、χ²₀₅(9)=16.92\n\n兩位心理學家得到的列聯表資料如下:\n\n![兩位心理學家的列聯表](assets/figures/NCKU-109-04-contingency-tables.png)"
   },
   {
@@ -3012,7 +3012,7 @@
     "formula_used": [
       "χ² = Σ(O-E)²/E"
     ],
-    "primary_concept": "卡方檢定",
+    "primary_concept": "卡方與類別資料",
     "group_id": "NCKU-111-G-A",
     "shared_stem": "AstraZeneca (AZ)、Moderna、Pfizer-BioNTech (BNT) 等三種 COVID-19 疫苗為通過國內緊急授權並施打量最多的疫苗。以國內 COVID-19 疫苗的施打狀況，請判斷以下描述的正確性："
   },
@@ -3043,7 +3043,7 @@
     "key_concepts": "觀察資料中施打數差異≠受歡迎程度差異，存在混淆變項（如政策、供貨）",
     "ai_hint": "這是混淆變項的問題。施打數多可能是政府政策決定的，不能直接推論民眾偏好。答B。",
     "formula_used": [],
-    "primary_concept": "抽樣與設計",
+    "primary_concept": "抽樣與研究設計",
     "group_id": "NCKU-111-G-A",
     "shared_stem": "AstraZeneca (AZ)、Moderna、Pfizer-BioNTech (BNT) 等三種 COVID-19 疫苗為通過國內緊急授權並施打量最多的疫苗。以國內 COVID-19 疫苗的施打狀況，請判斷以下描述的正確性："
   },
@@ -3073,7 +3073,7 @@
     "key_concepts": "相關不等於因果；施打量最高受政策/供貨影響，不能直接推論偏好",
     "ai_hint": "AZ最早引進台灣，施打數多是時間優勢和政策因素，不代表最受歡迎。答B。",
     "formula_used": [],
-    "primary_concept": "抽樣與設計",
+    "primary_concept": "抽樣與研究設計",
     "group_id": "NCKU-111-G-A",
     "shared_stem": "AstraZeneca (AZ)、Moderna、Pfizer-BioNTech (BNT) 等三種 COVID-19 疫苗為通過國內緊急授權並施打量最多的疫苗。以國內 COVID-19 疫苗的施打狀況，請判斷以下描述的正確性："
   },
@@ -3133,7 +3133,7 @@
     "key_concepts": "莖葉圖適用於數值型資料的分布呈現，兼顧分布形狀與原始數值",
     "ai_hint": "施打數是數值資料，莖葉圖可以使用。答A。",
     "formula_used": [],
-    "primary_concept": "資料視覺化",
+    "primary_concept": "描述統計",
     "group_id": "NCKU-111-G-A",
     "shared_stem": "AstraZeneca (AZ)、Moderna、Pfizer-BioNTech (BNT) 等三種 COVID-19 疫苗為通過國內緊急授權並施打量最多的疫苗。以國內 COVID-19 疫苗的施打狀況，請判斷以下描述的正確性："
   },
@@ -3164,7 +3164,7 @@
     "key_concepts": "觀察到的施打率差異不等於意願母群差異；混淆變項（人口結構、政策）需控制",
     "ai_hint": "施打率高低受人口數、政策、供貨等影響。百分率差異不能直接推論「意願母群不同」。答B。",
     "formula_used": [],
-    "primary_concept": "抽樣與設計",
+    "primary_concept": "抽樣與研究設計",
     "group_id": "NCKU-111-G-A",
     "shared_stem": "AstraZeneca (AZ)、Moderna、Pfizer-BioNTech (BNT) 等三種 COVID-19 疫苗為通過國內緊急授權並施打量最多的疫苗。以國內 COVID-19 疫苗的施打狀況，請判斷以下描述的正確性："
   },
@@ -3290,7 +3290,7 @@
     "key_concepts": "CLT改變的是x̄的抽樣分配，不是母群分配；母群形狀固定不變",
     "ai_hint": "CLT說的是「樣本平均數的抽樣分配」趨近常態，母群本身不會因多抽幾次就變常態。答B。",
     "formula_used": [],
-    "primary_concept": "中央極限定理",
+    "primary_concept": "中央極限定理與抽樣分配",
     "group_id": "NCKU-111-G-B",
     "shared_stem": "某衛生局想了解一般民眾對於 COVID-19 疫苗注射副作用的擔心程度而設計了一份總分為 0-30 分的問卷，並隨機徵詢 170 位 20-80 歲民眾的意見。剔除 10 位答題不完整的受訪者資料後，得到問卷分數平均值為 10 分、中位數（median）為 12 分、標準差為 5 分。請判斷以下描述的正確性："
   },
@@ -3511,7 +3511,7 @@
     "formula_used": [
       "df=1時，χ²臨界值(α=0.05) = 3.84"
     ],
-    "primary_concept": "卡方檢定",
+    "primary_concept": "卡方與類別資料",
     "group_id": "NCKU-111-G-C",
     "shared_stem": "某研究發現 Moderna COVID-19 疫苗注射第二劑後相較於第一劑的頭暈反應更為強烈且統計 p 值為 0.02。請判斷以下描述的正確性："
   },
@@ -3795,7 +3795,7 @@
     "key_concepts": "雙峰→兩種反應/兩個母群；獨立t需對照組；卡方適用類別非連續變數",
     "ai_hint": "【複選題,每個選項都要獨立判斷,不是擇一】雙峰分布→AB正確。C錯：沒有對照組不能用獨立t。D錯：連續分數不用卡方，應用單樣本t。答AB。",
     "formula_used": [],
-    "primary_concept": "卡方檢定",
+    "primary_concept": "卡方與類別資料",
     "shared_stem": "某英語教學老師針對學習者聽力發展一套新式教學法，經過三個月實驗教學後，學生聽力測驗分數分布如下圖:\n\n![聽力測驗分數分布](assets/figures/NCKU-111-26-histogram.png)\n\n若已知過往難度相近的聽力測驗平均值為 50 分、標準差為 15 分，且為常態分佈。"
   },
   {
@@ -4098,7 +4098,7 @@
     "formula_used": [
       "x̄ ~ N(μ, σ²/n) 當n夠大時"
     ],
-    "primary_concept": "中央極限定理",
+    "primary_concept": "中央極限定理與抽樣分配",
     "group_id": null,
     "shared_stem": null
   },
@@ -4173,7 +4173,7 @@
       "E(χ²) = df",
       "Var(χ²) = 2df"
     ],
-    "primary_concept": "卡方檢定",
+    "primary_concept": "卡方與類別資料",
     "group_id": null,
     "shared_stem": null
   },
@@ -4213,7 +4213,7 @@
     "key_concepts": "複選題資料：每人可選多項，總次數≠樣本數；次數分配可呈現人次但比率意義不明",
     "ai_hint": "複選資料可用名義量尺處理、眾數找最多人選的選項、卡方檢定。次數分配表在複選中若要計算「比率」會有問題（分母不明確）。答D。",
     "formula_used": [],
-    "primary_concept": "測量",
+    "primary_concept": "描述統計",
     "group_id": null,
     "shared_stem": null
   },
@@ -4704,7 +4704,7 @@
     "formula_used": [
       "χ² = Σ(O-E)²/E"
     ],
-    "primary_concept": "卡方檢定",
+    "primary_concept": "卡方與類別資料",
     "group_id": null,
     "shared_stem": null
   },
@@ -4741,7 +4741,7 @@
     "key_concepts": "直方圖≠長條圖；直方圖用於連續資料，長條圖用於類別資料",
     "ai_hint": "台綜必考考點！類別資料（學院）→長條圖，不是直方圖。答B。",
     "formula_used": [],
-    "primary_concept": "資料視覺化",
+    "primary_concept": "描述統計",
     "group_id": null,
     "shared_stem": null
   },
@@ -4929,7 +4929,7 @@
     "formula_used": [
       "SE = σ/√n（x̄抽樣分配的標準差）"
     ],
-    "primary_concept": "中央極限定理",
+    "primary_concept": "中央極限定理與抽樣分配",
     "group_id": null,
     "shared_stem": null
   },
@@ -5045,7 +5045,7 @@
       "χ² = Σ(O-E)²/E",
       "df = (r-1)(c-1)"
     ],
-    "primary_concept": "卡方檢定",
+    "primary_concept": "卡方與類別資料",
     "group_id": null,
     "shared_stem": null
   },
@@ -5235,7 +5235,7 @@
       "χ² = Σ(O-E)²/E（適合度檢定）",
       "H0：三堂課選課人數相等（各200/3≈66.7人）"
     ],
-    "primary_concept": "卡方檢定",
+    "primary_concept": "卡方與類別資料",
     "group_id": null,
     "shared_stem": null
   },
@@ -5382,7 +5382,7 @@
     "key_concepts": "受試者間因子=不同人在不同組；受試者內因子=同一人接受所有水準",
     "ai_hint": "出生序將不同人分到不同組（第一出生、第二出生）→受試者間因子，不是受試者內因子。答C。",
     "formula_used": [],
-    "primary_concept": "抽樣與設計",
+    "primary_concept": "抽樣與研究設計",
     "group_id": null,
     "shared_stem": null
   },
@@ -5953,7 +5953,7 @@
       "α = 0.05 → p < α → 拒絕 H₀ → 兩種訓練有顯著差異。"
     ],
     "ai_hint": "Sign test:6/6 同方向，雙尾 p = 2 × 0.5⁶ = 1/32 ≈ 0.031 < 0.05 → 顯著。Sign test 是無母數檢定，只看方向，不看差距大小，power 通常較 t 弱，但 6/6 已達顯著。",
-    "primary_concept": "無母數檢定",
+    "primary_concept": "無母數",
     "formula_used": [
       "雙尾 p = 2 × P(X = 6 | n = 6, p = 0.5) = 2 × (1/2)⁶"
     ],
@@ -5990,7 +5990,7 @@
       "建議:若兩種訓練可在同人身上連續實施且能 counterbalance 順序 → 採配對;否則退而採獨立分組並盡量加大樣本以補 power。"
     ],
     "ai_hint": "配對設計利用個體差異扣除 → SE 小 → power 高。本題 s_p² = 6、s_D² = 3，差值變異 = 原變異 1/2，配對直接抵掉一半變異。建議配對，並 counterbalance 順序避免 carryover。",
-    "primary_concept": "實驗設計",
+    "primary_concept": "抽樣與研究設計",
     "formula_used": [
       "獨立 t、配對 t、sign test 三者 power 比較"
     ],
@@ -6199,7 +6199,7 @@
     "formula_used": [
       "SE = σ/√n"
     ],
-    "primary_concept": "中央極限定理",
+    "primary_concept": "中央極限定理與抽樣分配",
     "group_id": null,
     "shared_stem": null
   },
@@ -6377,7 +6377,7 @@
     "key_concepts": "兩個類別變項的關聯→卡方獨立性檢定；ANOVA用於連續DV",
     "ai_hint": "D錯：顏色（類別）和性別（類別）的關係→卡方獨立性檢定，不是ANOVA。ANOVA需要連續的依變項。",
     "formula_used": [],
-    "primary_concept": "卡方檢定",
+    "primary_concept": "卡方與類別資料",
     "group_id": null,
     "shared_stem": null
   },
@@ -6524,7 +6524,7 @@
       "卡方適合度 df = k-1 = 2-1 = 1",
       "但若N=100，df=N-1=99？需確認是哪種df"
     ],
-    "primary_concept": "卡方檢定",
+    "primary_concept": "卡方與類別資料",
     "group_id": null,
     "shared_stem": null
   },
@@ -6769,7 +6769,7 @@
     "key_concepts": "母群=研究對象全體；樣本=從母群中選取的子集；不能假設抽樣方式",
     "ai_hint": "常見混淆：母群 vs 樣本。母群是你想推論的那個大群體（所有老年人），樣本是你手上的資料（300人）。",
     "formula_used": [],
-    "primary_concept": "抽樣與設計",
+    "primary_concept": "抽樣與研究設計",
     "group_id": null,
     "shared_stem": null
   },
@@ -6838,7 +6838,7 @@
     "key_concepts": "正偏態(右偏):右尾長,眾數<中位數<平均數;負偏態(左偏):左尾長,平均數<中位數<眾數;雙峰分布不屬偏態。",
     "ai_hint": "圖一雖右偏但非「典型」正偏態;圖二是雙峰分布根本不歸偏態類。記憶口訣:正偏(右偏) → 右尾長 → 平均 > 中位 > 眾數;集中低分端 → 右尾長 → 正偏態。",
     "formula_used": [],
-    "primary_concept": "資料視覺化",
+    "primary_concept": "描述統計",
     "shared_stem": "圖一:\n![圖一](assets/figures/SCU-109-04-img1-curve.png)\n\n圖二:\n![圖二](assets/figures/SCU-109-04-img2-histogram.png)"
   },
   {
@@ -7154,7 +7154,7 @@
     "formula_used": [
       "配對t：t = D̄/(sD/√n)，df=n-1=14"
     ],
-    "primary_concept": "相依樣本t檢定",
+    "primary_concept": "t檢定",
     "group_id": "SCU-109-G-B",
     "shared_stem": "某研究者進行一戒菸計畫效果的評估，共有 15 名受試者參與該計畫，以下資料為該 15 名受試者在參加三週戒菸計畫前後測每週所抽的菸量變化 (根/週):\n\n![15 名受試者前後測資料](assets/figures/SCU-109-13-pretest-posttest.png)"
   },
@@ -7424,7 +7424,7 @@
     "key_concepts": "內效度↔隨機分派（控制混淆）；外效度↔隨機抽樣（代表性）",
     "ai_hint": "內效度：能確定效果是由實驗操弄造成的→靠隨機分派排除混淆變項。外效度：能推論到更廣的母群→靠隨機抽樣確保代表性。",
     "formula_used": [],
-    "primary_concept": "抽樣與設計",
+    "primary_concept": "抽樣與研究設計",
     "group_id": "SCU-111-G-A",
     "shared_stem": "配合題 (下列大題 1-6，各小題請填入下方合適選項之代號，每小題各 2 分，共 36 分)\n\n代號清單:\na:外效度  b:內效度  c:隨機分派  d:隨機抽樣  e:簡單隨機抽樣  f:分層隨機抽樣\ng:系統抽樣  h:聚落抽樣  i:phi(ψ)相關  j:皮爾森相關 (Pearson's r)\nk:點雙列相關 (Point Biserial Correlation)  l:長條圖  m:直方圖  n:折線圖  o:散佈圖\np:強度  q:方向  r:拒絕虛無假設  s:接受對立假設  t:接受虛無假設\nu:拒絕對立假設  v:第一型錯誤 (type I error)  w:第二型錯誤 (type II error)\nx:統計檢定力 (statistical power)"
   },
@@ -7452,7 +7452,7 @@
     "key_concepts": "四種機率抽樣：簡單隨機（每人等機率）、分層（按比例）、聚落（抽群體）、系統（等間距）",
     "ai_hint": "系統抽樣關鍵：k=N/n（抽樣間距），從1到k隨機選起點，之後每隔k個抽一個。聚落抽樣：先抽群體（行政區），再普查群體內所有人。",
     "formula_used": [],
-    "primary_concept": "抽樣與設計",
+    "primary_concept": "抽樣與研究設計",
     "group_id": "SCU-111-G-A",
     "shared_stem": "配合題 (下列大題 1-6，各小題請填入下方合適選項之代號，每小題各 2 分，共 36 分)\n\n代號清單:\na:外效度  b:內效度  c:隨機分派  d:隨機抽樣  e:簡單隨機抽樣  f:分層隨機抽樣\ng:系統抽樣  h:聚落抽樣  i:phi(ψ)相關  j:皮爾森相關 (Pearson's r)\nk:點雙列相關 (Point Biserial Correlation)  l:長條圖  m:直方圖  n:折線圖  o:散佈圖\np:強度  q:方向  r:拒絕虛無假設  s:接受對立假設  t:接受虛無假設\nu:拒絕對立假設  v:第一型錯誤 (type I error)  w:第二型錯誤 (type II error)\nx:統計檢定力 (statistical power)"
   },
@@ -7509,7 +7509,7 @@
     "key_concepts": "長條圖：類別比較；直方圖：連續次數分配；折線圖：時間趨勢；散佈圖：兩變數關係",
     "ai_hint": "(13)成績是連續資料→直方圖（not 長條圖）。(14)時間趨勢→折線圖。(15)交互作用圖通常也是折線圖，但依題目選項選散佈圖。",
     "formula_used": [],
-    "primary_concept": "資料視覺化",
+    "primary_concept": "描述統計",
     "group_id": "SCU-111-G-A",
     "shared_stem": "配合題 (下列大題 1-6，各小題請填入下方合適選項之代號，每小題各 2 分，共 36 分)\n\n代號清單:\na:外效度  b:內效度  c:隨機分派  d:隨機抽樣  e:簡單隨機抽樣  f:分層隨機抽樣\ng:系統抽樣  h:聚落抽樣  i:phi(ψ)相關  j:皮爾森相關 (Pearson's r)\nk:點雙列相關 (Point Biserial Correlation)  l:長條圖  m:直方圖  n:折線圖  o:散佈圖\np:強度  q:方向  r:拒絕虛無假設  s:接受對立假設  t:接受虛無假設\nu:拒絕對立假設  v:第一型錯誤 (type I error)  w:第二型錯誤 (type II error)\nx:統計檢定力 (statistical power)"
   },
@@ -7705,7 +7705,7 @@
       "F = MS_effect / MS_error",
       "df_A×B = (a-1)(b-1)"
     ],
-    "primary_concept": "二因子變異數分析",
+    "primary_concept": "ANOVA",
     "shared_stem": "計算題 (各小題每題 2 分，共 22 分):\n\n此為 2(A)×2(B) 二因子受試者間實驗設計，下表為此設計所得之數據，每組各有 10 個樣本，請依此數據完成下列 ANOVA table 之填寫。(數值取到小數點下第一位)\n\n原始資料表:\n![原始資料表](assets/figures/SCU-111-10-raw-data.png)\n\nANOVA 摘要表 (部分數值已填，空格 40-50 請計算填入):\n![ANOVA 摘要表](assets/figures/SCU-111-10-anova-table.png)"
   },
   {
@@ -7725,7 +7725,7 @@
       "獨立事件機率乘法:P(A ∩ B) = P(A) × P(B) = 0.5 × 0.6 = 0.3"
     ],
     "ai_hint": "兩事件獨立 → 兩者同時發生機率 = 兩者機率相乘。0.5 × 0.6 = 0.3。",
-    "primary_concept": "獨立事件機率 (independent events / multiplication rule)",
+    "primary_concept": "機率分配",
     "formula_used": [
       "P(A ∩ B) = P(A) × P(B) (獨立)"
     ],
@@ -7748,7 +7748,7 @@
       "中央極限定理 (Central Limit Theorem, CLT):n 大時樣本平均數的抽樣分配 → 常態分配 (與母體分配無關)。"
     ],
     "ai_hint": "關鍵字「無論母體分配為何」+「樣本數夠大」+「樣本平均數抽樣分配」+「常態」= 中央極限定理。",
-    "primary_concept": "中央極限定理 (Central Limit Theorem)",
+    "primary_concept": "中央極限定理與抽樣分配",
     "formula_used": [],
     "key_concepts": "CLT 是統計推論的基石:讓我們即使不知道母體分配也能對平均數做常態推論。"
   },
@@ -7772,7 +7772,7 @@
       "SE = σ / √n = 10 / √4 = 10 / 2 = 5"
     ],
     "ai_hint": "n = 4 雖小,但母體本就是常態 → X̄ 直接常態,不需要 CLT 條件。SE = 10/√4 = 5。",
-    "primary_concept": "抽樣分配與標準誤 (sampling distribution / standard error)",
+    "primary_concept": "中央極限定理與抽樣分配",
     "formula_used": [
       "E(X̄) = μ",
       "SE = σ / √n"
@@ -7799,7 +7799,7 @@
       "H₁ 真且拒 → 正確決定,此機率即統計檢定力 (power, 1 − β)。"
     ],
     "ai_hint": "記憶口訣:拒對真 H₀ → α (Type I);沒拒真 H₁ → β (Type II);拒真 H₁ → power。",
-    "primary_concept": "假設檢定錯誤類型與檢定力 (Type I / II error, statistical power)",
+    "primary_concept": "假設檢定",
     "formula_used": [],
     "key_concepts": "2×2 真假決定矩陣:(H₀ 真 / 拒) = α、(H₁ 真 / 不拒) = β、(H₁ 真 / 拒) = power;(H₀ 真 / 不拒) = 1 − α。"
   },
@@ -7822,7 +7822,7 @@
       "df₂ = N − k = 同 t 之 df = 18"
     ],
     "ai_hint": "F = t² 是固定關係 (兩組時);df₁ = k − 1、df₂ 對齊 t 之 df。",
-    "primary_concept": "t 與 F 的關係 (relationship between t and F)",
+    "primary_concept": "ANOVA",
     "formula_used": [
       "F = t² (兩組)",
       "df₁ = k − 1",
@@ -7851,7 +7851,7 @@
       "  - 交互作用不顯著 → 因素間影響獨立 → 直接分析:主效果 (main effects) 分析"
     ],
     "ai_hint": "記憶:有交互 → 「單純」主效果 (一層一層挖);無交互 → 「主」效果 (直接看)。",
-    "primary_concept": "二因子變異數分析交互作用 (two-way ANOVA / interaction)",
+    "primary_concept": "ANOVA",
     "formula_used": [],
     "key_concepts": "交互作用顯著時,主效果解釋會誤導 (因為效果隨另一因子變化) → 必須做單純主效果。"
   },
@@ -7874,7 +7874,7 @@
       "經典反例:Y = X² 在 X 為對稱分布 (例如 N(0,1)) 下,Pearson r = 0,但 Y 完全由 X 決定 (不獨立)。"
     ],
     "ai_hint": "一律記:r = 0 ≠ 獨立。反例:對稱的 Y = X²。",
-    "primary_concept": "皮爾森相關與獨立性 (Pearson correlation vs. independence)",
+    "primary_concept": "相關",
     "formula_used": [],
     "key_concepts": "相關 (correlation) 是「線性」測度;獨立 (independence) 是更強的「任意」關係缺失。獨立 ⇒ r = 0,但 r = 0 ⇏ 獨立。"
   },
@@ -7897,7 +7897,7 @@
       "此原理推出標準正規方程式 → 解析解 b₁ = Cov(X,Y)/Var(X), b₀ = Ȳ − b₁X̄。"
     ],
     "ai_hint": "「最小平方法」是最常見答案,也接受 OLS 或 Ordinary Least Squares。",
-    "primary_concept": "最小平方法 (least squares estimation)",
+    "primary_concept": "迴歸分析",
     "formula_used": [],
     "key_concepts": "OLS 是迴歸係數估計的標配:最小化殘差平方和。"
   },
@@ -7921,7 +7921,7 @@
       "(空格亦可接受「常態性」,視出題者標準;同質性為最常見答案。)"
     ],
     "ai_hint": "b₀ = Ȳ − b₁X̄,代入 6 − 2(2.1) = 1.8。第一空格答「同質性 / 變異數同質」最穩。",
-    "primary_concept": "迴歸假設與截距 (regression assumptions / intercept)",
+    "primary_concept": "迴歸分析",
     "formula_used": [
       "b₀ = Ȳ − b₁X̄"
     ],
@@ -7952,7 +7952,7 @@
       "(2) X 的眾數 8 > 中位數 7 > 平均數 6 → 平均最小 → 左偏 (負偏);長尾在左端拉低平均。"
     ],
     "ai_hint": "逐欄套線性轉換公式;最後用「眾數 > 中位 > 平均」推 X 左偏。",
-    "primary_concept": "線性轉換對描述統計的影響與偏態 (linear transformation of statistics / skewness)",
+    "primary_concept": "描述統計",
     "formula_used": [
       "線性轉換:E(aX+b) = aE(X)+b, Var(aX+b) = a²Var(X)",
       "CV = SD / Mean",
@@ -7984,7 +7984,7 @@
       "                          = .175 / .505 ≈ 0.3465"
     ],
     "ai_hint": "(1) 1 − P(近視) = 0.495;(2) (.35 × .50) / .505 ≈ 0.347。",
-    "primary_concept": "條件機率與貝氏定理 (conditional probability / Bayes theorem)",
+    "primary_concept": "條件機率與貝氏",
     "formula_used": [
       "P(A) = ΣP(A | Bᵢ) × P(Bᵢ) (全機率)",
       "P(Bᵢ | A) = P(A | Bᵢ) × P(Bᵢ) / P(A) (貝氏)"
@@ -8016,7 +8016,7 @@
       "(2) df = n − 1 = 5 − 1 = 4"
     ],
     "ai_hint": "先算差值 D,接著 D̄ / SE_D;SE_D = s_D / √n。t ≈ 4.74,df = 4。",
-    "primary_concept": "相依樣本 t 檢定 (paired-samples t-test)",
+    "primary_concept": "t檢定",
     "formula_used": [
       "t = D̄ / (s_D / √n)",
       "df = n − 1"
@@ -8057,7 +8057,7 @@
       "(2) p < α → 拒絕 H₀ → 性別與購買蛋糕口味有顯著關聯 (兩者不獨立)。"
     ],
     "ai_hint": "逐格算 E,再 Σ(O − E)²/E。χ² ≈ 8.04, df = 2。p < α → 性別與口味有關。",
-    "primary_concept": "卡方獨立性檢定 (chi-square test of independence)",
+    "primary_concept": "卡方與類別資料",
     "formula_used": [
       "期望次數 E = 列邊 × 行邊 / N",
       "χ² = Σ(O − E)² / E",
@@ -8087,7 +8087,7 @@
       "    判斷標準:F 檢定 p-value = 0.006 < α = 0.01 → 拒絕 H₀ (β₁ = 0) → 線性關聯顯著"
     ],
     "ai_hint": "(1) 直接抄報表的 Intercept 與 X 估計值;(2) Multiple R²;(3) 比較 p 與 α (1%)。",
-    "primary_concept": "簡單線性迴歸判讀 (simple linear regression interpretation)",
+    "primary_concept": "迴歸分析",
     "formula_used": [
       "Ŷ = b₀ + b₁X",
       "F → 整體模型顯著性"
@@ -8129,7 +8129,7 @@
       "結論:F(2, 12) = 6.56 > 3.89,p < .05 → 不同時段的單字記憶表現有顯著差異;效果量 η² ≈ 0.52 (大效果)。"
     ],
     "ai_hint": "逐步算 SS_B (組均離差) → SS_T (總離差) → SS_W = SS_T − SS_B → F = MS_B / MS_W;η² 看 SS_B 占 SS_T 比例。",
-    "primary_concept": "單因子變異數分析與效果量 (one-way ANOVA / effect size)",
+    "primary_concept": "ANOVA",
     "formula_used": [
       "SS_B = Σn_j(X̄_j − X̄)²",
       "SS_T = Σx² − (Σx)²/N",
@@ -8242,7 +8242,7 @@
     "key_concepts": "莖葉圖獨特優勢：保留原始資料（每個葉就是個別數值），同時呈現分配形狀",
     "ai_hint": "莖葉圖=直方圖+原始數據。莖代表十位數，葉代表個位數，你可以從莖葉圖讀出每個原始值。",
     "formula_used": [],
-    "primary_concept": "資料視覺化",
+    "primary_concept": "描述統計",
     "group_id": null,
     "shared_stem": null
   },
@@ -8574,7 +8574,7 @@
     "key_concepts": "抽樣方法：系統（等間距）、分層（按比例）、聚落（先抽群體）、多階段（層層抽）、便利（易接觸）",
     "ai_hint": "分層抽樣=依特徵分組後各組分別抽；多階段=層層往下抽（區→校→班→人）；系統=固定間距；便利=抽手邊容易取得的。",
     "formula_used": [],
-    "primary_concept": "抽樣與設計",
+    "primary_concept": "抽樣與研究設計",
     "group_id": null,
     "shared_stem": null
   },
@@ -8822,7 +8822,7 @@
     "formula_used": [
       "SE = σ/√n < σ（當n>1）"
     ],
-    "primary_concept": "中央極限定理",
+    "primary_concept": "中央極限定理與抽樣分配",
     "group_id": null,
     "shared_stem": null
   },
@@ -9317,7 +9317,7 @@
       "n ≥ (z_{α/2})²·p(1-p)/E²",
       "保守估計p=0.5：n ≥ (1.96)²·0.25/(0.02)² = 3.8416·0.25/0.0004 = 2401"
     ],
-    "primary_concept": "樣本數估計",
+    "primary_concept": "估計與信賴區間",
     "group_id": null,
     "shared_stem": null
   },
@@ -9355,7 +9355,7 @@
       "X~Uniform(0,100): E(X)=50, Var(X)=100²/12≈833",
       "Z=X+Y: E(Z)=E(X)+E(Y)=50+50=100"
     ],
-    "primary_concept": "中央極限定理",
+    "primary_concept": "中央極限定理與抽樣分配",
     "group_id": null,
     "shared_stem": null
   },
@@ -9423,7 +9423,7 @@
     "key_concepts": "卡方檢定期望次數要求：E≥5（通常）；若E<5，可用Fisher's Exact Test；不是>10",
     "ai_hint": "A是錯的！卡方檢定要求期望次數（Expected frequency）≥5，不是>10。當E<5時考慮合併類別或用Fisher's exact test。",
     "formula_used": [],
-    "primary_concept": "卡方檢定",
+    "primary_concept": "卡方與類別資料",
     "group_id": null,
     "shared_stem": null
   },
@@ -9721,7 +9721,7 @@
       "注意：上下誤差「總範圍」=0.04，半寬E=0.02",
       "n = (1.96)²×0.25/(0.02)² ≈ 2401 → 選2500"
     ],
-    "primary_concept": "樣本數估計",
+    "primary_concept": "估計與信賴區間",
     "group_id": null,
     "shared_stem": null
   },
@@ -10025,7 +10025,7 @@
       "答:(A) 1/11"
     ],
     "ai_hint": "Risk = P(疾病 | 暴露)。吸煙者 55 人中 5 人有肺癌 → 5/55 = 1/11。",
-    "primary_concept": "流行病學 Risk (risk / 罹患風險)",
+    "primary_concept": "卡方與類別資料",
     "formula_used": [],
     "key_concepts": "Risk = 發生率 = 某暴露組內疾病的人數 / 該暴露組總人數;前瞻性 (世代) 研究適用。",
     "group_id": "NCCU-109-G-A",
@@ -10053,7 +10053,7 @@
       "答:(D) 21/11"
     ],
     "ai_hint": "RR = Risk_暴露 / Risk_未暴露。分子分母分別算 Risk 後相除。",
-    "primary_concept": "風險率 Risk ratio",
+    "primary_concept": "卡方與類別資料",
     "formula_used": [],
     "key_concepts": "Risk ratio (RR) = 比較兩組發生率;吸煙組為不吸煙組的 21/11 倍 (≈ 1.91)。",
     "group_id": "NCCU-109-G-A",
@@ -10079,7 +10079,7 @@
       "答:(A) 1/10"
     ],
     "ai_hint": "Odds = P(疾病) / P(無疾病) = 有肺癌 / 無肺癌 = 5/50 = 1/10。",
-    "primary_concept": "Odds (勝算)",
+    "primary_concept": "卡方與類別資料",
     "formula_used": [],
     "key_concepts": "Odds = 發生 / 未發生 (同一組內比);跟 Risk 的差別在分母——Risk 分母是「該組總人數」,Odds 分母是「未發病人數」。",
     "group_id": "NCCU-109-G-A",
@@ -10108,7 +10108,7 @@
       "答:(A) 2/1"
     ],
     "ai_hint": "OR = Odds_暴露 / Odds_未暴露。或直接交叉乘積 ad/bc。",
-    "primary_concept": "Odds ratio (勝算比)",
+    "primary_concept": "卡方與類別資料",
     "formula_used": [],
     "key_concepts": "OR = 2 即吸煙者得肺癌的 odds 為不吸煙者的 2 倍;2×2 表用交叉乘積最快:(a×d)/(b×c)。",
     "group_id": "NCCU-109-G-A",
@@ -10136,7 +10136,7 @@
       "答:(C) 此例使用 Odds 較為適切"
     ],
     "ai_hint": "Risk 適用世代研究 (cohort,知道暴露組總人數);Odds 適用病例對照 (case-control);門診資料偏 case-control → 用 Odds。",
-    "primary_concept": "Risk vs Odds 適用情境 (抽樣設計)",
+    "primary_concept": "卡方與類別資料",
     "formula_used": [],
     "key_concepts": "Risk 需「母體隨機抽樣」/「世代研究」才正確,門診資料屬回顧性/便利樣本 → 用 Odds & OR 較穩健。當疾病稀少時 OR ≈ RR。",
     "group_id": "NCCU-109-G-A",
@@ -10199,7 +10199,7 @@
     "key_concepts": "箱形圖的結構：下箱=Q1，中線=中位數（Q2），上箱=Q3，鬚線=最大/最小值（去除離群值）",
     "ai_hint": "箱形圖（Box-and-whisker plot）：中間的橫線就是中位數Q2。這是箱形圖最直接標示中位數的圖形。",
     "formula_used": [],
-    "primary_concept": "資料視覺化",
+    "primary_concept": "描述統計",
     "group_id": null,
     "shared_stem": null
   },
@@ -10366,7 +10366,7 @@
     "formula_used": [
       "Prevalence = 有疾病的人數/總人數"
     ],
-    "primary_concept": "卡方檢定",
+    "primary_concept": "卡方與類別資料",
     "group_id": null,
     "shared_stem": null
   },
@@ -10608,7 +10608,7 @@
     "formula_used": [
       "n ≥ (1.96/0.02)² × 0.25 ≈ 2401"
     ],
-    "primary_concept": "樣本數估計",
+    "primary_concept": "估計與信賴區間",
     "group_id": null,
     "shared_stem": null
   },
@@ -10911,7 +10911,7 @@
       "E_紅=E_綠=E_橘=2/8×800=200；E_紫=E_透=1/8×800=100",
       "χ²=Σ(O-E)²/E"
     ],
-    "primary_concept": "卡方檢定",
+    "primary_concept": "卡方與類別資料",
     "group_id": null,
     "shared_stem": null
   },
@@ -10940,7 +10940,7 @@
     "key_concepts": "卡方適合度df=k-1（k為類別數）",
     "ai_hint": "5種顏色→df=5-1=4。選B。",
     "formula_used": [],
-    "primary_concept": "卡方檢定",
+    "primary_concept": "卡方與類別資料",
     "group_id": null,
     "shared_stem": null
   },
@@ -11109,7 +11109,7 @@
       "SE = σ/√n（抽樣分配標準差）",
       "E(X̄) = μ（不偏性）"
     ],
-    "primary_concept": "中央極限定理",
+    "primary_concept": "中央極限定理與抽樣分配",
     "group_id": null,
     "shared_stem": null
   },
@@ -11347,7 +11347,7 @@
     "key_concepts": "聚落抽樣：同群體內成員相似→群體內相關（ICC）→違反獨立性；需用多層模型分析",
     "ai_hint": "聚落抽樣最容易違反獨立性：同一班級的學生、同一社區的居民，彼此相似（非獨立）。ICC（組內相關係數）就是描述這種相關程度的。",
     "formula_used": [],
-    "primary_concept": "抽樣與設計",
+    "primary_concept": "抽樣與研究設計",
     "group_id": null,
     "shared_stem": null
   },
@@ -11586,7 +11586,7 @@
     "key_concepts": "分層抽樣：確保各重要群體（層）在樣本中有適當的代表性",
     "ai_hint": "分層抽樣的優勢：確保各子群體（如各年齡層、各性別）在樣本中的比例與母群相同，代表性最強。",
     "formula_used": [],
-    "primary_concept": "抽樣與設計",
+    "primary_concept": "抽樣與研究設計",
     "group_id": null,
     "shared_stem": null
   },
@@ -11843,7 +11843,7 @@
     "key_concepts": "隨機分派=提高內效度=排除混淆變項；不同於隨機抽樣（提高外效度）",
     "ai_hint": "隨機分派（random assignment）：實驗中用於控制混淆因子，提升內效度。隨機抽樣（random sampling）：用於確保樣本代表母群，提升外效度。兩者目的不同！",
     "formula_used": [],
-    "primary_concept": "研究設計",
+    "primary_concept": "抽樣與研究設計",
     "group_id": null,
     "shared_stem": null
   },

@@ -184,6 +184,17 @@ const CACHE = 'stats-quiz-v2026-05-16-1';
 - **2026-05-20 NCKU-113-19**:answer E → D(**翻面**;老師詳解:變異數不同質**不必然**轉無母數,若母體常態仍可用 Welch's t-test adjustment;D 字面「可以」暗示「變異數不同質 → 改用無母數」conditional 邏輯錯;原 solution_steps 把 D 標對、E 答(自我懷疑「E 是正確的, 不是錯的」);solution_steps / ai_hint / key_concepts 全重寫;✅ Phase 1 #11 待勘誤候選表全部清零)
 - **2026-05-20 NCCU-108-21**:answer D → A(**翻面**;老師詳解 W = X+Y where X,Y ~ Uniform(0,100) → Triangle(0,200), E(W)=100;(B)(C)(D) 皆錯,(A) 寬鬆視為對(Triangle 對稱鐘形 ≈ 常態,同 SCU-109-03 取分邏輯);原 solution_steps 13 步 confused reasoning 最後選 D,跟老師相反;solution_steps / ai_hint / key_concepts / formula_used 全重寫;**不在 Tier 1 候選表**,老師另指)
 - **2026-05-21 NCCU-112-05**:answer "AD" → "A"(原為單選題卻填雙答 "AD",schema 違規;老師確認 (A) SE=σ/√n vs σ 是硬錯誤,(D) 「CLT 並非特性」字面負面 meta-claim 採寬鬆解讀視為是特性;solution_steps / ai_hint / key_concepts / formula_used 對齊;concepts 加「不偏性」)
+- **2026-06-01 primary_concept 一致化 44 → 14 + 練習/弱點優先序加權**:
+  - **問題**:全題庫累積 44 distinct `primary_concept` (含 28 個 singleton 多為長英文版同義雙寫,例「中央極限定理」vs「中央極限定理 (Central Limit Theorem)」)。弱點分析 / 按 pc 抽題 / 統計報表 在同義雙寫下會被切碎。
+  - **動作 (Phase 1: 資料)**:依 14 類 family 改名 (82 題的 `primary_concept` 字串改),收齊到:
+    - 描述統計 (46)、假設檢定 (27)、ANOVA (72)、機率分配 (27)、中央極限定理與抽樣分配 (15)、迴歸分析 (47)、t檢定 (20)、卡方與類別資料 (26,含 epidemiology Risk/Odds 系列)、相關 (16)、估計與信賴區間 (18)、條件機率與貝氏 (7)、無母數 (10)、抽樣與研究設計 (13)、效果量 (2)
+    - 重命名: 「中央極限定理」→「中央極限定理與抽樣分配」、「卡方檢定」→「卡方與類別資料」、「抽樣與設計」→「抽樣與研究設計」、「資料視覺化」→「描述統計」、「樣本數估計」→「估計與信賴區間」
+  - **動作 (Phase 2: 引擎)**:
+    - 新增 top-level `CONCEPT_PRIORITY` 物件 (14 類 → 1~14 排名) + `conceptRank(q)` / `conceptRankOf(pc)` helpers
+    - `sortByPriority(pool)` 增第一層 sort:`conceptRank → tier → random` (描述統計先出,效果量最後;同類內維持既有 tier 邏輯)
+    - 弱點分析 (home page) 改用加權 score = 錯誤率 × (15 − rank) 排序;顯示用 `pct` 維持原語意 (s.wrong/s.total)
+    - 模考 `startMockExam` **完全不動** (維持隨機 / 對應某校,沒呼叫 sortByPriority)
+  - sw.js `v2026-06-01-11` → `v2026-06-01-12`
 - **2026-06-01 NCCU-109-19~23 重整 + solution_steps 圖片渲染**(**勘誤帳 +1**):
   - **問題**:NCCU-109-19to23 是 5 題合 1 entry (前人壓縮版),題幹用列聯表文字描述,缺圖。
   - **動作**:

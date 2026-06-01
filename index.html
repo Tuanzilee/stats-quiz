@@ -1684,10 +1684,17 @@ function renderHome() {
     conceptStats[c].total++;
     if (st==='wrong') conceptStats[c].wrong++;
   });
+  // 加權 score = 錯誤率 × (15 - conceptRank): 又弱又高優先排最前 (rank 1 → 權重 14;
+  // rank 14 → 權重 1;沒對到 rank 99 → 權重 -84 排最後)。
+  // 顯示用 pct 維持原語意 (s.wrong / s.total), 只變 sort key.
   const weak = Object.entries(conceptStats)
     .filter(([,s]) => s.total >= 2 && s.wrong > 0)
-    .map(([c,s]) => [c, s.wrong/s.total, s.wrong])
-    .sort((a,b) => b[1]-a[1]).slice(0,5);
+    .map(([c,s]) => {
+      const pct = s.wrong / s.total;
+      const score = pct * (15 - conceptRankOf(c));
+      return [c, pct, s.wrong, score];
+    })
+    .sort((a,b) => b[3]-a[3]).slice(0,5);
 
   if (weak.length === 0) {
     document.getElementById('weak-list').innerHTML = `<div style="font-size:11px;color:var(--dim);padding:8px 0;text-align:center">刷完幾題後這裡會顯示你的弱點</div>`;
@@ -1801,6 +1808,28 @@ function renderConcepts() {
 
 // ─── QUIZ ENGINE ─────────────────────────────────────────────────────────────
 // 分層排序：沒做過 > 不懂(wrong) > 不確定(unsure) > 懂了(correct)；同 tier 內 random
+// ─── CONCEPT PRIORITY (考點優先序, 1-14, 數字越小越優先練) ──────────────────
+// 用於: (a) 練習佇列 sortByPriority 第一層 sort; (b) 弱點分析加權 score = 錯誤率 × (15 - rank)
+// 不影響: 模擬考 startMockExam (維持隨機 / 對應某校)
+const CONCEPT_PRIORITY = {
+  "描述統計": 1,
+  "假設檢定": 2,
+  "ANOVA": 3,
+  "機率分配": 4,
+  "中央極限定理與抽樣分配": 5,
+  "迴歸分析": 6,
+  "t檢定": 7,
+  "卡方與類別資料": 8,
+  "相關": 9,
+  "估計與信賴區間": 10,
+  "條件機率與貝氏": 11,
+  "無母數": 12,
+  "抽樣與研究設計": 13,
+  "效果量": 14
+};
+const conceptRankOf = pc => CONCEPT_PRIORITY[pc] ?? 99;
+const conceptRank = q => conceptRankOf(q.primary_concept);
+
 function sortByPriority(pool) {
   const tier = q => {
     const s = records[q.id]?.status;
@@ -1809,9 +1838,11 @@ function sortByPriority(pool) {
     if (s === 'unsure') return 2;
     return 3;
   };
+  // 排序鍵: (conceptRank asc) → (tier asc, 未做 → 答錯 → 不確定 → 已答對) → (random)
+  // conceptRank 由 CONCEPT_PRIORITY 決定, 1=描述統計最先, 14=效果量最後, 99=未對到
   return [...pool]
-    .map(q => ({ q, r: Math.random(), t: tier(q) }))
-    .sort((a, b) => a.t - b.t || a.r - b.r)
+    .map(q => ({ q, r: Math.random(), t: tier(q), c: conceptRank(q) }))
+    .sort((a, b) => a.c - b.c || a.t - b.t || a.r - b.r)
     .map(x => x.q);
 }
 
