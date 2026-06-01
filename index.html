@@ -2214,7 +2214,8 @@ function buildContext(q) {
   }
 
   const isFollowUp = (text) => /^[（(]?(承上題|承上|續上題|續上|同上題|接續上題|承第\d+題|接續第\d+題|續第\d+題|承前題|如上題|依上題|接上題)/.test(text);
-  if (!isFollowUp(q.question)) return parts.join('');
+  // 守門: 若自己已有 shared_stem 就走 group path, 不再追 chain (避免雙重渲染)
+  if (q.shared_stem || !isFollowUp(q.question)) return parts.join('');
 
   // 遞迴往前追溯，收集整個題組鏈
   function getPrevQ(curQ) {
@@ -2277,16 +2278,20 @@ function buildContext(q) {
   if (chain.length === 0) return parts.join('');
 
   const chainParts = chain.map((pq, i) => {
+    // 若前題有 shared_stem (例如情境敘述 + 表 + 圖), 也帶出來放在 pq.question 上方
+    const stemHTML = pq.shared_stem ? renderSharedStemMarkdown(pq.shared_stem) : '';
     if (i === 0) {
       // 第一題（原始情境）完整顯示
       return `<div style="margin-bottom:${chain.length>1?'10px':'0'}">
         <div style="font-size:10px;font-family:'Space Mono',monospace;color:var(--blue);margin-bottom:4px">${pq.id}</div>
+        ${stemHTML}
         <div style="font-size:13px;line-height:1.6;color:var(--text)">${pq.question}</div>
       </div>`;
     } else {
       // 中間子題：顯示題號＋前80字
       return `<div style="margin-bottom:${i<chain.length-1?'8px':'0'}">
         <div style="font-size:10px;font-family:'Space Mono',monospace;color:var(--blue);margin-bottom:3px">${pq.id}</div>
+        ${stemHTML}
         <div style="font-size:12px;line-height:1.5;color:var(--muted)">${pq.question.slice(0,80)}${pq.question.length>80?'…':''}</div>
       </div>`;
     }
