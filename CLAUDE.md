@@ -184,6 +184,17 @@ const CACHE = 'stats-quiz-v2026-05-16-1';
 - **2026-05-20 NCKU-113-19**:answer E → D(**翻面**;老師詳解:變異數不同質**不必然**轉無母數,若母體常態仍可用 Welch's t-test adjustment;D 字面「可以」暗示「變異數不同質 → 改用無母數」conditional 邏輯錯;原 solution_steps 把 D 標對、E 答(自我懷疑「E 是正確的, 不是錯的」);solution_steps / ai_hint / key_concepts 全重寫;✅ Phase 1 #11 待勘誤候選表全部清零)
 - **2026-05-20 NCCU-108-21**:answer D → A(**翻面**;老師詳解 W = X+Y where X,Y ~ Uniform(0,100) → Triangle(0,200), E(W)=100;(B)(C)(D) 皆錯,(A) 寬鬆視為對(Triangle 對稱鐘形 ≈ 常態,同 SCU-109-03 取分邏輯);原 solution_steps 13 步 confused reasoning 最後選 D,跟老師相反;solution_steps / ai_hint / key_concepts / formula_used 全重寫;**不在 Tier 1 候選表**,老師另指)
 - **2026-05-21 NCCU-112-05**:answer "AD" → "A"(原為單選題卻填雙答 "AD",schema 違規;老師確認 (A) SE=σ/√n vs σ 是硬錯誤,(D) 「CLT 並非特性」字面負面 meta-claim 採寬鬆解讀視為是特性;solution_steps / ai_hint / key_concepts / formula_used 對齊;concepts 加「不偏性」)
+- **2026-06-01 SCU-112 整批取代 15 題**(**勘誤帳 +1**):
+  - **問題**:既有 `SCU-112-01..15` 是 AI 推導的精簡版 (compressed question + AI 推 answer/solution),非原卷忠實版。
+  - **動作**:依原卷 spec 整批取代 15 筆 (填充 10 + 計算 4 + 申論 1),每筆完整 entry rewrite:大題標籤 (`【填充 N】` / `【計算 N】` / `【申論】`)、原卷情境敘述、圖片 markdown 引用 (assets/figures/...png × 6 張)、新版 primary_concept/concepts/solution_steps/key_concepts/ai_hint/formula_used。
+  - **答案策略**:
+    - `-01~-10` 已填 answer (填充題單純機械答案)
+    - `-11~-15` `answer = ''` (計算/申論題待 user 親算驗證),`solution_steps` 已附完整推導
+  - **6 張圖**:`SCU-112-10-stats-table` / `-12-exercise-hours` / `-13-cake-table` / `-14-regression-output` / `-15-anova-data` / `-15-ftable` (F 表單獨,無 dedup 需要)
+  - **schema**:全 15 題單題 (`group_id` / `shared_stem` 都 del key),對齊原卷無題組結構。
+  - **舊 mock_history / quiz_records 影響**:既有 SCU-112-01..15 qid 仍對得到題,但題目語意有更新 (尤其 -10 改為線性轉換表+偏態,計算題 -11~-15 改為含圖版),舊紀錄視為孤兒可接受。
+  - sw.js `v2026-06-01-2` → `v2026-06-01-3`
+  - 累計勘誤 25 → 26
 - **2026-06-01 NCCU-111-31 對答案** (C → B,**勘誤帳 +1**):
   - answer `'C'` → `'B'`;solution 推導 χ² = 0.5 + 0.5 + 1.125 + 0.25 + 1.0 = 3.375,最接近 3.4 (B)。原 answer 標 (C) 3.6 與推導相違。
   - solution_steps 移除末條自我懷疑「但若答案是 (C) 3.6，需重算...」(原 7 條 → 6 條,結尾改以「最靠近 3.4，答:(B) 3.4」收。
