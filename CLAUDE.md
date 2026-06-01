@@ -184,6 +184,11 @@ const CACHE = 'stats-quiz-v2026-05-16-1';
 - **2026-05-20 NCKU-113-19**:answer E → D(**翻面**;老師詳解:變異數不同質**不必然**轉無母數,若母體常態仍可用 Welch's t-test adjustment;D 字面「可以」暗示「變異數不同質 → 改用無母數」conditional 邏輯錯;原 solution_steps 把 D 標對、E 答(自我懷疑「E 是正確的, 不是錯的」);solution_steps / ai_hint / key_concepts 全重寫;✅ Phase 1 #11 待勘誤候選表全部清零)
 - **2026-05-20 NCCU-108-21**:answer D → A(**翻面**;老師詳解 W = X+Y where X,Y ~ Uniform(0,100) → Triangle(0,200), E(W)=100;(B)(C)(D) 皆錯,(A) 寬鬆視為對(Triangle 對稱鐘形 ≈ 常態,同 SCU-109-03 取分邏輯);原 solution_steps 13 步 confused reasoning 最後選 D,跟老師相反;solution_steps / ai_hint / key_concepts / formula_used 全重寫;**不在 Tier 1 候選表**,老師另指)
 - **2026-05-21 NCCU-112-05**:answer "AD" → "A"(原為單選題卻填雙答 "AD",schema 違規;老師確認 (A) SE=σ/√n vs σ 是硬錯誤,(D) 「CLT 並非特性」字面負面 meta-claim 採寬鬆解讀視為是特性;solution_steps / ai_hint / key_concepts / formula_used 對齊;concepts 加「不偏性」)
+- **2026-06-01 NCCU-111-31 對答案** (C → B,**勘誤帳 +1**):
+  - answer `'C'` → `'B'`;solution 推導 χ² = 0.5 + 0.5 + 1.125 + 0.25 + 1.0 = 3.375,最接近 3.4 (B)。原 answer 標 (C) 3.6 與推導相違。
+  - solution_steps 移除末條自我懷疑「但若答案是 (C) 3.6，需重算...」(原 7 條 → 6 條,結尾改以「最靠近 3.4，答:(B) 3.4」收。
+  - sw.js `v2026-06-01-1` → `v2026-06-01-2`
+  - 累計勘誤 24 → 25
 - **2026-06-01 primary_concept 分類修正 22 題**(批次分類修正,**勘誤帳 +1**):
   - **問題**:全題庫 family-level audit 後發現 22 題 `primary_concept` 與 `concepts` / 題目本質不一致 (例:t 檢定題標成「假設檢定」過於籠統、卡方題標成「描述統計」、機率分配題沒對齊「機率分配」family)。會干擾按 primary_concept 出題的弱點分析。
   - **動作**:批次改 22 題的 `primary_concept` (僅此一欄,其他完全不動;git diff 確認 surgical)。
