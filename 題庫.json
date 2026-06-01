@@ -1887,7 +1887,7 @@
     "source": "台綜（成大）",
     "year": 107,
     "type": "單選題",
-    "question": "研究者探討某新型藥物對記憶能力的影響，他徵求 18 位認知功能障礙的病人參與實驗。以下是所有參與者在記憶作業的正確題數：\n\n新型藥物：10, 7, 12, 15, 9, 14, 13, 11, 8\n舊型藥物：7, 11, 6, 8, 5, 4, 6, 10, 9\n\n![](assets/figures/NCKU-107-08-drug-array.png)\n\n以下哪一檢定統計量及其自由度(df)適合檢測此研究問題？",
+    "question": "以下哪一檢定統計量及其自由度(df)適合檢測此研究問題？",
     "answer": "A",
     "options": [
       "A. t; df = 16",
@@ -1917,8 +1917,7 @@
       "df = n₁ + n₂ - 2"
     ],
     "primary_concept": "t檢定",
-    "group_id": null,
-    "shared_stem": null
+    "shared_stem": "研究者探討某新型藥物對記憶能力的影響，他徵求 18 位認知功能障礙的病人參與實驗。以下是所有參與者在記憶作業的正確題數：\n\n新型藥物：10, 7, 12, 15, 9, 14, 13, 11, 8\n舊型藥物：7, 11, 6, 8, 5, 4, 6, 10, 9\n\n![](assets/figures/NCKU-107-08-drug-array.png)"
   },
   {
     "id": "NCKU-107-09",
@@ -1998,7 +1997,7 @@
     "source": "台綜（成大）",
     "year": 107,
     "type": "單選題",
-    "question": "25位研究參與者的迴歸分析結果摘要表：Regression SS=a, df=4, MS=4, F=d; Residual SS=32, df=b, MS=c。\n\n![](assets/figures/NCKU-107-11-regression-anova.png)\n\n以下哪一描述項為正確？",
+    "question": "以下哪一描述項為正確？",
     "answer": "C",
     "options": [
       "A. a=16, b=4",
@@ -2032,15 +2031,14 @@
       "R² = SS_regression / SS_total"
     ],
     "primary_concept": "ANOVA",
-    "group_id": null,
-    "shared_stem": null
+    "shared_stem": "25位研究參與者的迴歸分析結果摘要表：Regression SS=a, df=4, MS=4, F=d; Residual SS=32, df=b, MS=c。\n\n![](assets/figures/NCKU-107-11-regression-anova.png)"
   },
   {
     "id": "NCKU-107-12",
     "source": "台綜（成大）",
     "year": 107,
     "type": "單選題",
-    "question": "One-way ANOVA結果：Between group SS=9, df=3, MS=3, F=0.75；Within group SS=39, df=18, MS=4。\n\n![](assets/figures/NCKU-107-12-oneway-anova.png)\n\n以下哪一描述項為正確？",
+    "question": "以下哪一描述項為正確？",
     "answer": "C",
     "options": [
       "A. 樣本數為21",
@@ -2069,8 +2067,7 @@
     "ai_hint": "F=0.75<1，幾乎一定不顯著（p>0.05）。另外N=df_within+J=18+4=22，不是21。選C。",
     "formula_used": [],
     "primary_concept": "ANOVA",
-    "group_id": null,
-    "shared_stem": null
+    "shared_stem": "One-way ANOVA結果：Between group SS=9, df=3, MS=3, F=0.75；Within group SS=39, df=18, MS=4。\n\n![](assets/figures/NCKU-107-12-oneway-anova.png)"
   },
   {
     "id": "NCKU-107-13",
@@ -2114,7 +2111,7 @@
     "source": "台綜（成大）",
     "year": 107,
     "type": "單選題",
-    "question": "以下為某民調公司調查3個鄉鎮對市長參選人的支持人數資料：\n心證鄉：A=2, B=10, C=8, D=5\n部人鎮：A=15, B=12, C=6, D=7\n逐一鄉：A=8, B=13, C=6, D=8\n\n![](assets/figures/NCKU-107-14-poll-table.png)\n\n由以上資料檢測4位參選人的支持度是否有差異，以下哪一檢定統計量及其自由度(df)適合檢測此問題？",
+    "question": "由以上資料檢測4位參選人的支持度是否有差異，以下哪一檢定統計量及其自由度(df)適合檢測此問題？",
     "answer": "D",
     "options": [
       "A. F; df=3, 8",
@@ -2148,8 +2145,7 @@
       "df = k-1 = 4-1 = 3"
     ],
     "primary_concept": "卡方檢定",
-    "group_id": null,
-    "shared_stem": null
+    "shared_stem": "以下為某民調公司調查3個鄉鎮對市長參選人的支持人數資料：\n心證鄉：A=2, B=10, C=8, D=5\n部人鎮：A=15, B=12, C=6, D=7\n逐一鄉：A=8, B=13, C=6, D=8\n\n![](assets/figures/NCKU-107-14-poll-table.png)"
   },
   {
     "id": "NCKU-107-16",
@@ -7935,7 +7931,7 @@
     "source": "東吳",
     "year": 112,
     "type": "填充題",
-    "question": "【填充 10】X 與 Y 為兩個隨機變數，其關係為 Y = 3X + 1:\n\n(1) 請完成下表中兩變數之統計量 (每格 1 分):\n\n![X/Y 統計量表](assets/figures/SCU-112-10-stats-table.png)\n\n(2) X 變數較可能為何種偏態 (skewness) 的分配:___。",
+    "question": "(1) 請完成上方表格中兩變數之統計量 (每格 1 分)。\n(2) X 變數較可能為何種偏態 (skewness) 的分配:___。",
     "answer": "(1) X：標準差 = 5、CV ≈ 0.833;Y：平均數 = 19、眾數 = 25、中位數 = 22、變異數 = 225、標準差 = 15、全距 = 39、Q3 = 31、CV ≈ 0.789;(2) 左偏 (負偏)",
     "options": [],
     "concepts": [
@@ -7961,7 +7957,8 @@
       "CV = SD / Mean",
       "左偏 (負偏):平均 < 中位 < 眾數"
     ],
-    "key_concepts": "線性轉換:位置統計乘 a 加 b;離散統計乘 |a| (變異數乘 a²);CV 變化看分子分母比例。偏態用「平均、中位、眾數」三者順序判定:平均最小 → 左偏;平均最大 → 右偏。"
+    "key_concepts": "線性轉換:位置統計乘 a 加 b;離散統計乘 |a| (變異數乘 a²);CV 變化看分子分母比例。偏態用「平均、中位、眾數」三者順序判定:平均最小 → 左偏;平均最大 → 右偏。",
+    "shared_stem": "【填充 10】\n\nX 與 Y 為兩個隨機變數，其關係為 Y = 3X + 1。\n\n![X/Y 統計量表](assets/figures/SCU-112-10-stats-table.png)"
   },
   {
     "id": "SCU-112-11",
@@ -7998,7 +7995,7 @@
     "source": "東吳",
     "year": 112,
     "type": "計算題",
-    "question": "【計算 2】某體育老師欲了解學生在期中考前後的運動情形之差異，故隨機抽樣 5 名學生，分別調查其期中考前後一週的平均運動時數，得到結果如下:\n\n![期中考前後運動時數](assets/figures/SCU-112-12-exercise-hours.png)\n\n(1) 假設資料符合欲進行分析的所有假設，可進行 ___ 樣本 t 檢定，得到 t 統計量的值為 ___。\n(2) 承上，此檢定之自由度為 ___。",
+    "question": "(1) 假設資料符合欲進行分析的所有假設，可進行 ___ 樣本 t 檢定，得到 t 統計量的值為 ___。\n(2) 承上，此檢定之自由度為 ___。",
     "answer": "",
     "options": [],
     "concepts": [
@@ -8023,14 +8020,15 @@
       "t = D̄ / (s_D / √n)",
       "df = n − 1"
     ],
-    "key_concepts": "配對 t:同一受試者前後測 → 用差值的 t 檢定;df = n − 1 (n 為配對數)。"
+    "key_concepts": "配對 t:同一受試者前後測 → 用差值的 t 檢定;df = n − 1 (n 為配對數)。",
+    "shared_stem": "【計算 2】\n\n某體育老師欲了解學生在期中考前後的運動情形之差異，故隨機抽樣 5 名學生，分別調查其期中考前後一週的平均運動時數，得到結果如下:\n\n![期中考前後運動時數](assets/figures/SCU-112-12-exercise-hours.png)"
   },
   {
     "id": "SCU-112-13",
     "source": "東吳",
     "year": 112,
     "type": "計算題",
-    "question": "【計算 3】某蛋糕店老闆欲了解性別與購買蛋糕口味是否具有關聯，故收集 100 位男女性顧客之購買蛋糕口味如下:\n\n![性別×蛋糕口味列聯表](assets/figures/SCU-112-13-cake-table.png)\n\n(1) 若進行卡方檢定，得到統計量的值為 ___。\n(2) 承上，若檢驗結果為 p 值小於 α，老闆的結論應為 ___。",
+    "question": "(1) 若進行卡方檢定，得到統計量的值為 ___。\n(2) 承上，若檢驗結果為 p 值小於 α，老闆的結論應為 ___。",
     "answer": "",
     "options": [],
     "concepts": [
@@ -8064,14 +8062,15 @@
       "χ² = Σ(O − E)² / E",
       "df = (r − 1)(c − 1)"
     ],
-    "key_concepts": "卡方獨立性:期望次數 = 列邊 × 行邊 / 總;統計量 = Σ(O − E)² / E;df = (r − 1)(c − 1)。"
+    "key_concepts": "卡方獨立性:期望次數 = 列邊 × 行邊 / 總;統計量 = Σ(O − E)² / E;df = (r − 1)(c − 1)。",
+    "shared_stem": "【計算 3】\n\n某蛋糕店老闆欲了解性別與購買蛋糕口味是否具有關聯，故收集 100 位男女性顧客之購買蛋糕口味如下:\n\n![性別×蛋糕口味列聯表](assets/figures/SCU-112-13-cake-table.png)"
   },
   {
     "id": "SCU-112-14",
     "source": "東吳",
     "year": 112,
     "type": "計算題",
-    "question": "【計算 4】研究者欲探討大學生每週打工時數 (X) 與每月消費金額 (Y) 之關係，並隨機抽取 8 位學生資料進行迴歸分析，部分結果如下:\n\n![迴歸 R 報表](assets/figures/SCU-112-14-regression-output.png)\n\n(1) 根據上表結果，迴歸方程式為 ___。\n(2) 此迴歸模型之 R² = ___。\n(3) 此迴歸模型之線性關聯是否達顯著:___ (1%)，判斷標準:___ (3%)。",
+    "question": "(1) 根據上表結果，迴歸方程式為 ___。\n(2) 此迴歸模型之 R² = ___。\n(3) 此迴歸模型之線性關聯是否達顯著:___ (1%)，判斷標準:___ (3%)。",
     "answer": "",
     "options": [],
     "concepts": [
@@ -8092,14 +8091,15 @@
       "Ŷ = b₀ + b₁X",
       "F → 整體模型顯著性"
     ],
-    "key_concepts": "簡單線性迴歸:b₀ 為截距,b₁ 為斜率;R² 為解釋變異比例;F 檢定整體迴歸顯著性 (對應 t 檢定 β₁ = 0)。"
+    "key_concepts": "簡單線性迴歸:b₀ 為截距,b₁ 為斜率;R² 為解釋變異比例;F 檢定整體迴歸顯著性 (對應 t 檢定 β₁ = 0)。",
+    "shared_stem": "【計算 4】\n\n研究者欲探討大學生每週打工時數 (X) 與每月消費金額 (Y) 之關係，並隨機抽取 8 位學生資料進行迴歸分析，部分結果如下:\n\n![迴歸 R 報表](assets/figures/SCU-112-14-regression-output.png)"
   },
   {
     "id": "SCU-112-15",
     "source": "東吳",
     "year": 112,
     "type": "申論題",
-    "question": "【申論】下表為 15 名受試者在三個實驗時段的單字記憶表現，假設資料符合欲進行分析的所有假設，請進行變異數分析，以檢驗不同時段的單字記憶表現是否有差異 (α = .05)，並請提供 ANOVA 表與效果量。(請寫出計算過程)\n\n![三時段單字記憶資料](assets/figures/SCU-112-15-anova-data.png)\n\n![F 臨界值表 α = .05](assets/figures/SCU-112-15-ftable.png)",
+    "question": "假設資料符合欲進行分析的所有假設，請進行變異數分析，以檢驗不同時段的單字記憶表現是否有差異 (α = .05)，並請提供 ANOVA 表與效果量。(請寫出計算過程)",
     "answer": "",
     "options": [],
     "concepts": [
@@ -8136,7 +8136,8 @@
       "F = MS_B / MS_W",
       "η² = SS_B / SS_T"
     ],
-    "key_concepts": "單因子 ANOVA:SS_T = SS_B + SS_W;df_B = k − 1, df_W = N − k;F = MS_B / MS_W;η² = SS_B / SS_T (Cohen 標準:.01 小、.06 中、.14 大)。"
+    "key_concepts": "單因子 ANOVA:SS_T = SS_B + SS_W;df_B = k − 1, df_W = N − k;F = MS_B / MS_W;η² = SS_B / SS_T (Cohen 標準:.01 小、.06 中、.14 大)。",
+    "shared_stem": "【申論】\n\n下表為 15 名受試者在三個實驗時段的單字記憶表現:\n\n![三時段單字記憶資料](assets/figures/SCU-112-15-anova-data.png)\n\nF 臨界值表 (α = .05):\n\n![F 臨界值表 α = .05](assets/figures/SCU-112-15-ftable.png)"
   },
   {
     "id": "SCU-113-01",
