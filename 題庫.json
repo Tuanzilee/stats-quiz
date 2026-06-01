@@ -1888,7 +1888,7 @@
     "source": "台綜（成大）",
     "year": 107,
     "type": "單選題",
-    "question": "研究者探討某新型藥物對記憶能力的影響，他徵求 18 位認知功能障礙的病人參與實驗。以下是所有參與者在記憶作業的正確題數：\n\n新型藥物：10, 7, 12, 15, 9, 14, 13, 11, 8\n舊型藥物：7, 11, 6, 8, 5, 4, 6, 10, 9\n\n以下哪一檢定統計量及其自由度(df)適合檢測此研究問題？",
+    "question": "研究者探討某新型藥物對記憶能力的影響，他徵求 18 位認知功能障礙的病人參與實驗。以下是所有參與者在記憶作業的正確題數：\n\n新型藥物：10, 7, 12, 15, 9, 14, 13, 11, 8\n舊型藥物：7, 11, 6, 8, 5, 4, 6, 10, 9\n\n![](assets/figures/NCKU-107-08-drug-array.png)\n\n以下哪一檢定統計量及其自由度(df)適合檢測此研究問題？",
     "answer": "A",
     "options": [
       "A. t; df = 16",
@@ -1999,7 +1999,7 @@
     "source": "台綜（成大）",
     "year": 107,
     "type": "單選題",
-    "question": "25位研究參與者的迴歸分析結果摘要表：Regression SS=a, df=4, MS=4, F=d; Residual SS=32, df=b, MS=c。以下哪一描述項為正確？",
+    "question": "25位研究參與者的迴歸分析結果摘要表：Regression SS=a, df=4, MS=4, F=d; Residual SS=32, df=b, MS=c。\n\n![](assets/figures/NCKU-107-11-regression-anova.png)\n\n以下哪一描述項為正確？",
     "answer": "C",
     "options": [
       "A. a=16, b=4",
@@ -2041,7 +2041,7 @@
     "source": "台綜（成大）",
     "year": 107,
     "type": "單選題",
-    "question": "One-way ANOVA結果：Between group SS=9, df=3, MS=3, F=0.75；Within group SS=39, df=18, MS=4。以下哪一描述項為正確？",
+    "question": "One-way ANOVA結果：Between group SS=9, df=3, MS=3, F=0.75；Within group SS=39, df=18, MS=4。\n\n![](assets/figures/NCKU-107-12-oneway-anova.png)\n\n以下哪一描述項為正確？",
     "answer": "C",
     "options": [
       "A. 樣本數為21",
@@ -2115,7 +2115,7 @@
     "source": "台綜（成大）",
     "year": 107,
     "type": "單選題",
-    "question": "以下為某民調公司調查3個鄉鎮對市長參選人的支持人數資料：\n心證鄉：A=2, B=10, C=8, D=5\n部人鎮：A=15, B=12, C=6, D=7\n逐一鄉：A=8, B=13, C=6, D=8\n由以上資料檢測4位參選人的支持度是否有差異，以下哪一檢定統計量及其自由度(df)適合檢測此問題？",
+    "question": "以下為某民調公司調查3個鄉鎮對市長參選人的支持人數資料：\n心證鄉：A=2, B=10, C=8, D=5\n部人鎮：A=15, B=12, C=6, D=7\n逐一鄉：A=8, B=13, C=6, D=8\n\n![](assets/figures/NCKU-107-14-poll-table.png)\n\n由以上資料檢測4位參選人的支持度是否有差異，以下哪一檢定統計量及其自由度(df)適合檢測此問題？",
     "answer": "D",
     "options": [
       "A. F; df=3, 8",
