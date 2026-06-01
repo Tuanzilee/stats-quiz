@@ -593,6 +593,7 @@ html, body {
   min-width: 18px;
   margin-top: 2px;
 }
+.sol-step { flex: 1; min-width: 0; }
 
 .key-box {
   padding: 10px 12px;
@@ -2061,7 +2062,7 @@ function renderSteps() {
   const steps = currentQ.solution_steps || [];
   if (steps.length === 0) return `<div style="color:var(--dim);font-size:13px">尚無解題步驟</div>`;
   return `<div class="steps">${steps.map((s,i)=>`
-    <div class="step"><span class="step-n">${String(i+1).padStart(2,'0')}</span><span>${s}</span></div>`).join('')}
+    <div class="step"><span class="step-n">${String(i+1).padStart(2,'0')}</span><div class="sol-step">${renderInlineImages(s)}</div></div>`).join('')}
   </div>`;
 }
 
@@ -2156,6 +2157,15 @@ function applyFilters() {
 }
 
 // ─── CONTEXT (承上題) ────────────────────────────────────────────────────────
+// 將字串內 markdown 圖片 ![alt](path) 轉成 <figure class="stem-figure"><img>...,
+// 其餘文字原樣輸出。給 solution_steps / 其他純文字欄位用,跟 shared_stem 共用 .stem-figure 樣式。
+function renderInlineImages(s) {
+  return String(s || '').replace(
+    /!\[([^\]]*)\]\(([^)]+)\)/g,
+    (m, alt, path) => `<figure class="stem-figure"><img src="${path}" alt="${alt}" loading="lazy"/></figure>`
+  );
+}
+
 function renderSharedStemMarkdown(md) {
   const lines = (md || '').split('\n');
   const out = [];
@@ -2908,7 +2918,7 @@ function renderReviewQuestion() {
   // Steps
   const steps = q.solution_steps || [];
   const stepsHTML = steps.length
-    ? steps.map((s,i)=>`<div class="step"><span class="step-n">${String(i+1).padStart(2,'0')}</span><span>${s}</span></div>`).join('')
+    ? steps.map((s,i)=>`<div class="step"><span class="step-n">${String(i+1).padStart(2,'0')}</span><div class="sol-step">${renderInlineImages(s)}</div></div>`).join('')
     : `<div style="color:var(--dim);font-size:13px">尚無解析</div>`;
 
   const contextHTML = buildContext(q);

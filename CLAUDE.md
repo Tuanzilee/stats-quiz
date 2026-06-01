@@ -184,6 +184,16 @@ const CACHE = 'stats-quiz-v2026-05-16-1';
 - **2026-05-20 NCKU-113-19**:answer E → D(**翻面**;老師詳解:變異數不同質**不必然**轉無母數,若母體常態仍可用 Welch's t-test adjustment;D 字面「可以」暗示「變異數不同質 → 改用無母數」conditional 邏輯錯;原 solution_steps 把 D 標對、E 答(自我懷疑「E 是正確的, 不是錯的」);solution_steps / ai_hint / key_concepts 全重寫;✅ Phase 1 #11 待勘誤候選表全部清零)
 - **2026-05-20 NCCU-108-21**:answer D → A(**翻面**;老師詳解 W = X+Y where X,Y ~ Uniform(0,100) → Triangle(0,200), E(W)=100;(B)(C)(D) 皆錯,(A) 寬鬆視為對(Triangle 對稱鐘形 ≈ 常態,同 SCU-109-03 取分邏輯);原 solution_steps 13 步 confused reasoning 最後選 D,跟老師相反;solution_steps / ai_hint / key_concepts / formula_used 全重寫;**不在 Tier 1 候選表**,老師另指)
 - **2026-05-21 NCCU-112-05**:answer "AD" → "A"(原為單選題卻填雙答 "AD",schema 違規;老師確認 (A) SE=σ/√n vs σ 是硬錯誤,(D) 「CLT 並非特性」字面負面 meta-claim 採寬鬆解讀視為是特性;solution_steps / ai_hint / key_concepts / formula_used 對齊;concepts 加「不偏性」)
+- **2026-06-01 NCCU-109-19~23 重整 + solution_steps 圖片渲染**(**勘誤帳 +1**):
+  - **問題**:NCCU-109-19to23 是 5 題合 1 entry (前人壓縮版),題幹用列聯表文字描述,缺圖。
+  - **動作**:
+    - 拆 5 筆獨立 entry `NCCU-109-19..23`,套 `group_id: NCCU-109-G-A` + 共用 shared_stem (含吸煙×肺癌列聯表圖 `NCCU-109-19-table.png`)
+    - 每筆獨立 question / options (4 個單選) / answer (A/D/A/A/C) / solution_steps / primary_concept (Risk / Risk ratio / Odds / Odds ratio / Risk vs Odds 抽樣設計)
+    - 刪除舊 NCCU-109-19to23 entry
+  - **連帶引擎修**:`solution_steps` 渲染路徑沒 markdown→img (line 2061-2065 練習頁 + line 2909-2912 檢討頁,皆 `<span>${s}</span>` 直丟)。新增 helper `renderInlineImages(s)` (top-level scope),兩個渲染點各包一層,把 inner `<span>` 改 `<div class="sol-step">` 支援 block-level `<figure>`。NTU-108-06 兩張 χ² 示意圖 (在 solution_steps 內) 同步生效。
+  - assets 新增 `NCCU-109-19-table.png`。
+  - 累計勘誤 26 → 27
+  - sw.js `v2026-06-01-7` → `v2026-06-01-8`
 - **2026-06-01 SCU-112 整批取代 15 題**(**勘誤帳 +1**):
   - **問題**:既有 `SCU-112-01..15` 是 AI 推導的精簡版 (compressed question + AI 推 answer/solution),非原卷忠實版。
   - **動作**:依原卷 spec 整批取代 15 筆 (填充 10 + 計算 4 + 申論 1),每筆完整 entry rewrite:大題標籤 (`【填充 N】` / `【計算 N】` / `【申論】`)、原卷情境敘述、圖片 markdown 引用 (assets/figures/...png × 6 張)、新版 primary_concept/concepts/solution_steps/key_concepts/ai_hint/formula_used。

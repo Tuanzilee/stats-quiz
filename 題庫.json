@@ -10004,40 +10004,142 @@
     "shared_stem": null
   },
   {
-    "id": "NCCU-109-19to23",
+    "id": "NCCU-109-19",
     "source": "政大",
     "year": 109,
-    "type": "計算題",
-    "question": "下表為吸菸與肺癌關係的人數列聯表（無肺癌：無吸菸1000、有吸菸50；有肺癌：無吸菸50、有吸菸5）。(19)吸菸者罹患肺癌的Risk (20)吸菸vs不吸菸的Risk ratio (21)吸菸者罹患肺癌的Odds (22)吸菸vs不吸菸的Odds ratio (23)若此列聯表為門診資料，Odds或Risk哪個更適合？",
-    "answer": "",
-    "options": [],
-    "concepts": [
-      "風險率Risk",
-      "勝算Odds",
-      "風險比Risk ratio",
-      "勝算比Odds ratio",
-      "病例對照研究"
+    "type": "單選題",
+    "question": "若計算有吸煙者罹患肺癌的風險 (Risk)，試問下列何者正確？",
+    "answer": "A",
+    "options": [
+      "(A)1/11",
+      "(B)1/10",
+      "(C)1/221",
+      "(D)1/200"
     ],
-    "difficulty": "hard",
+    "concepts": [],
+    "difficulty": "medium",
     "solution_steps": [
-      "列聯表：無肺癌-無吸菸=1000, 無肺癌-有吸菸=50, 有肺癌-無吸菸=50, 有肺癌-有吸菸=5",
-      "(19)吸菸者罹患肺癌的Risk = 5/(50+5) = 5/55 = 1/11",
-      "(20)Risk ratio = (5/55)/(50/1050) = (1/11)/(50/1050) = 1050/(11×50) = 1050/550 = 21/11",
-      "(21)吸菸者罹患肺癌的Odds = 5/50 = 1/10",
-      "(22)Odds ratio = (5/50)/(50/1000) = 0.1/0.05 = 2",
-      "(23)門診資料（病例對照研究）：Risk ratio需要知道暴露組和非暴露組各自的分母，但門診資料是已有疾病的人，無法計算真正的暴露率→用Odds ratio更合適"
+      "吸煙者總數 = 5 (有肺癌) + 50 (無肺癌) = 55",
+      "Risk = 吸煙且有肺癌 / 吸煙總數 = 5 / 55 = 1/11",
+      "答:(A) 1/11"
     ],
-    "key_concepts": "Risk=發病人數/暴露總人數；Odds=發病/未發病；OR在病例對照研究中優於RR；RR在世代研究中使用",
-    "ai_hint": "Risk ratio需要前瞻性研究（知道暴露組的總人數）；Odds ratio在回顧性（病例對照）研究中更適合，且當疾病稀少時OR≈RR。門診資料屬回顧性→OR較適合。",
-    "formula_used": [
-      "Risk = P(疾病|暴露) = 有吸菸且有肺癌/(有吸菸總人數) = 5/(50+5) = 5/55 = 1/11",
-      "Risk ratio = Risk(吸菸)/Risk(不吸菸) = (5/55)/(50/1050) ≈ (1/11)/(1/21) = 21/11",
-      "Odds(吸菸者) = P(肺癌|吸菸)/P(無肺癌|吸菸) = 5/50 = 1/10",
-      "Odds ratio = Odds(吸菸)/Odds(不吸菸) = (5/50)/(50/1000) = 0.1/0.05 = 2"
+    "ai_hint": "Risk = P(疾病 | 暴露)。吸煙者 55 人中 5 人有肺癌 → 5/55 = 1/11。",
+    "primary_concept": "流行病學 Risk (risk / 罹患風險)",
+    "formula_used": [],
+    "key_concepts": "Risk = 發生率 = 某暴露組內疾病的人數 / 該暴露組總人數;前瞻性 (世代) 研究適用。",
+    "group_id": "NCCU-109-G-A",
+    "shared_stem": "【第 19 題】下表為吸煙與肺癌關係的人數列聯表，細格內為人數。\n\n![吸煙×肺癌人數列聯表](assets/figures/NCCU-109-19-table.png)"
+  },
+  {
+    "id": "NCCU-109-20",
+    "source": "政大",
+    "year": 109,
+    "type": "單選題",
+    "question": "若計算吸煙 vs. 不吸煙的肺癌罹患風險率 (Risk ratio)，則下列數字何者正確？",
+    "answer": "D",
+    "options": [
+      "(A)1/10",
+      "(B)1/11",
+      "(C)2/1",
+      "(D)21/11"
     ],
-    "primary_concept": "卡方檢定",
-    "group_id": null,
-    "shared_stem": null
+    "concepts": [],
+    "difficulty": "medium",
+    "solution_steps": [
+      "Risk(吸煙) = 5 / (5 + 50) = 5/55 = 1/11",
+      "Risk(不吸煙) = 50 / (50 + 1000) = 50/1050 = 1/21",
+      "RR = Risk(吸煙) / Risk(不吸煙) = (1/11) / (1/21) = 21/11",
+      "答:(D) 21/11"
+    ],
+    "ai_hint": "RR = Risk_暴露 / Risk_未暴露。分子分母分別算 Risk 後相除。",
+    "primary_concept": "風險率 Risk ratio",
+    "formula_used": [],
+    "key_concepts": "Risk ratio (RR) = 比較兩組發生率;吸煙組為不吸煙組的 21/11 倍 (≈ 1.91)。",
+    "group_id": "NCCU-109-G-A",
+    "shared_stem": "【第 19 題】下表為吸煙與肺癌關係的人數列聯表，細格內為人數。\n\n![吸煙×肺癌人數列聯表](assets/figures/NCCU-109-19-table.png)"
+  },
+  {
+    "id": "NCCU-109-21",
+    "source": "政大",
+    "year": 109,
+    "type": "單選題",
+    "question": "計算風險還有另一個指標 Odds，若計算吸煙者罹患肺癌的 Odds，試問下列數字何者正確？",
+    "answer": "A",
+    "options": [
+      "(A)1/10",
+      "(B)1/11",
+      "(C)1/200",
+      "(D)1/221"
+    ],
+    "concepts": [],
+    "difficulty": "medium",
+    "solution_steps": [
+      "Odds = 有肺癌 / 無肺癌 (吸煙組內) = 5 / 50 = 1/10",
+      "答:(A) 1/10"
+    ],
+    "ai_hint": "Odds = P(疾病) / P(無疾病) = 有肺癌 / 無肺癌 = 5/50 = 1/10。",
+    "primary_concept": "Odds (勝算)",
+    "formula_used": [],
+    "key_concepts": "Odds = 發生 / 未發生 (同一組內比);跟 Risk 的差別在分母——Risk 分母是「該組總人數」,Odds 分母是「未發病人數」。",
+    "group_id": "NCCU-109-G-A",
+    "shared_stem": "【第 19 題】下表為吸煙與肺癌關係的人數列聯表，細格內為人數。\n\n![吸煙×肺癌人數列聯表](assets/figures/NCCU-109-19-table.png)"
+  },
+  {
+    "id": "NCCU-109-22",
+    "source": "政大",
+    "year": 109,
+    "type": "單選題",
+    "question": "若計算吸煙者 vs. 不吸煙者罹患肺癌的比率 (Odds ratio)，則下列數字何者正確？",
+    "answer": "A",
+    "options": [
+      "(A)2/1",
+      "(B)10/1",
+      "(C)221/200",
+      "(D)11/10"
+    ],
+    "concepts": [],
+    "difficulty": "medium",
+    "solution_steps": [
+      "Odds(吸煙) = 5/50 = 1/10",
+      "Odds(不吸煙) = 50/1000 = 1/20",
+      "OR = Odds(吸煙) / Odds(不吸煙) = (1/10) / (1/20) = 2/1",
+      "或用交叉乘積:OR = (5 × 1000) / (50 × 50) = 5000 / 2500 = 2",
+      "答:(A) 2/1"
+    ],
+    "ai_hint": "OR = Odds_暴露 / Odds_未暴露。或直接交叉乘積 ad/bc。",
+    "primary_concept": "Odds ratio (勝算比)",
+    "formula_used": [],
+    "key_concepts": "OR = 2 即吸煙者得肺癌的 odds 為不吸煙者的 2 倍;2×2 表用交叉乘積最快:(a×d)/(b×c)。",
+    "group_id": "NCCU-109-G-A",
+    "shared_stem": "【第 19 題】下表為吸煙與肺癌關係的人數列聯表，細格內為人數。\n\n![吸煙×肺癌人數列聯表](assets/figures/NCCU-109-19-table.png)"
+  },
+  {
+    "id": "NCCU-109-23",
+    "source": "政大",
+    "year": 109,
+    "type": "單選題",
+    "question": "若此列表的數據為醫生於門診時透過詢問病患蒐集而得，則有關於 Risk 和 Odds 的敘述，何者正確？",
+    "answer": "C",
+    "options": [
+      "(A)此例使用 Risk 較為適切",
+      "(B)不論 Risk 或 Odds 都適合",
+      "(C)此例使用 Odds 較為適切",
+      "(D)使用 Risk ratio 比 Odds ratio 更適合此例"
+    ],
+    "concepts": [],
+    "difficulty": "medium",
+    "solution_steps": [
+      "門診詢問病患蒐集資料 → 接近 case-control (病例對照) 或就診樣本,而非母體隨機抽樣。",
+      "分母 (該組總人數) 不代表母體 → Risk (發生率) 會偏誤,RR 也偏誤。",
+      "Odds 與 OR 對抽樣設計較穩健 (case-control 研究的標準指標),即使分母不是母體隨機樣本,OR 仍是合理近似。",
+      "答:(C) 此例使用 Odds 較為適切"
+    ],
+    "ai_hint": "Risk 適用世代研究 (cohort,知道暴露組總人數);Odds 適用病例對照 (case-control);門診資料偏 case-control → 用 Odds。",
+    "primary_concept": "Risk vs Odds 適用情境 (抽樣設計)",
+    "formula_used": [],
+    "key_concepts": "Risk 需「母體隨機抽樣」/「世代研究」才正確,門診資料屬回顧性/便利樣本 → 用 Odds & OR 較穩健。當疾病稀少時 OR ≈ RR。",
+    "group_id": "NCCU-109-G-A",
+    "shared_stem": "【第 19 題】下表為吸煙與肺癌關係的人數列聯表，細格內為人數。\n\n![吸煙×肺癌人數列聯表](assets/figures/NCCU-109-19-table.png)"
   },
   {
     "id": "NCCU-109-24",
