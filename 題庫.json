@@ -714,7 +714,7 @@
     "source": "台大",
     "year": 112,
     "type": "申論題",
-    "question": "三組飲料（珍奶/仙草蜜/百香果珍珠紅茶）各5人評分，應使用哪種方法分析？假設是什麼？",
+    "question": "(a) 若要使用這筆資料來分析學生對飲料的喜好程度，你覺得應該要使用哪種方法？它所用到的假設是甚麼？[5%]",
     "answer": "",
     "options": [],
     "concepts": [
@@ -737,15 +737,15 @@
       "F = MSBG / MSWG"
     ],
     "primary_concept": "ANOVA",
-    "group_id": null,
-    "shared_stem": null
+    "group_id": "NTU-112-G-A",
+    "shared_stem": "某老師請班上十五名學生喝飲料(隨機給予)，並請學生對飲料的喜好程度給予評分(1~10 分)，資料如下：\n\n![飲料喜好評分資料](assets/figures/NTU-112-01-drinks-table.png)"
   },
   {
     "id": "NTU-112-01b",
     "source": "台大",
     "year": 112,
     "type": "申論題",
-    "question": "設計一組互為orthogonal的contrasts，並解釋要比較的是什麼？",
+    "question": "(b) 請設計一組互為 orthogonal 的 contrasts，並解釋你要比較的是甚麼？(不用計算) [5%]",
     "answer": "",
     "options": [],
     "concepts": [
@@ -769,15 +769,15 @@
       "正交條件：Σcⱼ₁·cⱼ₂=0（兩個對比係數乘積之和為0）"
     ],
     "primary_concept": "ANOVA",
-    "group_id": null,
-    "shared_stem": null
+    "group_id": "NTU-112-G-A",
+    "shared_stem": "某老師請班上十五名學生喝飲料(隨機給予)，並請學生對飲料的喜好程度給予評分(1~10 分)，資料如下：\n\n![飲料喜好評分資料](assets/figures/NTU-112-01-drinks-table.png)"
   },
   {
     "id": "NTU-112-01c",
     "source": "台大",
     "year": 112,
     "type": "計算題",
-    "question": "用迴歸方法分析飲料評分資料，採用dummy coding（以最後一組為基準），請計算迴歸式。",
+    "question": "(c) 若要用迴歸的方法來分析這筆資料，當採用 dummy coding 時，請計算出迴歸式(請以最後一組當做比較的基礎)。[5%]",
     "answer": "",
     "options": [],
     "concepts": [
@@ -803,16 +803,16 @@
       "b₀ = x̄₃（基準組平均）",
       "b₁ = x̄₁ - x̄₃，b₂ = x̄₂ - x̄₃"
     ],
-    "primary_concept": "ANOVA",
-    "group_id": null,
-    "shared_stem": null
+    "primary_concept": "迴歸分析",
+    "group_id": "NTU-112-G-A",
+    "shared_stem": "某老師請班上十五名學生喝飲料(隨機給予)，並請學生對飲料的喜好程度給予評分(1~10 分)，資料如下：\n\n![飲料喜好評分資料](assets/figures/NTU-112-01-drinks-table.png)"
   },
   {
     "id": "NTU-112-01d",
     "source": "台大",
     "year": 112,
     "type": "計算題",
-    "question": "採用effect coding時，請計算迴歸式（以最後一組為基準）。",
+    "question": "(d) 若要用迴歸的方法來分析這筆資料，當採用 effect coding 時，請計算出迴歸式(請以最後一組當做比較的基礎)。[5%]",
     "answer": "",
     "options": [],
     "concepts": [
@@ -839,16 +839,16 @@
       "b₀ = 總體平均 x̄",
       "b₁ = x̄₁ - x̄，b₂ = x̄₂ - x̄"
     ],
-    "primary_concept": "ANOVA",
-    "group_id": null,
-    "shared_stem": null
+    "primary_concept": "迴歸分析",
+    "group_id": "NTU-112-G-A",
+    "shared_stem": "某老師請班上十五名學生喝飲料(隨機給予)，並請學生對飲料的喜好程度給予評分(1~10 分)，資料如下：\n\n![飲料喜好評分資料](assets/figures/NTU-112-01-drinks-table.png)"
   },
   {
     "id": "NTU-112-02",
     "source": "台大",
     "year": 112,
     "type": "證明題",
-    "question": "證明：進行有J個類別之one-way ANOVA平均數F檢定，則統計量來自自由度為J-1, N-J的F分配。",
+    "question": "請證明上式。",
     "answer": "",
     "options": [],
     "concepts": [
@@ -870,14 +870,14 @@
     ],
     "primary_concept": "ANOVA",
     "group_id": null,
-    "shared_stem": null
+    "shared_stem": "證明：進行有 J 個類別之 one-way ANOVA 平均數 F 檢定，則此檢定之統計量\n\n![F 統計量](assets/figures/NTU-112-02-anova-f-formula.png)\n\n即要比較的臨界值為來自自由度為 J−1, N−J 的 F 分配（N 為總人數；B=between, W=within）。[20%]"
   },
   {
     "id": "NTU-112-03a",
     "source": "台大",
     "year": 112,
     "type": "申論題",
-    "question": "有四個變項（Y, X1, X2, X3），請解釋如何用迴歸方式計算半淨相關 Ry(3.12)。",
+    "question": "(a) 半淨相關 (semi-partial correlation) R_Y(3.12)　[10%]",
     "answer": "",
     "options": [],
     "concepts": [
@@ -900,16 +900,16 @@
       "Ry(3.12) = semipartial correlation of Y with X3, partialling X1 X2 from X3 only",
       "步驟：迴歸X3 on X1,X2，取殘差e₃.₁₂；再求r(Y, e₃.₁₂)"
     ],
-    "primary_concept": "迴歸分析",
-    "group_id": null,
-    "shared_stem": null
+    "primary_concept": "相關",
+    "group_id": "NTU-112-G-B",
+    "shared_stem": "有四個變項（Y, X₁, X₂, X₃），請解釋如何用迴歸的方式來計算："
   },
   {
     "id": "NTU-112-03b",
     "source": "台大",
     "year": 112,
     "type": "申論題",
-    "question": "有四個變項（Y, X1, X2, X3），請解釋如何用迴歸方式計算淨相關 Ry3.12。",
+    "question": "(b) 淨相關 (partial correlation) R_Y3.12　[10%]",
     "answer": "",
     "options": [],
     "concepts": [
@@ -932,16 +932,16 @@
       "Ry3.12 = partial correlation of Y and X3, controlling X1 X2",
       "步驟：分別對Y和X3控制X1、X2，取各自殘差後求相關"
     ],
-    "primary_concept": "迴歸分析",
-    "group_id": null,
-    "shared_stem": null
+    "primary_concept": "相關",
+    "group_id": "NTU-112-G-B",
+    "shared_stem": "有四個變項（Y, X₁, X₂, X₃），請解釋如何用迴歸的方式來計算："
   },
   {
-    "id": "NTU-112-04",
+    "id": "NTU-112-04a",
     "source": "台大",
     "year": 112,
     "type": "申論題",
-    "question": "（a）將下面十四個統計學上常用的詞，整理成一個統計學上常用的概念：請在你回答的敘述句子裡，放進下面所有十四個詞，並且對你使用的詞劃出底線以表示你用了此詞。請注意：沒劃底線標明的不算分數。（你也可以多加一些說明，讓整個概念更完整）[14%]\n（1）標準誤（standard error）\n（2）標準差（standard deviation）\n（3）n（每次抽樣樣本大小）\n（4）N（抽取又放回去再抽，抽了多少次的樣本）\n（5）估計值（estimates）或統計量（statistics）\n（6）母群參數（parameters）\n（7）大數法則（Law of large numbers）\n（8）抽樣分配\n（9）樣本平均數（X̄）\n（10）母群平均數（μ）\n（11）樣本變異數（S²）\n（12）母群變異數（σ²）\n（13）常態分配\n（14）任一種分配\n（b）請給予這個概念一個專有名詞。[6%]",
+    "question": "(a) 將上面十四個詞整理成一個統計學上常用的概念：請在敘述句子裡放進所有十四個詞，並對使用的詞劃底線；沒劃底線的不算分數（可多加說明讓概念更完整）。[14%]",
     "answer": "",
     "options": [],
     "concepts": [
@@ -973,15 +973,41 @@
       "SE = σ/√n = s/√n（標準誤）"
     ],
     "primary_concept": "中央極限定理與抽樣分配",
-    "group_id": null,
-    "shared_stem": null
+    "group_id": "NTU-112-G-C",
+    "shared_stem": "下面十四個統計學上常用的詞：\n(1)標準誤 (standard error)　(2)標準差 (standard deviation)\n(3)n（每次抽樣樣本大小）　(4)N（抽取又放回去再抽，抽了多少次的樣本）\n(5)估計值(estimates)或統計量(statistics)　(6)母群參數(parameters)\n(7)大數法則(Law of large numbers)　(8)抽樣分配\n(9)樣本平均數(X̄)　(10)母群平均數(μ)\n(11)樣本變異數(s²)　(12)母群變異數(σ²)\n(13)常態分配　(14)任一種分配"
+  },
+  {
+    "id": "NTU-112-04b",
+    "source": "台大",
+    "year": 112,
+    "type": "申論題",
+    "question": "(b) 請給予這個概念一個專有名詞。[6%]",
+    "answer": "",
+    "options": [],
+    "concepts": [
+      "中央極限定理",
+      "專有名詞"
+    ],
+    "difficulty": "easy",
+    "solution_steps": [
+      "(a) 用十四個詞串起來描述的概念，其專有名詞為：",
+      "中央極限定理（Central Limit Theorem, CLT）"
+    ],
+    "key_concepts": "(a) 所整理的概念 = 中央極限定理（CLT）",
+    "ai_hint": "把十四個詞串成的敘述，講的就是中央極限定理：任一分配的母群，反覆抽 n 個樣本算 x̄，當 n 夠大時 x̄ 的抽樣分配趨近常態。專有名詞即「中央極限定理」。",
+    "formula_used": [
+      "x̄ ~ N(μ, σ²/n)（n夠大時，CLT）"
+    ],
+    "primary_concept": "中央極限定理與抽樣分配",
+    "group_id": "NTU-112-G-C",
+    "shared_stem": "下面十四個統計學上常用的詞：\n(1)標準誤 (standard error)　(2)標準差 (standard deviation)\n(3)n（每次抽樣樣本大小）　(4)N（抽取又放回去再抽，抽了多少次的樣本）\n(5)估計值(estimates)或統計量(statistics)　(6)母群參數(parameters)\n(7)大數法則(Law of large numbers)　(8)抽樣分配\n(9)樣本平均數(X̄)　(10)母群平均數(μ)\n(11)樣本變異數(s²)　(12)母群變異數(σ²)\n(13)常態分配　(14)任一種分配"
   },
   {
     "id": "NTU-112-05",
     "source": "台大",
     "year": 112,
     "type": "申論題",
-    "question": "從幾個不同角度討論用來估計母群參數的估計值有哪些好的特質？（請以平均數為例）",
+    "question": "續前一題，從幾個不同的角度來討論用來估計母群參數(parameters)的估計值(estimates)或統計量(statistics)會有哪些好的特質？(請以平均數為例) [20%]",
     "answer": "",
     "options": [],
     "concepts": [
@@ -1003,7 +1029,7 @@
       "Var(x̄) = σ²/n（有效）",
       "MSE(x̄) = σ²/n（不偏時MSE=Var）"
     ],
-    "primary_concept": "ANOVA",
+    "primary_concept": "估計與信賴區間",
     "group_id": null,
     "shared_stem": null
   },
