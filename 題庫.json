@@ -483,7 +483,7 @@
       "簡單迴歸殘差：df = n-2",
       "ANOVA：df_between = J-1，df_within = N-J"
     ],
-    "primary_concept": "ANOVA",
+    "primary_concept": "假設檢定",
     "group_id": null,
     "shared_stem": null
   },
@@ -1904,7 +1904,7 @@
       "F = (R²/p) / [(1-R²)/(n-p-1)]",
       "df_regression = p = 2，df_residual = n-p-1 = 18-2-1 = 15"
     ],
-    "primary_concept": "ANOVA",
+    "primary_concept": "迴歸分析",
     "group_id": null,
     "shared_stem": null
   },
@@ -2056,7 +2056,7 @@
       "F = MS_regression / MS_residual",
       "R² = SS_regression / SS_total"
     ],
-    "primary_concept": "ANOVA",
+    "primary_concept": "迴歸分析",
     "shared_stem": "25位研究參與者的迴歸分析結果摘要表：Regression SS=a, df=4, MS=4, F=d; Residual SS=32, df=b, MS=c。\n\n![](assets/figures/NCKU-107-11-regression-anova.png)"
   },
   {
@@ -3901,7 +3901,7 @@
       "迴歸df = 預測變項數 = 2",
       "殘差df = N - k - 1 = 20 - 2 - 1 = 17"
     ],
-    "primary_concept": "ANOVA",
+    "primary_concept": "迴歸分析",
     "shared_stem": "下列為一迴歸分析結果:\n\n![迴歸分析表](assets/figures/NCKU-111-28-regression.png)"
   },
   {
