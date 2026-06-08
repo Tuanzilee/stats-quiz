@@ -2937,7 +2937,7 @@
       "SS_regression = r² × SS_total = r² × (n-1) × Var(Y)",
       "df_regression = 1（簡單迴歸）"
     ],
-    "primary_concept": "ANOVA",
+    "primary_concept": "迴歸分析",
     "group_id": "NCKU-109-G-A",
     "shared_stem": "【第 5 題】\n\n某校長欲以瞭解學生身高 (cm) 與體重 (kg) 關係，隨機挑選男女生各 50 人，資料如下表。\n\n![學生身高體重描述統計](assets/figures/NCKU-109-05-stats-table.png)"
   },
