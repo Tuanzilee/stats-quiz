@@ -294,6 +294,12 @@ const CACHE = 'stats-quiz-v2026-05-16-1';
   - **NTU-113-MC-11**:type 「單選題」→「計算題」,answer "" → "0.582"(原本無 options 是 Bayes 計算題,被誤標單選空答案;solution 已算出 P(旁聽|考上)≈58.2%)
   - **NTU-113-MC-17**:answer "A" → "C"(**獨立 correctness bug**:原 answer 標 A=34,但 solution_steps 跟 ai_hint 都算出 N = df_error + ab = 24+8 = 32 = 選項C;對齊 solution 改 C;ai_hint 補勘誤註記)
   - 複選題 UI 支援不在本次 scope(stats 走單選 radio,複選題僅資料正確,user 作答顯示「部分對」由 grading 自行判斷)
+- **2026-06-08 NCCU-114-36 對答案**(D → C,**勘誤帳 +1**):
+  - answer `'D'` → `'C'`;官方答案確認為 (C) 495。組內平方和 SSW = Σ(nⱼ−1)sⱼ²(樣本變異數預設不偏,÷(n−1))= 9×20+9×15+9×20 = 495。
+  - solution_steps 整段重寫(5 步),移除原本「但選D=550?」「等等,答案說D」「政大答案選D可能用有偏」整串自我懷疑;改以 495=(C) 為定論,(D)550 列為「把變異數誤當有偏(÷n)」的陷阱說明。
+  - key_concepts / ai_hint 連帶對齊(原本主張「政大答案D=550 用有偏版本」與新答案矛盾,一併改正);formula_used 原本已寫 495 不動;primary_concept 維持 ANOVA。
+  - sw.js `v2026-06-08-2` → `v2026-06-08-3`
+  - 累計勘誤 27 → 28
 
 ### 待勘誤候選(需原卷對照)
 
