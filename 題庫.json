@@ -2557,7 +2557,7 @@
     "year": 107,
     "type": "單選題",
     "question": "100位國小低年級學生合作意願平均5.5、SD=4；100位高年級學生合作意願平均6、SD=3。使用參數統計法檢測均分差異，以下何者為真？",
-    "answer": "B",
+    "answer": "C",
     "options": [
       "A. pooled variance=25",
       "B. 使用t檢定；df=98",
@@ -2573,22 +2573,21 @@
     ],
     "difficulty": "medium",
     "solution_steps": [
-      "兩組獨立樣本，比較均值 → 獨立樣本t檢定",
-      "df = n1+n2-2 = 100+100-2 = 198，選(B) ✓",
-      "pooled variance = [(99×16) + (99×9)] / 198 = [1584+891]/198 = 2475/198 = 12.5（非25）",
-      "A（pooled variance=25）：25=4²不是pooled variance，A錯",
-      "C（MS=12.5）：如果用ANOVA，MS_within=12.5（正確！）但選項說組內MS，這是對的",
-      "D（組間MS=25）：組間MS=Σnj(x̄j-x̄)²/df_between，計算後非25",
-      "E（F=1）：需計算F值確認，且df=(2,198)不對（兩組時df_between=1）",
-      "答：B（t檢定，df=198）"
+      "兩組獨立樣本比較均值 → 獨立樣本 t 檢定（兩組時與單因子 ANOVA 等價，t²=F；組內MS=pooled variance）",
+      "(C) 組內均方 MS_within = pooled variance = [(n1−1)s1²+(n2−1)s2²]/(n1+n2−2) = (99×16 + 99×9)/198 = 2475/198 = 12.5 → 正確 ✓",
+      "(A) pooled=25 錯（25=4²是單組SD²，非pooled；pooled=12.5）",
+      "(B) t檢定方法對，但 df 應為 n1+n2−2=198，非98 → 錯",
+      "(D) 組間MS：grand mean=5.75，SS_b=100(5.5−5.75)²+100(6−5.75)²=12.5，df_b=1 → MS_b=12.5，非25 → 錯",
+      "(E) F=MS_b/MS_w=12.5/12.5=1，但 df 應為 (1,198) 非 (2,198) → 錯",
+      "答：(C)"
     ],
-    "key_concepts": "兩獨立樣本t：df=n1+n2-2；pooled variance=加權平均各組變異數",
-    "ai_hint": "兩組比較用t檢定，df=n1+n2-2=198。pooled variance=[(99×16)+(99×9)]/198=12.5，不是25。選B。",
+    "key_concepts": "兩獨立樣本 t 與單因子 ANOVA 等價（t²=F）；組內MS=pooled variance=[(n1−1)s1²+(n2−1)s2²]/(n1+n2−2)=12.5 → (C)；t檢定 df=n1+n2−2=198",
+    "ai_hint": "兩組比較=獨立樣本 t（等價單因子 ANOVA）。組內MS=pooled variance=[(99×16)+(99×9)]/198=12.5 → 選(C)。陷阱：(A)25 是單組SD²非pooled、(B)df 應 198 非 98、(D)組間MS=12.5 非 25、(E)df 應 (1,198) 非 (2,198)。",
     "formula_used": [
       "df = n1+n2-2 = 100+100-2 = 198",
       "pooled variance = [(n1-1)s1² + (n2-1)s2²] / (n1+n2-2)"
     ],
-    "primary_concept": "ANOVA",
+    "primary_concept": "t檢定",
     "group_id": null,
     "shared_stem": null
   },

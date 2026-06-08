@@ -300,6 +300,13 @@ const CACHE = 'stats-quiz-v2026-05-16-1';
   - key_concepts / ai_hint 連帶對齊(原本主張「政大答案D=550 用有偏版本」與新答案矛盾,一併改正);formula_used 原本已寫 495 不動;primary_concept 維持 ANOVA。
   - sw.js `v2026-06-08-2` → `v2026-06-08-3`
   - 累計勘誤 27 → 28
+- **2026-06-08 NCKU-107-25 對答案**(B → C,**勘誤帳 +1**):
+  - answer `'B'` → `'C'`;官方答案確認為 (C) 組內MS=12.5。原 answer 標 (B) 但選項 B 寫「df=98」本身就錯(應 n1+n2−2=198),且原 solution_steps 算出 df=198 卻仍選 B、又同時說「C…正確!」自相矛盾。
+  - primary_concept `ANOVA` → `t檢定`(兩組獨立樣本比較=獨立樣本 t,與單因子 ANOVA 等價 t²=F;本質是 t 檢定題)。
+  - solution_steps 整段重寫(7 步):以 (C) MS_within=pooled variance=2475/198=12.5 為定論,逐一駁斥 (A)25=單組SD²、(B)df 應198非98、(D)組間MS=12.5非25、(E)df 應(1,198)非(2,198)。
+  - key_concepts / ai_hint 連帶對齊(原本主張「選B」與新答案矛盾,一併改正);formula_used(df=198 + pooled 公式)仍正確不動。
+  - sw.js `v2026-06-08-3` → `v2026-06-08-4`
+  - 累計勘誤 28 → 29
 
 ### 待勘誤候選(需原卷對照)
 
