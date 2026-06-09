@@ -1182,7 +1182,7 @@ MathJax = {
       <div class="filter-pill active" onclick="browseFilter('all',this)">全部</div>
       <div class="filter-pill" onclick="browseFilter('NTU',this)">台大</div>
       <div class="filter-pill" onclick="browseFilter('SCU',this)">東吳</div>
-      <div class="filter-pill" onclick="browseFilter('NCKU',this)">台綜</div>
+      <div class="filter-pill" onclick="browseFilter('NCKU',this)">成大</div>
       <div class="filter-pill" onclick="browseFilter('NCCU',this)">政大</div>
       <div class="filter-pill" onclick="browseFilter('correct',this)">✓ 答對</div>
       <div class="filter-pill" onclick="browseFilter('wrong',this)">✗ 答錯</div>
@@ -1245,7 +1245,7 @@ MathJax = {
           <div class="mock-pill active" data-val="all" onclick="mockPick('source',this)">全部</div>
           <div class="mock-pill" data-val="台大" onclick="mockPick('source',this)">台大</div>
           <div class="mock-pill" data-val="東吳" onclick="mockPick('source',this)">東吳</div>
-          <div class="mock-pill" data-val="台綜（成大）" onclick="mockPick('source',this)">台綜</div>
+          <div class="mock-pill" data-val="成大" onclick="mockPick('source',this)">成大</div>
           <div class="mock-pill" data-val="政大" onclick="mockPick('source',this)">政大</div>
         </div>
       </div>
@@ -1357,7 +1357,7 @@ MathJax = {
         <div class="filter-chip active" data-key="school" data-val="all" onclick="toggleFilter(this)">全部</div>
         <div class="filter-chip" data-key="school" data-val="台大" onclick="toggleFilter(this)">台大</div>
         <div class="filter-chip" data-key="school" data-val="東吳" onclick="toggleFilter(this)">東吳</div>
-        <div class="filter-chip" data-key="school" data-val="台綜（成大）" onclick="toggleFilter(this)">台綜</div>
+        <div class="filter-chip" data-key="school" data-val="成大" onclick="toggleFilter(this)">成大</div>
         <div class="filter-chip" data-key="school" data-val="政大" onclick="toggleFilter(this)">政大</div>
       </div>
     </div>
@@ -1720,7 +1720,7 @@ function browseSearch() {
   renderBrowse();
 }
 function renderBrowse() {
-  const sourceMap = { NTU:'台大', SCU:'東吳', NCKU:'台綜（成大）', NCCU:'政大' };
+  const sourceMap = { NTU:'台大', SCU:'東吳', NCKU:'成大', NCCU:'政大' };
   let filtered = questions.filter(q => {
     const st = getStatus(q.id);
     if (browseFilter_ === 'correct' && st !== 'correct') return false;
