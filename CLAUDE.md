@@ -310,6 +310,13 @@ const CACHE = 'stats-quiz-v2026-05-16-1';
   - sw.js `v2026-06-08-3` → `v2026-06-08-4`
   - 累計勘誤 28 → 29
 
+- **2026-06-09 NCKU-112-10 對答案 + OCR 錯字**(B → C,**勘誤帳 +1**):
+  - **錯字**:「暗談」→「晤談」共 3 處(題幹 2 + 選項 A 1,OCR 誤字)。
+  - answer `'B'` → `'C'`;官方答案 (C)。原 answer 標 (B)「進行變異數分析」,但 2 水準受試者內本就可用重複測量 ANOVA,(B) 其實成立。
+  - solution_steps 整段重寫(6 步):同一批學生期中 vs 期末=受試者內(相依)設計;(A)(B)(D) 皆正確,唯 (C)「須符合變異數同質」是獨立組間假設,相依設計看差異常態(相依t)/球形(RM-ANOVA)、不需變異數同質 → (C) 為錯誤敘述=答案。
+  - key_concepts / ai_hint 連帶對齊(原主張「答B」與新答案矛盾);primary_concept 維持 ANOVA(涉重複測量 ANOVA);formula_used(df=n−1)仍對。
+  - sw.js `v2026-06-09-1` → `v2026-06-09-2`
+  - 累計勘誤 29 → 30
 - **2026-06-09 成大 source 標籤統一**(schema 一致化,**不入勘誤帳**):
   - **問題**:成大題目 source 被拆成「台綜（成大）」(123) 與「成大」(20) 兩種標籤;且 index.html 三處過濾器只認「台綜（成大）」→ 那 20 筆「成大」永遠被學校篩選漏掉。
   - **動作**:① `題庫.json` 123 筆 `"source": "台綜（成大）"` → `"成大"`(replace_all);② `index.html` 同步改 3 處過濾 key + 顯示文字:browse pill(`browseFilter('NCKU')` 顯示文字 台綜→成大)、mock-pill `data-val`、filter-chip `data-val`、`renderBrowse()` 的 `sourceMap.NCKU`。統一後成大 = 143 筆全部歸一,學校篩選/模考對應都吃得到。
