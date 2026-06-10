@@ -3640,28 +3640,31 @@
     "year": 111,
     "type": "是非題",
     "question": "使用變異數分析，會發現組間變異（between-group variance）大於受試者間變異（between-subject variance）。",
-    "answer": "A",
+    "answer": "B",
     "options": [
       "A. 正確",
       "B. 錯誤或無法判斷"
     ],
     "concepts": [
       "ANOVA",
+      "重複測量ANOVA",
       "組間變異",
-      "組內變異",
-      "F值"
+      "受試者間變異",
+      "受試者內變異"
     ],
     "difficulty": "medium",
     "solution_steps": [
-      "p=0.02表示ANOVA結果顯著，即F值>臨界值",
-      "F = 組間MS / 組內MS > 1（且顯著）",
-      "F>1且顯著→組間MS > 組內MS（受試者間MS）",
-      "答：A（正確）"
+      "設計：同一批受試者比較第 1 劑 vs 第 2 劑的頭暈反應 → 受試者內（重複測量，RM-ANOVA）設計。",
+      "變異拆解：總變異 = 受試者間變異（個別差異，RM-ANOVA 會單獨分離出來）+ 受試者內變異（內含「組間/處理變異」與「誤差變異」）。",
+      "F 比：F = 組間（處理）MS ÷ 受試者內誤差 MS；p=0.02 顯著 → 組間變異 > 受試者內誤差變異。",
+      "題目敘述「組間變異 > 受試者間變異（between-subject）」是比錯對象：受試者間變異是個別差異、已被 RM-ANOVA 分離出來，不是 F 的分母；顯著只能保證組間 > 受試者內誤差，無法推論組間 > 受試者間。",
+      "敘述錯誤 → 答 B。"
     ],
-    "key_concepts": "ANOVA顯著(p=0.02)→F>1→組間MS>組內MS；組間變異大於受試者間變異",
-    "ai_hint": "p=0.02且有顯著差異→F>1→組間變異(MS)大於組內（受試者間）變異。答A。",
+    "key_concepts": "RM-ANOVA 變異拆解：總變異 = 受試者間 + 受試者內（=組間/處理 + 誤差）；F 的分母是受試者內誤差，不是受試者間",
+    "ai_hint": "受試者內設計：F = 組間 MS ÷ 受試者內誤差 MS。受試者間變異是個別差異、被分離出來、不參與 F 比；顯著只說組間 > 受試者內誤差，不是 > 受試者間。答 B。",
     "formula_used": [
-      "F = MS_between / MS_within > 1（顯著時）"
+      "RM-ANOVA：SS_total = SS_between-subject + SS_within-subject；SS_within-subject = SS_treatment + SS_error",
+      "F = MS_treatment / MS_within-error"
     ],
     "primary_concept": "ANOVA",
     "group_id": "NCKU-111-G-C",
