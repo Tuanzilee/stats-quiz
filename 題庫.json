@@ -8424,8 +8424,8 @@
     "source": "東吳",
     "year": 114,
     "type": "計算題",
-    "question": "單因子受試者內設計，A因子3水準，受試者SS的df=12，全體df=14。請填入：df_A(1)、df_Error(2)、MSA(3)、MSE(4)、FA(5)。",
-    "answer": "",
+    "question": "填入 (1)dfA (2)dfE (3)MSA (4)MSE (5)FA。",
+    "answer": "(1)2；(2)8（見註）；(3)SSA/dfA；(4)SSE/dfE；(5)MSA/MSE",
     "options": [],
     "concepts": [
       "受試者內ANOVA",
@@ -8435,44 +8435,33 @@
     ],
     "difficulty": "hard",
     "solution_steps": [
-      "已知：a=3，df_subjects=12（n-1=12→n=13？等等）",
-      "df_total=14，df_subjects=12，所以：",
-      "df_total = a×n - 1 = 14 → a×n = 15 → 3×n = 15 → n=5",
-      "但df_subjects = n-1 = 4，不是12...",
-      "重新理解：df_subjects=12可能是整個受試者SS的df，在受試者內設計中：",
-      "df_total = df_A + df_subjects + df_Error = 14",
-      "df_subjects = n-1（受試者間差異）",
-      "若df_subjects=12，則n-1=12，n=13（受試者數）",
-      "df_total = a×n-1 = 3×13-1 = 38？不等於14...",
-      "依題意，受試者SS df=12，全體df=14：",
-      "(1) df_A = a-1 = 3-1 = 2",
-      "(2) df_Error = df_total - df_A - df_subjects = 14-2-12 = 0？不合理",
-      "重新解讀：全體df=14可能是df_total = (a-1)+(a-1)(n-1) = 14，df_subjects=12",
-      "若df_subjects=12=n-1→n=13，df_A=2，df_Error=14-2-12=0（不合）",
-      "可能df_subjects指的不同，按題目標準答案：",
-      "(1)df_A=2，(2)df_Error=14-2-12=0（需重新審題）",
-      "標準受試者內設計：(1)df_A=a-1=2；(2)df_E=(a-1)(n-1)"
+      "dfA = k − 1 = 3 − 1 = 2 → (1)",
+      "全體 df = 14 → N = 15 → 受試者 n = 15 / 3 = 5 → df受試者 = n − 1 = 4",
+      "dfE = (k − 1)(n − 1) = 2 × 4 = 8 → (2)",
+      "⚠ 註：原表「受試者 df = 12」與「全體 df = 14」矛盾（相減 dfE 會 = 0）；依全體 df = 14 應為 5 位受試者，表上 12 疑為筆誤，(2) 以官方為準。",
+      "MSA = SSA / dfA → (3)",
+      "MSE = SSE / dfE → (4)",
+      "FA = MSA / MSE → (5)"
     ],
-    "key_concepts": "受試者內ANOVA df：df_A=a-1；df_Error=(a-1)(n-1)；df_subjects=n-1",
-    "ai_hint": "受試者內設計特別拆出subjects效果：df_total=df_A+df_subjects+df_Error。若df_subjects=12且df_total=14，則df_A=2，df_Error=0（需確認題目數據）。",
+    "key_concepts": "單因子受試者內 ANOVA df 拆解：dfA=k−1；df受試者=n−1；dfE=(k−1)(n−1)；MS=SS/df；F=MSA/MSE",
+    "ai_hint": "受試者內設計把受試者個別差異 SS 單獨拆出來，dfE = (k−1)(n−1) = 處理 × 受試者交互。原表若「受試者 df = 12」與「全體 df = 14」相減得 0，係筆誤；依 N=15、n=5 推得 dfE=8。",
     "formula_used": [
-      "df_A = a-1 = 2",
-      "df_subjects = n-1 = 12（已知）",
-      "df_total = an-1 = 14 → an=15 → n=5（受試者數）",
-      "df_Error = (a-1)(n-1) = 2×4 = 8",
-      "MSA = SSA/2，MSE = SSE/8，FA = MSA/MSE"
+      "dfA = k − 1",
+      "df受試者 = n − 1",
+      "dfE = (k − 1)(n − 1)",
+      "MSA = SSA / dfA；MSE = SSE / dfE；FA = MSA / MSE"
     ],
     "primary_concept": "ANOVA",
     "group_id": null,
-    "shared_stem": null
+    "shared_stem": "【組合題 I】請依情境在 ANOVA 表空格填入合適內容（代號如 SSA / MSA、數字、除號 /）。\n\n情境 1：單因子受試者內設計，A 因子 3 水準。\n\n![ANOVA表](assets/figures/SCU-114-01-anova-table.png)"
   },
   {
     "id": "SCU-114-02",
     "source": "東吳",
     "year": 114,
     "type": "計算題",
-    "question": "二因子受試者間ANOVA，A因子2水準，B因子3水準，每組10觀察值，df_total=59。填入df_A(6)、df_B(7)、df_AB(8)、df_Error(9)，及MSA(10)、MSB(11)、MSAB(12)、FA(13)、FB(14)、FAB(15)。",
-    "answer": "",
+    "question": "填入 (6)dfA (7)dfB (8)dfAB (9)dfE (10)MSA (11)MSB (12)MSAB (13)FA (14)FB (15)FAB。",
+    "answer": "(6)1；(7)2；(8)2；(9)54；(10)SSA/dfA；(11)SSB/dfB；(12)SSAB/dfAB；(13)MSA/MSE；(14)MSB/MSE；(15)MSAB/MSE",
     "options": [],
     "concepts": [
       "二因子ANOVA",
@@ -8482,38 +8471,30 @@
     ],
     "difficulty": "medium",
     "solution_steps": [
-      "N=2×3×10=60，df_total=60-1=59 ✓",
-      "(6) df_A = a-1 = 2-1 = 1",
-      "(7) df_B = b-1 = 3-1 = 2",
-      "(8) df_AB = (a-1)(b-1) = 1×2 = 2",
-      "(9) df_Error = ab(n-1) = 6×9 = 54",
-      "驗算：1+2+2+54=59 ✓",
-      "(10) MSA = SSA/dfA = SSA/1",
-      "(11) MSB = SSB/dfB = SSB/2",
-      "(12) MSAB = SSAB/dfAB = SSAB/2",
-      "(13) FA = MSA/MSE",
-      "(14) FB = MSB/MSE",
-      "(15) FAB = MSAB/MSE"
+      "N = 2 × 3 × 10 = 60，全體 df = 59 ✓",
+      "dfA = a − 1 = 2 − 1 = 1 → (6)；dfB = b − 1 = 3 − 1 = 2 → (7)；dfAB = (a − 1)(b − 1) = 1 × 2 = 2 → (8)",
+      "dfE = N − ab = 60 − 6 = 54 → (9)（檢查 1 + 2 + 2 + 54 = 59 ✓）",
+      "MS = 各 SS / 各 df → (10)(11)(12)",
+      "F = 各 MS / MSE → (13)(14)(15)"
     ],
-    "key_concepts": "二因子df：A=a-1；B=b-1；AB=(a-1)(b-1)；Error=ab(n-1)；各F=各MS/MSE",
-    "ai_hint": "df_Error=ab(n-1)=2×3×9=54。三個F值的分母都是MSE（誤差均方）。df總和=1+2+2+54=59 ✓。",
+    "key_concepts": "二因子受試者間 ANOVA df：A=a−1、B=b−1、AB=(a−1)(b−1)、E=N−ab；三個 F 的分母都是 MSE",
+    "ai_hint": "dfE = N − ab = 60 − 6 = 54（也等於 ab(n−1)=6×9=54）。三個 F 值（主效果 A、主效果 B、交互作用 AB）的分母都是 MSE。",
     "formula_used": [
-      "N=a×b×n=2×3×10=60，df_total=59",
-      "df_A=a-1=1，df_B=b-1=2，df_AB=(a-1)(b-1)=2",
-      "df_Error=ab(n-1)=6×9=54",
-      "MSA=SSA/1，MSB=SSB/2，MSAB=SSAB/2，FA=MSA/MSE，FB=MSB/MSE，FAB=MSAB/MSE"
+      "N = a × b × n = 2 × 3 × 10 = 60",
+      "dfA = a − 1；dfB = b − 1；dfAB = (a − 1)(b − 1)；dfE = N − ab = ab(n − 1)",
+      "MS = SS / df；F = MS / MSE"
     ],
     "primary_concept": "ANOVA",
     "group_id": null,
-    "shared_stem": null
+    "shared_stem": "【組合題 I】請依情境在 ANOVA 表空格填入合適內容（代號如 SSA / MSA、數字、除號 /）。\n\n情境 2：二因子受試者間 ANOVA，A 因子 2 水準、B 因子 3 水準，每組 10 個觀察值。\n\n![ANOVA表](assets/figures/SCU-114-02-anova-table.png)"
   },
   {
     "id": "SCU-114-03",
     "source": "東吳",
     "year": 114,
     "type": "計算題",
-    "question": "情境1：A因子（A1/A2）×B因子（B1/B2/B3）。Cell means：(A1,B1)=30,(A2,B1)=20,(A1,B2)=30,(A2,B2)=40,(A1,B3)=30,(A2,B3)=60。差異≥20顯著。判斷：(16)A主效果 (17)A×B交互作用 (18)B方向相同 (19)(18)描述B為調節因子",
-    "answer": "X,O,O,X",
+    "question": "(16) 情境 1 中，A 的主要效果顯著。\n(17) 情境 1 中，A 與 B 的交互作用顯著。\n(18) 情境 1 中，B 對依變項平均分數的影響，會隨不同 A 水準而有相同方向的影響效果，只是程度有差異。\n(19) 承上題，該陳述是在描述 B 為調節因子，調節 A 對依變項的影響。\n(20) 情境 2 中，A 與 B 的主要效果皆顯著。\n(21) 情境 2 中，A 與 B 的交互作用顯著。\n(22) 情境 2 中，B 對依變項平均分數的影響，會隨不同 A 水準而有不同方向的影響效果。\n(23) 承上題的陳述，可能是在描述 A 為調節因子，調節 B 對依變項的影響。",
+    "answer": "X,O,O,X,X,O,O,O",
     "options": [],
     "concepts": [
       "主要效果",
@@ -8523,22 +8504,112 @@
     ],
     "difficulty": "hard",
     "solution_steps": [
-      "A邊際平均：A1=(30+30+30)/3=30；A2=(20+40+60)/3=40；差=10<20 → (16)A主效果不顯著 X",
-      "B邊際平均：B1=(30+20)/2=25；B2=(30+40)/2=35；B3=(30+60)/2=45；差20≥20 → B主效果可能顯著",
-      "交互作用：看A在各B水準下的效果：B1:A2-A1=20-30=-10；B2:40-30=10；B3:60-30=30；三個差值不同→(17)有交互作用 O",
-      "B方向：在A1下，B1=30,B2=30,B3=30（無變化）；在A2下，B1=20,B2=40,B3=60（上升）→方向不同 → (18)方向相同說法錯 X？",
-      "等等重新審：題目問「B對DV的影響隨A不同是否方向相同」在A1下B效果=0（平），在A2下B效果遞增→方向不同？但若只看有沒有同向（都是正向或都無），A1平（可說正向0），A2正向→可說同向。(18) O",
-      "(19)若(18)是O（B效果方向相同），調節因子應是A（調節B的效果）而非B調節A → (19) X"
+      "情境 1：A1 邊際 = (30+30+30)/3 = 30；A2 邊際 = (20+40+60)/3 = 40 → A 效果 = |40−30| = 10 < 20 → (16) X（A 主效果不顯著）",
+      "情境 1 簡單效果：A1 對 B = (30, 30, 30) 平、A2 對 B = (20, 40, 60) 升 → A 的效果隨 B 水準改變 → 交互作用顯著 → (17) O",
+      "(18) 兩個 A 水準下 B 的效果方向未反向（A1 平、A2 遞增；皆非下降）→ 「相同方向、程度有差」成立 → O",
+      "(19) (18) 描述的是「B 的效果隨 A 而變」= A 是調節因子（調節 B），不是 B 調節 A → 陳述方向錯 → X",
+      "情境 2：A1 邊際 = (20+40+60)/3 = 40、A2 邊際 = (60+40+20)/3 = 40 → A 效果 = 0；B 三邊際 = (40, 40, 40) → B 效果 = 0 → (20) X（兩主效果皆不顯著）",
+      "情境 2 簡單效果：A1 下 B 升 (20, 40, 60)、A2 下 B 降 (60, 40, 20) → 反向跨叉 → 交互作用顯著 → (21) O",
+      "(22) A1 下 B 升、A2 下 B 降 → 方向不同 → O",
+      "(23) 陳述「B 的效果方向隨 A 而變」= A 是調節因子（調節 B 對 DV 的影響）→ 與 (22) 一致 → O"
     ],
-    "key_concepts": "調節效果：若B的效果隨A而改變，A是調節因子；若A效果隨B改變，B是調節因子",
-    "ai_hint": "主效果看邊際平均（某因子所有水準的平均）；交互作用看A的效果是否隨B水準而改變。若B對DV影響的方向在不同A水準下相同→無序數交互作用（ordinal interaction）。",
+    "key_concepts": "主效果看邊際平均；交互作用看「另一因子的簡單效果是否隨此因子改變」；若 B 的效果隨 A 改變 → A 是調節因子（moderator）",
+    "ai_hint": "情境 1：A 平 B 升 vs A 平 B 升 → 同方向不同程度（無序交互, ordinal）；情境 2：A1 升 vs A2 降 → 反向跨叉（disordinal）→ 主效果都被抵銷成 0、但交互作用最強。調節因子方向不要寫反：「X 的效果隨 Y 變」⇒ Y 是調節因子。",
     "formula_used": [],
     "primary_concept": "ANOVA",
+    "group_id": null,
+    "shared_stem": "【組合題 II】依兩情境的 cell means 作答；數值差異 ≧ 20 即為顯著。正確打 O、錯誤打 X。\n\n![cell means](assets/figures/SCU-114-03-cellmeans.png)"
+  },
+  {
+    "id": "SCU-114-04",
+    "source": "東吳",
+    "year": 114,
+    "type": "配合題",
+    "question": "【配合題 I】選項：a. 名義變項　b. 次序變項　c. 區間變項　d. 比例變項　e. 直方圖　f. 折線圖　g. 散佈圖\n\n(24) 若研究呈現 IQ 分布，最適合的圖表是 ___\n(25) 性別屬於 ___\n(26) 呈現身高與體重間關係圖，應使用 ___",
+    "answer": "e,a,g",
+    "options": [],
+    "concepts": [
+      "測量尺度",
+      "資料視覺化",
+      "直方圖",
+      "散佈圖"
+    ],
+    "difficulty": "easy",
+    "solution_steps": [
+      "(24) IQ 為連續分數 → 呈現分布最適合直方圖 → e",
+      "(25) 性別（男 / 女）為類別無順序 → 名義變項 → a",
+      "(26) 身高 × 體重，兩連續變項之關係 → 散佈圖 → g"
+    ],
+    "key_concepts": "資料視覺化選擇：單一連續分布 → 直方圖；兩連續變項關係 → 散佈圖；類別計次 → 長條圖",
+    "ai_hint": "圖表選擇看「資料型態 × 想呈現什麼」：連續分布看形狀 → 直方圖；兩連續看關聯 → 散佈圖；類別比較 → 長條圖。性別、血型、職業等沒有順序 → 名義變項。",
+    "formula_used": [],
+    "primary_concept": "描述統計",
     "group_id": null,
     "shared_stem": null
   },
   {
-    "id": "SCU-114-04",
+    "id": "SCU-114-05",
+    "source": "東吳",
+    "year": 114,
+    "type": "配合題",
+    "question": "【配合題 II】選項：a. 全距　b. 中位數　c. 變異係數　d. 標準差　e. 眾數　f. 平均數　g. 百分位數　h. 常態分配　i. 箱形圖\n\n(27) 受極端值影響最小的集中趨勢指標是 ___\n(28) 測量離平均數偏差的量是 ___\n(29) 表示資料離散程度，與單位相同的統計量是 ___",
+    "answer": "b,d,d",
+    "options": [],
+    "concepts": [
+      "集中趨勢",
+      "離散量數",
+      "中位數",
+      "標準差"
+    ],
+    "difficulty": "easy",
+    "solution_steps": [
+      "(27) 中位數只看位置不看大小，對極端值最穩健 → b",
+      "(28) 「離平均數偏差的量」= 離均差，加總後取平方平均開根號 → 標準差 → d",
+      "(29) 變異數單位是原始單位的平方，標準差開根號回到原始單位 → 標準差 → d",
+      "⚠ (28)(29) 皆為標準差。官方若其一指變異數或變異係數，以官方為準。"
+    ],
+    "key_concepts": "集中趨勢 robust 排序：中位數 > 平均數；離散量數中與資料同單位者：全距、標準差；變異數為平方單位；變異係數為無單位比值",
+    "ai_hint": "問「受極端值影響最小」幾乎都是中位數；問「離均差度量」幾乎都是標準差；問「同單位」也是標準差（變異數是平方單位、變異係數是 % 無單位）。",
+    "formula_used": [
+      "標準差 SD = √(Σ(x − x̄)² / (n − 1))",
+      "變異係數 CV = SD / x̄"
+    ],
+    "primary_concept": "描述統計",
+    "group_id": null,
+    "shared_stem": null
+  },
+  {
+    "id": "SCU-114-06",
+    "source": "東吳",
+    "year": 114,
+    "type": "配合題",
+    "question": "【配合題 III】選項：a. 樣本平均數　b. 常態分配　c. 第一型錯誤　d. 第二型錯誤　e. 標準誤　f. 統計檢定力　g. 抽樣分配　h. 虛無假設　i. 信賴區間\n\n(30) 當虛無假設為真卻被拒絕時，產生了 ___\n(31) 樣本估計值的分布標準差為 ___\n(32) 在真實差異存在卻未檢出時，是產生了 ___",
+    "answer": "c,e,d",
+    "options": [],
+    "concepts": [
+      "第一型錯誤",
+      "第二型錯誤",
+      "標準誤",
+      "抽樣分配"
+    ],
+    "difficulty": "easy",
+    "solution_steps": [
+      "(30) H₀ 為真卻被拒絕 = false positive = 第一型錯誤（α）→ c",
+      "(31) 樣本估計值的抽樣分配的標準差 = 標準誤（SE）→ e",
+      "(32) 真實差異存在（H₁ 為真）卻未檢出（沒拒絕 H₀）= false negative = 第二型錯誤（β）→ d"
+    ],
+    "key_concepts": "α = Type I = 拒絕為真的 H₀；β = Type II = 未拒絕為偽的 H₀；檢定力 = 1 − β；SE = 抽樣分配的 SD",
+    "ai_hint": "口訣：「真當假 = α、假當真 = β」（以 H₀ 為基準）。SE 就是「估計值跑來跑去」的分散程度，不是樣本原始資料的 SD。",
+    "formula_used": [
+      "SE(x̄) = σ / √n",
+      "Power = 1 − β"
+    ],
+    "primary_concept": "假設檢定",
+    "group_id": null,
+    "shared_stem": null
+  },
+  {
+    "id": "SCU-114-07",
     "source": "東吳",
     "year": 114,
     "type": "配合題",
@@ -8574,7 +8645,7 @@
     "shared_stem": null
   },
   {
-    "id": "SCU-114-05",
+    "id": "SCU-114-08",
     "source": "東吳",
     "year": 114,
     "type": "配合題",

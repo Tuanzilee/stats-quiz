@@ -147,13 +147,13 @@ const CACHE = 'stats-quiz-v2026-05-16-1';
 
 ## 已知狀態(2026-05-16)
 
-### 題庫分布(共 347 題,2026-06-09 更新)
+### 題庫分布(共 350 題,2026-06-11 更新)
 
 | 學校 (source) | 題數 |
 |---|---|
 | 台大 (NTU) | 47 |
 | 成大 (NCKU) | 143 |
-| 東吳 (SCU) | 57 |
+| 東吳 (SCU) | 60 |
 | 政大 (NCCU) | 100 |
 
 > source 欄位用中文校名(`台大`/`成大`/`東吳`/`政大`);index.html `sourceMap` 把 pill 代碼(NTU/NCKU/SCU/NCCU)對應到中文。成大 2026-06-09 起統一為「成大」(原「台綜（成大）」併入)。
@@ -310,6 +310,24 @@ const CACHE = 'stats-quiz-v2026-05-16-1';
   - sw.js `v2026-06-08-3` → `v2026-06-08-4`
   - 累計勘誤 28 → 29
 
+- **2026-06-11 SCU-114 完整 restore**(加圖 + 補完 + 新增 3 題 + 重排,**勘誤帳 +1**):
+  - **背景**:原 SCU-114 只有 5 題(01~05),其中 01/02/03 的 question 把 ANOVA 表 / cell means 表壓成文字、solution_steps 一路自我懷疑(01 算出 dfE=0 還在繞)、03 漏 (20)~(23) 四小題;且原卷實為 50 個小題分 8 大題(計算題 ×3 + 配合題 ×5),04/05 對到的是配合題 IV / V,中間缺配合題 I / II / III(對應 (24)~(32))。本次完整 restore。
+  - **動作**:
+    - **改現有 3 題**:
+      - SCU-114-01 加 `shared_stem`(【組合題 I】+ 情境 1 + `assets/figures/SCU-114-01-anova-table.png`),question 改回原卷 (1)~(5),answer 落定 `(1)2；(2)8（見註）；(3)SSA/dfA；(4)SSE/dfE；(5)MSA/MSE`,solution_steps 重寫 7 步(含對原表「受試者 df=12」筆誤的註記:依全體 df=14、N=15、n=5 推 dfE=8)
+      - SCU-114-02 加 `shared_stem`(【組合題 I】+ 情境 2 + `SCU-114-02-anova-table.png`),question 改回 (6)~(15),answer 落定 `(6)1；(7)2；(8)2；(9)54；(10)SSA/dfA…(15)MSAB/MSE`,solution_steps 重寫 5 步
+      - SCU-114-03 加 `shared_stem`(【組合題 II】+ `SCU-114-03-cellmeans.png`),question 補 (16)~(23) 全 8 小題(原本只到 (19)),answer `X,O,O,X` → `X,O,O,X,X,O,O,O`,solution_steps 重寫 8 步(逐小題列邊際/簡單效果/調節因子方向判讀)
+    - **重新命名(內容/答案不變)**:現有 SCU-114-04(配合題 IV)→ `SCU-114-07`、現有 SCU-114-05(配合題 V)→ `SCU-114-08`
+    - **新增 3 題**:
+      - `SCU-114-04`(配合題 I,pc=描述統計):(24)~(26) IQ 圖表 / 性別尺度 / 散佈圖,answer `e,a,g`
+      - `SCU-114-05`(配合題 II,pc=描述統計):(27)~(29) 中位數 / 標準差 ×2,answer `b,d,d`(註:(28)(29) 皆標準差,官方若其一不同以官方為準)
+      - `SCU-114-06`(配合題 III,pc=假設檢定):(30)~(32) Type I / SE / Type II,answer `c,e,d`
+    - **重排**:JSON 陣列 SCU-114-01..08 連續排列依考卷順序(01/02/03 組 I 情 1·情 2·組 II → 04/05/06 配 I/II/III → 07/08 配 IV/V);type 維持 03=「計算題」、04/05/06=「配合題」
+    - **assets**:3 張 PNG 新增 `assets/figures/SCU-114-{01-anova-table,02-anova-table,03-cellmeans}.png`,跟 JSON 一起 commit
+  - **孤兒紀錄**:舊 SCU-114-04 / 05 的 mock_history / quiz_records qid 仍對得到題(已 rename 成 07/08,question/answer 完全沿用)但 id 變了 → 視為孤兒可接受(量小)。
+  - **題庫總數**:347 → 350(+3)
+  - sw.js `v2026-06-10-1` → `v2026-06-11-1`
+  - 累計勘誤 31 → 32
 - **2026-06-10 NCKU-111-21 對答案**(A → B,**勘誤帳 +1**):
   - answer `'A'` → `'B'`;老師詳解確認。設計為同一批受試者比較第 1 劑 vs 第 2 劑(受試者內 / RM-ANOVA),F 的分母是受試者內誤差 MS,不是受試者間變異 MS。受試者間變異(個別差異)已被 RM-ANOVA 單獨分離出來、不參與 F 比;p=0.02 顯著只能保證「組間(處理) > 受試者內誤差」,無法推論「組間 > 受試者間」。題目敘述比錯對象 → 錯誤敘述 → 答 B。
   - solution_steps 整段重寫(5 步:設計判定 → 變異拆解 → F 比結構 → 比錯對象 → 結論);concepts 補「重複測量ANOVA / 受試者間變異 / 受試者內變異」;key_concepts / ai_hint / formula_used 全對齊新立場(原本主張「F>1→組間>受試者間」邏輯錯,連同改正);primary_concept 維持 ANOVA。
