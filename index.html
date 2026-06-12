@@ -1926,7 +1926,7 @@ function showQuestion() {
 
     ${contextHTML}
 
-    <div class="q-text">${currentQ.question}</div>
+    <div class="q-text">${escapeHtml(currentQ.question)}</div>
 
     ${isMultiChoice ? renderOptions() : renderFreeAnswer()}
 
@@ -2193,7 +2193,7 @@ function applyFilters() {
 // 將字串內 markdown 圖片 ![alt](path) 轉成 <figure class="stem-figure"><img>...,
 // 其餘文字原樣輸出。給 solution_steps / 其他純文字欄位用,跟 shared_stem 共用 .stem-figure 樣式。
 function renderInlineImages(s) {
-  return String(s || '').replace(
+  return escapeHtml(String(s || '')).replace(
     /!\[([^\]]*)\]\(([^)]+)\)/g,
     (m, alt, path) => `<figure class="stem-figure"><img src="${path}" alt="${alt}" loading="lazy"/></figure>`
   );
@@ -2346,6 +2346,7 @@ function buildContext(q) {
 
 // ─── UTILS ───────────────────────────────────────────────────────────────────
 function esc(str) { return (str||'').replace(/'/g,"\\'").replace(/"/g,'&quot;'); }
+function escapeHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function esc2(str) { return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 
