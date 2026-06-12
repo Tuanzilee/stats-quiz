@@ -2453,11 +2453,12 @@ async function startConceptChat(concept, apiKey) {
 
   try {
     const data = await callAnthropicWithRetry(
-      { model: 'claude-haiku-4-5-20251001', max_tokens: 1000, system: systemPrompt, messages: chatHistory[concept] },
+      { model: 'claude-haiku-4-5-20251001', max_tokens: 2000, system: systemPrompt, messages: chatHistory[concept] },
       apiKey,
       (n, t) => appendTyping(`⏳ Anthropic 忙碌，重試中 (${n}/${t})`)
     );
-    const text = data.content?.[0]?.text || '生成失敗';
+    let text = data.content?.[0]?.text || '生成失敗';
+    if (data.stop_reason === 'max_tokens') text += '\n\n（…內容較長被截斷，輸入「繼續」我接著講）';
     removeTyping();
     chatHistory[concept].push({ role: 'assistant', content: text });
     reviewCache[concept] = text;
@@ -2489,11 +2490,12 @@ async function sendChatMessage(concept) {
 學生現在在複習「${concept}」。回答風格：口語、簡短、直接，多用條列，公式用純文字寫出。
 注意：不要使用 # * ** 等 markdown 符號，直接用純文字。標題用「【】」包起來。`;
     const data = await callAnthropicWithRetry(
-      { model: 'claude-haiku-4-5-20251001', max_tokens: 800, system: systemPrompt, messages: chatHistory[concept] },
+      { model: 'claude-haiku-4-5-20251001', max_tokens: 1500, system: systemPrompt, messages: chatHistory[concept] },
       key,
       (n, t) => appendTyping(`⏳ Anthropic 忙碌，重試中 (${n}/${t})`)
     );
-    const reply = data.content?.[0]?.text || '無回應';
+    let reply = data.content?.[0]?.text || '無回應';
+    if (data.stop_reason === 'max_tokens') reply += '\n\n（…內容較長被截斷，輸入「繼續」我接著講）';
     removeTyping();
     chatHistory[concept].push({ role: 'assistant', content: reply });
     appendAiMessage(reply);
@@ -3421,11 +3423,12 @@ async function callCalcAI(systemPrompt, messages, qid) {
   if (!key) return;
   try {
     const data = await callAnthropicWithRetry(
-      { model: 'claude-haiku-4-5-20251001', max_tokens: 600, system: systemPrompt, messages },
+      { model: 'claude-haiku-4-5-20251001', max_tokens: 1500, system: systemPrompt, messages },
       key,
       (n, t) => appendTyping(`⏳ Anthropic 忙碌，重試中 (${n}/${t})`)
     );
-    const reply = data.content?.[0]?.text || '無回應';
+    let reply = data.content?.[0]?.text || '無回應';
+    if (data.stop_reason === 'max_tokens') reply += '\n\n（…內容較長被截斷，輸入「繼續」我接著講）';
     removeTyping();
     if (!chatHistory[qid]) chatHistory[qid] = [];
     chatHistory[qid].push({ role: 'assistant', content: reply });
