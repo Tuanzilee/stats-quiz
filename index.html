@@ -1635,6 +1635,7 @@ function updateHeaderSub() {
 
 // ─── NAVIGATION ──────────────────────────────────────────────────────────────
 const pages = ['page-home','page-browse','page-concepts','page-quiz','page-mock-setup','page-mock-exam','page-mock-review','page-mock-report'];
+let quizOrigin = 'page-home';
 const navIds = ['nav-home','nav-browse','nav-concepts',null,'nav-mock','nav-mock','nav-mock','nav-mock'];
 
 function goPage(pageId) {
@@ -1849,6 +1850,7 @@ function sortByPriority(pool) {
 }
 
 function startQuiz(mode) {
+  quizOrigin = 'page-home';
   let pool;
   if (mode === 'all') {
     pool = getFilteredPool();
@@ -1871,6 +1873,7 @@ function startQuiz(mode) {
 }
 
 function startConceptQuiz(concept) {
+  quizOrigin = 'page-concepts';
   const pool = questions.filter(q => q.primary_concept === concept);
   if (pool.length === 0) return;
   quizQueue = sortByPriority(pool);
@@ -1880,6 +1883,7 @@ function startConceptQuiz(concept) {
 }
 
 function openQuestion(id) {
+  quizOrigin = 'page-browse';
   const idx = questions.findIndex(q => q.id === id);
   if (idx < 0) return;
   quizQueue = [questions[idx]];
@@ -2146,8 +2150,7 @@ function prevQuestion() {
   if (quizIdx > 0) { quizIdx--; showQuestion(); }
 }
 function exitQuiz() {
-  goPage('page-home');
-  renderHome();
+  goPage(quizOrigin);
 }
 
 function showQuizDone() {
@@ -2162,7 +2165,7 @@ function showQuizDone() {
         <div class="stat-card"><div class="stat-num green">${correct}</div><div class="stat-label">答對</div></div>
         <div class="stat-card"><div class="stat-num red">${wrong}</div><div class="stat-label">答錯</div></div>
       </div>
-      <button class="btn btn-primary" onclick="exitQuiz()" style="width:100%;margin-bottom:8px">回到主頁</button>
+      <button class="btn btn-primary" onclick="exitQuiz()" style="width:100%;margin-bottom:8px">返回</button>
       <button class="btn btn-outline" onclick="startQuiz('wrong')" style="width:100%">複習錯題</button>
     </div>
   `;
