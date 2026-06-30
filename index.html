@@ -2360,7 +2360,7 @@ const chatHistory = {};
 const API_KEY_STORAGE = 'anthropic_api_key';
 
 function getApiKey() {
-  return localStorage.getItem(API_KEY_STORAGE) || '';
+  return (localStorage.getItem(API_KEY_STORAGE) || '').replace(/[^\x21-\x7E]/g, '');
 }
 
 function promptApiKey(onSuccess) {
@@ -2391,9 +2391,10 @@ function promptApiKey(onSuccess) {
 let savedApiKeyCallback = null;
 
 function saveApiKey(cb) {
-  const val = (document.getElementById('apikey-input')?.value || '').trim();
-  if (!val.startsWith('sk-')) { alert('請輸入正確的 API Key（以 sk- 開頭）'); return; }
-  localStorage.setItem(API_KEY_STORAGE, val);
+  const raw = document.getElementById('apikey-input')?.value || '';
+  const cleaned = raw.replace(/[^\x21-\x7E]/g, '');
+  if (!cleaned.startsWith('sk-ant-')) { alert('請輸入正確的 API Key（以 sk-ant- 開頭）'); return; }
+  localStorage.setItem(API_KEY_STORAGE, cleaned);
   document.getElementById('apikey-modal')?.remove();
   if (cb) cb();
 }
