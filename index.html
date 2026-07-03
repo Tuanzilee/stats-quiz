@@ -1746,7 +1746,7 @@ function renderBrowse() {
     list.innerHTML = `<div class="empty"><div class="empty-icon">🔍</div>找不到符合條件的題目</div>`;
     return;
   }
-  list.innerHTML = filtered.slice(0, 100).map(q => {
+  list.innerHTML = `<div style="text-align:center;padding:8px 0 4px;font-size:12px;color:var(--dim)">共 ${filtered.length} 題</div>` + filtered.map(q => {
     const st = getStatus(q.id);
     return `<div class="q-row" onclick="openQuestion('${q.id}')">
       <div class="q-row-status ${st}"></div>
@@ -1758,9 +1758,6 @@ function renderBrowse() {
       <div class="q-row-diff ${q.difficulty}">${diffMap[q.difficulty]||'?'}</div>
     </div>`;
   }).join('');
-  if (filtered.length > 100) {
-    list.innerHTML += `<div style="text-align:center;padding:12px;font-size:12px;color:var(--dim)">僅顯示前100題，請用搜尋縮小範圍</div>`;
-  }
 }
 
 // ─── CONCEPTS ────────────────────────────────────────────────────────────────
