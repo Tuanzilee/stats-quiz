@@ -1746,6 +1746,13 @@ function renderBrowse() {
     list.innerHTML = `<div class="empty"><div class="empty-icon">🔍</div>找不到符合條件的題目</div>`;
     return;
   }
+  // 瀏覽清單排序:年份升冪 → 同年題號(取自 id 尾段)升冪。
+  // filtered 為 questions.filter() 產生的新陣列,就地 sort 不影響 questions / quiz 出題。
+  const numFromId = q => parseInt(String(q.id).split('-').pop(), 10) || 0;
+  filtered.sort((a, b) => {
+    if (a.year !== b.year) return a.year - b.year;
+    return numFromId(a) - numFromId(b);
+  });
   list.innerHTML = `<div style="text-align:center;padding:8px 0 4px;font-size:12px;color:var(--dim)">共 ${filtered.length} 題</div>` + filtered.map(q => {
     const st = getStatus(q.id);
     return `<div class="q-row" onclick="openQuestion('${q.id}')">
